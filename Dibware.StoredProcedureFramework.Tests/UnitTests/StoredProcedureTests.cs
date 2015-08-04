@@ -164,6 +164,41 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         #endregion
 
+        #region IsValid
+
+        [TestMethod]
+        public void IsValid_WhenProcedureNameNotSet_ReturnsFalse()
+        {
+            // ARRANGE
+            const bool expectedValue = false;
+            var procedure = new StoredProcedure();
+
+            // ACT
+            var actualvalue = procedure.IsInValidState();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualvalue);
+        }
+
+        [TestMethod]
+        public void IsValid_WhenContextNotSet_ReturnsFalse()
+        {
+            // ARRANGE
+            const string schemaValue = "application";
+            const string procedureName = "GetAllMonkeys";
+            const bool expectedValue = false;
+            var procedure = new StoredProcedure(procedureName, schemaValue);
+
+            // ACT
+            var actualvalue = procedure.IsInValidState();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualvalue);
+        }
+
+
+        #endregion
+
         #region SetName
 
         [TestMethod]

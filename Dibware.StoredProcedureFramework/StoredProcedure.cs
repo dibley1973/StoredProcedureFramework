@@ -59,7 +59,7 @@ namespace Dibware.StoredProcedureFramework
         public StoredProcedure(string procedureName)
             : this()
         {
-            // Validate parameter
+            // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
 
@@ -85,7 +85,7 @@ namespace Dibware.StoredProcedureFramework
         public StoredProcedure(string procedureName, string schemaName)
             : this(procedureName)
         {
-            // Validate parameters
+            // Validate arguments
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
 
@@ -113,7 +113,7 @@ namespace Dibware.StoredProcedureFramework
         public StoredProcedure(string procedureName, string schemaName, DbContext context)
             : this(procedureName, schemaName)
         {
-            // Validate parameters
+            // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
             if (schemaName == null) throw new ArgumentNullException("schemaName");
@@ -125,8 +125,34 @@ namespace Dibware.StoredProcedureFramework
 
         #endregion
 
-
         #region Methods
+
+        /// <summary>
+        /// Determines whether this instance has a valid context.
+        /// </summary>
+        /// <returns></returns>
+        private bool HasValidContext()
+        {
+            return Context != null;
+        }
+
+        /// <summary>
+        /// Determines if this instance has a procedure name
+        /// </summary>
+        /// <returns></returns>
+        private bool HasProcedureName()
+        {
+            return !String.IsNullOrEmpty(ProcedureName);
+        }
+
+        /// <summary>
+        /// Determines if the procedure is in a valid state 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInValidState()
+        {
+            return HasProcedureName() && HasValidContext();
+        }
 
         #region Methods Fluent API
 
@@ -140,7 +166,7 @@ namespace Dibware.StoredProcedureFramework
         /// <exception cref="System.ArgumentNullException">procedureName</exception>
         public StoredProcedure SetProcedureName(string procedureName)
         {
-            // Validate parameter
+            // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
 
@@ -156,7 +182,7 @@ namespace Dibware.StoredProcedureFramework
         /// <exception cref="System.ArgumentNullException">schemaName</exception>
         public StoredProcedure SetSchemaName(string schemaName)
         {
-            // Validate parameter
+            // Validate argument
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
 

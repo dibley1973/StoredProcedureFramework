@@ -46,7 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBContextExtensions.cs" />
+    <Compile Include="Extensions\DbDataReaderExtensions.cs" />
+    <Compile Include="StoredProcAttributes\Name.cs" />
+    <Compile Include="StoredProcAttributes\StreamOutput.cs" />
+    <Compile Include="StoredProcAttributes\StreamToFile.cs" />
+    <Compile Include="Extensions\DbConnectionExtensions.cs" />
+    <Compile Include="Extensions\DBContextExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
+    <Compile Include="Extensions\SqlConnectionExtensions.cs" />
+    <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Helpers\StreamHelpers.cs" />
+    <Compile Include="Resources\ExceptionMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StoredProcAttributes\StreamToMemory.cs" />
     <Compile Include="StoredProcedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureOfT.cs" />
@@ -54,6 +70,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ExceptionMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
