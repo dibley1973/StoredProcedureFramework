@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.StoredProcAttributes;
 
@@ -49,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 }
                 else if (p.PropertyType.Name.Contains("String"))
                 {
-                    StreamReader r = new StreamReader(toStream, ((StoredProcAttributes.StreamToMemory)stream).GetEncoding());
+                    StreamReader r = new StreamReader(toStream, ((StreamToMemory)stream).GetEncoding());
                     String text = r.ReadToEnd();
                     p.SetValue(t, text, null);
                     r.Close();
@@ -57,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 else if (p.PropertyType.Name.Contains("Stream"))
                 {
                     // NOTE: User will have to close the stream if they don't tell us to close file streams!
-                    if (typeof(StoredProcAttributes.StreamToFile) == stream.GetType() && !((StoredProcAttributes.StreamToFile)stream).LeaveStreamOpen)
+                    if (typeof(StreamToFile) == stream.GetType() && !((StreamToFile)stream).LeaveStreamOpen)
                     {
                         toStream.Close();
                     }
@@ -100,11 +96,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 try
                 {
                     // default name is property name, override of parameter name by attribute
-                    var attr = p.GetAttribute<StoredProcAttributes.Name>();
+                    var attr = p.GetAttribute<Name>();
                     name = (null == attr) ? p.Name : attr.Value;
 
                     // see if we're being asked to stream this property
-                    var stream = p.GetAttribute<StoredProcAttributes.StreamOutput>();
+                    var stream = p.GetAttribute<StreamOutput>();
                     if (null != stream)
                     {
                         // if yes, then write to a stream
@@ -114,7 +110,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     {
                         // get the requested value from the returned dataset and handle null values
                         var data = reader[name];
-                        if (data.GetType() == typeof(DBNull))
+                        if (data is DBNull)
                             p.SetValue(targetObject, null, null);
                         else
                             p.SetValue(targetObject, reader[name], null);

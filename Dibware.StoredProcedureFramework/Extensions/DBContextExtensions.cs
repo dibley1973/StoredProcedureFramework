@@ -11,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
     public static class DBContextExtensions
     {
         /// <summary>
-        /// Gets the results from the stored procedure specified by name.
+        /// Executes the stored procedure and gets the results.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="procedureName">Name of the procedure.</param>
@@ -27,7 +27,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<object> GetStoredProcedureResults(
+        public static List<object> ExecuteStoredProcedure(
             this DbContext context,
             string procedureName,
             Type outputType,
@@ -44,7 +44,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Get the context database connection and call through
             // to secondary extenstion method.
             DbConnection connection = context.Database.Connection;
-            return connection.GetStoredProcedureResults(
+            return connection.ExecuteStoredProcedure(
                 procedureName,
                 outputType,
                 procedureParameters,

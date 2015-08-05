@@ -120,4 +120,10 @@
   <data name="ErrorReadingStoredProcedure" xml:space="preserve">
     <value>Error reading from stargetObjectored procedure '{0}' :  '{1}'</value>
   </data>
+  <data name="StoredProcedureDoesNotHaveName" xml:space="preserve">
+    <value>Stored procedure does not havea name set!</value>
+  </data>
+  <data name="StoredProcedureIsNotFullyConstructed" xml:space="preserve">
+    <value>Stored procedure is not fully constructed!</value>
+  </data>
 </root>

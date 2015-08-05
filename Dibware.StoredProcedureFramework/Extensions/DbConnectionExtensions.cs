@@ -11,7 +11,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
 {
     public static class DbConnectionExtensions
     {
-        public static List<T> GetStoredProcedureResults<T>(
+
+
+
+
+        public static List<T> ExecuteStoredProcedure<T>(
             this DbConnection connection,
             string procedureName,
             IEnumerable<SqlParameter> procedureParameters = null,
@@ -29,9 +33,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             List<T> results = new List<T>();
 
             // do some stuff....
-            //GetResultsList(connection, procedureName, T, procedureParameters, commandTimeout, commandBehavior, transaction, results);
-
-
+            //GetResultsList(connection, procedureName, outputType, procedureParameters, commandTimeout, commandBehavior, transaction, results);
 
             // Return the results
             return results;
@@ -39,7 +41,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
 
         /// <summary>
-        /// Gets the results from the stored procedure specified by name.
+        /// Executes the stored procedure and gets the results.
         /// </summary>
         /// <param name="connection">This instance.</param>
         /// <param name="procedureName">Name of the procedure.</param>
@@ -55,7 +57,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<object> GetStoredProcedureResults(
+        public static List<object> ExecuteStoredProcedure(
             this DbConnection connection,
             string procedureName,
             Type outputType,

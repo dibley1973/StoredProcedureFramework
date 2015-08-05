@@ -10,7 +10,36 @@ namespace Dibware.StoredProcedureFramework.Extensions
     public static class SqlConnectionExtensions
     {
         /// <summary>
-        /// Gets the results from the stored procedure specified by name.
+        /// Executes the stored procedure  and gets the results..
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="storedProcedure">The stored procedure.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
+        public static List<object> ExecuteStoredProcedure(
+            this SqlConnection connection,
+            StoredProcedure storedProcedure,
+            SqlTransaction transaction = null)
+        {
+            // Validate arguments
+            if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+            
+            storedProcedure.EnsureFullyConstrucuted();
+
+            return ExecuteStoredProcedure(
+                connection,
+                storedProcedure.GetTwoPartName(),
+                storedProcedure.ReturnType,
+                storedProcedure.Parameters,
+                storedProcedure.CommandTimeout,
+                storedProcedure.CommandBehavior,
+                transaction);
+        }
+
+
+        /// <summary>
+        /// Executes the stored procedure and gets the results.
         /// </summary>
         /// <param name="connection">This instance.</param>
         /// <param name="procedureName">Name of the procedure.</param>
@@ -26,7 +55,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<object> GetStoredProcedureResults(
+        public static List<object> ExecuteStoredProcedure(
             this SqlConnection connection,
             string procedureName,
             Type outputType,
@@ -43,7 +72,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Downcast the connection to it's base and call through
             // to secondary extenstion method.
             DbConnection dbConnection = connection;
-            return dbConnection.GetStoredProcedureResults(
+            return dbConnection.ExecuteStoredProcedure(
                 procedureName,
                 outputType,
                 procedureParameters,

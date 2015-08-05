@@ -1,5 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using Dibware.StoredProcedureFramework.Exceptions;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {
@@ -32,7 +33,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ACT
             var actualSchemaName = procedure.SchemaName;
-           
+
             // ASSERT
             Assert.AreEqual(expectedSchemaName, actualSchemaName);
         }
@@ -69,7 +70,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithNullProcedureNameParameter_ThrowsException()
         {
             // ARRANGE
-            
+
             // ACT
             var procedure = new StoredProcedure(null);
 
@@ -164,24 +165,81 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         #endregion
 
+        #region EnsureFullyConstrucuted
+
+        [TestMethod]
+        [ExpectedException(typeof(StoredProcedureConstructionException))]
+        public void EnsureFullyConstrucuted_WhenNotFullyConstructed_ThrowsException()
+        {
+            // ARRANGE
+            var procedure = new StoredProcedure();
+
+            // ACT
+            procedure.EnsureFullyConstrucuted();
+
+            // ASSERT
+            Assert.Fail();
+        }
+
+        #endregion
+
+        #region GetTwoPartName
+
+        [TestMethod]
+        public void GetTwoPartName_WhenConstructedWithProcedureName_ReturnsCorrectly()
+        {
+            // ARRANGE
+            const string expectedSchemaName = StoredProcedure.DefaultSchema;
+            const string expectedProcedureName = "GetAllMonkeys";
+            string expectedTwoPartName = String.Concat(
+                expectedSchemaName,
+                StoredProcedure.DotIdentifier,
+                expectedProcedureName);
+
+            var procedure = new StoredProcedure(expectedProcedureName);
+
+            // ACT
+            var actualTwoPartName = procedure.GetTwoPartName();
+
+            // ASSERT
+            Assert.AreEqual(expectedTwoPartName, actualTwoPartName);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(StoredProcedureConstructionException))]
+        public void GetTwoPartName_WhenConstructedWithoutProcedureName_ThrowsException()
+        {
+            // ARRANGE
+
+            var procedure = new StoredProcedure();
+
+            // ACT
+            procedure.GetTwoPartName();
+
+            // ASSERT
+            Assert.Fail();
+        }
+
+        #endregion
+
         #region IsValid
 
         [TestMethod]
-        public void IsValid_WhenProcedureNameNotSet_ReturnsFalse()
+        public void IsFullyConstructed_WhenProcedureNameNotSet_ReturnsFalse()
         {
             // ARRANGE
             const bool expectedValue = false;
             var procedure = new StoredProcedure();
 
             // ACT
-            var actualvalue = procedure.IsInValidState();
+            var actualvalue = procedure.IsFullyConstructed();
 
             // ASSERT
             Assert.AreEqual(expectedValue, actualvalue);
         }
 
         [TestMethod]
-        public void IsValid_WhenContextNotSet_ReturnsFalse()
+        public void IsFullyConstructed_WhenContextNotSet_ReturnsFalse()
         {
             // ARRANGE
             const string schemaValue = "application";
@@ -190,7 +248,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var procedure = new StoredProcedure(procedureName, schemaValue);
 
             // ACT
-            var actualvalue = procedure.IsInValidState();
+            var actualvalue = procedure.IsFullyConstructed();
 
             // ASSERT
             Assert.AreEqual(expectedValue, actualvalue);

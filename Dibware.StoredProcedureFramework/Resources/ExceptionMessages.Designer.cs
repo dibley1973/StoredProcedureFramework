@@ -68,5 +68,23 @@ namespace Dibware.StoredProcedureFramework.Resources {
                 return ResourceManager.GetString("ErrorReadingStoredProcedure", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stored procedure does not havea name set!.
+        /// </summary>
+        internal static string StoredProcedureDoesNotHaveName {
+            get {
+                return ResourceManager.GetString("StoredProcedureDoesNotHaveName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stored procedure is not fully constructed!.
+        /// </summary>
+        internal static string StoredProcedureIsNotFullyConstructed {
+            get {
+                return ResourceManager.GetString("StoredProcedureIsNotFullyConstructed", resourceCulture);
+            }
+        }
     }
 }
