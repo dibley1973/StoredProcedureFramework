@@ -96,7 +96,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 try
                 {
                     // default name is property name, override of parameter name by attribute
-                    var attr = p.GetAttribute<Name>();
+                    var attr = p.GetAttribute<NameAttribute>();
                     name = (null == attr) ? p.Name : attr.Value;
 
                     // see if we're being asked to stream this property

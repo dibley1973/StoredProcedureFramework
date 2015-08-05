@@ -5,7 +5,6 @@ using Dibware.StoredProcedureFramework.StoredProcAttributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Reflection;
 
@@ -17,6 +16,11 @@ namespace Dibware.StoredProcedureFramework
     public class StoredProcedure
     {
         #region Fields
+
+        /// <summary>
+        /// The default parameter direction
+        /// </summary>
+        public const ParameterDirection DefaultParameterDirection = ParameterDirection.Input;
 
         /// <summary>
         /// The default schemaName
@@ -31,25 +35,25 @@ namespace Dibware.StoredProcedureFramework
 
         #region Properties
 
-        /// <summary>
-        /// Command Behavior for
-        /// </summary>
-        public CommandBehavior CommandBehavior { get; set; }
+        ///// <summary>
+        ///// Command Behavior for
+        ///// </summary>
+        //public CommandBehavior CommandBehavior { get; set; }
 
-        /// <summary>
-        /// Gets or sets the wait time before terminating the attempt to 
-        /// execute this procedure against a command and generating an error.
-        /// </summary>
-        /// <returns>The time in seconds to wait for the procedure to execute.</returns>
-        public int? CommandTimeout { get; set; }
+        ///// <summary>
+        ///// Gets or sets the wait time before terminating the attempt to 
+        ///// execute this procedure against a command and generating an error.
+        ///// </summary>
+        ///// <returns>The time in seconds to wait for the procedure to execute.</returns>
+        //public int? CommandTimeout { get; set; }
 
-        /// <summary>
-        /// Gets (or privately sets) the DBContext.
-        /// </summary>
-        /// <value>
-        /// The context.
-        /// </value>
-        internal DbContext Context { get; private set; }
+        ///// <summary>
+        ///// Gets (or privately sets) the DBContext.
+        ///// </summary>
+        ///// <value>
+        ///// The context.
+        ///// </value>
+        //internal DbContext Context { get; private set; }
 
         /// <summary>
         /// Gets (or privately sets) the procedure Parameters.
@@ -140,36 +144,36 @@ namespace Dibware.StoredProcedureFramework
             SetSchemaName(schemaName);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedure" /> class.
-        /// </summary>
-        /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="context">The context.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// procedureName
-        /// or
-        /// schemaName
-        /// or
-        /// context
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// procedureName
-        /// or
-        /// schemaName
-        /// </exception>
-        public StoredProcedure(string procedureName, string schemaName, DbContext context)
-            : this(procedureName, schemaName)
-        {
-            // Validate arguments
-            if (procedureName == null) throw new ArgumentNullException("procedureName");
-            if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (schemaName == null) throw new ArgumentNullException("schemaName");
-            if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
-            if (context == null) throw new ArgumentNullException("context");
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="StoredProcedure" /> class.
+        ///// </summary>
+        ///// <param name="procedureName">Name of the procedure.</param>
+        ///// <param name="schemaName">Name of the schema.</param>
+        ///// <param name="context">The context.</param>
+        ///// <exception cref="System.ArgumentNullException">
+        ///// procedureName
+        ///// or
+        ///// schemaName
+        ///// or
+        ///// context
+        ///// </exception>
+        ///// <exception cref="System.ArgumentOutOfRangeException">
+        ///// procedureName
+        ///// or
+        ///// schemaName
+        ///// </exception>
+        //public StoredProcedure(string procedureName, string schemaName, DbContext context)
+        //    : this(procedureName, schemaName)
+        //{
+        //    // Validate arguments
+        //    if (procedureName == null) throw new ArgumentNullException("procedureName");
+        //    if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+        //    if (schemaName == null) throw new ArgumentNullException("schemaName");
+        //    if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
+        //    if (context == null) throw new ArgumentNullException("context");
 
-            Context = context;
-        }
+        //    Context = context;
+        //}
 
         #endregion
 
@@ -192,24 +196,27 @@ namespace Dibware.StoredProcedureFramework
                 SqlParameter sqlParameter = new SqlParameter();
 
                 // Get the name of the parameter. Attributes override the name so try and get this first
-                Name nameAttribute = propertyInfo.GetAttribute<StoredProcAttributes.Name>();
-                string parameterName = (nameAttribute != null ? nameAttribute.Value : propertyInfo.Name);
+                NameAttribute nameAttribute = propertyInfo.GetAttribute<StoredProcAttributes.NameAttribute>();
+                sqlParameter.ParameterName = (nameAttribute != null ? nameAttribute.Value : propertyInfo.Name);
 
                 //TODO: complete this below!
                 //// save direction (default is input)
                 //var dir = propertyInfo.GetAttribute<StoredProcAttributes.Direction>();
                 //if (null != dir)
-                //    sqlParameter.Direction = dir.Value;
+                //sqlParameter.Direction = dir.Value;
+                sqlParameter.Direction = DefaultParameterDirection;
 
                 //// save size
                 //var size = propertyInfo.GetAttribute<StoredProcAttributes.Size>();
                 //if (null != size)
                 //    sqlParameter.Size = size.Value;
 
-                //// save database type of parameter
-                //var parmtype = propertyInfo.GetAttribute<StoredProcAttributes.ParameterType>();
-                //if (null != parmtype)
-                //    sqlParameter.SqlDbType = parmtype.Value;
+                // Set database type of parameter
+                var typeAttribute = propertyInfo.GetAttribute<StoredProcAttributes.ParameterTypeAttribute>();
+                if (typeAttribute != null)
+                {
+                    sqlParameter.SqlDbType = typeAttribute.Value;
+                }
 
                 //// save user-defined type name
                 //var typename = propertyInfo.GetAttribute<StoredProcAttributes.TypeName>();
@@ -229,9 +236,6 @@ namespace Dibware.StoredProcedureFramework
                 // add the parameter
                 Parameters.Add(sqlParameter);
             }
-
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -289,14 +293,14 @@ namespace Dibware.StoredProcedureFramework
                 FormatStrings.TwoPartNameformat, SchemaName, ProcedureName);
         }
 
-        /// <summary>
-        /// Determines whether this instance has a valid context.
-        /// </summary>
-        /// <returns></returns>
-        private bool HasValidContext()
-        {
-            return Context != null;
-        }
+        ///// <summary>
+        ///// Determines whether this instance has a valid context.
+        ///// </summary>
+        ///// <returns></returns>
+        //private bool HasValidContext()
+        //{
+        //    return Context != null;
+        //}
 
         /// <summary>
         /// Determines if this instance has a procedure name

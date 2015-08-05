@@ -6,11 +6,11 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     /// Parameter name override. Default value for parameter name is the name of the
     /// property. This overrides that default with a user defined name.
     /// </summary>
-    public class Name : Attribute
+    public class NameAttribute : Attribute
     {
         public String Value { get; set; }
 
-        public Name(String value)
+        public NameAttribute(String value)
         {
             Value = value;
         }

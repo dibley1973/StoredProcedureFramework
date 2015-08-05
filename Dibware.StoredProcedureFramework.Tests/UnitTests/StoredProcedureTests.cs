@@ -1,6 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Dibware.StoredProcedureFramework.Exceptions;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using FakeParameters = Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {
@@ -300,6 +303,39 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ASSERT
             Assert.Fail("ArgumentOutOfRangeException not encountered");
+        }
+
+        #endregion
+
+        #region SetParametersType Tests
+
+        [TestMethod]
+        public void SetParametersType_NotCalled_ResultsInEmptyParametersCollection()
+        {
+            // ARRANGE
+            var procedure = new StoredProcedure();
+
+            // ACT
+            ICollection<SqlParameter> parameters = procedure.Parameters;
+
+            // ASSERT
+            Assert.IsNull(parameters);
+        }
+
+        [TestMethod]
+        public void SetParametersType_CalledWith_ResultsInPopulatedParametersProperty()
+        {
+            // ARRANGE
+            var procedure = new StoredProcedure();
+            const int expectedParameterCount = 2;
+            var parameters = new FakeParameters.ParametersWithoutNameMapping();
+
+            // ACT
+            procedure.SetParametersType(parameters.GetType());
+            ICollection<SqlParameter> parameterList = procedure.Parameters;
+
+            // ASSERT
+            Assert.AreEqual(expectedParameterCount, parameterList.Count);
         }
 
         #endregion

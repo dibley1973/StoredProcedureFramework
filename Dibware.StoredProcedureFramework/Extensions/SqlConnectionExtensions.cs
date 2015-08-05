@@ -14,12 +14,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="storedProcedure">The stored procedure.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
         public static List<object> ExecuteStoredProcedure(
             this SqlConnection connection,
             StoredProcedure storedProcedure,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
             // Validate arguments
@@ -32,8 +36,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 storedProcedure.GetTwoPartName(),
                 storedProcedure.ReturnType,
                 storedProcedure.Parameters,
-                storedProcedure.CommandTimeout,
-                storedProcedure.CommandBehavior,
+                commandTimeout,
+                commandBehavior,
                 transaction);
         }
 

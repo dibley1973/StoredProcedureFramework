@@ -50,7 +50,8 @@
     <Compile Include="Extensions\DbDataReaderExtensions.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Resources\FormatStrings.cs" />
-    <Compile Include="StoredProcAttributes\Name.cs" />
+    <Compile Include="StoredProcAttributes\NameAttribute.cs" />
+    <Compile Include="StoredProcAttributes\ParameterTypeAttribute.cs" />
     <Compile Include="StoredProcAttributes\StreamOutput.cs" />
     <Compile Include="StoredProcAttributes\StreamToFile.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
