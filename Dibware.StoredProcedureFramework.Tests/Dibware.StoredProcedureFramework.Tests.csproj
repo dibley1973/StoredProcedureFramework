@@ -59,8 +59,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Fakes\Entities\Company.cs" />
+    <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
-    <Compile Include="UnitTests\Context\TestContext.cs" />
+    <Compile Include="Context\IntegrationTestContext.cs" />
+    <Compile Include="DBInitializers\TestDbInitializer.cs" />
+    <Compile Include="Integration Tests\UnitTest1.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,9 +74,7 @@
       <Name>Dibware.StoredProcedureFramework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Integration Tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
