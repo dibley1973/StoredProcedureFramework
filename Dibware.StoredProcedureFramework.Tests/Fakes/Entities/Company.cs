@@ -1,12 +1,15 @@
 ﻿
+using System;
+
 namespace Dibware.StoredProcedureFramework.Tests.Fakes.Entities
 {
     internal class Company
     {
-        public int Id { get; set; }
-        public bool Active { get; set; }
-        public string Name { get; set; }
-
         public int CompanyId { get; set; }
+        public int TenantID { get; set; }
+        public bool Active { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime RecordCreatedDateTime { get; set; }
+
     }
 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Tests", "Dibware.StoredProcedureFramework.Tests\Dibware.StoredProcedureFramework.Tests.csproj", "{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.TestDatabase", "Dibware.StoredProcedureFrameworkDatabase\Dibware.StoredProcedureFramework.TestDatabase.sqlproj", "{34273AEF-9100-4517-858A-8F665A64AB2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -64,7 +64,7 @@
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
     <Compile Include="Context\IntegrationTestContext.cs" />
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
-    <Compile Include="Integration Tests\UnitTest1.cs" />
+    <Compile Include="Integration Tests\IntegrationTest1.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

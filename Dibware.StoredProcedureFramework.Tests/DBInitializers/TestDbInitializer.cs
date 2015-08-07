@@ -1,7 +1,7 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using Dibware.StoredProcedureFramework.Tests.Context;
+﻿using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+using System.Data.Entity;
+using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.DBInitializers
 {
@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Tests.DBInitializers
         {
             context.Database.ExecuteSqlCommand(
                 TransactionalBehavior.DoNotEnsureTransaction,
-                string.Format("ALTER DATABASE {0} SET SINGLE_USER WITH ROLLBACK IMMEDIATE",
+                string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE",
                 context.Database.Connection.Database));
 
             base.InitializeDatabase(context);
@@ -34,16 +34,16 @@ namespace Dibware.StoredProcedureFramework.Tests.DBInitializers
 
         private static void AddCompanies(IntegrationTestContext context)
         {
-            context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 1, Name = "Acme" });
-            context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 2, Name = "BetterCo" });
-            context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 3, Name = "CoastToCoast" });
-            context.Tenants.Last().Companies.Add(new Company() { Active = true, Id = 4, Name = "Duplex" });
+            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 1, Name = "Acme" });
+            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 2, Name = "BetterCo" });
+            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 3, Name = "CoastToCoast" });
+            //context.Tenants.Last().Companies.Add(new Company() { Active = true, Id = 4, Name = "Duplex" });
         }
 
         private static void AddTenants(IntegrationTestContext context)
         {
-            context.Tenants.Add(new Tenant() { Active = true, Id = 1, Name = "Me" });
-            context.Tenants.Add(new Tenant() { Active = true, Id = 2, Name = "You" });
+            //context.Tenants.Add(new Tenant() { Active = true, Id = 1, Name = "Me" });
+            //context.Tenants.Add(new Tenant() { Active = true, Id = 2, Name = "You" });
         }
     }
 }
