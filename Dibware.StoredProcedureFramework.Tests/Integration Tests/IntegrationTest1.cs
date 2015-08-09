@@ -1,37 +1,36 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Tests.Context;
-using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+﻿using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
     [TestClass]
-    public class IntegrationTest1
+    public class IntegrationTest1 : BaseIntegrationTest
     {
-        private IntegrationTestContext _context;
-
         [TestInitialize]
-        public void SpinUpObjects()
+        public void TestSetup()
         {
-            _context = new IntegrationTestContext("IntegrationTestConnection");
-            //if(!_context.Database.Exists()) throw new NullReferenceException("database");
+            PrepareDatabase();
         }
 
         [TestCleanup]
-        public void KillObjects()
+        public void TestCleanup()
         {
-            _context.Dispose();
+            CleanupDatabase();
         }
 
-
         [TestMethod]
-        public void TestMethod1()
+        public void GetAllTenents_ReturnsAllTenants()
         {
             // ARRANGE
-            //var context = new IntegrationTestContext("IntegrationTestConnection");
+            Context.Tenants.Add(new Tenant() { Active = true, TenantId = 1, TenantName = "Me", RecordCreatedDateTime = DateTime.Now });
+            Context.Tenants.Add(new Tenant() { Active = true, TenantId = 2, TenantName = "You", RecordCreatedDateTime = DateTime.Now });
+            Context.SaveChanges();
 
             // ACT
-            var tenants = _context.Set<Tenant>();
+            var tenants = Context.Set<Tenant>().ToList();
 
 
             // ASSERT

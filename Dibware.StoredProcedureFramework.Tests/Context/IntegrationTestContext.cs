@@ -1,5 +1,4 @@
-﻿using Dibware.StoredProcedureFramework.Tests.DBInitializers;
-using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+﻿using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using System.Data.Entity;
 
 namespace Dibware.StoredProcedureFramework.Tests.Context
@@ -33,10 +32,10 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
             : base(nameOrConnectionString)
         {
             // Set the chosen database initializer and initialize the database
-            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
+            IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
             //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseIfModelChanges<IntegrationTestContext>();
             //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseAlways<IntegrationTestContext>();
-            IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new TestDbInitializer<IntegrationTestContext>();
+            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new TestDbInitializer<IntegrationTestContext>();
             Database.SetInitializer(databaseInitializer);
 
         }

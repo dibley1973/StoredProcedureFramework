@@ -13,12 +13,13 @@ namespace Dibware.StoredProcedureFramework.Tests.DBInitializers
         /// <param name="context">The context.</param>
         public override void InitializeDatabase(IntegrationTestContext context)
         {
+            base.InitializeDatabase(context);
+
+            // http://patrickdesjardins.com/blog/entity-framework-database-initialization
             context.Database.ExecuteSqlCommand(
                 TransactionalBehavior.DoNotEnsureTransaction,
                 string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE",
                 context.Database.Connection.Database));
-
-            base.InitializeDatabase(context);
         }
 
         /// <summary>
