@@ -52,10 +52,12 @@
     <Compile Include="Resources\FormatStrings.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />
     <Compile Include="StoredProcAttributes\ParameterTypeAttribute.cs" />
+    <Compile Include="StoredProcAttributes\ReturnTypes.cs" />
+    <Compile Include="StoredProcAttributes\Schema.cs" />
     <Compile Include="StoredProcAttributes\StreamOutput.cs" />
     <Compile Include="StoredProcAttributes\StreamToFile.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
-    <Compile Include="Extensions\DBContextExtensions.cs" />
+    <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
@@ -78,8 +80,9 @@
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\ExceptionMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

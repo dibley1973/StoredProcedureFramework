@@ -35,16 +35,16 @@ namespace Dibware.StoredProcedureFramework.Tests.DBInitializers
 
         private static void AddCompanies(IntegrationTestContext context)
         {
-            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 1, Name = "Acme" });
-            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 2, Name = "BetterCo" });
-            //context.Tenants.First().Companies.Add(new Company() { Active = true, Id = 3, Name = "CoastToCoast" });
-            //context.Tenants.Last().Companies.Add(new Company() { Active = true, Id = 4, Name = "Duplex" });
+            //context.Tenant.First().Company.Add(new Company() { IsActive = true, Id = 1, Name = "Acme" });
+            //context.Tenant.First().Company.Add(new Company() { IsActive = true, Id = 2, Name = "BetterCo" });
+            //context.Tenant.First().Company.Add(new Company() { IsActive = true, Id = 3, Name = "CoastToCoast" });
+            //context.Tenant.Last().Company.Add(new Company() { IsActive = true, Id = 4, Name = "Duplex" });
         }
 
         private static void AddTenants(IntegrationTestContext context)
         {
-            //context.Tenants.Add(new Tenant() { Active = true, Id = 1, Name = "Me" });
-            //context.Tenants.Add(new Tenant() { Active = true, Id = 2, Name = "You" });
+            //context.Tenant.Add(new Tenant() { IsActive = true, Id = 1, Name = "Me" });
+            //context.Tenant.Add(new Tenant() { IsActive = true, Id = 2, Name = "You" });
         }
     }
 }

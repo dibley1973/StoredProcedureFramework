@@ -13,6 +13,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
 
         private IntegrationTestContext _context;
         private TransactionScope _transaction;
+        private const bool CreateTransaction = true;
 
         #endregion
 
@@ -26,13 +27,18 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
             _context = new IntegrationTestContext("IntegrationTestConnection");
             _context.Database.CreateIfNotExists();
             ClearDownAllTables();
-            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
-
+            if (CreateTransaction)
+            {
+                _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
+            }
         }
 
         protected void CleanupDatabase()
         {
-            if (_transaction != null) _transaction.Dispose();
+            if (CreateTransaction)
+            {
+                if (_transaction != null) _transaction.Dispose();
+            }
             _context.Dispose();
         }
 
@@ -57,8 +63,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
 
         private void ClearDownAllTables()
         {
-            TruncateTable(TableNames.Companies);
-            DeleteAllFromTable(TableNames.Tenants);
+            TruncateTable(TableNames.Company);
+            DeleteAllFromTable(TableNames.Tenant);
         }
 
         private void DeleteAllFromTable(string tableName)

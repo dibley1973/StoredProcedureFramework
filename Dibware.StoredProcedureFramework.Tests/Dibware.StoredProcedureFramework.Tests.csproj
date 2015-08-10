@@ -67,6 +67,18 @@
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
     <Compile Include="Integration Tests\Base\BaseIntegrationTest.cs" />
     <Compile Include="Integration Tests\IntegrationTest1.cs" />
+    <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyForTenantResultRow.cs" />
+    <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyForTenantResultRowMetaData.cs" />
+    <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyResultRow.cs" />
+    <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyResultRowMetaData.cs" />
+    <Compile Include="Integration Tests\ResultSets\TenantResultSets\TenantResultRow.cs" />
+    <Compile Include="Integration Tests\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantID.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
@@ -78,7 +90,9 @@
       <Name>Dibware.StoredProcedureFramework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Integration Tests\Dtos\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

@@ -8,8 +8,39 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
-    public static class DBContextExtensions
+    public static class DbContextExtensions
     {
+        /// <summary>
+        /// Executes the stored procedure  and gets the results..
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="storedProcedure">The stored procedure.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
+        public static List<object> ExecuteStoredProcedure(
+            this DbContext context,
+            StoredProcedure storedProcedure,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
+        {
+            // Validate arguments
+            if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+
+            storedProcedure.EnsureFullyConstrucuted();
+
+            return ExecuteStoredProcedure(context,
+                storedProcedure.GetTwoPartName(),
+                storedProcedure.ReturnType,
+                storedProcedure.Parameters,
+                commandTimeout,
+                commandBehavior,
+                transaction);
+        }
+
         /// <summary>
         /// Executes the stored procedure and gets the results.
         /// </summary>

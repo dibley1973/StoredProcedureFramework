@@ -82,5 +82,6 @@
     <Build Include="app\Stored Procedures\CompanyForTenant_GetForTenantID.sql" />
     <Build Include="app\Stored Procedures\Company_GetAllForTenantID.sql" />
     <Build Include="app\Stored Procedures\Company_GetAll.sql" />
+    <Build Include="app\Stored Procedures\Tenant_GetAll.sql" />
   </ItemGroup>
 </Project>

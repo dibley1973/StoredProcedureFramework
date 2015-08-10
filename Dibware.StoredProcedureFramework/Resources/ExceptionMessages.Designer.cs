@@ -22,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExceptionMessages {
+    public class ExceptionMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Dibware.StoredProcedureFramework.Resources.ExceptionMessages", typeof(ExceptionMessages).Assembly);
@@ -51,7 +51,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Error reading from stargetObjectored procedure &apos;{0}&apos; :  &apos;{1}&apos;.
         /// </summary>
-        internal static string ErrorReadingStoredProcedure {
+        public static string ErrorReadingStoredProcedure {
             get {
                 return ResourceManager.GetString("ErrorReadingStoredProcedure", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Stored procedure does not havea name set!.
         /// </summary>
-        internal static string StoredProcedureDoesNotHaveName {
+        public static string StoredProcedureDoesNotHaveName {
             get {
                 return ResourceManager.GetString("StoredProcedureDoesNotHaveName", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Stored procedure is not fully constructed!.
         /// </summary>
-        internal static string StoredProcedureIsNotFullyConstructed {
+        public static string StoredProcedureIsNotFullyConstructed {
             get {
                 return ResourceManager.GetString("StoredProcedureIsNotFullyConstructed", resourceCulture);
             }

@@ -264,8 +264,10 @@ namespace Dibware.StoredProcedureFramework
         {
             if (!IsFullyConstructed())
             {
+                string message = ExceptionMessages.StoredProcedureIsNotFullyConstructed;
+
                 throw ExceptionHelper.CreateStoredProcedureConstructionException(
-                    ExceptionMessages.StoredProcedureIsNotFullyConstructed);
+                    message);
             }
         }
 
@@ -276,8 +278,9 @@ namespace Dibware.StoredProcedureFramework
         {
             if (!HasProcedureName())
             {
+                string message = ExceptionMessages.StoredProcedureDoesNotHaveName;
                 throw ExceptionHelper.CreateStoredProcedureConstructionException(
-                    ExceptionMessages.StoredProcedureDoesNotHaveName);
+                    message);
             }
         }
 
