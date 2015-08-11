@@ -4,9 +4,9 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Compan
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.CompanyForTenantProcedures
 {
-    [StoredProcAttributes.Schema("app")]
+    [StoredProcAttributes.SchemaAttribute("app")]
     [StoredProcAttributes.Name("CompanyForTenant_GetForTenantID")]
-    [StoredProcAttributes.ReturnTypes(typeof(CompanyForTenantResultRow))]
+    [StoredProcAttributes.ReturnTypeAttribute(typeof(CompanyForTenantResultRow))]
     internal class GetForTenantID
     {
         [StoredProcAttributes.Name("TenantID")]

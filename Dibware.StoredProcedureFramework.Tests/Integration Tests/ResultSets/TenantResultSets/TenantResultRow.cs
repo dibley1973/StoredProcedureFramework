@@ -6,7 +6,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Te
     [MetadataType(typeof(TenantResultRowMetaData))]
     public class TenantResultRow
     {
-        public Guid TenantID { get; set; }
+        public int TenantId { get; set; }
 
         public bool IsActive { get; set; }
 

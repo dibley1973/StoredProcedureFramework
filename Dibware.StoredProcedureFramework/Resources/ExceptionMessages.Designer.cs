@@ -79,7 +79,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stored procedure is not fully constructed!.
+        ///   Looks up a localized string similar to Stored procedure is not fully constructed! Ensure procedure has name and return type. .
         /// </summary>
         public static string StoredProcedureIsNotFullyConstructed {
             get {

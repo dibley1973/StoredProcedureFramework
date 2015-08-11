@@ -124,6 +124,6 @@
     <value>Stored procedure does not havea name set!</value>
   </data>
   <data name="StoredProcedureIsNotFullyConstructed" xml:space="preserve">
-    <value>Stored procedure is not fully constructed!</value>
+    <value>Stored procedure is not fully constructed! Ensure procedure has name and return type. </value>
   </data>
 </root>

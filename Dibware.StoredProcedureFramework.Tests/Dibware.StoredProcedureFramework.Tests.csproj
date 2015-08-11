@@ -79,6 +79,7 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
+    <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />

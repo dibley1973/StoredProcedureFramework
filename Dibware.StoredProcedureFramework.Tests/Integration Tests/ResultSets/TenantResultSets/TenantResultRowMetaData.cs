@@ -7,8 +7,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Te
     /// </summary>
     public class TenantResultRowMetaData
     {
-        [StoredProcAttributes.Name("TenantID")]
-        public Guid TenantID { get; set; }
+        [StoredProcAttributes.Name("TenantId")]
+        public int TenantId { get; set; }
 
         [StoredProcAttributes.Name("IsActive")]
         public bool IsActive { get; set; }

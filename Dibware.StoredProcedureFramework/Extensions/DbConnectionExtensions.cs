@@ -1,19 +1,16 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Resources;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
     public static class DbConnectionExtensions
     {
-
-
-
 
         public static List<T> ExecuteStoredProcedure<T>(
             this DbConnection connection,
@@ -23,12 +20,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
-            Type outputType = typeof (T);
+            Type outputType = typeof(T);
 
             // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            
+
             // Create a results list
             List<T> results = new List<T>();
 
@@ -165,7 +162,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
         {
             // Clear any existing command parameters
-            if(command.Parameters.Count > 0) command.Parameters.Clear();
+            if (command.Parameters.Count > 0) command.Parameters.Clear();
 
             // add the specified parameters
             foreach (SqlParameter p in sqlParameters)

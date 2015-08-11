@@ -5,13 +5,14 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     /// <summary>
     /// Allows the setting of the user defined table type name for table valued parameters
     /// </summary>
-    public class ReturnTypes : Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class SchemaAttribute : Attribute
     {
-        public Type[] Returns { get; set; }
+        public String Value { get; set; }
 
-        public ReturnTypes(params Type[] values)
+        public SchemaAttribute(String value)
         {
-            Returns = values;
+            Value = value;
         }
     }
 }

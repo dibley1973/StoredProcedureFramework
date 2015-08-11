@@ -14,7 +14,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT      [TenantID]
+	SELECT      [TenantId]
     ,           [IsActive]
     ,           [TenantName]
     ,           [RecordCreatedDateTime]

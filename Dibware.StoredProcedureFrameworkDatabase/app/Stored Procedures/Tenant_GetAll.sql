@@ -5,8 +5,6 @@
 -- Description:	Gets all the Tenants
 -- =============================================
 CREATE PROCEDURE [app].[Tenant_GetAll]
-	-- Add the parameters for the stored procedure here
-	@TenantName varchar(100)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -14,7 +12,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT      [TenantID]
+	SELECT      [TenantId]
     ,           [IsActive]
     ,           [TenantName]
     ,           [RecordCreatedDateTime]

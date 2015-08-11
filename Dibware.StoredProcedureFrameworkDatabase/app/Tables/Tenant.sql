@@ -1,8 +1,10 @@
 ﻿CREATE TABLE [app].[Tenant] (
-    [TenantID]              INT            NOT NULL,
+    [TenantId]              INT            IDENTITY (1, 1) NOT NULL,
     [IsActive]              BIT            NOT NULL,
     [TenantName]            NVARCHAR (100) NULL,
     [RecordCreatedDateTime] DATETIME       NOT NULL,
-    CONSTRAINT [PK_app.Tenant] PRIMARY KEY CLUSTERED ([TenantID] ASC)
+    CONSTRAINT [PK_app.Tenant] PRIMARY KEY CLUSTERED ([TenantId] ASC)
 );
+
+
 

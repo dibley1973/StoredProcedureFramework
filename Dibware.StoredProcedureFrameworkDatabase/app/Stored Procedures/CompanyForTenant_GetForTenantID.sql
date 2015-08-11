@@ -8,7 +8,7 @@
 -- =============================================
 CREATE PROCEDURE [app].[CompanyForTenant_GetForTenantID]
 (
-    @TenantID INT
+    @TenantId INT
 )
 AS
 BEGIN
@@ -17,12 +17,12 @@ BEGIN
     SET NOCOUNT ON;
 
     -- Select data
-    SELECT  [TenantID]
+    SELECT  [TenantId]
     ,       [TenantName]
-    ,       [CompanyID]
+    ,       [CompanyId]
     ,       [IsActive]
     ,       [CompanyName]
     ,       [RecordCreatedDateTime]
     FROM    [app].[CompanyForTenant]
-    WHERE   [TenantID] = @TenantID;
+    WHERE   [TenantId] = @TenantId;
 END

@@ -52,8 +52,8 @@
     <Compile Include="Resources\FormatStrings.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />
     <Compile Include="StoredProcAttributes\ParameterTypeAttribute.cs" />
-    <Compile Include="StoredProcAttributes\ReturnTypes.cs" />
-    <Compile Include="StoredProcAttributes\Schema.cs" />
+    <Compile Include="StoredProcAttributes\ReturnTypeAttribute.cs" />
+    <Compile Include="StoredProcAttributes\SchemaAttribute.cs" />
     <Compile Include="StoredProcAttributes\StreamOutput.cs" />
     <Compile Include="StoredProcAttributes\StreamToFile.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />

@@ -63,14 +63,23 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
 
         private void ClearDownAllTables()
         {
-            TruncateTable(TableNames.Company);
-            DeleteAllFromTable(TableNames.Tenant);
+            TruncateTable(SchemaNames.App, TableNames.Company);
+            DeleteAllFromTable(SchemaNames.App, TableNames.Tenant);
         }
 
         private void DeleteAllFromTable(string tableName)
         {
             string statement =
                 string.Format(SqlStatements.DeleteAllFromTable,
+                tableName);
+            ExecuteStatement(statement);
+        }
+
+        private void DeleteAllFromTable(string schema, string tableName)
+        {
+            string statement =
+                string.Format(SqlStatements.DeleteAllFromTableWithSchema,
+                schema,
                 tableName);
             ExecuteStatement(statement);
         }
@@ -86,6 +95,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
         {
             string statement =
                 string.Format(SqlStatements.TruncateTable,
+                tableName);
+            ExecuteStatement(statement);
+        }
+
+        private void TruncateTable(string schema, string tableName)
+        {
+            string statement =
+                string.Format(SqlStatements.TruncateTableWithSchema,
+                schema,
                 tableName);
             ExecuteStatement(statement);
         }

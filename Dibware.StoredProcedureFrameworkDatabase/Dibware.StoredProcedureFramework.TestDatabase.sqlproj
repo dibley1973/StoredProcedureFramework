@@ -67,11 +67,11 @@
     <Folder Include="app\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Tenant.sql" />
-    <Build Include="dbo\Tables\Company.sql" />
+    <None Include="dbo\Tables\Tenant.sql" />
+    <None Include="dbo\Tables\Company.sql" />
     <Build Include="app\Tables\Company.sql" />
     <Build Include="app\Tables\Tenant.sql" />
-    <Build Include="dbo\Views\CompanyForTenant.sql" />
+    <None Include="dbo\Views\CompanyForTenant.sql" />
     <Build Include="app\Views\CompanyForTenant.sql" />
     <Build Include="Security\app.sql" />
     <Build Include="Security\TestUserLogin.sql" />

@@ -1,10 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -28,7 +30,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         #endregion
 
         #region Tests
-        
+
 
         [TestMethod]
         public void EntityFrameworkConnectionTest()
@@ -51,11 +53,17 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             // ARRANGE
             const int expectedCount = 2;
             var procedure = new StoredProcedure<GetTenantForAll>();
+            //procedure.SetProcedureName("Company_GetAll");
+            procedure.InitializeFromAttributes();
+
             AddTenentsToContext(Context);
 
             // ACT
-            var tenantResults = Context.ExecuteStoredProcedure(
+            List<object> tenantResults = Context.ExecuteStoredProcedure(
                 procedure);
+
+            // next we need to be able to get an explicit list as the return rather than an list of objects.
+            
 
             // ASSERT
             Assert.AreEqual(expectedCount, tenantResults.Count);

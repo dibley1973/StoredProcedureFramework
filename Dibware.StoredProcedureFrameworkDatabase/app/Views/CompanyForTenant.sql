@@ -1,9 +1,9 @@
 ﻿
 CREATE VIEW [app].[CompanyForTenant]
 AS
-    SELECT      [TenantID]              = [tenant].[TenantID]
+    SELECT      [TenantId]              = [tenant].[TenantId]
     ,           [TenantName]            = [tenant].[TenantName]
-    ,           [CompanyID]             = [company].[CompanyID]
+    ,           [CompanyId]             = [company].[CompanyId]
     ,           [IsActive]              = [company].[IsActive]
     ,           [CompanyName]           = [company].[CompanyName]
     ,           [RecordCreatedDateTime] = [company].[RecordCreatedDateTime]
