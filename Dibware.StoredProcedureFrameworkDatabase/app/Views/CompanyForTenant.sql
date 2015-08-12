@@ -9,4 +9,4 @@ AS
     ,           [RecordCreatedDateTime] = [company].[RecordCreatedDateTime]
     FROM        [app].[Company] [company]
     INNER JOIN  [app].[Tenant]  [tenant]
-    ON          [company].[TenantID]    = [tenant].[TenantID]
+    ON          [company].[TenantId]    = [tenant].[TenantId]

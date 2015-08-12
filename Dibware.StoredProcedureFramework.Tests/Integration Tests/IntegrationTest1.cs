@@ -69,6 +69,29 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedCount, tenantResults.Count);
         }
 
+        //[TestMethod]
+        //public void GetAllTenents_ReturnsAllTenantsCast()
+        //{
+        //    // ARRANGE
+        //    const int expectedCount = 2;
+        //    var procedure = new StoredProcedure<GetTenantForAll>();
+        //    //procedure.SetProcedureName("Company_GetAll");
+        //    procedure.InitializeFromAttributes();
+
+        //    AddTenentsToContext(Context);
+
+        //    // ACT
+        //    List<object> tenantResults = Context.ExecuteStoredProcedure<Tenant>(
+        //        procedure);
+
+        //    // next we need to be able to get an explicit list as the return rather than an list of objects.
+
+
+        //    // ASSERT
+        //    Assert.AreEqual(expectedCount, tenantResults.Count);
+        //}
+
+
         #endregion
 
         #region Methods Data Setup

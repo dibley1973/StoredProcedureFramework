@@ -77,6 +77,68 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return results;
         }
 
+
+        /// <summary>
+        /// Executes the stored procedure and gets the results.
+        /// </summary>
+        /// <param name="connection">This instance.</param>
+        /// <param name="procedureName">Name of the procedure.</param>
+        /// <param name="outputType">Type of the output.</param>
+        /// <param name="procedureParameters">The procedure parameters.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// procedureName
+        /// or
+        /// outputType
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static ResultList<TR> ExecuteStoredProcedure<TR>(
+            this DbConnection connection,
+            string procedureName,
+            Type outputType,
+            IEnumerable<SqlParameter> procedureParameters = null,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null) where TR : class
+        {
+            // Validate arguments
+            if (procedureName == null) throw new ArgumentNullException("procedureName");
+            if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+            if (outputType == null) throw new ArgumentNullException("outputType");
+
+            // Create a results list
+            //List<object> results = new List<object>();
+
+            //GetResultsList(connection, procedureName, outputType, procedureParameters, commandTimeout, commandBehavior, transaction, results);
+
+            //Type outputType = typeof(TR);
+
+            // Return the results
+            return GetResultsList<TR>(connection, procedureName, procedureParameters, commandTimeout, commandBehavior, transaction);
+        }
+
+
+        private static ResultList<TR> GetResultsList<TR>(DbConnection connection, string procedureName,
+            IEnumerable<SqlParameter> procedureParameters, int? commandTimeout, CommandBehavior commandBehavior,
+            SqlTransaction transaction)
+            where TR : class
+        {
+            Type outputType = typeof (TR);
+
+            List<object> results = new List<object>();
+
+            GetResultsList(connection, procedureName, outputType,
+                procedureParameters, commandTimeout, commandBehavior, transaction,
+                results);
+
+            ResultList<TR> resultList = new ResultList<TR>(results);
+
+            return resultList;
+        }
+
         private static void GetResultsList(DbConnection connection, string procedureName, Type outputType,
             IEnumerable<SqlParameter> procedureParameters, int? commandTimeout, CommandBehavior commandBehavior, SqlTransaction transaction,
             List<object> results)

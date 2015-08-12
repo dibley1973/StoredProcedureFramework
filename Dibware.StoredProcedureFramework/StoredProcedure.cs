@@ -84,6 +84,10 @@ namespace Dibware.StoredProcedureFramework
         /// </value>
         public Type ReturnType { get; private set; }
 
+
+        //public ResultList<ReturnType> Results { get; private set; }
+
+
         /// <summary>
         /// Gets (or privately sets) the schemaName this objects resides
         /// </summary>

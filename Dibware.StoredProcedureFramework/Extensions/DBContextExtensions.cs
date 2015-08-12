@@ -41,6 +41,27 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 transaction);
         }
 
+        //public static ResultList<TR> ExecuteStoredProcedure<TR>(
+        //    this DbContext context,
+        //    StoredProcedure storedProcedure,
+        //    int? commandTimeout = null,
+        //    CommandBehavior commandBehavior = CommandBehavior.Default,
+        //    SqlTransaction transaction = null)
+        //{
+        //    // Validate arguments
+        //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+
+        //    storedProcedure.EnsureFullyConstrucuted();
+
+        //    return ExecuteStoredProcedure<TR>(context,
+        //        storedProcedure.GetTwoPartName(),
+        //        storedProcedure.ReturnType,
+        //        storedProcedure.Parameters,
+        //        commandTimeout,
+        //        commandBehavior,
+        //        transaction);
+        //}
+
         /// <summary>
         /// Executes the stored procedure and gets the results.
         /// </summary>
