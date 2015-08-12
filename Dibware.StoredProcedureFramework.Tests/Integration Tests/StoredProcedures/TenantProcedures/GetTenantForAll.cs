@@ -8,8 +8,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     [StoredProcAttributes.ReturnTypeAttribute(typeof(TenantResultRow))]
     internal class GetTenantForAll
     {
-        [StoredProcAttributes.Name("TenantName")]
-        [StoredProcAttributes.ParameterType(SqlDbType.VarChar)]
-        public string TenantName { get; set; }
+
     }
 }

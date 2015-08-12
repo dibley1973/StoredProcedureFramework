@@ -60,6 +60,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Contracts\IStoredProcedure.cs" />
+    <Compile Include="Contracts\NullParameter.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GAT.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
