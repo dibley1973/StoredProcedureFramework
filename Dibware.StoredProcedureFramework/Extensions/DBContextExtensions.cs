@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -104,5 +105,15 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 commandBehavior,
                 transaction);
         }
+
+        public static void DoAction<TReturnType, TParameterType>
+            (this DbContext context,
+            IStoredProcedure<TReturnType, TParameterType> procedure1)
+            where TReturnType : class
+            where TParameterType : class
+        {
+            // do some work
+        }
+
     }
 }

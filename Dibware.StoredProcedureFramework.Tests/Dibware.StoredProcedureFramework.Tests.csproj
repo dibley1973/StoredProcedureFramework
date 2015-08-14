@@ -60,8 +60,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Contracts\IStoredProcedure.cs" />
-    <Compile Include="Contracts\NullParameter.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />

@@ -4,7 +4,6 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +30,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
         #region Tests
 
-
+        /// <summary>
+        /// Just to check context connects...
+        /// </summary>
         [TestMethod]
         public void EntityFrameworkConnectionTest()
         {
@@ -41,7 +42,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ACT
             var tenants = Context.Set<Tenant>().ToList();
-
 
             // ASSERT
             Assert.AreEqual(expectedCount, tenants.Count);
@@ -63,10 +63,35 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 procedure);
 
             // next we need to be able to get an explicit list as the return rather than an list of objects.
-            
+
 
             // ASSERT
             Assert.AreEqual(expectedCount, tenantResults.Count);
+        }
+
+
+        [TestMethod]
+        public void GetAllTenents_ReturnsAllTenantsCast()
+        {
+            // ARRANGE
+            const int expectedCount = 2;
+            var procedure = new GAT();
+            //procedure.SetProcedureName("Company_GetAll");
+            //procedure.InitializeFromAttributes();
+
+            AddTenentsToContext(Context);
+
+            // ACT
+            Context.DoAction(procedure);
+
+            //List<object> tenantResults = Context.DoAction<Tenant>(
+            //    procedure);
+
+            // next we need to be able to get an explicit list as the return rather than an list of objects.
+
+
+            // ASSERT
+            //Assert.AreEqual(expectedCount, tenantResults.Count);
         }
 
         //[TestMethod]
@@ -92,12 +117,16 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         //}
 
 
+
+
         #endregion
 
         #region Methods Data Setup
 
-
-
+        /// <summary>
+        /// Adds the tenents to context.
+        /// </summary>
+        /// <param name="context">The context.</param>
         private void AddTenentsToContext(Context.IntegrationTestContext context)
         {
             context.Tenants.Add(new Tenant()

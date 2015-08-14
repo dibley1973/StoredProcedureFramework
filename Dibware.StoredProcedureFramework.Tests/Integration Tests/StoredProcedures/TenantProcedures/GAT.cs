@@ -1,6 +1,5 @@
-﻿
-
-using Dibware.StoredProcedureFramework.Tests.Contracts;
+﻿using System;
+using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
@@ -22,5 +21,29 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         }
 
         #endregion
+    }
+
+    public abstract class StoredProcedureBase<TReturn, TParameter>
+        where TReturn : class
+        where TParameter : class
+    {
+        #region Members
+
+        public Type ReturnType
+        {
+            get { return typeof (TReturn); }
+        }
+
+        public Type ParameterType
+        {
+            get { return typeof (TParameter);  }
+        }
+
+        #endregion
+    }
+
+    public class GAT2 : StoredProcedureBase<TenantResultRow, NullParameter>
+    {
+
     }
 }
