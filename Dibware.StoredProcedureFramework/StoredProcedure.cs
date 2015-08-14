@@ -192,7 +192,7 @@ namespace Dibware.StoredProcedureFramework
 
             // Get a list of all properties from the parameters type
             // that are not decorated with the "NotMapped" attribute
-            var mappedProperties = parametersType.GetMappedProperties();
+            PropertyInfo[] mappedProperties = parametersType.GetMappedProperties();
 
             foreach (PropertyInfo propertyInfo in mappedProperties)
             {

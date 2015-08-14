@@ -82,9 +82,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            Context.DoAction(procedure);
+            var results = Context.ExecSproc(procedure);
 
-            //List<object> tenantResults = Context.DoAction<Tenant>(
+            //List<object> tenantResults = Context.ExecSproc<Tenant>(
             //    procedure);
 
             // next we need to be able to get an explicit list as the return rather than an list of objects.

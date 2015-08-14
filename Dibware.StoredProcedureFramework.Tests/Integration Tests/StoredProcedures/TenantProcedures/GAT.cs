@@ -21,9 +21,30 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         }
 
         #endregion
+
+        #region IStoredProcedure<TenantResultRow,NullParameter> Members
+
+
+        public string ProcedureName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string SchemaName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string GetTwoPartName()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 
     public abstract class StoredProcedureBase<TReturn, TParameter>
+        : IStoredProcedure<TReturn, TParameter>
         where TReturn : class
         where TParameter : class
     {
@@ -37,6 +58,35 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         public Type ParameterType
         {
             get { return typeof (TParameter);  }
+        }
+
+        #endregion
+
+        #region IStoredProcedure<TReturn,TParameter> Members
+
+        TReturn IStoredProcedure<TReturn, TParameter>.ReturnType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        TParameter IStoredProcedure<TReturn, TParameter>.ParameterType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string ProcedureName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string SchemaName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string GetTwoPartName()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

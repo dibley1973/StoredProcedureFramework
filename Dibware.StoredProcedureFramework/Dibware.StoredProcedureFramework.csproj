@@ -50,6 +50,7 @@
     <Compile Include="Contracts\NullParameter.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions2.cs" />
+    <Compile Include="Extensions\DbContextExtensions2.cs" />
     <Compile Include="Extensions\DbDataReaderExtensions.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Resources\FormatStrings.cs" />

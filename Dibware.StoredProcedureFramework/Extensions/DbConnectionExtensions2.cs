@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Contracts;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -22,9 +27,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         }
 
-       
 
-        //public static List<TReturnType> ExecuteStoredProcedure2<TProcedure>(TProcedure procedure1)
+
+        //public static List<TReturnType> ExecuteStoredProcedure2<TProcedure>(TProcedure procedure)
         //    where TProcedure : IStoredProcedure2<TReturnType, TParameterType>
         //    where TReturnType : class
         //    where TParameterType : class
@@ -34,54 +39,119 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         //}
 
-        //public static void ExecuteStoredProcedure2<TProcedure>(TProcedure procedure1)
+        //public static void ExecuteStoredProcedure2<TProcedure>(TProcedure procedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
-        //public static void ExecuteStoredProcedure3<IStoredProcedure<TReturnType, TParameterType>>(IStoredProcedure procedure1)
+        //public static void ExecuteStoredProcedure3<IStoredProcedure<TReturnType, TParameterType>>(IStoredProcedure procedure)
         //    where TReturnType : class
         //    where TParameterType : class
         //{
         //    // do some work
         //}
 
-        //public static void DoAction<TProcedure, TReturnType, TParameterType>(TProcedure procedure1)
+        //public static void ExecSproc<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
-        //public static void DoAction3<TProcedure, TReturnType, TParameterType>(TProcedure procedure1)
+        //public static void DoAction3<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
-        public static void DoAction<TReturnType, TParameterType>
-            (IStoredProcedure<TReturnType, TParameterType> procedure1)
+        //public static void DoAction<TReturnType, TParameterType>
+        //    (IStoredProcedure<TReturnType, TParameterType> procedure)
+        //    where TReturnType : class
+        //    where TParameterType : class
+        //{
+        //    // do some work
+        //}
+
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
+            this DbConnection connection,
+            IStoredProcedure<TReturnType, TParameterType> procedure,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
             where TReturnType : class
             where TParameterType : class
         {
-            // do some work
+            string procedureName = procedure.GetTwoPartName();
+            Type parameterType = typeof(TParameterType);
+            Type returnType = typeof(TReturnType);
+
+            // Prepare the parameters if any exist
+            IEnumerable<SqlParameter> procedureParameters =
+                (procedure.ReturnType is NullParameter) ?
+                null :
+                GetProcedureParameters(procedure);
+
+            // Populate results using an overload
+            var results = ExecSproc<TReturnType>(
+                connection,
+                procedureName,
+                returnType,
+                procedureParameters,
+                commandTimeout,
+                commandBehavior,
+                transaction);
+
+            // return the results
+            return results;
         }
 
-        public static List<TReturnType> GetAction<TReturnType, TParameterType>
-            (IStoredProcedure<TReturnType, TParameterType> procedure1)
-            where TReturnType : class
-            where TParameterType : class
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static List<TReturnType> ExecSproc<TReturnType>(
+            this DbConnection connection,
+            string procedureName,
+            Type outputType,
+            IEnumerable<SqlParameter> procedureParameters = null,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null) where TReturnType : class
         {
-            // do some work
-            return new List<TReturnType>();
+            throw new NotImplementedException();
         }
 
-        public static void DoAction4<TProcedure, TReturnType, TParameterType>(TProcedure procedure1)
-            where TProcedure : IStoredProcedure<TReturnType, TParameterType>
+        //public static void DoAction4<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
+        //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
+        //    where TReturnType : class
+        //    where TParameterType : class
+        //{
+        //    // do some work
+        //}
+
+        private static IEnumerable<SqlParameter> GetProcedureParameters<TReturnType, TParameterType>(
+            IStoredProcedure<TReturnType, TParameterType> procedure)
             where TReturnType : class
             where TParameterType : class
         {
-            // do some work
+            // create mapped properties
+            var mappedProperties = typeof(TParameterType).GetMappedProperties();
+
+            // Create parameters
+            var sqlParameters = mappedProperties.ToSqlParameters();
+
+            // Populate parameters
+            PopulateParameters(sqlParameters, procedure);
+
+            // Return parameters
+            return sqlParameters;
+        }
+
+        private static void PopulateParameters<TReturnType, TParameterType>(
+            ICollection<SqlParameter> sqlParameters,
+            IStoredProcedure<TReturnType, TParameterType> procedure)
+            where TReturnType : class
+            where TParameterType : class
+        {
+            throw new NotImplementedException();
         }
 
     }
