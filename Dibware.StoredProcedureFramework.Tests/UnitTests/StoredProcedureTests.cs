@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using FakeParameters = Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
@@ -257,6 +258,75 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             Assert.AreEqual(expectedValue, actualvalue);
         }
 
+
+        #endregion
+
+        #region IsFullyConstructed Tests
+
+        [TestMethod]
+        public void StoredProcedureWithAttributes_IsFullyConstructed()
+        {
+            // ARRANGE
+            const bool expectedValue = true;
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllWithAttributes(parameters);
+
+            // ACT
+            procedure.InitializeFromAttributes();
+            var actualValue = procedure.IsFullyConstructed();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void StoredProcedureConstructuedWithName_IsFullyConstructed()
+        {
+            // ARRANGE
+            const bool expectedValue = true;
+            const string expectedProcedureName = "GetAll";
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllNoAttributes(expectedProcedureName, parameters);
+
+            // ACT
+            var actualValue = procedure.IsFullyConstructed();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void StoredProcedureConstructuedWithNameAndSchema_IsFullyConstructed()
+        {
+            // ARRANGE
+            const bool expectedValue = true;
+            const string expectedProcedureName = "GetAll";
+            const string expectedSchemaName = "app";
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
+                expectedProcedureName, parameters);
+
+            // ACT
+            var actualValue = procedure.IsFullyConstructed();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void StoredProcedureWithoutAttributesAndNotSet_IsNotFullyConstructed()
+        {
+            // ARRANGE
+            const bool expectedValue = false;
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllNoAttributes(parameters);
+
+            // ACT
+            var actualValue = procedure.IsFullyConstructed();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actualValue);
+        }
 
         #endregion
 

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration Tests\Dtos\" />
+    <Folder Include="Integration Tests\StoredProcedures\BAse\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

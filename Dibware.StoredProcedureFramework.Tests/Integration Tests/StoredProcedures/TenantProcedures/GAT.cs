@@ -4,96 +4,76 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Tenant
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
 {
+    //[StoredProcAttributes.SchemaAttribute("app")]
+    //[StoredProcAttributes.Name("Tenant_GetAll")]
+    //public class GAT : IStoredProcedure<TenantResultRow, NullStoredProcedureParameters>
+    //{
+    //    #region IStoredProcedure<TenantResultRow,NullStoredProcedureParameters> Members
+
+    //    public TenantResultRow ReturnType
+    //    {
+    //        get { throw new System.NotImplementedException(); }
+    //    }
+
+    //    public NullStoredProcedureParameters ParametersesType
+    //    {
+    //        get { throw new System.NotImplementedException(); }
+    //    }
+
+    //    #endregion
+
+    //    #region IStoredProcedure<TenantResultRow,NullStoredProcedureParameters> Members
+
+
+    //    public string ProcedureName
+    //    {
+    //        get { throw new NotImplementedException(); }
+    //    }
+
+    //    public string SchemaName
+    //    {
+    //        get { throw new NotImplementedException(); }
+    //    }
+
+    //    public string GetTwoPartName()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    #endregion
+    //}
+
     [StoredProcAttributes.SchemaAttribute("app")]
     [StoredProcAttributes.Name("Tenant_GetAll")]
-    public class GAT : IStoredProcedure<TenantResultRow, NullParameter>
+    public class TenantGetAllWithAttributes : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
     {
-        #region IStoredProcedure<TenantResultRow,NullParameter> Members
-
-        public TenantResultRow ReturnType
+        public TenantGetAllWithAttributes(NullStoredProcedureParameters parameters)
+            : base(parameters)
         {
-            get { throw new System.NotImplementedException(); }
+
         }
-
-        public NullParameter ParameterType
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region IStoredProcedure<TenantResultRow,NullParameter> Members
-
-
-        public string ProcedureName
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string SchemaName
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string GetTwoPartName()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 
-    public abstract class StoredProcedureBase<TReturn, TParameter>
-        : IStoredProcedure<TReturn, TParameter>
-        where TReturn : class
-        where TParameter : class
+    
+    public class TenantGetAllNoAttributes : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
     {
-        #region Members
-
-        public Type ReturnType
+        #region Constructors
+        
+        public TenantGetAllNoAttributes(NullStoredProcedureParameters parameters)
+            : base(parameters)
         {
-            get { return typeof (TReturn); }
         }
 
-        public Type ParameterType
+        public TenantGetAllNoAttributes(string procedureName, NullStoredProcedureParameters parameters)
+            : base(procedureName, parameters)
         {
-            get { return typeof (TParameter);  }
+        }
+
+        public TenantGetAllNoAttributes(string schemaName, string procedureName, NullStoredProcedureParameters parameters)
+            : base(schemaName, procedureName, parameters)
+        {
         }
 
         #endregion
-
-        #region IStoredProcedure<TReturn,TParameter> Members
-
-        TReturn IStoredProcedure<TReturn, TParameter>.ReturnType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        TParameter IStoredProcedure<TReturn, TParameter>.ParameterType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string ProcedureName
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string SchemaName
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string GetTwoPartName()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-    }
-
-    public class GAT2 : StoredProcedureBase<TenantResultRow, NullParameter>
-    {
-
     }
 }

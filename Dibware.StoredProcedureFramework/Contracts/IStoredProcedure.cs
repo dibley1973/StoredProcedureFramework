@@ -13,21 +13,27 @@ namespace Dibware.StoredProcedureFramework.Contracts
     {
         //TReturn ReturnType { get; }
 
-        //TParameter ParameterType { get; }
+        //TParameter Parameters { get; }
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="TReturn">The type of the return.</typeparam>
-    /// <typeparam name="TParameter">The type of the parameter.</typeparam>
-    public interface IStoredProcedure<out TReturn, out TParameter>
+    /// <typeparam name="TParameters">The type of the parameter.</typeparam>
+    public interface IStoredProcedure<out TReturn, out TParameters>
         where TReturn : class
-        where TParameter : class
+        where TParameters : class
     {
-        TReturn ReturnType { get; }
+        //TReturn ReturnType { get; }
 
-        TParameter ParameterType { get; }
+        /// <summary>
+        /// Gets the parameters.
+        /// </summary>
+        /// <value>
+        /// The parameters.
+        /// </value>
+        TParameters Parameters { get; }
 
         /// <summary>
         /// Gets the procedureName of the stored procedure
@@ -40,7 +46,7 @@ namespace Dibware.StoredProcedureFramework.Contracts
         string SchemaName { get; }
 
         /// <summary>
-        /// Gets the name of the two part.
+        /// Gets the combined schema and procedure name.
         /// </summary>
         /// <returns></returns>
         string GetTwoPartName();

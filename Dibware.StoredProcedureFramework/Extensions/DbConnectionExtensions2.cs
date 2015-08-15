@@ -88,7 +88,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // Prepare the parameters if any exist
             IEnumerable<SqlParameter> procedureParameters =
-                (procedure.ReturnType is NullParameter) ?
+                (procedure.Parameters is NullStoredProcedureParameters) ?
                 null :
                 GetProcedureParameters(procedure);
 

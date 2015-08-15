@@ -1,11 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -75,13 +76,35 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         {
             // ARRANGE
             const int expectedCount = 2;
-            var procedure = new GAT();
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllWithAttributes(parameters);
             //procedure.SetProcedureName("Company_GetAll");
             //procedure.InitializeFromAttributes();
 
             AddTenentsToContext(Context);
 
             // ACT
+            var results = Context.ExecSproc(procedure);
+
+            // ASSERT
+            Assert.AreEqual(expectedCount, results.Count);
+        }
+
+
+        [TestMethod]
+        public void GetAllTenents2_ReturnsAllTenantsCast()
+        {
+            // ARRANGE
+            const int expectedCount = 2;
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new TenantGetAllNoAttributes(parameters);
+            //procedure.SetProcedureName("Company_GetAll");
+            //procedure.InitializeFromAttributes();
+
+            AddTenentsToContext(Context);
+
+            // ACT
+
             var results = Context.ExecSproc(procedure);
 
             //List<object> tenantResults = Context.ExecSproc<Tenant>(
@@ -91,8 +114,10 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
 
             // ASSERT
-            //Assert.AreEqual(expectedCount, tenantResults.Count);
+            Assert.AreEqual(expectedCount, results.Count);
         }
+
+        
 
         //[TestMethod]
         //public void GetAllTenents_ReturnsAllTenantsCast()
@@ -127,7 +152,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         /// Adds the tenents to context.
         /// </summary>
         /// <param name="context">The context.</param>
-        private void AddTenentsToContext(Context.IntegrationTestContext context)
+        private void AddTenentsToContext(IntegrationTestContext context)
         {
             context.Tenants.Add(new Tenant()
             {
