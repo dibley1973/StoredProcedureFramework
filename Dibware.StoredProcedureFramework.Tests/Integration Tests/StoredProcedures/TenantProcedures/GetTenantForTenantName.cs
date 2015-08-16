@@ -12,4 +12,23 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         [StoredProcAttributes.ParameterType(SqlDbType.VarChar)]
         public string TenantName { get; set; }
     }
+
+    [StoredProcAttributes.SchemaAttribute("app")]
+    [StoredProcAttributes.Name("Tenant_GetForTenantName")]
+    internal class GetTenantForTenantNameProcedure
+        : StoredProcedureBase<TenantResultRow, GetTenantForTenantNameParameters>
+    {
+        public GetTenantForTenantNameProcedure(
+            GetTenantForTenantNameParameters parameters)
+            : base(parameters)
+        {
+        }
+    }
+
+    internal class GetTenantForTenantNameParameters
+    {
+        [StoredProcAttributes.Name("TenantName")]
+        [StoredProcAttributes.ParameterType(SqlDbType.VarChar)]
+        public string TenantName { get; set; }
+    }
 }

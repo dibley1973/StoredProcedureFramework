@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Extensions
@@ -209,12 +210,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 //    DbDataReader reader = command.ExecuteReader(commandBehavior);
 
                 //    // Get properties to save for the current destination type
-                //    PropertyInfo[] props = outputType.GetMappedProperties();
+                //    PropertyInfo[] mappedProperties = outputType.GetMappedProperties();
 
                 //    // Process the result set
                 //    while (reader.Read())
                 //    {
-                //        AddRecord(outputType, results, reader, props);
+                //        AddRecord(outputType, results, reader, mappedProperties);
                 //    }
 
                 //    // Close the reader
@@ -270,11 +271,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // create mapped properties
             var mappedProperties = typeof(TParameterType).GetMappedProperties();
 
-            // Create parameters
+            // Create parameters from mapped properties
             var sqlParameters = mappedProperties.ToSqlParameters();
 
-            // Populate parameters
-            PopulateParameters(sqlParameters, procedure);
+            // Populate parameters from procedure parameters
+            PopulateParameters(sqlParameters, mappedProperties, procedure);
 
             // Return parameters
             return sqlParameters;
@@ -299,11 +300,32 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         private static void PopulateParameters<TReturnType, TParameterType>(
             ICollection<SqlParameter> sqlParameters,
+            PropertyInfo[] mappedProperties,
             IStoredProcedure<TReturnType, TParameterType> procedure)
             where TReturnType : class
             where TParameterType : class
         {
-            throw new NotImplementedException();
+
+            // get the list of properties for this type
+            //PropertyInfo[] mappedProperties = typeof(TParameterType).GetMappedProperties();
+
+            // we want to write data back to properties for every non-input only parameter
+            foreach (SqlParameter parm in sqlParameters
+                .Where(p => p.Direction == ParameterDirection.Input)
+                .Select(p => p))
+            {
+                // get the property name mapped to this parameter
+                //String propname = procedure.Parameters.Where(p => p.Key == parm.ParameterName).Select(p => p.Value).First();
+                String propname = parm.ParameterName;
+
+                // extract the matchingproperty and set its value
+                PropertyInfo prop = mappedProperties.FirstOrDefault(p => p.Name == propname);
+                parm.Value = prop.GetValue(procedure.Parameters);
+
+
+                //prop.SetValue(procedure.Parameters, parm.Value, null);
+            }
+            //throw new NotImplementedException();
         }
 
     }

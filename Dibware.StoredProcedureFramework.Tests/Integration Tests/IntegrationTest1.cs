@@ -2,10 +2,10 @@
 using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
@@ -48,31 +48,31 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedCount, tenants.Count);
         }
 
+        //[TestMethod]
+        //public void GetAllTenents_ReturnsAllTenants()
+        //{
+        //    // ARRANGE
+        //    const int expectedCount = 2;
+        //    var procedure = new StoredProcedure<GetTenantForAll>();
+        //    //procedure.SetProcedureName("Company_GetAll");
+        //    procedure.InitializeFromAttributes();
+
+        //    AddTenentsToContext(Context);
+
+        //    // ACT
+        //    List<object> tenantResults = Context.ExecuteStoredProcedure(
+        //        procedure);
+
+        //    // next we need to be able to get an explicit list as the return rather than an list of objects.
+
+
+        //    // ASSERT
+        //    Assert.AreEqual(expectedCount, tenantResults.Count);
+        //}
+
+
         [TestMethod]
-        public void GetAllTenents_ReturnsAllTenants()
-        {
-            // ARRANGE
-            const int expectedCount = 2;
-            var procedure = new StoredProcedure<GetTenantForAll>();
-            //procedure.SetProcedureName("Company_GetAll");
-            procedure.InitializeFromAttributes();
-
-            AddTenentsToContext(Context);
-
-            // ACT
-            List<object> tenantResults = Context.ExecuteStoredProcedure(
-                procedure);
-
-            // next we need to be able to get an explicit list as the return rather than an list of objects.
-
-
-            // ASSERT
-            Assert.AreEqual(expectedCount, tenantResults.Count);
-        }
-
-
-        [TestMethod]
-        public void GetAllTenents_ReturnsAllTenantsCast()
+        public void GetAllTenants_ReturnsCorrectResultCount()
         {
             // ARRANGE
             const int expectedCount = 2;
@@ -92,30 +92,91 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
 
         [TestMethod]
-        public void GetAllTenents2_ReturnsAllTenantsCast()
+        public void GetAllTenants_ReturnsResultsCastToCorrectType()
         {
             // ARRANGE
-            const int expectedCount = 2;
+            Type expectedType = typeof(TenantResultRow);
+            const string expectedProcedureName = "Tenant_GetAll";
+            const string expectedSchemaName = "app";
             var parameters = new NullStoredProcedureParameters();
-            var procedure = new TenantGetAllNoAttributes(parameters);
-            //procedure.SetProcedureName("Company_GetAll");
-            //procedure.InitializeFromAttributes();
-
+            var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
+                expectedProcedureName, parameters);
             AddTenentsToContext(Context);
 
             // ACT
-
             var results = Context.ExecSproc(procedure);
 
-            //List<object> tenantResults = Context.ExecSproc<Tenant>(
-            //    procedure);
+            // ASSERT
+            //Assert.IsInstanceOfType(expectedType, actualType);
+            Assert.IsInstanceOfType(results.First(), expectedType);
+        }
 
-            // next we need to be able to get an explicit list as the return rather than an list of objects.
+        [TestMethod]
+        public void GetTenantForName_ReturnsOneRecord()
+        {
+            // ARRANGE
+            const int expectedCount = 1;
+            const string expectedName = "Me";
+            var parameters = new GetTenantForTenantNameParameters
+            {
+                TenantName = expectedName
+            };
+            var procedure = new GetTenantForTenantNameProcedure(parameters);
+            procedure.InitializeFromAttributes();
+            AddTenentsToContext(Context);
 
+            // ACT
+            var results = Context.ExecSproc(procedure);
 
             // ASSERT
             Assert.AreEqual(expectedCount, results.Count);
         }
+
+        [TestMethod]
+        public void GetTenantForName_ReturnsCorrectName()
+        {
+            // ARRANGE
+            const string expectedName = "Me";
+            var parameters = new GetTenantForTenantNameParameters
+            {
+                TenantName = expectedName
+            };
+            var procedure = new GetTenantForTenantNameProcedure(parameters);
+            procedure.InitializeFromAttributes();
+            AddTenentsToContext(Context);
+
+            // ACT
+            var results = Context.ExecSproc(procedure);
+
+            // ASSERT
+            Assert.AreEqual(expectedName, results.First().TenantName);
+        }
+
+        //[TestMethod]
+        //public void GetAllTenents2_ReturnsAllTenantsCast()
+        //{
+        //    // ARRANGE
+        //    const int expectedCount = 2;
+        //    var parameters = new NullStoredProcedureParameters();
+        //    var procedure = new TenantGetAllNoAttributes(parameters);
+        //    //procedure.SetProcedureName("Company_GetAll");
+        //    //procedure.InitializeFromAttributes();
+
+        //    AddTenentsToContext(Context);
+
+        //    // ACT
+
+        //    var results = Context.ExecSproc(procedure);
+
+        //    //List<object> tenantResults = Context.ExecSproc<Tenant>(
+        //    //    procedure);
+
+        //    // next we need to be able to get an explicit list as the return rather than an list of objects.
+
+
+        //    // ASSERT
+        //    Assert.AreEqual(expectedCount, results.Count);
+        //}
 
 
 

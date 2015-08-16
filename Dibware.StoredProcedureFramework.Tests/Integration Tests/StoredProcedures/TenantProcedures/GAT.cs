@@ -55,7 +55,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     }
 
     
-    public class TenantGetAllNoAttributes : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
+    public class TenantGetAllNoAttributes 
+        : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
     {
         #region Constructors
         
