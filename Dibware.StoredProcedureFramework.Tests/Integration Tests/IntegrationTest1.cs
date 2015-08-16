@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -76,11 +76,11 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         {
             // ARRANGE
             const int expectedCount = 2;
+            const string expectedProcedureName = "Tenant_GetAll";
+            const string expectedSchemaName = "app";
             var parameters = new NullStoredProcedureParameters();
-            var procedure = new TenantGetAllWithAttributes(parameters);
-            //procedure.SetProcedureName("Company_GetAll");
-            //procedure.InitializeFromAttributes();
-
+            var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
+                expectedProcedureName, parameters);
             AddTenentsToContext(Context);
 
             // ACT
@@ -117,7 +117,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedCount, results.Count);
         }
 
-        
+
 
         //[TestMethod]
         //public void GetAllTenents_ReturnsAllTenantsCast()

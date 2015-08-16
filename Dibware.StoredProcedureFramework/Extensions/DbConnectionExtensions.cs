@@ -126,7 +126,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             SqlTransaction transaction)
             where TR : class
         {
-            Type outputType = typeof (TR);
+            Type outputType = typeof(TR);
 
             List<object> results = new List<object>();
 

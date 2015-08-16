@@ -285,6 +285,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             const bool expectedValue = true;
             const string expectedProcedureName = "GetAll";
+            const string expectedSchemaName = "dbo";
             var parameters = new NullStoredProcedureParameters();
             var procedure = new TenantGetAllNoAttributes(expectedProcedureName, parameters);
 
@@ -293,6 +294,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ASSERT
             Assert.AreEqual(expectedValue, actualValue);
+            Assert.AreEqual(expectedProcedureName, procedure.ProcedureName);
+            Assert.AreEqual(expectedSchemaName, procedure.SchemaName);
         }
 
         [TestMethod]
@@ -311,6 +314,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ASSERT
             Assert.AreEqual(expectedValue, actualValue);
+            Assert.AreEqual(expectedProcedureName, procedure.ProcedureName);
+            Assert.AreEqual(expectedSchemaName, procedure.SchemaName);
         }
 
         [TestMethod]

@@ -22,11 +22,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TReturnType : class
             where TParameterType : class
         {
-            // do some work
-            // Get the context database connection and call through
-            // to secondary extenstion method.
+            // Get the context database connection...
             DbConnection connection = context.Database.Connection;
 
+            // ... then return results  from secondary extention method.
             return connection.ExecSproc(
                 procedure,
                 commandTimeout,
