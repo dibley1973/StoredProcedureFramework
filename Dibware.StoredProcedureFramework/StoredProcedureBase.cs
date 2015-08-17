@@ -6,6 +6,12 @@ using System;
 
 namespace Dibware.StoredProcedureFramework
 {
+    /// <summary>
+    /// Represents the base class that all Stored proedures should inherit from.
+    /// Contains common stored procedure functionality.
+    /// </summary>
+    /// <typeparam name="TReturn">The type of the return.</typeparam>
+    /// <typeparam name="TParameters">The type of the parameters.</typeparam>
     public abstract class StoredProcedureBase<TReturn, TParameters>
         : IStoredProcedure<TReturn, TParameters>
         where TReturn : class
@@ -13,15 +19,15 @@ namespace Dibware.StoredProcedureFramework
     {
         #region Fields
 
-        /// <summary>
-        /// The default schema name
-        /// </summary>
-        public const string DefaultSchemaName = @"dbo";
+        ///// <summary>
+        ///// The default schema name
+        ///// </summary>
+        //public const string DefaultSchemaName = @"dbo";
 
-        /// <summary>
-        /// The dot identifier
-        /// </summary>
-        public const string DotIdentifier = @".";
+        ///// <summary>
+        ///// The dot identifier
+        ///// </summary>
+        //public const string DotIdentifier = @".";
 
         /// <summary>
         /// The object that represents the procedure parameters
@@ -43,16 +49,23 @@ namespace Dibware.StoredProcedureFramework
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> class.
+        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
+        /// class with parameters. This is the minimum requirement for constructing
+        /// a stored procedure.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(TParameters parameters)
         {
+            // Validate arguments
+            if (parameters == null) throw new ArgumentNullException("parameters");
+            
             _parameters = parameters;
+            SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> class.
+        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> 
+        /// class with parameters and procedure name.
         /// </summary>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
@@ -60,12 +73,17 @@ namespace Dibware.StoredProcedureFramework
             TParameters parameters)
             : this(parameters)
         {
-            _procedureName = procedureName;
-            _schemaName = DefaultSchemaName;
+            // Validate argument
+            if (procedureName == null) throw new ArgumentNullException("procedureName");
+            if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+
+            SetProcedureName(procedureName);
+            SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> class.
+        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> 
+        /// class with parameters, schema name and procedure name.
         /// </summary>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
@@ -74,7 +92,11 @@ namespace Dibware.StoredProcedureFramework
             string procedureName, TParameters parameters)
             : this(procedureName, parameters)
         {
-            _schemaName = schemaName;
+            // Validate arguments
+            if (schemaName == null) throw new ArgumentNullException("schemaName");
+            if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
+
+            SetSchemaName(schemaName);
         }
 
         #endregion

@@ -53,17 +53,18 @@
     <Compile Include="Extensions\DbContextExtensions2.cs" />
     <Compile Include="Extensions\DbDataReaderExtensions.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="NullStoredProcedureResult.cs" />
     <Compile Include="Resources\FormatStrings.cs" />
-    <Compile Include="ResultList.cs" />
-    <Compile Include="ResultListOfT.cs" />
+    <Compile Include="Z_LegacyCode\ResultList.cs" />
+    <Compile Include="Z_LegacyCode\ResultListOfT.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />
     <Compile Include="StoredProcAttributes\ParameterTypeAttribute.cs" />
     <Compile Include="StoredProcAttributes\ReturnTypeAttribute.cs" />
     <Compile Include="StoredProcAttributes\SchemaAttribute.cs" />
     <Compile Include="StoredProcAttributes\StreamOutput.cs" />
     <Compile Include="StoredProcAttributes\StreamToFile.cs" />
-    <Compile Include="Extensions\DbConnectionExtensions.cs" />
-    <Compile Include="Extensions\DbContextExtensions.cs" />
+    <Compile Include="Z_LegacyCode\DbConnectionExtensions_Legacy.cs" />
+    <Compile Include="Z_LegacyCode\DbContextExtensions_Legacy.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />
     <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
@@ -75,10 +76,11 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="StoredProcAttributes\StreamToMemory.cs" />
-    <Compile Include="StoredProcedure.cs" />
+    <Compile Include="Z_LegacyCode\StoredProcedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureBase.cs" />
-    <Compile Include="StoredProcedureOfT.cs" />
+    <Compile Include="StoredProcedureDefaults.cs" />
+    <Compile Include="Z_LegacyCode\StoredProcedureOfT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

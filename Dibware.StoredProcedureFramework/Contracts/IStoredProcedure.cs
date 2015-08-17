@@ -46,6 +46,14 @@ namespace Dibware.StoredProcedureFramework.Contracts
         string SchemaName { get; }
 
         /// <summary>
+        /// Ensurefullies the construcuted.
+        /// </summary>
+        /// <exception cref="System.Exception">
+        /// this instance is not fully constrcuted
+        /// </exception>
+        void EnsureFullyConstrucuted();
+
+        /// <summary>
         /// Gets the combined schema and procedure name.
         /// </summary>
         /// <returns></returns>

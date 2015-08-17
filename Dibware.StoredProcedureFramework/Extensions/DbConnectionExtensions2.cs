@@ -23,7 +23,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         {
             DbCommand command = connection.CreateCommand();
 
-            // Command to execute is our stored procedure
+            // Command to execute is our stored storedProcedure
             command.Transaction = transaction;
             command.CommandText = procedureName;
             command.CommandType = CommandType.StoredProcedure;
@@ -41,26 +41,26 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
 
-        public static List<IReturnType> ExecuteStoredProcedure1<TProcedure>(TProcedure procedure1)
-            where TProcedure : IStoredProcedure2<IReturnType, IParameterType>
-        {
+        //public static List<IReturnType> ExecuteStoredProcedure1<TProcedure>(TProcedure procedure1)
+        //    where TProcedure : IStoredProcedure2<IReturnType, IParameterType>
+        //{
 
-            return new List<IReturnType>();
+        //    return new List<IReturnType>();
 
-        }
-
-
-        public static List<IReturnType> ExecuteStoredProcedure<TProcedure>(TProcedure procedure1)
-            where TProcedure : IStoredProcedure<IReturnType, IParameterType>
-        {
-
-            return new List<IReturnType>();
-
-        }
+        //}
 
 
+        //public static List<IReturnType> ExecuteStoredProcedure<TProcedure>(TProcedure procedure1)
+        //    where TProcedure : IStoredProcedure<IReturnType, IParameterType>
+        //{
 
-        //public static List<TReturnType> ExecuteStoredProcedure2<TProcedure>(TProcedure procedure)
+        //    return new List<IReturnType>();
+
+        //}
+
+
+
+        //public static List<TReturnType> ExecuteStoredProcedure2<TProcedure>(TProcedure storedProcedure)
         //    where TProcedure : IStoredProcedure2<TReturnType, TParameterType>
         //    where TReturnType : class
         //    where TParameterType : class
@@ -70,33 +70,33 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         //}
 
-        //public static void ExecuteStoredProcedure2<TProcedure>(TProcedure procedure)
+        //public static void ExecuteStoredProcedure2<TProcedure>(TProcedure storedProcedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
-        //public static void ExecuteStoredProcedure3<IStoredProcedure<TReturnType, TParameterType>>(IStoredProcedure procedure)
+        //public static void ExecuteStoredProcedure3<IStoredProcedure<TReturnType, TParameterType>>(IStoredProcedure storedProcedure)
         //    where TReturnType : class
         //    where TParameterType : class
         //{
         //    // do some work
         //}
 
-        //public static void ExecSproc<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
+        //public static void ExecSproc<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
-        //public static void DoAction3<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
+        //public static void DoAction3<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //{
         //    // do some work
         //}
 
         //public static void DoAction<TReturnType, TParameterType>
-        //    (IStoredProcedure<TReturnType, TParameterType> procedure)
+        //    (IStoredProcedure<TReturnType, TParameterType> storedProcedure)
         //    where TReturnType : class
         //    where TParameterType : class
         //{
@@ -106,22 +106,26 @@ namespace Dibware.StoredProcedureFramework.Extensions
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
             this DbConnection connection,
-            IStoredProcedure<TReturnType, TParameterType> procedure,
+            IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
             where TReturnType : class
             where TParameterType : class
         {
-            string procedureName = procedure.GetTwoPartName();
-            Type parameterType = typeof(TParameterType);
+            // Validate arguments
+            if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+
+            storedProcedure.EnsureFullyConstrucuted();
+
+            string procedureName = storedProcedure.GetTwoPartName();
             Type returnType = typeof(TReturnType);
 
             // Prepare the parameters if any exist
             IEnumerable<SqlParameter> procedureParameters =
-                (procedure.Parameters is NullStoredProcedureParameters) ?
+                (storedProcedure.Parameters is NullStoredProcedureParameters) ?
                 null :
-                GetProcedureParameters(procedure);
+                GetProcedureParameters(storedProcedure);
 
             // Populate results using an overload
             var results = ExecSproc<TReturnType>(
@@ -163,7 +167,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 // Open the connection if it is not
                 if (!connectionWasOpen) connection.Open();
 
-                // Create a command to execute the stored procedure
+                // Create a command to execute the stored storedProcedure
                 using (DbCommand command = connection.CreateStoredProcedureCommand(
                     procedureName,
                     procedureParameters,
@@ -189,10 +193,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 return results;
 
-                //// Create a command to execute the stored procedure
+                //// Create a command to execute the stored storedProcedure
                 //using (DbCommand command = connection.CreateCommand())
                 //{
-                //    // Command to execute is our stored procedure
+                //    // Command to execute is our stored storedProcedure
                 //    command.Transaction = transaction;
                 //    command.CommandText = procedureName;
                 //    command.CommandType = CommandType.StoredProcedure;
@@ -255,7 +259,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        //public static void DoAction4<TProcedure, TReturnType, TParameterType>(TProcedure procedure)
+        //public static void DoAction4<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
         //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
         //    where TReturnType : class
         //    where TParameterType : class
@@ -274,7 +278,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Create parameters from mapped properties
             var sqlParameters = mappedProperties.ToSqlParameters();
 
-            // Populate parameters from procedure parameters
+            // Populate parameters from storedProcedure parameters
             PopulateParameters(sqlParameters, mappedProperties, procedure);
 
             // Return parameters
@@ -315,18 +319,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 .Select(p => p))
             {
                 // get the property name mapped to this parameter
-                //String propname = procedure.Parameters.Where(p => p.Key == parm.ParameterName).Select(p => p.Value).First();
+                //String propname = storedProcedure.Parameters.Where(p => p.Key == parm.ParameterName).Select(p => p.Value).First();
                 String propname = parm.ParameterName;
 
                 // extract the matchingproperty and set its value
                 PropertyInfo prop = mappedProperties.FirstOrDefault(p => p.Name == propname);
-                parm.Value = prop.GetValue(procedure.Parameters);
-
-
-                //prop.SetValue(procedure.Parameters, parm.Value, null);
+                if (prop != null) parm.Value = prop.GetValue(procedure.Parameters);
             }
-            //throw new NotImplementedException();
         }
-
     }
 }

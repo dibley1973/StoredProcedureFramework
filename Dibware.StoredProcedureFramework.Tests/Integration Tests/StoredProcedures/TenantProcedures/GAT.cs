@@ -1,6 +1,4 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
+﻿using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
 {
@@ -54,12 +52,12 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         }
     }
 
-    
-    public class TenantGetAllNoAttributes 
+
+    public class TenantGetAllNoAttributes
         : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
     {
         #region Constructors
-        
+
         public TenantGetAllNoAttributes(NullStoredProcedureParameters parameters)
             : base(parameters)
         {

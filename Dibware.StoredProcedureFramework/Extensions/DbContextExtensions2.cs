@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -15,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
     {
         public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
             this DbContext context,
-            IStoredProcedure<TReturnType, TParameterType> procedure,
+            IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
@@ -27,7 +23,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // ... then return results  from secondary extention method.
             return connection.ExecSproc(
-                procedure,
+                storedProcedure,
                 commandTimeout,
                 commandBehavior,
                 transaction);

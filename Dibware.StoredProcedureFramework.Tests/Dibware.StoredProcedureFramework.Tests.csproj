@@ -83,6 +83,7 @@
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
+    <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -94,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Integration Tests\Dtos\" />
-    <Folder Include="Integration Tests\StoredProcedures\BAse\" />
+    <Folder Include="Integration Tests\StoredProcedures\Base\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
