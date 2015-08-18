@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFram
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.TestDatabase", "Dibware.StoredProcedureFrameworkDatabase\Dibware.StoredProcedureFramework.TestDatabase.sqlproj", "{34273AEF-9100-4517-858A-8F665A64AB2B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{97DF9418-8959-4E58-9F42-A0E775AA3AC4}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF", "Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj", "{96A94F73-A554-4B4F-B304-E9464123813D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +37,10 @@ Global
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

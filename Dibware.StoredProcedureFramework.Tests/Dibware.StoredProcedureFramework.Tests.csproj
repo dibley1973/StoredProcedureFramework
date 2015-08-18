@@ -77,9 +77,11 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
-    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GAT.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\ReturnNoResultStoredProcedure.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\TenantGetAllWithAttributes.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
@@ -88,6 +90,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj">
+      <Project>{96a94f73-a554-4b4f-b304-e9464123813d}</Project>
+      <Name>Dibware.StoredProcedureFrameworkForEF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj">
       <Project>{baaf11eb-3c8d-4187-9e83-c0ace9f06451}</Project>
       <Name>Dibware.StoredProcedureFramework</Name>

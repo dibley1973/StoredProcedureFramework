@@ -11,14 +11,25 @@ using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
-    public static class DbConnectionExtensions2
+    /// <summary>
+    /// Extension methods for the DbConnection object
+    /// </summary>
+    public static class DbConnectionExtensions
     {
-        public static DbCommand CreateStoredProcedureCommand(
+        /// <summary>
+        /// Creates the stored procedure command.
+        /// </summary>
+        /// <param name="connection">The connection we are extending.</param>
+        /// <param name="procedureName">Name of the procedure.</param>
+        /// <param name="procedureParameters">The procedure parameters.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        private static DbCommand CreateStoredProcedureCommand(
             this DbConnection connection,
             string procedureName,
             IEnumerable<SqlParameter> procedureParameters,
             int? commandTimeout = null,
-            CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
             DbCommand command = connection.CreateCommand();
@@ -31,7 +42,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Assign command timeout value, if one was provided
             if (commandTimeout.HasValue) command.CommandTimeout = commandTimeout.Value;
 
-            // Transfer any parameters
+            // Transfer any parameters to the command
             if (procedureParameters != null)
             {
                 LoadCommandParameters(procedureParameters, command);
@@ -39,69 +50,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             return command;
         }
-
-
-        //public static List<IReturnType> ExecuteStoredProcedure1<TProcedure>(TProcedure procedure1)
-        //    where TProcedure : IStoredProcedure2<IReturnType, IParameterType>
-        //{
-
-        //    return new List<IReturnType>();
-
-        //}
-
-
-        //public static List<IReturnType> ExecuteStoredProcedure<TProcedure>(TProcedure procedure1)
-        //    where TProcedure : IStoredProcedure<IReturnType, IParameterType>
-        //{
-
-        //    return new List<IReturnType>();
-
-        //}
-
-
-
-        //public static List<TReturnType> ExecuteStoredProcedure2<TProcedure>(TProcedure storedProcedure)
-        //    where TProcedure : IStoredProcedure2<TReturnType, TParameterType>
-        //    where TReturnType : class
-        //    where TParameterType : class
-        //{
-
-        //    return new List<IReturnType>();
-
-        //}
-
-        //public static void ExecuteStoredProcedure2<TProcedure>(TProcedure storedProcedure)
-        //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
-        //{
-        //    // do some work
-        //}
-
-        //public static void ExecuteStoredProcedure3<IStoredProcedure<TReturnType, TParameterType>>(IStoredProcedure storedProcedure)
-        //    where TReturnType : class
-        //    where TParameterType : class
-        //{
-        //    // do some work
-        //}
-
-        //public static void ExecSproc<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
-        //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
-        //{
-        //    // do some work
-        //}
-
-        //public static void DoAction3<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
-        //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
-        //{
-        //    // do some work
-        //}
-
-        //public static void DoAction<TReturnType, TParameterType>
-        //    (IStoredProcedure<TReturnType, TParameterType> storedProcedure)
-        //    where TReturnType : class
-        //    where TParameterType : class
-        //{
-        //    // do some work
-        //}
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
@@ -116,6 +64,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
+            // Ensure the procedure is fully constructed
             storedProcedure.EnsureFullyConstrucuted();
 
             string procedureName = storedProcedure.GetTwoPartName();
@@ -172,7 +121,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     procedureName,
                     procedureParameters,
                     commandTimeout,
-                    commandBehavior,
                     transaction))
                 {
                     // Populate a DataReder by calling the command
@@ -191,40 +139,14 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     reader.Close();
                 }
 
+                // Check if the procedure is defined as not to return anything
+                if (typeof(TReturnType) == typeof(NullStoredProcedureResult))
+                {
+                    results = null;
+                }
+
+                // Return the results
                 return results;
-
-                //// Create a command to execute the stored storedProcedure
-                //using (DbCommand command = connection.CreateCommand())
-                //{
-                //    // Command to execute is our stored storedProcedure
-                //    command.Transaction = transaction;
-                //    command.CommandText = procedureName;
-                //    command.CommandType = CommandType.StoredProcedure;
-
-                //    // Assign command timeout value, if one was provided
-                //    if (commandTimeout.HasValue) command.CommandTimeout = commandTimeout.Value;
-
-                //    // Transfer any parameters
-                //    if (procedureParameters != null)
-                //    {
-                //        LoadCommandParameters(procedureParameters, command);
-                //    }
-
-                //    // Populate a DataReder by calling the command
-                //    DbDataReader reader = command.ExecuteReader(commandBehavior);
-
-                //    // Get properties to save for the current destination type
-                //    PropertyInfo[] mappedProperties = outputType.GetMappedProperties();
-
-                //    // Process the result set
-                //    while (reader.Read())
-                //    {
-                //        AddRecord(outputType, results, reader, mappedProperties);
-                //    }
-
-                //    // Close the reader
-                //    reader.Close();
-                //}
             }
             catch (Exception ex)
             {
@@ -258,14 +180,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 }
             }
         }
-
-        //public static void DoAction4<TProcedure, TReturnType, TParameterType>(TProcedure storedProcedure)
-        //    where TProcedure : IStoredProcedure<TReturnType, TParameterType>
-        //    where TReturnType : class
-        //    where TParameterType : class
-        //{
-        //    // do some work
-        //}
 
         private static IEnumerable<SqlParameter> GetProcedureParameters<TReturnType, TParameterType>(
             IStoredProcedure<TReturnType, TParameterType> procedure)

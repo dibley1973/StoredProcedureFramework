@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
-using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -29,7 +29,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         //{
         //    // Validate arguments
         //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
-            
+
         //    storedProcedure.EnsureFullyConstrucuted();
 
         //    return ExecuteStoredProcedure(
@@ -109,25 +109,15 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
+            // Ensure the procedure is fully constructed before going any further
             storedProcedure.EnsureFullyConstrucuted();
 
-            //string procedureName = storedProcedure.GetTwoPartName();
-            //Type parameterType = typeof(TParameterType);
-            //Type returnType = typeof(TReturnType);
-            //DbConnection dbConnection = connection;
-
-            //return dbConnection.ExecSproc<TReturnType>(
-            //    procedureName,
-            //    returnType,
-            //    storedProcedure.Parameters,
-            //    commandTimeout,
-            //    commandBehavior,
-            //    transaction);
-
-            // Get the context database connection...
+            // Downcast the connection to it's base so we can call 
+            // through to it's extenstion method.
             DbConnection dbConnection = connection;
 
-            // ... then return results  from secondary extention method.
+            // Return the results of the call through to the 
+            // extension method on the Dbconnection
             return dbConnection.ExecSproc(
                 storedProcedure,
                 commandTimeout,
@@ -168,9 +158,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
             if (outputType == null) throw new ArgumentNullException("outputType");
 
-            // Downcast the connection to it's base and call through
-            // to secondary extenstion method.
+            // Downcast the connection to it's base so we can call 
+            // through to it's extenstion method.
             DbConnection dbConnection = connection;
+
+            // Return the results of the call through to the 
+            // extension method on the Dbconnection
             return dbConnection.ExecSproc<TReturnType>(
                 procedureName,
                 outputType,

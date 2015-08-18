@@ -3,10 +3,12 @@ using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Dibware.StoredProcedureFrameworkForEF;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -31,6 +33,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
         #region Tests
 
+        #region EntityFrameworkConnectionTest
+
         /// <summary>
         /// Just to check context connects...
         /// </summary>
@@ -48,28 +52,26 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedCount, tenants.Count);
         }
 
-        //[TestMethod]
-        //public void GetAllTenents_ReturnsAllTenants()
-        //{
-        //    // ARRANGE
-        //    const int expectedCount = 2;
-        //    var procedure = new StoredProcedure<GetTenantForAll>();
-        //    //procedure.SetProcedureName("Company_GetAll");
-        //    procedure.InitializeFromAttributes();
+        #endregion
 
-        //    AddTenentsToContext(Context);
+        #region ReturnNoResultTests
 
-        //    // ACT
-        //    List<object> tenantResults = Context.ExecuteStoredProcedure(
-        //        procedure);
+        [TestMethod]
+        public void ReturnNoResultsProcedure_ReturnsNull()
+        {
+            // ARRANGE
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new ReturnNoResultStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
+            ;
+            // ACT
+            var results = Context.ExecSproc(procedure);
 
-        //    // next we need to be able to get an explicit list as the return rather than an list of objects.
+            // ASSERT
+            Assert.IsNull(results);
+        }
 
-
-        //    // ASSERT
-        //    Assert.AreEqual(expectedCount, tenantResults.Count);
-        //}
-
+        #endregion
 
         [TestMethod]
         public void GetAllTenants_ReturnsCorrectResultCount()

@@ -84,4 +84,7 @@
     <Build Include="app\Stored Procedures\Company_GetAll.sql" />
     <Build Include="app\Stored Procedures\Tenant_GetAll.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="app\Stored Procedures\ReturnNoResult.sql" />
+  </ItemGroup>
 </Project>
