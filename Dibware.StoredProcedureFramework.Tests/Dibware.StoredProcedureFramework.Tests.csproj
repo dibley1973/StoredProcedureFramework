@@ -73,6 +73,9 @@
     <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyResultRowMetaData.cs" />
     <Compile Include="Integration Tests\ResultSets\TenantResultSets\TenantResultRow.cs" />
     <Compile Include="Integration Tests\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\AllCommonDataTypes\AllCommonDataTypesReturnType.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\AllCommonDataTypes\AllCommonDataTypesParameters.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\AllCommonDataTypes\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantID.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />

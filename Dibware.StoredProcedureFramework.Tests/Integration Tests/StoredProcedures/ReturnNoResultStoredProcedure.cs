@@ -4,7 +4,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
 {
     [StoredProcAttributes.SchemaAttribute("app")]
     [StoredProcAttributes.Name("ReturnNoResult")]
-    public class ReturnNoResultStoredProcedure
+    internal class ReturnNoResultStoredProcedure
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
         public ReturnNoResultStoredProcedure(NullStoredProcedureParameters parameters) : base(parameters)

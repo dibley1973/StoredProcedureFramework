@@ -86,5 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="app\Stored Procedures\ReturnNoResult.sql" />
+    <Build Include="app\Stored Procedures\AllCommonDataTypes.sql" />
   </ItemGroup>
 </Project>
