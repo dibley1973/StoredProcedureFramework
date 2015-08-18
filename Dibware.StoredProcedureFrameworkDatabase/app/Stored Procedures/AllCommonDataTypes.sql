@@ -29,32 +29,32 @@
 ,   @Xml                xml
 AS
     SELECT 
-        @BigInt
-,       @Binary
-,       @Bit
-,       @Char
-,       @Date
-,       @DateTime
-,       @DateTime2
-,       @Decimal
-,       @float
-,       @image
-,       @Int
-,       @Money
-,       @NChar
-,       @NText
-,       @Numeric
-,       @NVarchar
-,       @Real
-,       @Smalldatetime
-,       @Smallint
-,       @Smallmoney
-,       @Text
-,       @Time
-,       @Timestamp
-,       @Tinyint
-,       @Uniqueidentifier
-,       @Varbinary
-,       @Varchar
-,       @Xml
+        @BigInt         [BigInt]
+,       @Binary         [Binary]
+,       @Bit            [Bit]
+,       @Char           /*[Char]*/
+,       @Date           [Date]
+,       @DateTime       [DateTime]
+,       @DateTime2      [DateTime2]
+,       @Decimal        [Decimal]
+,       @float          [Float]
+,       @image          [Image]
+,       @Int            [int]
+,       @Money          [Money]
+,       @NChar          [NChar]
+,       @NText          [NText]
+,       @Numeric        [Numeric]
+,       @NVarchar       [NVarchar]
+,       @Real           [Real]
+,       @Smalldatetime  [SmallDateTime]
+,       @Smallint       [SmallInt]
+,       @Smallmoney     [SmallMoney]
+,       @Text           [Text]
+,       @Time           [Time]
+,       @Timestamp      [TimeStamp]
+,       @Tinyint            [TinyInt]
+,       @Uniqueidentifier   [UniqueIdentifier]
+,       @Varbinary          [VarBinary]
+,       @Varchar            [VarChar]
+,       @Xml                [Xml]
 RETURN 0

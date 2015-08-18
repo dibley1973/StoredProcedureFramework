@@ -1,14 +1,15 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Context;
+﻿using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
+using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFrameworkForEF;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -33,7 +34,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
         #region Tests
 
-        #region EntityFrameworkConnectionTest
+        #region EntityFrameworkConnection Test
 
         /// <summary>
         /// Just to check context connects...
@@ -54,7 +55,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
         #endregion
 
-        #region ReturnNoResultTests
+        #region ReturnNoResult Tests
 
         [TestMethod]
         public void ReturnNoResultsProcedure_ReturnsNull()
@@ -72,6 +73,114 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         }
 
         #endregion
+
+        #region AllCommonDataTypes Tests
+
+        [TestMethod]
+        public void AllCommonDataTypes_ReturnsCorrectDataTypes()
+        {
+            // ARRANGE
+            const Int64 expectedBigint = Int64.MaxValue;
+            Byte[] expectedBinary = { 1, 2, 3, 4, 5 };
+            const Boolean expectedBit = true;
+            Char[] expectedChar = { 'a', 'b', 'c' };
+            DateTime expectedDate = DateTime.Today;
+            DateTime expectedDatetime = DateTime.Now.AddHours(1);
+            DateTime expectedDatetime2 = DateTime.Now.AddMinutes(10);
+            const Decimal expectedDecimal = 1234567890123456.02M;
+            const Double expectedFloat = Double.MaxValue;
+            Byte[] expectedImage = { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 }; ;
+            const Int32 expectedInt = Int32.MaxValue;
+            const Decimal expectedMoney = 922337203685477.5807M;
+            const String expectedNChar = @"NChar";
+            const String expectedNText = @"NText";
+            const Decimal expectedNumeric = 1234567890123456.02M;
+            const String expectedNVarchar = @"NVarChar";
+            const Single expectedReal = Single.MaxValue;
+            DateTime expectedSmalldatetime = DateTime.Today.AddDays(-1);
+            const Int16 expectedSmallint = Int16.MaxValue;
+            const Decimal expectedSmallmoney = 214748.3647M;
+            const String expectedText = @"Some boring text...";
+            TimeSpan expectedTime = TimeSpan.FromMinutes(20);
+            Byte[] expectedTimestamp = { 10, 20, 30 };
+            const Byte expectedTinyInt = Byte.MaxValue;
+            Guid expectedUniqueIdentifier = Guid.NewGuid();
+            Byte[] expectedVarBinary = { 110, 120, 130 };
+            const String expectedVarChar = @"VarChar";
+            const String expectedXml = @"<parent><child name=""Fred"">Angus</child></parent>";
+
+            var parameters = new AllCommonDataTypesParameters
+            {
+                BigInt = expectedBigint,
+                Binary = expectedBinary,
+                Bit = expectedBit,
+                Char = expectedChar,
+                Date = expectedDate,
+                DateTime = expectedDatetime,
+                DateTime2 = expectedDatetime2,
+                Decimal = expectedDecimal,
+                Float = expectedFloat,
+                Image = expectedImage,
+                Int = expectedInt,
+                Money = expectedMoney,
+                NChar = expectedNChar,
+                NText = expectedNText,
+                Numeric = expectedNumeric,
+                NVarchar = expectedNVarchar,
+                Real = expectedReal,
+                SmallDateTime = expectedSmalldatetime,
+                Smallint = expectedSmallint,
+                Smallmoney = expectedSmallmoney,
+                Text = expectedText,
+                Time = expectedTime,
+                Timestamp = expectedTimestamp,
+                TinyInt = expectedTinyInt,
+                UniqueIdentifier = expectedUniqueIdentifier,
+                VarBinary = expectedVarBinary,
+                VarChar = expectedVarChar,
+                Xml = expectedXml
+            };
+            var procedure = new AllCommonDataTypesStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
+
+            // ACT
+            List<AllCommonDataTypesReturnType> results = Context.ExecSproc(procedure);
+            var result = results.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedBigint, result.BigInt);
+            //Assert.AreEqual(expectedBinary, result.Binary);
+            Assert.AreEqual(expectedBit, result.Bit);
+            //Assert.AreEqual(expectedChar, result.Char);
+            Assert.AreEqual(expectedDate, result.Date);
+            Assert.IsTrue((expectedDatetime - result.Datetime).Seconds == 0);
+            Assert.IsTrue((expectedDatetime2 - result.Datetime2).Seconds == 0);
+            Assert.AreEqual(expectedDecimal, result.Decimal);
+            Assert.AreEqual(expectedFloat, result.Float);
+            //Assert.AreEqual(expectedImage, result.Image);
+            Assert.AreEqual(expectedInt, result.Int);
+            Assert.AreEqual(expectedMoney, result.Money);
+            //Assert.AreEqual(expectedNChar, result.NChar);
+            Assert.AreEqual(expectedNText, result.NText);
+            Assert.AreEqual(expectedNumeric, result.Numeric);
+            Assert.AreEqual(expectedNVarchar, result.NVarchar);
+            Assert.AreEqual(expectedReal, result.Real);
+            Assert.IsTrue((expectedSmalldatetime - result.SmallDateTime).Seconds == 0);
+            Assert.AreEqual(expectedSmallint, result.SmallInt);
+            Assert.AreEqual(expectedSmallmoney, result.Smallmoney);
+            Assert.AreEqual(expectedText, result.Text);
+            Assert.AreEqual(expectedTime, result.Time);
+            Assert.AreEqual(expectedTimestamp, result.Timestamp);
+            Assert.AreEqual(expectedTinyInt, result.TinyInt);
+            Assert.AreEqual(expectedUniqueIdentifier, result.UniqueIdentifier);
+            Assert.AreEqual(expectedVarBinary, result.Varbinary);
+            Assert.AreEqual(expectedVarChar, result.Varchar);
+            Assert.AreEqual(expectedXml, result.Xml);
+        }
+
+        #endregion
+
+        #region GetAllTenants Tests
 
         [TestMethod]
         public void GetAllTenants_ReturnsCorrectResultCount()
@@ -92,7 +201,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedCount, results.Count);
         }
 
-
         [TestMethod]
         public void GetAllTenants_ReturnsResultsCastToCorrectType()
         {
@@ -112,6 +220,10 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             //Assert.IsInstanceOfType(expectedType, actualType);
             Assert.IsInstanceOfType(results.First(), expectedType);
         }
+
+        #endregion
+
+        #region GetTenantForName Tests
 
         [TestMethod]
         public void GetTenantForName_ReturnsOneRecord()
@@ -153,6 +265,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             // ASSERT
             Assert.AreEqual(expectedName, results.First().TenantName);
         }
+
+        #endregion
 
         //[TestMethod]
         //public void GetAllTenents2_ReturnsAllTenantsCast()
