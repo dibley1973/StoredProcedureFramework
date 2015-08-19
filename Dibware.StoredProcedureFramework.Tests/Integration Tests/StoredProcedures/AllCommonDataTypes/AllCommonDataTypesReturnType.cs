@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         public Int64 BigInt { get; set; }
         public Byte[] Binary { get; set; }
         public Boolean Bit { get; set; }
-        public Char[] Char { get; set; }
+        public String Char { get; set; }
         public DateTime Date { get; set; }
         public DateTime Datetime { get; set; }
         public DateTime Datetime2 { get; set; }

@@ -44,7 +44,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 SqlParameter sqlParameter = new SqlParameter();
 
                 // Get the name of the parameter. Attributes override the name so try and get this first
-                NameAttribute nameAttribute = propertyInfo.GetAttribute<StoredProcAttributes.NameAttribute>();
+                NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
                 sqlParameter.ParameterName = (nameAttribute != null ? nameAttribute.Value : propertyInfo.Name);
 
                 //TODO: complete this below!
@@ -54,13 +54,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 //sqlParameter.Direction = dir.Value;
                 sqlParameter.Direction = DefaultParameterDirection;
 
-                //// save size
-                //var size = propertyInfo.GetAttribute<StoredProcAttributes.Size>();
-                //if (null != size)
-                //    sqlParameter.Size = size.Value;
+                // save size
+                var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
+                if (sizeAttribute != null) sqlParameter.Size = sizeAttribute.Value;
 
                 // Set database type of parameter
-                var typeAttribute = propertyInfo.GetAttribute<StoredProcAttributes.ParameterTypeAttribute>();
+                var typeAttribute = propertyInfo.GetAttribute<ParameterTypeAttribute>();
                 if (typeAttribute != null)
                 {
                     sqlParameter.SqlDbType = typeAttribute.Value;

@@ -12,21 +12,21 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <param name="format"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        internal static Stream CreateStream(StoredProcAttributes.StreamOutput format, object t)
+        internal static Stream CreateStream(StoredProcAttributes.StreamOutputAttribute format, object t)
         {
             Stream output;
 
-            if (typeof(StoredProcAttributes.StreamToFile) == format.GetType())
+            if (typeof(StoredProcAttributes.StreamToFileAttribute) == format.GetType())
             {
                 // File stream
-                output = ((StoredProcAttributes.StreamToFile)format).CreateStream(t); ;
+                output = ((StoredProcAttributes.StreamToFileAttribute)format).CreateStream(t); ;
 
                 // build name from location and name property
             }
             else
             {
                 // Memory Stream
-                output = ((StoredProcAttributes.StreamToMemory)format).CreateStream();
+                output = ((StoredProcAttributes.StreamToMemoryAttribute)format).CreateStream();
             }
 
             // if buffering was requested, overlay bufferedstream on our stream

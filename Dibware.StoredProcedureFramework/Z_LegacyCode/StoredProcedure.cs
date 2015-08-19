@@ -201,9 +201,9 @@
 //                sqlParameter.Direction = DefaultParameterDirection;
 
 //                //// save size
-//                //var size = propertyInfo.GetAttribute<StoredProcAttributes.Size>();
+//                //var size = propertyInfo.GetAttribute<StoredProcAttributes.SizeAttribute>();
 //                //if (null != size)
-//                //    sqlParameter.Size = size.Value;
+//                //    sqlParameter.SizeAttribute = size.Value;
 
 //                // Set database type of parameter
 //                var typeAttribute = propertyInfo.GetAttribute<StoredProcAttributes.ParameterTypeAttribute>();

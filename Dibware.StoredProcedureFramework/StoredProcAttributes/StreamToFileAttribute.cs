@@ -6,7 +6,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     /// <summary>
     /// Stream to File output
     /// </summary>
-    public class StreamToFile : StreamOutput
+    public class StreamToFileAttribute : StreamOutputAttribute
     {
         public String FileNameField { get; set; }
 
@@ -32,7 +32,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
             return new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write);
         }
 
-        public StreamToFile()
+        public StreamToFileAttribute()
         {
         }
     }

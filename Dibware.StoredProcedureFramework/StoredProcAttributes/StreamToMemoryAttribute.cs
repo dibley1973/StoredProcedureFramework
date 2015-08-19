@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     /// <summary>
     /// Stream to MemoryStream, Array or String
     /// </summary>
-    public class StreamToMemory : StreamOutput
+    public class StreamToMemoryAttribute : StreamOutputAttribute
     {
         public String Encoding { get; set; }
 
@@ -32,7 +32,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
                 BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.IgnoreCase, null, null, null);
         }
 
-        public StreamToMemory()
+        public StreamToMemoryAttribute()
         {
             if (String.IsNullOrEmpty(Encoding))
             {

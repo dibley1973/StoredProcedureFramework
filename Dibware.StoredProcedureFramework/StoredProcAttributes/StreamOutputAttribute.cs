@@ -5,10 +5,10 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     /// <summary>
     /// Allows the setting of the user defined table type name for table valued parameters
     /// </summary>
-    public class StreamOutput : Attribute
+    public class StreamOutputAttribute : Attribute
     {
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="StreamOutput"/> is buffered.
+        /// Gets or sets a value indicating whether this <see cref="StreamOutputAttribute"/> is buffered.
         /// </summary>
         /// <value>
         ///   <c>true</c> if buffered; otherwise, <c>false</c>.
@@ -24,8 +24,8 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
         public Boolean LeaveStreamOpen { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StreamOutput"/> class.
+        /// Initializes a new instance of the <see cref="StreamOutputAttribute"/> class.
         /// </summary>
-        public StreamOutput() { }
+        public StreamOutputAttribute() { }
     }
 }

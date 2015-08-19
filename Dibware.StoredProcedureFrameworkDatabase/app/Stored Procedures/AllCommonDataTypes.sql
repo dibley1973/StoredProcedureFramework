@@ -1,20 +1,20 @@
 ﻿CREATE PROCEDURE [app].[AllCommonDataTypes]
     @BigInt             bigint
-,   @Binary             binary
+,   @Binary             binary(8)
 ,   @Bit                bit
-,   @Char               char
+,   @Char               char(3)
 ,   @Date               date
 ,   @DateTime           datetime
 ,   @DateTime2          datetime2
-,   @Decimal            decimal
+,   @Decimal            decimal(18,2)
 ,   @float              float
 ,   @image              image
 ,   @Int                int
 ,   @Money              money
-,   @NChar              nchar
+,   @NChar              nchar(5)
 ,   @NText              ntext
-,   @Numeric            numeric
-,   @NVarchar           nvarchar
+,   @Numeric            numeric(18,2)
+,   @NVarchar           nvarchar(8)
 ,   @Real               real
 ,   @Smalldatetime      smalldatetime
 ,   @Smallint           smallint
@@ -24,15 +24,15 @@
 ,   @Timestamp          timestamp
 ,   @Tinyint            tinyint
 ,   @Uniqueidentifier   uniqueidentifier
-,   @Varbinary          varbinary
-,   @Varchar            varchar
+,   @Varbinary          varbinary(3)
+,   @Varchar            varchar(7)
 ,   @Xml                xml
 AS
     SELECT 
         @BigInt         [BigInt]
 ,       @Binary         [Binary]
 ,       @Bit            [Bit]
-,       @Char           /*[Char]*/
+,       @Char           [Char]
 ,       @Date           [Date]
 ,       @DateTime       [DateTime]
 ,       @DateTime2      [DateTime2]
@@ -49,9 +49,9 @@ AS
 ,       @Smalldatetime  [SmallDateTime]
 ,       @Smallint       [SmallInt]
 ,       @Smallmoney     [SmallMoney]
-,       @Text           [Text]
-,       @Time           [Time]
-,       @Timestamp      [TimeStamp]
+,       @Text               [Text]
+,       @Time               [Time]
+,       @Timestamp          [TimeStamp]
 ,       @Tinyint            [TinyInt]
 ,       @Uniqueidentifier   [UniqueIdentifier]
 ,       @Varbinary          [VarBinary]

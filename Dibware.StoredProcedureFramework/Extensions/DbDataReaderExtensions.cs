@@ -21,7 +21,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="p"></param>
         /// <param name="stream"></param>
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        private static void ReadFromStream(DbDataReader reader, object t, String name, PropertyInfo p, StreamOutput stream)
+        private static void ReadFromStream(DbDataReader reader, object t, String name, PropertyInfo p, StreamOutputAttribute stream)
         {
             // handle streamed values
             Stream toStream = StreamHelpers.CreateStream(stream, t);
@@ -45,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 }
                 else if (p.PropertyType.Name.Contains("String"))
                 {
-                    StreamReader r = new StreamReader(toStream, ((StreamToMemory)stream).GetEncoding());
+                    StreamReader r = new StreamReader(toStream, ((StreamToMemoryAttribute)stream).GetEncoding());
                     String text = r.ReadToEnd();
                     p.SetValue(t, text, null);
                     r.Close();
@@ -53,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 else if (p.PropertyType.Name.Contains("Stream"))
                 {
                     // NOTE: User will have to close the stream if they don't tell us to close file streams!
-                    if (typeof(StreamToFile) == stream.GetType() && !((StreamToFile)stream).LeaveStreamOpen)
+                    if (typeof(StreamToFileAttribute) == stream.GetType() && !((StreamToFileAttribute)stream).LeaveStreamOpen)
                     {
                         toStream.Close();
                     }
@@ -100,7 +100,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     name = (null == attr) ? p.Name : attr.Value;
 
                     // see if we're being asked to stream this property
-                    var stream = p.GetAttribute<StreamOutput>();
+                    var stream = p.GetAttribute<StreamOutputAttribute>();
                     if (null != stream)
                     {
                         // if yes, then write to a stream

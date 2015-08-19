@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Tests.Context;
+﻿using Dibware.StoredProcedureFramework.Tests.AssertExtensions;
+using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
@@ -8,6 +9,7 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.
 using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -81,15 +83,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         {
             // ARRANGE
             const Int64 expectedBigint = Int64.MaxValue;
-            Byte[] expectedBinary = { 1, 2, 3, 4, 5 };
+            Byte[] expectedBinary = { 0, 1, 2, 3, 4, 5, 6, 7 };
             const Boolean expectedBit = true;
-            Char[] expectedChar = { 'a', 'b', 'c' };
+            Char[] expectedChar = {'a', 'b', 'c'};
             DateTime expectedDate = DateTime.Today;
             DateTime expectedDatetime = DateTime.Now.AddHours(1);
             DateTime expectedDatetime2 = DateTime.Now.AddMinutes(10);
             const Decimal expectedDecimal = 1234567890123456.02M;
             const Double expectedFloat = Double.MaxValue;
-            Byte[] expectedImage = { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 }; ;
+            Byte[] expectedImage = { 0x10, 0x20, 0x30, 0x10, 0x20, 0x30, 0x10, 0x20 }; ;
             const Int32 expectedInt = Int32.MaxValue;
             const Decimal expectedMoney = 922337203685477.5807M;
             const String expectedNChar = @"NChar";
@@ -102,7 +104,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             const Decimal expectedSmallmoney = 214748.3647M;
             const String expectedText = @"Some boring text...";
             TimeSpan expectedTime = TimeSpan.FromMinutes(20);
-            Byte[] expectedTimestamp = { 10, 20, 30 };
+            Byte[] expectedTimestamp = { 10, 20, 30, 0, 0, 0, 0, 0 };
             const Byte expectedTinyInt = Byte.MaxValue;
             Guid expectedUniqueIdentifier = Guid.NewGuid();
             Byte[] expectedVarBinary = { 110, 120, 130 };
@@ -149,18 +151,18 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ASSERT
             Assert.AreEqual(expectedBigint, result.BigInt);
-            //Assert.AreEqual(expectedBinary, result.Binary);
+            AssertExtension.ByteArrayEqual(expectedBinary, result.Binary);
             Assert.AreEqual(expectedBit, result.Bit);
-            //Assert.AreEqual(expectedChar, result.Char);
+            Assert.AreEqual(string.Join("", expectedChar), result.Char);
             Assert.AreEqual(expectedDate, result.Date);
             Assert.IsTrue((expectedDatetime - result.Datetime).Seconds == 0);
             Assert.IsTrue((expectedDatetime2 - result.Datetime2).Seconds == 0);
             Assert.AreEqual(expectedDecimal, result.Decimal);
             Assert.AreEqual(expectedFloat, result.Float);
-            //Assert.AreEqual(expectedImage, result.Image);
+            AssertExtension.ByteArrayEqual(expectedImage, result.Image);
             Assert.AreEqual(expectedInt, result.Int);
             Assert.AreEqual(expectedMoney, result.Money);
-            //Assert.AreEqual(expectedNChar, result.NChar);
+            Assert.AreEqual(expectedNChar, result.NChar);
             Assert.AreEqual(expectedNText, result.NText);
             Assert.AreEqual(expectedNumeric, result.Numeric);
             Assert.AreEqual(expectedNVarchar, result.NVarchar);
@@ -170,10 +172,10 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Assert.AreEqual(expectedSmallmoney, result.Smallmoney);
             Assert.AreEqual(expectedText, result.Text);
             Assert.AreEqual(expectedTime, result.Time);
-            Assert.AreEqual(expectedTimestamp, result.Timestamp);
+            AssertExtension.ByteArrayEqual(expectedTimestamp, result.Timestamp);
             Assert.AreEqual(expectedTinyInt, result.TinyInt);
             Assert.AreEqual(expectedUniqueIdentifier, result.UniqueIdentifier);
-            Assert.AreEqual(expectedVarBinary, result.Varbinary);
+            AssertExtension.ByteArrayEqual(expectedVarBinary, result.Varbinary);
             Assert.AreEqual(expectedVarChar, result.Varchar);
             Assert.AreEqual(expectedXml, result.Xml);
         }
@@ -346,6 +348,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 RecordCreatedDateTime = DateTime.Now
             });
             context.SaveChanges();
+        }
+
+        #endregion
+
+        #region Test Helpers
+
+        static bool ByteArrayCompare(byte[] a1, byte[] a2)
+        {
+            return StructuralComparisons.StructuralEqualityComparer.Equals(a1, a2);
         }
 
         #endregion
