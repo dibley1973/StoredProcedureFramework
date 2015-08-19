@@ -10,9 +10,9 @@ namespace Dibware.StoredProcedureFramework.StoredProcAttributes
     [AttributeUsageAttribute(AttributeTargets.Property)]
     public class PrecisionAttribute : Attribute
     {
-        public Int32 Value { get; set; }
+        public Byte Value { get; set; }
 
-        public PrecisionAttribute(Int32 value)
+        public PrecisionAttribute(Byte value)
         {
             Value = value;
         }

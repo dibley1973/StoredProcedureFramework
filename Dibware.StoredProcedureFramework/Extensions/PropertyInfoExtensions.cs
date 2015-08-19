@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.StoredProcAttributes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.StoredProcAttributes;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -33,7 +33,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             this PropertyInfo[] propertyInfoArray)
         {
             // Validate arguments
-            if(propertyInfoArray == null) throw new ArgumentNullException("propertyInfoArray");
+            if (propertyInfoArray == null) throw new ArgumentNullException("propertyInfoArray");
 
             // Create a lsit of SqlParameters to return
             List<SqlParameter> results = new List<SqlParameter>();
@@ -60,25 +60,20 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 // Set database type of parameter
                 var typeAttribute = propertyInfo.GetAttribute<ParameterTypeAttribute>();
-                if (typeAttribute != null)
-                {
-                    sqlParameter.SqlDbType = typeAttribute.Value;
-                }
+                if (typeAttribute != null) sqlParameter.SqlDbType = typeAttribute.Value;
 
                 //// save user-defined type name
                 //var typename = propertyInfo.GetAttribute<StoredProcAttributes.TypeName>();
                 //if (null != typename)
                 //    sqlParameter.TypeName = typename.Value;
 
-                //// save precision
-                //var precision = propertyInfo.GetAttribute<StoredProcAttributes.Precision>();
-                //if (null != precision)
-                //    sqlParameter.Precision = precision.Value;
+                // Get parameter precision
+                var precisionAttribute = propertyInfo.GetAttribute<PrecisionAttribute>();
+                if (null != precisionAttribute) sqlParameter.Precision = precisionAttribute.Value;
 
-                //// save scale
-                //var scale = propertyInfo.GetAttribute<StoredProcAttributes.Scale>();
-                //if (null != scale)
-                //    sqlParameter.Scale = scale.Value;
+                // Get parameter  scale
+                var scaleAttribute = propertyInfo.GetAttribute<ScaleAttribute>();
+                if (null != scaleAttribute) sqlParameter.Scale = scaleAttribute.Value;
 
                 // add the parameter
                 results.Add(sqlParameter);

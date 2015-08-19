@@ -51,6 +51,7 @@
     <Compile Include="StoredProcAttributes\PrecisionAttribute.cs" />
     <Compile Include="StoredProcAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcAttributes\SizeAttribute.cs" />
+    <Compile Include="StoredProcedureWithNoParametersBase.cs" />
     <Compile Include="Z_LegacyCode\ResultList.cs" />
     <Compile Include="Z_LegacyCode\ResultListOfT.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />

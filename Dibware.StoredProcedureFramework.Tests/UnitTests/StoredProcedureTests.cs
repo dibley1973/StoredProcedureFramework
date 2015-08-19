@@ -1,8 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FakeParameters = Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
@@ -19,7 +18,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             
             // ACT
-            var procedure = new MostBasicStoredProcedure(null);
+            new MostBasicStoredProcedure(null);
 
             // ASSERT
             Assert.Fail();
@@ -65,7 +64,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
             
             // ACT
-            var procedure = new MostBasicStoredProcedure(string.Empty, parameters);
+            new MostBasicStoredProcedure(string.Empty, parameters);
             
             // ASSERT
             Assert.Fail();
@@ -79,7 +78,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
 
             // ACT
-            var procedure = new MostBasicStoredProcedure(null, parameters);
+            new MostBasicStoredProcedure(null, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -125,7 +124,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
             
             // ACT
-            var procedure = new MostBasicStoredProcedure(string.Empty, string.Empty, parameters);
+            new MostBasicStoredProcedure(string.Empty, string.Empty, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -140,7 +139,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
 
             // ACT
-            var procedure = new MostBasicStoredProcedure(string.Empty, expectedProcedureName, parameters);
+            new MostBasicStoredProcedure(string.Empty, expectedProcedureName, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -154,7 +153,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
 
             // ACT
-            var procedure = new MostBasicStoredProcedure(null, null, parameters);
+            new MostBasicStoredProcedure(null, null, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -169,7 +168,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var parameters = new NullStoredProcedureParameters();
 
             // ACT
-            var procedure = new MostBasicStoredProcedure(null, expectedProcedureName, parameters);
+            new MostBasicStoredProcedure(null, expectedProcedureName, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -316,8 +315,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             const bool expectedValue = true;
             const string expectedProcedureName = "GetAll";
             const string expectedSchemaName = "dbo";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new TenantGetAllNoAttributes(expectedProcedureName, parameters);
+            var procedure = new TenantGetAllNoAttributes(expectedProcedureName);
 
             // ACT
             var actualValue = procedure.IsFullyConstructed();
@@ -335,9 +333,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             const bool expectedValue = true;
             const string expectedProcedureName = "GetAll";
             const string expectedSchemaName = "app";
-            var parameters = new NullStoredProcedureParameters();
             var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
-                expectedProcedureName, parameters);
+                expectedProcedureName);
 
             // ACT
             var actualValue = procedure.IsFullyConstructed();
@@ -352,8 +349,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void StoredProcedureWithoutAttributesAndNameNotSet_IsFullyConstructed()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new TenantGetAllNoAttributes(parameters);
+            var procedure = new TenantGetAllNoAttributes();
 
             // ACT
             var actualValue = procedure.IsFullyConstructed();

@@ -10,7 +10,6 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.
 using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -67,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             var parameters = new NullStoredProcedureParameters();
             var procedure = new ReturnNoResultStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
-            ;
+            
             // ACT
             var results = Context.ExecSproc(procedure);
 
@@ -92,7 +91,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             DateTime expectedDatetime2 = DateTime.Now.AddMinutes(10);
             const Decimal expectedDecimal = 1234567890123456.02M;
             const Double expectedFloat = Double.MaxValue;
-            Byte[] expectedImage = { 0x10, 0x20, 0x30, 0x10, 0x20, 0x30, 0x10, 0x20 }; ;
+            Byte[] expectedImage = { 0x10, 0x20, 0x30, 0x10, 0x20, 0x30, 0x10, 0x20 };
             const Int32 expectedInt = Int32.MaxValue;
             const Decimal expectedMoney = 922337203685477.5807M;
             const String expectedNChar = @"NChar";
@@ -192,9 +191,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             const int expectedCount = 2;
             const string expectedProcedureName = "Tenant_GetAll";
             const string expectedSchemaName = "app";
-            var parameters = new NullStoredProcedureParameters();
             var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
-                expectedProcedureName, parameters);
+                expectedProcedureName);
             AddTenentsToContext(Context);
 
             // ACT
@@ -211,16 +209,14 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Type expectedType = typeof(TenantResultRow);
             const string expectedProcedureName = "Tenant_GetAll";
             const string expectedSchemaName = "app";
-            var parameters = new NullStoredProcedureParameters();
             var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
-                expectedProcedureName, parameters);
+                expectedProcedureName);
             AddTenentsToContext(Context);
 
             // ACT
             var results = Context.ExecSproc(procedure);
 
             // ASSERT
-            //Assert.IsInstanceOfType(expectedType, actualType);
             Assert.IsInstanceOfType(results.First(), expectedType);
         }
 
@@ -274,15 +270,39 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         #region Precision and Scale Tests
 
         [TestMethod]
-        public void CallDecimalProcedureWithPrecisionAndScale_resultsInNoLossOfData()
+        public void CallDecimalProcedureWithValuesCorrectPrecisionAndScale_ResultsInNoLossOfData()
+        {
+            // ARRANGE
+            const decimal initialValue1 = 1234567.123M;
+            const decimal initialValue2 = 123456.7M;
+            var parameters = new DecimalPrecisionAndScaleParameters
+            {
+                Value1 = initialValue1,
+                Value2 = initialValue2
+            };
+            var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
+
+            // ACT
+            var results = Context.ExecSproc(procedure);
+            var result = results.FirstOrDefault();
+
+            // ASSERT
+            Assert.IsNotNull(result);
+            Assert.AreEqual(initialValue1, result.Value1);
+            Assert.AreEqual(initialValue2, result.Value2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CallDecimalProcedureWithValuesIncorrectPrecision_FailsWithWhat()
         {
             // ARRANGE
             const decimal initialValue = 1234567.123M;
-            const decimal initialValue2 = 1234.567M;
             var parameters = new DecimalPrecisionAndScaleParameters
             {
                 Value1 = initialValue,
-                Value2 = initialValue2
+                Value2 = initialValue
             };
             var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
@@ -295,23 +315,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         }
 
         [TestMethod]
-        public void CallDecimalProcedureWithPrecisionAndScale_FailsWithwrongprecisionOfvalue()
+        public void CallDecimalProcedureWithIncorrectScale_FailsWithWhat()
         {
-            //// ARRANGE
-            //const decimal initialValue = 1234567.123M;
-            //var parameters = new DecimalPrecisionAndScaleParameters
-            //{
-            //    Value1 = initialValue,
-            //    Value2 = initialValue
-            //};
-            //var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
-            //procedure.InitializeFromAttributes();
-
-            //// ACT
-            //var results = Context.ExecSproc(procedure);
-
-            //// ASSERT
-            //Assert.Fail();
         }
 
         [TestMethod]
@@ -407,15 +412,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 RecordCreatedDateTime = DateTime.Now
             });
             context.SaveChanges();
-        }
-
-        #endregion
-
-        #region Test Helpers
-
-        static bool ByteArrayCompare(byte[] a1, byte[] a2)
-        {
-            return StructuralComparisons.StructuralEqualityComparer.Equals(a1, a2);
         }
 
         #endregion

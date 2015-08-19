@@ -7,8 +7,8 @@ using System;
 namespace Dibware.StoredProcedureFramework
 {
     /// <summary>
-    /// Represents the base class that all Stored proedures should inherit from.
-    /// Contains common stored procedure functionality.
+    /// Represents the base class that all Stored proedures that have parameters
+    /// should inherit from. Contains common stored procedure functionality.
     /// </summary>
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     /// <typeparam name="TParameters">The type of the parameters.</typeparam>
@@ -18,16 +18,6 @@ namespace Dibware.StoredProcedureFramework
         where TParameters : class
     {
         #region Fields
-
-        ///// <summary>
-        ///// The default schema name
-        ///// </summary>
-        //public const string DefaultSchemaName = @"dbo";
-
-        ///// <summary>
-        ///// The dot identifier
-        ///// </summary>
-        //public const string DotIdentifier = @".";
 
         /// <summary>
         /// The object that represents the procedure parameters

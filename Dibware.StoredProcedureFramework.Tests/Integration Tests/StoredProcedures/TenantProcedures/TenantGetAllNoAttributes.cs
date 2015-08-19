@@ -3,22 +3,33 @@
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
 {
     public class TenantGetAllNoAttributes
-            : StoredProcedureBase<TenantResultRow, NullStoredProcedureParameters>
+            : StoredProcedureWithNoParametersBase<TenantResultRow>
     {
         #region Constructors
 
-        public TenantGetAllNoAttributes(NullStoredProcedureParameters parameters)
-            : base(parameters)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TenantGetAllNoAttributes"/> class.
+        /// </summary>
+        public TenantGetAllNoAttributes()
         {
         }
 
-        public TenantGetAllNoAttributes(string procedureName, NullStoredProcedureParameters parameters)
-            : base(procedureName, parameters)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TenantGetAllNoAttributes"/> class.
+        /// </summary>
+        /// <param name="procedureName">Name of the procedure.</param>
+        public TenantGetAllNoAttributes(string procedureName)
+            : base(procedureName)
         {
         }
 
-        public TenantGetAllNoAttributes(string schemaName, string procedureName, NullStoredProcedureParameters parameters)
-            : base(schemaName, procedureName, parameters)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TenantGetAllNoAttributes"/> class.
+        /// </summary>
+        /// <param name="schemaName">Name of the schema.</param>
+        /// <param name="procedureName">Name of the procedure.</param>
+        public TenantGetAllNoAttributes(string schemaName, string procedureName)
+            : base(schemaName, procedureName)
         {
         }
 
