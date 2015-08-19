@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -85,7 +86,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             const Int64 expectedBigint = Int64.MaxValue;
             Byte[] expectedBinary = { 0, 1, 2, 3, 4, 5, 6, 7 };
             const Boolean expectedBit = true;
-            Char[] expectedChar = {'a', 'b', 'c'};
+            Char[] expectedChar = { 'a', 'b', 'c' };
             DateTime expectedDate = DateTime.Today;
             DateTime expectedDatetime = DateTime.Now.AddHours(1);
             DateTime expectedDatetime2 = DateTime.Now.AddMinutes(10);
@@ -266,6 +267,37 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ASSERT
             Assert.AreEqual(expectedName, results.First().TenantName);
+        }
+
+        #endregion
+
+        #region Precision and Scale Tests
+
+        [TestMethod]
+        public void CallDecimalProcedureWithPrecisionAndScale_resultsInNoLossOfData()
+        {
+            // ARRANGE
+            var parameters = new DecimalPrecisionAndScaleParameters();
+            //var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
+            
+            // ACT
+
+
+            // ASSERT
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void CallNumericProcedureWithPrecisionAndScale_resultsInNoLossOfData()
+        {
+            // ARRANGE
+
+
+            // ACT
+
+
+            // ASSERT
+            Assert.Fail();
         }
 
         #endregion

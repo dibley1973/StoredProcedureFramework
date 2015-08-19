@@ -254,7 +254,7 @@
 //        /// <exception cref="System.Exception">
 //        /// this instance is not fully constrcuted
 //        /// </exception>
-//        public void EnsureFullyConstrucuted()
+//        public void EnsureFullyConstructed()
 //        {
 //            if (!IsFullyConstructed())
 //            {

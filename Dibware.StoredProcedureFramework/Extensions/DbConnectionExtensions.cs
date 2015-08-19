@@ -65,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
             // Ensure the procedure is fully constructed
-            storedProcedure.EnsureFullyConstrucuted();
+            storedProcedure.EnsureFullyConstructed();
 
             string procedureName = storedProcedure.GetTwoPartName();
             Type returnType = typeof(TReturnType);

@@ -15,8 +15,9 @@ The aim of this project is to provide the following:
 * (Must) Ability to execute the stored procedure represented by the POCO against SqlConnection using extensions **WIP**
 * (Must) Ability to execute the stored procedure represented by the POCO against DBContext using extensions **WIP**
 * (Must) Ability to handle output parameters
-* (Must) Ability to handle all common parameter types
-* (Must) Ability to handle all common return data types
+* (Must) Ability to handle all common parameter types **Done**
+* (Must) Ability to handle all common return data types **Done**
+* (Must) Ability to handle precision and scale for number data types
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Contain a suite of unit tests that test all public accessors
 * (Must) Contain a suite of integration tests that document usage of the assembly

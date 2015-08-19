@@ -177,26 +177,63 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         #endregion
 
-        #region EnsureFullyConstrucuted
+        #region EnsureFullyConstructed
 
         [TestMethod]
-        [ExpectedException(typeof(StoredProcedureConstructionException))]
-        public void EnsureFullyConstrucuted_WhenNotFullyConstructed_ThrowsException()
+        //[ExpectedException(typeof(StoredProcedureConstructionException))]
+        public void EnsureFullyConstructed_WhenConstructedWithParamerters_DoesNotThrowException()
         {
             // ARRANGE
             var parameters = new NullStoredProcedureParameters();
             var procedure = new MostBasicStoredProcedure(parameters);
 
             // ACT
-            procedure.EnsureFullyConstrucuted();
+            procedure.EnsureFullyConstructed();
 
             // ASSERT
-            Assert.Fail();
+
         }
+
+        //[TestMethod]
+        //[ExpectedException(typeof(StoredProcedureConstructionException))]
+        //public void EnsureFullyConstructed_WhenNotFullyConstructed_ThrowsException()
+        //{
+        //    // ARRANGE
+        //    var parameters = new NullStoredProcedureParameters();
+        //    var procedure = new MostBasicStoredProcedure("", parameters);
+
+        //    // ACT
+        //    procedure.EnsureFullyConstructed();
+
+        //    // ASSERT
+        //    Assert.Fail();
+        //}
+
+        
 
         #endregion
 
         #region GetTwoPartName
+
+        [TestMethod]
+        public void GetTwoPartName_WhenConstructedWithoutProcedureName_ReturnsCorrectly()
+        {
+            // ARRANGE
+            var parameters = new NullStoredProcedureParameters();
+            var procedure = new MostBasicStoredProcedure(parameters);
+            const string expectedSchemaName = StoredProcedureDefaults.DefaultSchemaName;
+            string expectedProcedureName = typeof(MostBasicStoredProcedure).Name;
+            string expectedTwoPartName = String.Concat(
+                expectedSchemaName,
+                StoredProcedureDefaults.DotIdentifier,
+                expectedProcedureName);
+
+            // ACT
+            var actualTwoPartName = procedure.GetTwoPartName();
+
+            // ASSERT
+            Assert.AreEqual(expectedTwoPartName, actualTwoPartName);
+        }
 
         [TestMethod]
         public void GetTwoPartName_WhenConstructedWithProcedureName_ReturnsCorrectly()
@@ -219,31 +256,15 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             Assert.AreEqual(expectedTwoPartName, actualTwoPartName);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(StoredProcedureConstructionException))]
-        public void GetTwoPartName_WhenConstructedWithoutProcedureName_ThrowsException()
-        {
-            // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
-
-            // ACT
-            procedure.GetTwoPartName();
-
-            // ASSERT
-            Assert.Fail();
-        }
-
         #endregion
 
         #region IsFullyConstructed
 
         [TestMethod]
-        public void IsFullyConstructed_WhenNameSet_Returnstrue()
+        public void IsFullyConstructed_WhenNameSet_ReturnsTrue()
         {
             // ARRANGE
             const string procedureName = "GetAllMonkeys";
-            const bool expectedValue = true;
             var parameters = new NullStoredProcedureParameters();
             var procedure = new MostBasicStoredProcedure(procedureName, parameters);
 
@@ -251,14 +272,13 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var actualvalue = procedure.IsFullyConstructed();
 
             // ASSERT
-            Assert.AreEqual(expectedValue, actualvalue);
+            Assert.IsTrue(actualvalue);
         }
 
         [TestMethod]
-        public void IsFullyConstructed_WhenProcedureNameNotSet_ReturnsFalse()
+        public void IsFullyConstructed_WhenProcedureNameNotSet_ReturnsTrue()
         {
             // ARRANGE
-            const bool expectedValue = false;
             var parameters = new NullStoredProcedureParameters();
             var procedure = new MostBasicStoredProcedure(parameters);
 
@@ -266,7 +286,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var actualvalue = procedure.IsFullyConstructed();
 
             // ASSERT
-            Assert.AreEqual(expectedValue, actualvalue);
+            Assert.IsTrue(actualvalue);
         }
 
         #endregion
@@ -329,10 +349,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         }
 
         [TestMethod]
-        public void StoredProcedureWithoutAttributesAndNotSet_IsNotFullyConstructed()
+        public void StoredProcedureWithoutAttributesAndNameNotSet_IsFullyConstructed()
         {
             // ARRANGE
-            const bool expectedValue = false;
             var parameters = new NullStoredProcedureParameters();
             var procedure = new TenantGetAllNoAttributes(parameters);
 
@@ -340,7 +359,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var actualValue = procedure.IsFullyConstructed();
 
             // ASSERT
-            Assert.AreEqual(expectedValue, actualValue);
+            Assert.IsTrue(actualValue);
         }
 
         #endregion

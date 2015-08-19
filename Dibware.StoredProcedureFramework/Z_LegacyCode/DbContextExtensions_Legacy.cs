@@ -23,7 +23,7 @@
 //    // Validate arguments
 //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-//    storedProcedure.EnsureFullyConstrucuted();
+//    storedProcedure.EnsureFullyConstructed();
 
 //    return ExecuteStoredProcedure(context,
 //        storedProcedure.GetTwoPartName(),
@@ -44,7 +44,7 @@
 //    // Validate arguments
 //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-//    storedProcedure.EnsureFullyConstrucuted();
+//    storedProcedure.EnsureFullyConstructed();
 
 //    return ExecuteStoredProcedure<TR>(context,
 //        storedProcedure.GetTwoPartName(),

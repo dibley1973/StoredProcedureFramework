@@ -30,7 +30,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         //    // Validate arguments
         //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-        //    storedProcedure.EnsureFullyConstrucuted();
+        //    storedProcedure.EnsureFullyConstructed();
 
         //    return ExecuteStoredProcedure(
         //        connection,
@@ -110,7 +110,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
             // Ensure the procedure is fully constructed before going any further
-            storedProcedure.EnsureFullyConstrucuted();
+            storedProcedure.EnsureFullyConstructed();
 
             // Downcast the connection to it's base so we can call 
             // through to it's extenstion method.

@@ -27,7 +27,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
             // Ensure the procedure is fully constructed before going any further
-            storedProcedure.EnsureFullyConstrucuted();
+            storedProcedure.EnsureFullyConstructed();
 
             // Get the context database connection...
             DbConnection connection = context.Database.Connection;

@@ -49,16 +49,27 @@ namespace Dibware.StoredProcedureFramework
         #region Constructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> class.
+        /// Sets the procedure name to match the stored procedure class.
+        /// </summary>
+        private StoredProcedureBase()
+        {
+            string className = GetType().Name;
+            SetProcedureName(className);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
         /// class with parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(TParameters parameters)
+            : this()
         {
             // Validate arguments
             if (parameters == null) throw new ArgumentNullException("parameters");
-            
+
             _parameters = parameters;
             SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
         }
@@ -163,7 +174,7 @@ namespace Dibware.StoredProcedureFramework
         /// <exception cref="System.Exception">
         /// this instance is not fully constrcuted
         /// </exception>
-        public void EnsureFullyConstrucuted()
+        public void EnsureFullyConstructed()
         {
             if (!IsFullyConstructed())
             {
