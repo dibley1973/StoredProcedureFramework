@@ -9,15 +9,5 @@
             : base(parameters)
         {
         }
-
-        //public AllCommonDataTypesStoredProcedure(string procedureName, AllCommonDataTypesParameters parameters)
-        //    : base(procedureName, parameters)
-        //{
-        //}
-
-        //public AllCommonDataTypesStoredProcedure(string schemaName, string procedureName, AllCommonDataTypesParameters parameters)
-        //    : base(schemaName, procedureName, parameters)
-        //{
-        //}
     }
 }

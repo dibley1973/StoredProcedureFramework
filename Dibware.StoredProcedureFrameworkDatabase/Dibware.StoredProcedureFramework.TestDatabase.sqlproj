@@ -65,6 +65,7 @@
     <Folder Include="app\Views\" />
     <Folder Include="Security\" />
     <Folder Include="app\Stored Procedures\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Tables\Tenant.sql" />
@@ -87,5 +88,6 @@
   <ItemGroup>
     <Build Include="app\Stored Procedures\ReturnNoResult.sql" />
     <Build Include="app\Stored Procedures\AllCommonDataTypes.sql" />
+    <Build Include="app\Stored Procedures\DecimalPrecisionAndScale.sql" />
   </ItemGroup>
 </Project>

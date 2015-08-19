@@ -5,6 +5,7 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +13,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -277,14 +277,41 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         public void CallDecimalProcedureWithPrecisionAndScale_resultsInNoLossOfData()
         {
             // ARRANGE
-            var parameters = new DecimalPrecisionAndScaleParameters();
-            //var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
-            
-            // ACT
+            const decimal initialValue = 1234567.123M;
+            const decimal initialValue2 = 1234.567M;
+            var parameters = new DecimalPrecisionAndScaleParameters
+            {
+                Value1 = initialValue,
+                Value2 = initialValue2
+            };
+            var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
 
+            // ACT
+            var results = Context.ExecSproc(procedure);
 
             // ASSERT
             Assert.Fail();
+        }
+
+        [TestMethod]
+        public void CallDecimalProcedureWithPrecisionAndScale_FailsWithwrongprecisionOfvalue()
+        {
+            //// ARRANGE
+            //const decimal initialValue = 1234567.123M;
+            //var parameters = new DecimalPrecisionAndScaleParameters
+            //{
+            //    Value1 = initialValue,
+            //    Value2 = initialValue
+            //};
+            //var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
+            //procedure.InitializeFromAttributes();
+
+            //// ACT
+            //var results = Context.ExecSproc(procedure);
+
+            //// ASSERT
+            //Assert.Fail();
         }
 
         [TestMethod]

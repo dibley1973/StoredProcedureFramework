@@ -81,6 +81,7 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleReturnType.cs" />
     <Compile Include="Integration Tests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\ReturnNoResultStoredProcedure.cs" />

@@ -3,7 +3,7 @@
 namespace Dibware.StoredProcedureFramework.StoredProcAttributes
 {
     /// <summary>
-    /// Defines the size in bytes of returned data. 
+    /// Defines the number of characters allowed for character-based data types. 
     /// Should be used on output and return code parameters.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
