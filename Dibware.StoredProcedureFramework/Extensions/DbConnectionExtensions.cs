@@ -150,11 +150,20 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
             catch (Exception ex)
             {
+                // We want to add a slightly more informative message to the
+                // exception before rethrowing it
                 var message = string.Format(
                     ExceptionMessages.ErrorReadingStoredProcedure,
                     procedureName,
                     ex.Message);
-                throw new Exception(message, ex);
+
+                // Option 1: Edit the actual message field insode the exception and rethrow
+                //ex.GetType().GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ex, message);
+                //throw ex;
+
+                // Option 2: Create a new insatnce of the same type as the caught
+                // exception with a new message, and throw that
+                throw (Exception)Activator.CreateInstance(ex.GetType(), message, ex);
             }
             finally
             {
