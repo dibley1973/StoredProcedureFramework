@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IStoredProcedure.cs" />
+    <Compile Include="DataInfo\DecimalInfo.cs" />
+    <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
+    <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
+    <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
@@ -52,6 +56,8 @@
     <Compile Include="StoredProcAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcAttributes\SizeAttribute.cs" />
     <Compile Include="StoredProcedureWithNoParametersBase.cs" />
+    <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
+    <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="Z_LegacyCode\ResultList.cs" />
     <Compile Include="Z_LegacyCode\ResultListOfT.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />

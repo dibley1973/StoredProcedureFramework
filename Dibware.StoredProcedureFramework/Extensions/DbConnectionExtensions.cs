@@ -2,12 +2,17 @@
 using Dibware.StoredProcedureFramework.Resources;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.DataInfo;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -232,22 +237,80 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TReturnType : class
             where TParameterType : class
         {
-
-            // get the list of properties for this type
-            //PropertyInfo[] mappedProperties = typeof(TParameterType).GetMappedProperties();
-
-            // we want to write data back to properties for every non-input only parameter
-            foreach (SqlParameter parm in sqlParameters
+            // Get all input type parameters
+            foreach (SqlParameter sqlParameter in sqlParameters
                 .Where(p => p.Direction == ParameterDirection.Input)
                 .Select(p => p))
             {
-                // get the property name mapped to this parameter
-                //String propname = storedProcedure.Parameters.Where(p => p.Key == parm.ParameterName).Select(p => p.Value).First();
-                String propname = parm.ParameterName;
+                // Get the property name mapped to this parameter
+                String propertyName = sqlParameter.ParameterName;
 
-                // extract the matchingproperty and set its value
-                PropertyInfo prop = mappedProperties.FirstOrDefault(p => p.Name == propname);
-                if (prop != null) parm.Value = prop.GetValue(procedure.Parameters);
+                // Extract the matching property...
+                PropertyInfo propertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
+                if(propertyInfo == null) throw new NullReferenceException("Mapped property not found");
+
+                // Use the PropertyInfo to get the value from teh parameters,
+                // then validate the value and if validation passes, set it 
+                var value = propertyInfo.GetValue(procedure.Parameters);
+                ValidateParameterValueIsInRange(sqlParameter, value);
+                sqlParameter.Value = value;
+            }
+        }
+
+        private static void ValidateParameterValueIsInRange(SqlParameter sqlParameter, object value)
+        {
+            // For parameters that have precision and scale we need to validate the value
+            if (sqlParameter.RequiresPrecisionAndScaleValidation())
+            {
+                ValidateDecimal(sqlParameter, value);
+            }
+
+            if (sqlParameter.RequiresLengthValidation())
+            {
+                ValidateString(sqlParameter, value);
+            }
+        }
+
+        private static void ValidateDecimal(SqlParameter sqlParameter, object value)
+        {
+            if (value is decimal)
+            {
+                var sqlParameterValueValidator = new SqlParameterDecimalValueValidator();
+                sqlParameterValueValidator.Validate((decimal)value, sqlParameter);
+                //DecimalInfo decimalInfo = DecimalInfo.FromDecimal((decimal)value);
+                //bool isValid = (
+                //    decimalInfo.Precision <= sqlParameter.Precision &&
+                //    decimalInfo.Scale <= sqlParameter.Scale
+                //);
+                ////isValid = sqlParameterValueValidator.IsValid((decimal) value, sqlParameter);
+                //if (!isValid)
+                //    throw new SqlParameterOutOfRangeException(
+                //        sqlParameter.Precision, sqlParameter.Scale, 
+                //        decimalInfo.Precision, decimalInfo.Scale
+                //        );
+            }
+            else
+            {
+                throw new SqlParameterInvalidDataTypeException(typeof (decimal), value.GetType());
+            }
+        }
+
+        private static void ValidateString(SqlParameter sqlParameter, object value)
+        {
+            string castedValue = value as string;
+            if (castedValue != null)
+            {
+                var sqlParameterStringValueValidator = new SqlParameterStringValueValidator();
+                sqlParameterStringValueValidator.Validate(castedValue, sqlParameter);
+                //isValid = sqlParameterValueValidator.IsValid((decimal)value, sqlParameter);
+                //if (!isValid)
+                //    throw new SqlParameterOutOfRangeException(
+                //        sqlParameter.Size, sqlParameter.Scale, 1, 2
+                //        );
+            }
+            else
+            {
+                throw new SqlParameterInvalidDataTypeException(typeof(string), value.GetType());
             }
         }
     }
