@@ -85,16 +85,21 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <returns></returns>
         public static object ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] props)
         {
-            string name = "";
+            string fieldName = "";
 
             // copy mapped properties
-            foreach (PropertyInfo p in props)
+            foreach (PropertyInfo propertyInfo in props)
             {
                 try
                 {
+                    //TODO: Investigate if the look back to attribute is actuall needed for 
+                    // my version of this code! currently working without, but may be a good place
+                    // to investigate if issues start to happen.
                     // default name is property name, override of parameter name by attribute
-                    var attr = p.GetAttribute<NameAttribute>();
-                    name = (null == attr) ? p.Name : attr.Value;
+                    var attr = propertyInfo.GetAttribute<NameAttribute>();
+                    //fieldName = (null == attr) ? propertyInfo.Name : attr.Value;
+                    fieldName = propertyInfo.Name;
+
 
                     //// see if we're being asked to stream this property
                     //var stream = p.GetAttribute<StreamOutputAttribute>();
@@ -106,11 +111,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     //else
                     //{
                         // get the requested value from the returned dataset and handle null values
-                        var data = reader[name];
-                        if (data is DBNull)
-                            p.SetValue(targetObject, null, null);
-                        else
-                            p.SetValue(targetObject, reader[name], null);
+                        var data = reader[fieldName];
+                        if (data is DBNull) propertyInfo.SetValue(targetObject, null, null);
+                        
+                        else propertyInfo.SetValue(targetObject, reader[fieldName], null);
                     //}
                 }
                 catch (Exception ex)
@@ -119,13 +123,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     {
                         // if the result set doesn'targetObject have this value, intercept the exception
                         // and set the property value to null / 0
-                        p.SetValue(targetObject, null, null);
+                        propertyInfo.SetValue(targetObject, null, null);
                     }
                     else
                     {
                         // tell the user *where* we had an exception
                         Exception outer = new Exception(String.Format("Exception processing return column {0} in {1}",
-                            name, targetObject.GetType().Name), ex);
+                            fieldName, targetObject.GetType().Name), ex);
 
                         // something bad happened, pass on the exception
                         throw outer;

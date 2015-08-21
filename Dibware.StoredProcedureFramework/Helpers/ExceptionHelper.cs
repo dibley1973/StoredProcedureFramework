@@ -3,7 +3,7 @@ using System;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    internal static class ExceptionHelper
+    public static class ExceptionHelper
     {
         #region StoredProcedureConstructionException
         
@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="exceptionMessage">The exception message.</param>
         /// <returns>A StoredProcedureConstructionException constructed with the specified exception message</returns>
-        internal static StoredProcedureConstructionException CreateStoredProcedureConstructionException(
+        public static StoredProcedureConstructionException CreateStoredProcedureConstructionException(
             string exceptionMessage)
         {
             return new StoredProcedureConstructionException(exceptionMessage);
@@ -26,7 +26,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <returns>
         /// A StoredProcedureConstructionException constructed with the specified exception message
         /// </returns>
-        internal static StoredProcedureConstructionException CreateStoredProcedureConstructionException(
+        public static StoredProcedureConstructionException CreateStoredProcedureConstructionException(
             string exceptionMessage,
             Exception innerException)
         {

@@ -7,9 +7,21 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
     /// any result, it just performs an action.
     /// </summary>
     internal class MostBasicStoredProcedure
+        //: StoredProcedureNoParametersNoReturnBase
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
         #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MostBasicStoredProcedure"/> 
+        /// class with parameters. This is the minimum requirement for constructing
+        /// a stored procedure.
+        /// </summary>
+        public MostBasicStoredProcedure()
+            : base(new NullStoredProcedureParameters())
+        {
+        }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MostBasicStoredProcedure"/> 

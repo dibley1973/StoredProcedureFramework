@@ -180,6 +180,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (constructorInfo != null)
             {
                 //TReturnType item = constructorInfo.Invoke(new TReturnType[0]);
+                //TODO: Investigate FastActivator
                 TReturnType item = Activator.CreateInstance<TReturnType>();
                 if (item != null)
                 {

@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Tests.AssertExtensions;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Tests.AssertExtensions;
 using Dibware.StoredProcedureFramework.Tests.Context;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
@@ -7,13 +8,12 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
 using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -68,7 +68,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             var parameters = new NullStoredProcedureParameters();
             var procedure = new ReturnNoResultStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
-            
+
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);
 
@@ -266,6 +266,22 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ASSERT
             Assert.AreEqual(expectedName, results.First().TenantName);
+        }
+
+        #endregion
+
+        #region LessColumnsInResultSetThanReturnObject
+
+        [TestMethod]
+        public void LessColumnsInResultSetThanReturnObject_DoesWaht()
+        {
+            // TODO - create test
+
+
+
+
+            // ASSERT
+            Assert.Fail();
         }
 
         #endregion

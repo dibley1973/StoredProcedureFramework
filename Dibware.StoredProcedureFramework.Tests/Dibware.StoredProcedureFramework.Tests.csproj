@@ -95,6 +95,7 @@
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
     <Compile Include="UnitTests\DataInfo\DecimalInfoTests.cs" />
+    <Compile Include="UnitTests\Helpers\ExceptionHelperTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
