@@ -1,18 +1,15 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.Validators;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.DataInfo;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -79,7 +76,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             IEnumerable<SqlParameter> procedureParameters =
                 (storedProcedure.Parameters is NullStoredProcedureParameters) ?
                 null :
-                GetProcedureParameters(storedProcedure);
+                BuildProcedureParameters(storedProcedure);
 
             // Populate results using an overload
             var results = ExecSproc<TReturnType>(
@@ -195,7 +192,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        private static IEnumerable<SqlParameter> GetProcedureParameters<TReturnType, TParameterType>(
+        private static IEnumerable<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
             IStoredProcedure<TReturnType, TParameterType> procedure)
             where TReturnType : class
             where TParameterType : class
@@ -207,7 +204,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var sqlParameters = mappedProperties.ToSqlParameters();
 
             // Populate parameters from storedProcedure parameters
-            PopulateParameters(sqlParameters, mappedProperties, procedure);
+            PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);
 
             // Return parameters
             return sqlParameters;
@@ -230,7 +227,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        private static void PopulateParameters<TReturnType, TParameterType>(
+        private static void PopulateSqlParametersFromProperties<TReturnType, TParameterType>(
             ICollection<SqlParameter> sqlParameters,
             PropertyInfo[] mappedProperties,
             IStoredProcedure<TReturnType, TParameterType> procedure)
@@ -247,7 +244,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 // Extract the matching property...
                 PropertyInfo propertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
-                if(propertyInfo == null) throw new NullReferenceException("Mapped property not found");
+                if (propertyInfo == null) throw new NullReferenceException("Mapped property not found");
 
                 // Use the PropertyInfo to get the value from teh parameters,
                 // then validate the value and if validation passes, set it 
@@ -275,42 +272,38 @@ namespace Dibware.StoredProcedureFramework.Extensions
         {
             if (value is decimal)
             {
-                var sqlParameterValueValidator = new SqlParameterDecimalValueValidator();
-                sqlParameterValueValidator.Validate((decimal)value, sqlParameter);
-                //DecimalInfo decimalInfo = DecimalInfo.FromDecimal((decimal)value);
-                //bool isValid = (
-                //    decimalInfo.Precision <= sqlParameter.Precision &&
-                //    decimalInfo.Scale <= sqlParameter.Scale
-                //);
-                ////isValid = sqlParameterValueValidator.IsValid((decimal) value, sqlParameter);
-                //if (!isValid)
-                //    throw new SqlParameterOutOfRangeException(
-                //        sqlParameter.Precision, sqlParameter.Scale, 
-                //        decimalInfo.Precision, decimalInfo.Scale
-                //        );
+                var validator = new SqlParameterDecimalValueValidator();
+                validator.Validate((decimal)value, sqlParameter);
             }
             else
             {
-                throw new SqlParameterInvalidDataTypeException(typeof (decimal), value.GetType());
+                throw new SqlParameterInvalidDataTypeException(
+                    sqlParameter.ParameterName,
+                    typeof(decimal), value.GetType());
             }
         }
 
         private static void ValidateString(SqlParameter sqlParameter, object value)
         {
-            string castedValue = value as string;
-            if (castedValue != null)
+            // Check if the value type is valid type... 
+            if (value is string)
             {
-                var sqlParameterStringValueValidator = new SqlParameterStringValueValidator();
-                sqlParameterStringValueValidator.Validate(castedValue, sqlParameter);
-                //isValid = sqlParameterValueValidator.IsValid((decimal)value, sqlParameter);
-                //if (!isValid)
-                //    throw new SqlParameterOutOfRangeException(
-                //        sqlParameter.Size, sqlParameter.Scale, 1, 2
-                //        );
+                // ... and validate it if it is
+                var validator = new SqlParameterStringValueValidator();
+                validator.Validate((string)value, sqlParameter);
+            }
+            else if (value is char[])
+            {
+                // ... and validate it if it is
+                var validator = new SqlParameterStringValueValidator();
+                validator.Validate(new string((char[])value), sqlParameter);
             }
             else
             {
-                throw new SqlParameterInvalidDataTypeException(typeof(string), value.GetType());
+                // Throw a wobbler!
+                throw new SqlParameterInvalidDataTypeException(
+                    sqlParameter.ParameterName,
+                    typeof (string), value.GetType());
             }
         }
     }

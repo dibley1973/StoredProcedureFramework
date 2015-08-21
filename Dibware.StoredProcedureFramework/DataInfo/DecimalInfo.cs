@@ -38,11 +38,6 @@ namespace Dibware.StoredProcedureFramework.DataInfo
 
         #region Constructors
 
-        //public DecimalInfo(decimal value)
-        //{
-
-        //}
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DecimalInfo"/> struct.
         /// </summary>
@@ -68,7 +63,7 @@ namespace Dibware.StoredProcedureFramework.DataInfo
         /// <returns></returns>
         public static DecimalInfo FromDecimal(decimal value)
         {
-            // converting to a string seems a sledge hammer approach, but 
+            // Converting to a string seems a sledge hammer approach, but 
             // referring to the StackOverflow thread below, it is one of the fastest!
             //string stringRepresentation = value.ToString(CultureInfo.InvariantCulture);
             string stringRepresentation = value.ToString(CultureInfo.CurrentCulture);

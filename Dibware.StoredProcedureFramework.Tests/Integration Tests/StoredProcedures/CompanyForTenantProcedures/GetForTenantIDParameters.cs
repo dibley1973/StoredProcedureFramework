@@ -6,7 +6,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     internal class GetForTenantIDParameters
     {
         [StoredProcAttributes.Name("TenantID")]
-        [StoredProcAttributes.ParameterType(SqlDbType.UniqueIdentifier)]
+        [StoredProcAttributes.ParameterDbType(SqlDbType.UniqueIdentifier)]
         public Guid TenantId { get; set; }
     }
 }

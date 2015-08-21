@@ -89,6 +89,8 @@
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureParameters.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureStoredProcedure.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />

@@ -12,6 +12,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -102,6 +104,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             DateTime expectedSmalldatetime = DateTime.Today.AddDays(-1);
             const Int16 expectedSmallint = Int16.MaxValue;
             const Decimal expectedSmallmoney = 214748.3647M;
+
             const String expectedText = @"Some boring text...";
             TimeSpan expectedTime = TimeSpan.FromMinutes(20);
             Byte[] expectedTimestamp = { 10, 20, 30, 0, 0, 0, 0, 0 };
@@ -294,8 +297,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void CallDecimalProcedureWithValuesIncorrectPrecision_FailsWithWhat()
+        [ExpectedException(typeof(SqlParameterOutOfRangeException))]
+        public void CallDecimalProcedureWithValuesIncorrectPrecision_ThrowsSqlParameterOutOfRangeException()
         {
             // ARRANGE
             const decimal initialValue = 1234567.123M;
@@ -315,18 +318,41 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         }
 
         [TestMethod]
-        public void CallDecimalProcedureWithIncorrectScale_FailsWithWhat()
+        [ExpectedException(typeof(SqlParameterOutOfRangeException))]
+        public void CallDecimalProcedureWithIncorrectScale_ThrowsSqlParameterOutOfRangeException()
         {
+            // ARRANGE
+            const decimal initialValue1 = 1234567.891M;
+            const decimal initialValue2 = 12345.67M;
+            var parameters = new DecimalPrecisionAndScaleParameters
+            {
+                Value1 = initialValue1,
+                Value2 = initialValue2
+            };
+            var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
+
+            // ACT
+            var results = Context.ExecSproc(procedure);
+
+            // ASSERT
+            Assert.Fail();
         }
 
         [TestMethod]
-        public void CallNumericProcedureWithPrecisionAndScale_resultsInNoLossOfData()
+        [ExpectedException(typeof(SqlParameterOutOfRangeException))]
+        public void CallVarcharProcedureWithIncorrectLength_ThrowsSqlParameterOutOfRangeException()
         {
             // ARRANGE
-
+            const string initialvalue = @"12345678901234567890";
+            var parameters = new VarCharTestProcedureParameters
+            {
+                Parameter1 = initialvalue
+            };
+            var procedure = new VarCharTestProcedureStoredProcedure(parameters);
 
             // ACT
-
+            Context.ExecSproc(procedure);
 
             // ASSERT
             Assert.Fail();

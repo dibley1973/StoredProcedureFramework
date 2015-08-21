@@ -1,13 +1,14 @@
 ﻿using Dibware.StoredProcedureFramework.DataInfo;
-using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Exceptions;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Validators
 {
     public class SqlParameterDecimalValueValidator
     {
         /// <summary>
-        /// Determines whether the specified decimal value is valid for the specifed SqlParameter.
+        /// Determines whether the specified decimal value is valid for 
+        /// the specifed SqlParameter and throws an exception if not.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <param name="sqlParameter">The SQL parameter.</param>
@@ -18,11 +19,9 @@ namespace Dibware.StoredProcedureFramework.Validators
                 decimalInfo.Precision <= sqlParameter.Precision &&
                 decimalInfo.Scale <= sqlParameter.Scale
             );
-            if (!isValid)
-                throw new SqlParameterOutOfRangeException(
-                    sqlParameter.Precision, sqlParameter.Scale,
-                    decimalInfo.Precision, decimalInfo.Scale
-                    );
+            if (!isValid) throw new SqlParameterOutOfRangeException(
+                sqlParameter,
+                decimalInfo.Precision, decimalInfo.Scale);
         }
     }
 }

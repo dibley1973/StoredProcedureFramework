@@ -1,4 +1,5 @@
 ﻿
+using System.Data;
 using Dibware.StoredProcedureFramework.StoredProcAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale
@@ -7,10 +8,12 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     {
         [Precision(10)]
         [Scale(3)]
+        [ParameterDbType(SqlDbType.Decimal)]
         public decimal Value1 { get; set; }
 
         [Precision(7)]
         [Scale(1)]
+        [ParameterDbType(SqlDbType.Decimal)]
         public decimal Value2 { get; set; }
     }
 }

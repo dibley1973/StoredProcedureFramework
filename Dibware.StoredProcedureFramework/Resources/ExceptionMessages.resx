@@ -121,13 +121,13 @@
     <value>Error reading from stargetObjectored storedProcedure '{0}' :  '{1}'</value>
   </data>
   <data name="ParameterInvalidTypeFormat" xml:space="preserve">
-    <value>Expected type was {0}, actual type was {1}. </value>
+    <value>Parameter '{0}' had an expected type of '{1}', but actual type was '{2}'. </value>
   </data>
   <data name="ParameterLengthOutOfRangeFormat" xml:space="preserve">
-    <value>Expected length was {0}, actual length was {1}. </value>
+    <value>Parameter '{0}' had an expected length of '{1}', actual length was '{2}'. </value>
   </data>
   <data name="ParameterPrecisionAndScaleOutOfRangeFormat" xml:space="preserve">
-    <value>Expected precision should be {0}, but actual was {2}. Expected Scales was {1}, but actual was {3}.</value>
+    <value>Parameter '{0}' had an expected precision of '{1}', but actual precision was '{3}'. Expected scales was '{2}', but actual scale was '{4}'.</value>
   </data>
   <data name="StoredProcedureDoesNotHaveName" xml:space="preserve">
     <value>Stored storedProcedure does not havea name set!</value>

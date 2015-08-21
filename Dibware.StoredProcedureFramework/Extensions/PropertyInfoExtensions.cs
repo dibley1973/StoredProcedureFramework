@@ -59,7 +59,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 if (sizeAttribute != null) sqlParameter.Size = sizeAttribute.Value;
 
                 // Set database type of parameter
-                var typeAttribute = propertyInfo.GetAttribute<ParameterTypeAttribute>();
+                var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
                 if (typeAttribute != null) sqlParameter.SqlDbType = typeAttribute.Value;
 
                 //// save user-defined type name

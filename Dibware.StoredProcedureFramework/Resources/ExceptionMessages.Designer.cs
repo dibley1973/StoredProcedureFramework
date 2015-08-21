@@ -70,7 +70,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected type was {0}, actual type was {1}. .
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected type of &apos;{1}&apos;, but actual type was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterInvalidTypeFormat {
             get {
@@ -79,7 +79,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected length was {0}, actual length was {1}. .
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected length of &apos;{1}&apos;, actual length was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterLengthOutOfRangeFormat {
             get {
@@ -88,7 +88,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected precision should be {0}, but actual was {2}. Expected Scales was {1}, but actual was {3}..
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected precision of &apos;{1}&apos;, but actual precision was &apos;{3}&apos;. Expected scales was &apos;{2}&apos;, but actual scale was &apos;{4}&apos;..
         /// </summary>
         public static string ParameterPrecisionAndScaleOutOfRangeFormat {
             get {

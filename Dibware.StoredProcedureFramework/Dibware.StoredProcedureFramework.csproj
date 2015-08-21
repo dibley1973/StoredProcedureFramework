@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
+    <Compile Include="DataInfo\StringInfo.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="Z_LegacyCode\ResultList.cs" />
     <Compile Include="Z_LegacyCode\ResultListOfT.cs" />
     <Compile Include="StoredProcAttributes\NameAttribute.cs" />
-    <Compile Include="StoredProcAttributes\ParameterTypeAttribute.cs" />
+    <Compile Include="StoredProcAttributes\ParameterDbTypeAttribute.cs" />
     <Compile Include="StoredProcAttributes\ReturnTypeAttribute.cs" />
     <Compile Include="StoredProcAttributes\SchemaAttribute.cs" />
     <Compile Include="StoredProcAttributes\StreamOutputAttribute.cs" />

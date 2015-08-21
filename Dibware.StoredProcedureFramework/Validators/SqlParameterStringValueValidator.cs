@@ -1,12 +1,29 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.DataInfo;
+using Dibware.StoredProcedureFramework.Exceptions;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Validators
 {
-    class SqlParameterStringValueValidator
+    public class SqlParameterStringValueValidator
     {
-        internal void Validate(string value, System.Data.SqlClient.SqlParameter sqlParameter)
+        /// <summary>
+        /// Determines whether the specific string value is valid for 
+        /// the specifed SqlParameter and throws an exception if not.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="sqlParameter">The SQL parameter.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void Validate(string value, SqlParameter sqlParameter)
         {
-            throw new NotImplementedException();
+            StringInfo stringInfo = StringInfo.FromString(value);
+            bool isValid = (
+                stringInfo.Length <= sqlParameter.Size
+                );
+
+            if (!isValid) throw new SqlParameterOutOfRangeException(
+                sqlParameter.ParameterName,
+                sqlParameter.Size,
+                stringInfo.Length);
         }
     }
 }
