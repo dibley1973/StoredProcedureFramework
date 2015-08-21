@@ -14,7 +14,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
     /// </summary>
     public static class DbContextExtensions
     {
-        public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
+        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
                this DbContext context,
                IStoredProcedure<TReturnType, TParameterType> storedProcedure,
                int? commandTimeout = null,
@@ -33,7 +33,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
             DbConnection connection = context.Database.Connection;
 
             // ... then return results from secondary extention method.
-            return connection.ExecSproc(
+            return connection.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeout,
                 commandBehavior,

@@ -10,83 +10,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
 {
     public static class SqlConnectionExtensions
     {
-        ///// <summary>
-        ///// Executes the stored procedure  and gets the results..
-        ///// </summary>
-        ///// <param name="connection">The connection.</param>
-        ///// <param name="storedProcedure">The stored procedure.</param>
-        ///// <param name="commandTimeout">The command timeout.</param>
-        ///// <param name="commandBehavior">The command behavior.</param>
-        ///// <param name="transaction">The transaction.</param>
-        ///// <returns></returns>
-        ///// <exception cref="System.ArgumentNullException">storedProcedure</exception>
-        //public static List<object> ExecuteStoredProcedure(
-        //    this SqlConnection connection,
-        //    StoredProcedure storedProcedure,
-        //    int? commandTimeout = null,
-        //    CommandBehavior commandBehavior = CommandBehavior.Default,
-        //    SqlTransaction transaction = null)
-        //{
-        //    // Validate arguments
-        //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
-
-        //    storedProcedure.EnsureFullyConstructed();
-
-        //    return ExecuteStoredProcedure(
-        //        connection,
-        //        storedProcedure.GetTwoPartName(),
-        //        storedProcedure.ReturnType,
-        //        storedProcedure.Parameters,
-        //        commandTimeout,
-        //        commandBehavior,
-        //        transaction);
-        //}
-
-
-        ///// <summary>
-        ///// Executes the stored procedure and gets the results.
-        ///// </summary>
-        ///// <param name="connection">This instance.</param>
-        ///// <param name="procedureName">Name of the procedure.</param>
-        ///// <param name="outputType">Type of the output.</param>
-        ///// <param name="procedureParameters">The procedure parameters.</param>
-        ///// <param name="commandTimeout">The command timeout.</param>
-        ///// <param name="commandBehavior">The command behavior.</param>
-        ///// <param name="transaction">The transaction.</param>
-        ///// <exception cref="System.ArgumentNullException">
-        ///// procedureName
-        ///// or
-        ///// outputType
-        ///// </exception>
-        ///// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
-        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        //public static List<object> ExecuteStoredProcedure(
-        //    this SqlConnection connection,
-        //    string procedureName,
-        //    Type outputType,
-        //    IEnumerable<SqlParameter> procedureParameters = null,
-        //    int? commandTimeout = null,
-        //    CommandBehavior commandBehavior = CommandBehavior.Default,
-        //    SqlTransaction transaction = null)
-        //{
-        //    // Validate arguments
-        //    if(procedureName == null) throw new ArgumentNullException("procedureName");
-        //    if(procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-        //    if (outputType == null) throw new ArgumentNullException("outputType");
-
-        //    // Downcast the connection to it's base and call through
-        //    // to secondary extenstion method.
-        //    DbConnection dbConnection = connection;
-        //    return dbConnection.ExecuteStoredProcedure(
-        //        procedureName,
-        //        outputType,
-        //        procedureParameters,
-        //        commandTimeout,
-        //        commandBehavior,
-        //        transaction);
-        //}
-
-
         /// <summary>
         /// Executes the stored procedure  and gets the results..
         /// </summary>
@@ -97,7 +20,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
-        public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
+        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
             this SqlConnection connection,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
@@ -118,7 +41,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // Return the results of the call through to the 
             // extension method on the Dbconnection
-            return dbConnection.ExecSproc(
+            return dbConnection.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeout,
                 commandBehavior,
@@ -142,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
+        public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
             this SqlConnection connection,
             string procedureName,
             Type outputType,
@@ -151,7 +74,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
             where TReturnType : class
-            where TParameterType : class
         {
             // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
@@ -164,7 +86,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // Return the results of the call through to the 
             // extension method on the Dbconnection
-            return dbConnection.ExecSproc<TReturnType>(
+            return dbConnection.ExecuteStoredProcedure<TReturnType>(
                 procedureName,
                 outputType,
                 procedureParameters,

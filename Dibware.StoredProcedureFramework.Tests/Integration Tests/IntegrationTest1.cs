@@ -70,7 +70,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
             
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.IsNull(results);
@@ -149,7 +149,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            List<AllCommonDataTypesReturnType> results = Context.ExecSproc(procedure);
+            List<AllCommonDataTypesReturnType> results = Context.ExecuteStoredProcedure(procedure);
             var result = results.First();
 
             // ASSERT
@@ -199,7 +199,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.AreEqual(expectedCount, results.Count);
@@ -217,7 +217,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.IsInstanceOfType(results.First(), expectedType);
@@ -242,7 +242,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.AreEqual(expectedCount, results.Count);
@@ -262,7 +262,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.AreEqual(expectedName, results.First().TenantName);
@@ -287,7 +287,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
             var result = results.FirstOrDefault();
 
             // ASSERT
@@ -311,7 +311,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();
@@ -333,7 +333,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecSproc(procedure);
+            var results = Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();
@@ -352,7 +352,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             var procedure = new VarCharTestProcedureStoredProcedure(parameters);
 
             // ACT
-            Context.ExecSproc(procedure);
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();
@@ -374,9 +374,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
         //    // ACT
 
-        //    var results = Context.ExecSproc(procedure);
+        //    var results = Context.ExecuteStoredProcedure(procedure);
 
-        //    //List<object> tenantResults = Context.ExecSproc<Tenant>(
+        //    //List<object> tenantResults = Context.ExecuteStoredProcedure<Tenant>(
         //    //    procedure);
 
         //    // next we need to be able to get an explicit list as the return rather than an list of objects.

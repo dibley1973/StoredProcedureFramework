@@ -54,7 +54,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecSproc<TReturnType, TParameterType>(
+        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
             this DbConnection connection,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
@@ -79,7 +79,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 BuildProcedureParameters(storedProcedure);
 
             // Populate results using an overload
-            var results = ExecSproc<TReturnType>(
+            var results = ExecuteStoredProcedure<TReturnType>(
                 connection,
                 procedureName,
                 returnType,
@@ -93,7 +93,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecSproc<TReturnType>(
+        public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
             this DbConnection connection,
             string procedureName,
             Type outputType,
