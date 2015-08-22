@@ -6,6 +6,7 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.DecimalTests;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
@@ -273,12 +274,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         #region LessColumnsInResultSetThanReturnObject
 
         [TestMethod]
-        public void LessColumnsInResultSetThanReturnObject_DoesWaht()
+        [ExpectedException(typeof(MissingFieldException))]
+        public void LessColumnsInProcedureResultSetThanReturnObject_DoesWaht()
         {
             // TODO - create test
+            var procedure = new DecimalTestStoredProcedure();
+            procedure.InitializeFromAttributes();
 
-
-
+            // ACT
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();

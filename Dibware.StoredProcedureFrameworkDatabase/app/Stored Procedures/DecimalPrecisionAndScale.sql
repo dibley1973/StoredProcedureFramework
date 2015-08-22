@@ -3,7 +3,7 @@
 -- Create date: 2015-08-19
 -- Description:	Used to test decimal precision
 -- =============================================
-CREATE PROCEDURE [app].[DecimalPrecisionAndScale ]
+CREATE PROCEDURE app.DecimalPrecisionAndScale 
 	-- Add the parameters for the stored procedure here
 	@Value1 decimal(10,3) = 0, 
 	@Value2 decimal(7,1) = 0
@@ -15,6 +15,6 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT 
-        @Value1, 
-        CAST(@Value2 as decimal(10,3));
+        @Value1                         [Value1]
+    ,   CAST(@Value2 as decimal(10,3))  [Value2];
 END

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.StoredProcAttributes;
+using System;
 using System.Data.Common;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.StoredProcAttributes;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -110,34 +111,59 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     //}
                     //else
                     //{
-                        // get the requested value from the returned dataset and handle null values
-                        var data = reader[fieldName];
-                        if (data is DBNull) propertyInfo.SetValue(targetObject, null, null);
-                        
-                        else propertyInfo.SetValue(targetObject, reader[fieldName], null);
+                    // get the requested value from the returned dataset and handle null values
+                    var data = reader[fieldName];
+                    if (data is DBNull) propertyInfo.SetValue(targetObject, null, null);
+
+                    else propertyInfo.SetValue(targetObject, reader[fieldName], null);
                     //}
                 }
                 catch (Exception ex)
                 {
-                    if (ex.GetType() == typeof(IndexOutOfRangeException))
-                    {
-                        // if the result set doesn'targetObject have this value, intercept the exception
-                        // and set the property value to null / 0
-                        propertyInfo.SetValue(targetObject, null, null);
-                    }
-                    else
-                    {
-                        // tell the user *where* we had an exception
-                        Exception outer = new Exception(String.Format("Exception processing return column {0} in {1}",
-                            fieldName, targetObject.GetType().Name), ex);
-
-                        // something bad happened, pass on the exception
-                        throw outer;
-                    }
+                    // handles missing fields from result set exceptions
+                    string returnTypeName = targetObject.GetType().Name;
+                    HandleMissingField(ex, fieldName, returnTypeName);
+                    HandleOtherExceptions(ex, fieldName, returnTypeName);
                 }
             }
 
             return targetObject;
+        }
+
+        /// <summary>
+        /// Handles the missing field.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="returnTypeName">Name of the return type.</param>
+        /// <exception cref="System.MissingFieldException">Thrown if the specified exception is IndexOutOfRangeException</exception>
+        private static void HandleMissingField(Exception ex,
+            string fieldName, string returnTypeName)
+        {
+            if (ex is IndexOutOfRangeException)
+            {
+                // Create an informative message
+                string message = string.Format(
+                    ExceptionMessages.FieldNotFoundForName, 
+                    fieldName, returnTypeName);
+                throw new MissingFieldException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Handles the other exceptions.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="returnTypeName">Name of the return type.</param>
+        private static void HandleOtherExceptions(Exception ex, string fieldName, string returnTypeName)
+        {
+            string message = string.Format(
+                ExceptionMessages.ProcessingReturnColumnError,
+                fieldName,
+                returnTypeName);
+            throw (Exception)Activator.CreateInstance(ex.GetType(), message, ex);
+
         }
     }
 }

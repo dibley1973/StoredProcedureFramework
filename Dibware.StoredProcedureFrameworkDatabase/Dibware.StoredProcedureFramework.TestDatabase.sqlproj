@@ -89,5 +89,6 @@
     <Build Include="app\Stored Procedures\ReturnNoResult.sql" />
     <Build Include="app\Stored Procedures\AllCommonDataTypes.sql" />
     <Build Include="app\Stored Procedures\DecimalPrecisionAndScale.sql" />
+    <Build Include="app\Stored Procedures\DecimalTest.sql" />
   </ItemGroup>
 </Project>

@@ -70,6 +70,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The resultset returned from the stored procedure does not contain a field of the name &apos;{0}&apos; found in return type &apos;{1}&apos;.
+        /// </summary>
+        public static string FieldNotFoundForName {
+            get {
+                return ResourceManager.GetString("FieldNotFoundForName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected type of &apos;{1}&apos;, but actual type was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterInvalidTypeFormat {
@@ -93,6 +102,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         public static string ParameterPrecisionAndScaleOutOfRangeFormat {
             get {
                 return ResourceManager.GetString("ParameterPrecisionAndScaleOutOfRangeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception processing return column {0} in {1}.
+        /// </summary>
+        public static string ProcessingReturnColumnError {
+            get {
+                return ResourceManager.GetString("ProcessingReturnColumnError", resourceCulture);
             }
         }
         
