@@ -1,8 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.StoredProcAttributes;
-using System;
+﻿using System;
 using System.Data.Common;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -83,8 +82,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="reader">data reader holding return data</param>
         /// <param name="targetObject">object to populate</param>
         /// <param name="props">properties list to copy from result set row 'reader' to object 'targetObject'</param>
-        /// <returns></returns>
-        public static object ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] props)
+        public static void ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] props)
         {
             string fieldName = "";
 
@@ -97,7 +95,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     // my version of this code! currently working without, but may be a good place
                     // to investigate if issues start to happen.
                     // default name is property name, override of parameter name by attribute
-                    var attr = propertyInfo.GetAttribute<NameAttribute>();
+                    //var attr = propertyInfo.GetAttribute<NameAttribute>();
                     //fieldName = (null == attr) ? propertyInfo.Name : attr.Value;
                     fieldName = propertyInfo.Name;
 
@@ -113,9 +111,14 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     //{
                     // get the requested value from the returned dataset and handle null values
                     var data = reader[fieldName];
-                    if (data is DBNull) propertyInfo.SetValue(targetObject, null, null);
-
-                    else propertyInfo.SetValue(targetObject, reader[fieldName], null);
+                    if (data is DBNull)
+                    {
+                        propertyInfo.SetValue(targetObject, null, null);
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(targetObject, data, null);
+                    }
                     //}
                 }
                 catch (Exception ex)
@@ -127,7 +130,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 }
             }
 
-            return targetObject;
+            //return targetObject;
         }
 
         /// <summary>
@@ -144,7 +147,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             {
                 // Create an informative message
                 string message = string.Format(
-                    ExceptionMessages.FieldNotFoundForName, 
+                    ExceptionMessages.FieldNotFoundForName,
                     fieldName, returnTypeName);
                 throw new MissingFieldException(message, ex);
             }
