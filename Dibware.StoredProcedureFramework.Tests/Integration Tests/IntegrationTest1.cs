@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -287,6 +288,33 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             // ASSERT
             Assert.Fail();
         }
+
+        #endregion
+
+        #region Null Parameter Tests
+
+        [TestMethod]
+        public void NullValueParameterProcedure_Does()
+        {
+            // ARRANGE
+            int? expectedValue1 = 10;
+            int? expectedvalue2 = null;
+            var parameters = new NullValueParameterParameters
+            {
+                Value1 = expectedValue1,
+                Value2 = expectedvalue2
+            };
+            var procedure = new NullValueParameterStoreProcedure(parameters);
+
+            // ACT
+            var results = Context.ExecuteStoredProcedure(procedure);
+            var result = results.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue1, result.Value1);
+            Assert.AreEqual(expectedvalue2, result.Value2);
+        }
+
 
         #endregion
 
