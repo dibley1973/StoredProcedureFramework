@@ -163,13 +163,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     procedureName,
                     ex.Message);
 
+                Type exceptionType = ex.GetType();
+
                 // Option 1: Edit the actual message field insode the exception and rethrow
-                //ex.GetType().GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ex, message);
-                //throw ex;
+                var fieldInfo = exceptionType.GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (fieldInfo != null) fieldInfo.SetValue(ex, message);
+                throw;
 
                 // Option 2: Create a new insatnce of the same type as the caught
                 // exception with a new message, and throw that
-                throw (Exception)Activator.CreateInstance(ex.GetType(), message, ex);
+                //throw (Exception)Activator.CreateInstance(exceptionType, message, ex);
             }
             finally
             {
@@ -264,6 +267,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 // then validate the value and if validation passes, set it 
                 var value = propertyInfo.GetValue(procedure.Parameters);
                 ValidateParameterValueIsInRange(sqlParameter, value);
+                if (value == null) value = DBNull.Value; /* Handle null values */
                 sqlParameter.Value = value;
             }
         }

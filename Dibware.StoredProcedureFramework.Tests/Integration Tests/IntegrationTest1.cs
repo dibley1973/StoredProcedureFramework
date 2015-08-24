@@ -7,6 +7,7 @@ using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Tenant
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.DecimalTests;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
@@ -15,7 +16,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
@@ -305,6 +305,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = expectedvalue2
             };
             var procedure = new NullValueParameterStoreProcedure(parameters);
+            procedure.InitializeFromAttributes();
 
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);
