@@ -123,6 +123,9 @@
   <data name="FieldNotFoundForName" xml:space="preserve">
     <value>The resultset returned from the stored procedure does not contain a field of the name '{0}' found in return type '{1}'</value>
   </data>
+  <data name="FieldNotNullableTypeFormat" xml:space="preserve">
+    <value>Field '{0}' had an expected non-nullable type of '{1}' but DBNull.Value was returned for a nullable type of '{2}'</value>
+  </data>
   <data name="ParameterInvalidTypeFormat" xml:space="preserve">
     <value>Parameter '{0}' had an expected type of '{1}', but actual type was '{2}'. </value>
   </data>

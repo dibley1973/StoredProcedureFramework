@@ -43,6 +43,7 @@
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
     <Compile Include="DataInfo\StringInfo.cs" />
+    <Compile Include="Exceptions\NullableFieldTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />

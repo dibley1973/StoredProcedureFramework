@@ -79,6 +79,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; had an expected non-nullable type of &apos;{1}&apos; but DBNull.Value was returned for a nullable type of &apos;{2}&apos;.
+        /// </summary>
+        public static string FieldNotNullableTypeFormat {
+            get {
+                return ResourceManager.GetString("FieldNotNullableTypeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected type of &apos;{1}&apos;, but actual type was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterInvalidTypeFormat {

@@ -1,12 +1,28 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Resources;
+using System;
 using System.Data.Common;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
     internal static class DbDataReaderExtensions
     {
+        /// <summary>
+        /// Gets the data type of the specified column by name.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">fieldName</exception>
+        public static Type GetFieldType(this DbDataReader instance,
+            string fieldName)
+        {
+            if (string.IsNullOrEmpty(fieldName)) throw new ArgumentNullException("fieldName");
+
+            var ordinal = instance.GetOrdinal(fieldName);
+            return instance.GetFieldType(ordinal);
+        }
 
         ///// <summary>
         ///// Read streamed data from SQL Server into a file or memory stream. If the target property for the data in object 't' is not
@@ -111,9 +127,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     //{
                     // get the requested value from the returned dataset and handle null values
                     var data = reader[fieldName];
+
                     if (data is DBNull)
                     {
-                        propertyInfo.SetValue(targetObject, null, null);
+                        // Handle DBNull values
+                        HandleDbNullValues(reader, targetObject, propertyInfo, fieldName);
                     }
                     else
                     {
@@ -131,6 +149,24 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
 
             //return targetObject;
+        }
+
+        private static void HandleDbNullValues(DbDataReader reader, 
+            object targetObject, 
+            PropertyInfo propertyInfo,
+            string fieldName)
+        {
+            var propertyType = propertyInfo.PropertyType;
+            var isNullable = (Nullable.GetUnderlyingType(propertyType) != null);
+            if (isNullable)
+            {
+                propertyInfo.SetValue(targetObject, null, null);
+            }
+            else
+            {
+                Type targetObjectType = reader.GetFieldType(fieldName);
+                throw new NullableFieldTypeException(fieldName, propertyType, targetObjectType);
+            }
         }
 
         /// <summary>

@@ -83,7 +83,7 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalTestStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalTestExtendedReturnType.cs" />
-    <Compile Include="Integration Tests\StoredProcedures\NullValueParameter\NullValueParameterReturnType.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\NullValueParameter\NullValueParameterNullableReturnType.cs" />
     <Compile Include="Integration Tests\StoredProcedures\NullValueParameter\NullValueParameterParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\NullValueParameter\NullValueParameterStoreProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleReturnType.cs" />

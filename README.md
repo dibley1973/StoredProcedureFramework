@@ -19,7 +19,8 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle all common return data types **Done**
 * (Must) Ability to handle precision and scale for number data types **WIP**
 * (Must) Ability to handle stored procedures that return no results **Done**
-* (Must) Ability to handle parameters with NULL value **WIP**
+* (Must) Ability to handle parameters with NULL value **Done**
+* (Must) Ability to handle return types with NULL values **Done**
 * (Must) Contain a suite of unit tests that test all public accessors
 * (Must) Contain a suite of integration tests that document usage of the assembly
 * (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**

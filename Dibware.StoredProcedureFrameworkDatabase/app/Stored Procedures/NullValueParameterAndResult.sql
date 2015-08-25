@@ -15,5 +15,5 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT  @Value1     [Value1]
-    ,       @value2     [Value2]
+    ,       @Value2     [Value2]
 END

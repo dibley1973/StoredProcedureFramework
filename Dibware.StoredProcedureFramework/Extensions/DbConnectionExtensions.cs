@@ -135,19 +135,22 @@ namespace Dibware.StoredProcedureFramework.Extensions
                         results = new List<TReturnType>();
 
                         // Populate a DataReder by calling the command
-                        DbDataReader reader = command.ExecuteReader(commandBehavior);
-
-                        // Get properties to save for the current destination type
-                        PropertyInfo[] props = outputType.GetMappedProperties();
-
-                        // Process the result set
-                        while (reader.Read())
+                        using (DbDataReader reader = command.ExecuteReader(commandBehavior))
                         {
-                            AddRecordToResults(outputType, results, reader, props);
-                        }
 
-                        // Close the reader
-                        reader.Close();
+                            // Get properties to save for the current destination type
+                            PropertyInfo[] props = outputType.GetMappedProperties();
+
+                            // Process the result set line by line
+                            while (reader.Read())
+                            {
+                                AddRecordToResults(outputType, results, reader, props);
+                            }
+
+                            // Close the reader
+                            reader.Close();
+                            //reader.Dispose();
+                        }
                     }
                 }
 

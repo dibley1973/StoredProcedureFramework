@@ -294,15 +294,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         #region Null Parameter Tests
 
         [TestMethod]
-        public void NullValueParameterProcedure_Does()
+        public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
         {
             // ARRANGE
             int? expectedValue1 = 10;
-            int? expectedvalue2 = null;
+            //int? expectedvalue2 = null;
             var parameters = new NullValueParameterParameters
             {
                 Value1 = expectedValue1,
-                Value2 = expectedvalue2
+                Value2 = null
             };
             var procedure = new NullValueParameterStoreProcedure(parameters);
             procedure.InitializeFromAttributes();
@@ -313,7 +313,31 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ASSERT
             Assert.AreEqual(expectedValue1, result.Value1);
-            Assert.AreEqual(expectedvalue2, result.Value2);
+            Assert.IsNull(result.Value2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullableFieldTypeException))]
+        public void NullValueParameterProcedure_WithNonNullableParamatersAndReturnType_Throws()
+        {
+            // ARRANGE
+            int? expectedValue1 = 10;
+            //int? expectedvalue2 = null;
+            var parameters = new NullValueParameterParameters
+            {
+                Value1 = expectedValue1,
+                Value2 = null
+            };
+            var procedure = new NullValueParameterStoreProcedure2(parameters);
+            procedure.InitializeFromAttributes();
+
+            // ACT
+            var results = Context.ExecuteStoredProcedure(procedure);
+            var result = results.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedValue1, result.Value1);
+            Assert.IsNull(result.Value2);
         }
 
 
