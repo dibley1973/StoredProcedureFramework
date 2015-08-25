@@ -13,7 +13,23 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
 
         private IntegrationTestContext _context;
         private TransactionScope _transaction;
-        private const bool CreateTransaction = true;
+        //private const bool CreateTransaction = true;
+
+        #endregion
+
+        #region Test Pre and Clear down
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            PrepareDatabase();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            CleanupDatabase();
+        }
 
         #endregion
 
@@ -22,23 +38,23 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base
         /// <summary>
         /// Prepares the database.
         /// </summary>
-        public void PrepareDatabase()
+        private void PrepareDatabase()
         {
             _context = new IntegrationTestContext("IntegrationTestConnection");
             _context.Database.CreateIfNotExists();
             ClearDownAllTables();
-            if (CreateTransaction)
-            {
-                _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
-            }
+            //if (CreateTransaction)
+            //{
+            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
+            //}
         }
 
-        protected void CleanupDatabase()
+        private void CleanupDatabase()
         {
-            if (CreateTransaction)
-            {
-                if (_transaction != null) _transaction.Dispose();
-            }
+            //if (CreateTransaction)
+            //{
+            if (_transaction != null) _transaction.Dispose();
+            //}
             _context.Dispose();
         }
 

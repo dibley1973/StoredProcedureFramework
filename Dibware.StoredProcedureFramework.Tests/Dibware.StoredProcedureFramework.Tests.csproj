@@ -68,6 +68,7 @@
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
     <Compile Include="Integration Tests\Base\BaseIntegrationTest.cs" />
     <Compile Include="Integration Tests\IntegrationTest1.cs" />
+    <Compile Include="Integration Tests\OutputParameterTests.cs" />
     <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyForTenantResultRow.cs" />
     <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyForTenantResultRowMetaData.cs" />
     <Compile Include="Integration Tests\ResultSets\CompanyResultSets\CompanyResultRow.cs" />
@@ -81,6 +82,8 @@
     <Compile Include="Integration Tests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterParameters.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalTestStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalTestExtendedReturnType.cs" />
     <Compile Include="Integration Tests\StoredProcedures\NullValueParameter\NullValueParameterNullableReturnType.cs" />

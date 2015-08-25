@@ -22,21 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
     [TestClass]
     public class IntegrationTest1 : BaseIntegrationTest
     {
-        #region Test Pre and Clear down
-
-        [TestInitialize]
-        public void TestSetup()
-        {
-            PrepareDatabase();
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            CleanupDatabase();
-        }
-
-        #endregion
+        
 
         #region Tests
 

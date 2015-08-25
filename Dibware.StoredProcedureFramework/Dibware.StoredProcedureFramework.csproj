@@ -54,6 +54,7 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="NullStoredProcedureResult.cs" />
     <Compile Include="Resources\FormatStrings.cs" />
+    <Compile Include="StoredProcAttributes\DirectionAttribute.cs" />
     <Compile Include="StoredProcAttributes\PrecisionAttribute.cs" />
     <Compile Include="StoredProcAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcAttributes\SizeAttribute.cs" />
