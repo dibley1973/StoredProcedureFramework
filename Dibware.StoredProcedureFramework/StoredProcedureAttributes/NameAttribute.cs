@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Parameter name override. Default value for parameter name is the name of the

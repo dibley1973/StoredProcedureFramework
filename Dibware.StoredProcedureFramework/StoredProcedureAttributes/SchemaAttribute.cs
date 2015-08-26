@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Allows the setting of the user defined table type name for table valued parameters

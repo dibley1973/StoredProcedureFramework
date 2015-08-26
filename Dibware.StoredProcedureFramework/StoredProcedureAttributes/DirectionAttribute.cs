@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Defines the direction of data flow for the property/parameter.

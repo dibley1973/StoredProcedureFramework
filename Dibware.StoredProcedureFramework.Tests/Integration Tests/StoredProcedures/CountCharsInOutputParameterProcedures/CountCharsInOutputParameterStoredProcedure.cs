@@ -1,10 +1,11 @@
 ﻿
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.CountCharsInOutputParameterProcedures
 {
-    [StoredProcAttributes.SchemaAttribute("app")]
-    [StoredProcAttributes.Name("CountCharsInOutputParameter")]
+    [Schema("app")]
+    [Name("CountCharsInOutputParameter")]
     internal class CountCharsInOutputParameterStoredProcedure
         : StoredProcedureBase<NullValueParameterNullableReturnType, CountCharsInOutputParameterParameters>
     {

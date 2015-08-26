@@ -1,4 +1,5 @@
 ﻿using System;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.CompanyResultSets
 {
@@ -7,19 +8,19 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Co
     /// </summary>
     public class CompanyResultRowMetaData
     {
-        [StoredProcAttributes.Name("CompanyID")]
+        [Name("CompanyID")]
         public Guid CompanyID { get; set; }
 
-        [StoredProcAttributes.Name("TenantID")]
+        [Name("TenantID")]
         public Guid TenantID { get; set; }
 
-        [StoredProcAttributes.Name("IsActive")]
+        [Name("IsActive")]
         public bool IsActive { get; set; }
 
-        [StoredProcAttributes.Name("CompanyName")]
+        [Name("CompanyName")]
         public string CompanyName { get; set; }
 
-        [StoredProcAttributes.Name("RecordCreatedDateTime")]
+        [Name("RecordCreatedDateTime")]
         public DateTime RecordCreatedDateTime { get; set; }
     }
 }

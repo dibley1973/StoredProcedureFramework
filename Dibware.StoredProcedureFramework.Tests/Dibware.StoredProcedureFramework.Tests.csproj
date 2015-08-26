@@ -68,6 +68,8 @@
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
     <Compile Include="Integration Tests\AllCommonDataTypesTests.cs" />
     <Compile Include="Integration Tests\Base\BaseIntegrationTest.cs" />
+    <Compile Include="Integration Tests\SizeAttributeTests.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\SizeAttributeProcedures\SizeAttributeParameters.cs" />
     <Compile Include="Integration Tests\TenantDataBasedTests.cs" />
     <Compile Include="Integration Tests\LessColumnsInResultSetThanReturnObjectTests.cs" />
     <Compile Include="Integration Tests\NullParameterTests.cs" />

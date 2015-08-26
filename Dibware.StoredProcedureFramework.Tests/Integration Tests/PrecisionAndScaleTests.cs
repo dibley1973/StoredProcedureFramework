@@ -1,7 +1,6 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.PrecisionAndScale;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VarCharTestProcedures;
 using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -73,25 +72,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);
-
-            // ASSERT
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(SqlParameterOutOfRangeException))]
-        public void CallVarcharProcedureWithIncorrectLength_ThrowsSqlParameterOutOfRangeException()
-        {
-            // ARRANGE
-            const string initialvalue = @"12345678901234567890";
-            var parameters = new VarCharTestProcedureParameters
-            {
-                Parameter1 = initialvalue
-            };
-            var procedure = new VarCharTestProcedureStoredProcedure(parameters);
-
-            // ACT
-            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();

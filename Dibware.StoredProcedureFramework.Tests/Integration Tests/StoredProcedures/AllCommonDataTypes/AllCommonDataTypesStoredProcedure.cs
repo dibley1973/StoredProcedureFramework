@@ -1,7 +1,9 @@
-﻿namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes
+﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+
+namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.AllCommonDataTypes
 {
-    [StoredProcAttributes.SchemaAttribute("app")]
-    [StoredProcAttributes.Name("AllCommonDataTypes")]
+    [Schema("app")]
+    [Name("AllCommonDataTypes")]
     internal class AllCommonDataTypesStoredProcedure
         : StoredProcedureBase<AllCommonDataTypesReturnType, AllCommonDataTypesParameters>
     {

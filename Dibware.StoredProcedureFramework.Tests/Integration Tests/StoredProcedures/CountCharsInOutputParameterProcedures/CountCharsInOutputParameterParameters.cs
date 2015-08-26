@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using Dibware.StoredProcedureFramework.StoredProcAttributes;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.CountCharsInOutputParameterProcedures
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Define the SqlDbType for the parameter corresponding to this property.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Defines the number of characters allowed for character-based data types. 

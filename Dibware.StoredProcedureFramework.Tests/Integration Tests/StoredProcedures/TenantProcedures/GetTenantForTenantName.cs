@@ -1,12 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcAttributes;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
+﻿using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 using System.Data;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
 {
-    [SchemaAttribute("app")]
+    [Schema("app")]
     [Name("Tenant_GetForTenantName")]
-    [ReturnTypeAttribute(typeof(TenantResultRow))]
+    [ReturnType(typeof(TenantResultRow))]
     internal class GetTenantForTenantName
     {
         [Name("TenantName")]
@@ -14,7 +14,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         public string TenantName { get; set; }
     }
 
-    [SchemaAttribute("app")]
+    [Schema("app")]
     [Name("Tenant_GetForTenantName")]
     internal class GetTenantForTenantNameProcedure
         : StoredProcedureBase<TenantResultRow, GetTenantForTenantNameParameters>

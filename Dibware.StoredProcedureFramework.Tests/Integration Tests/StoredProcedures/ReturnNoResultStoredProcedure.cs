@@ -1,9 +1,11 @@
 ﻿
 
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures
 {
-    [StoredProcAttributes.SchemaAttribute("app")]
-    [StoredProcAttributes.Name("ReturnNoResult")]
+    [Schema("app")]
+    [Name("ReturnNoResult")]
     internal class ReturnNoResultStoredProcedure
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
@@ -11,12 +13,12 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         {
         }
 
-        public ReturnNoResultStoredProcedure(string procedureName, NullStoredProcedureParameters parameters) : base(procedureName, parameters)
-        {
-        }
+        //public ReturnNoResultStoredProcedure(string procedureName, NullStoredProcedureParameters parameters) : base(procedureName, parameters)
+        //{
+        //}
 
-        public ReturnNoResultStoredProcedure(string schemaName, string procedureName, NullStoredProcedureParameters parameters) : base(schemaName, procedureName, parameters)
-        {
-        }
+        //public ReturnNoResultStoredProcedure(string schemaName, string procedureName, NullStoredProcedureParameters parameters) : base(schemaName, procedureName, parameters)
+        //{
+        //}
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     /// <summary>
     /// Defines the maximum number of digits that can appear to 

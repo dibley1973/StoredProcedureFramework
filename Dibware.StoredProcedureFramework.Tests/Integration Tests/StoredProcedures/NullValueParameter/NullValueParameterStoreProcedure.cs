@@ -1,8 +1,10 @@
 ﻿
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter
 {
-    [StoredProcAttributes.SchemaAttribute("app")]
-    [StoredProcAttributes.Name("NullValueParameterAndResult")]
+    [Schema("app")]
+    [Name("NullValueParameterAndResult")]
     internal class NullValueParameterStoreProcedure
         : StoredProcedureBase<NullValueParameterNullableReturnType, NullValueParameterParameters>
     {
@@ -13,8 +15,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
         }
     }
 
-    [StoredProcAttributes.SchemaAttribute("app")]
-    [StoredProcAttributes.Name("NullValueParameterAndResult")]
+    [Schema("app")]
+    [Name("NullValueParameterAndResult")]
     internal class NullValueParameterStoreProcedure2
         : StoredProcedureBase<NullValueParameterNonNullableReturnType, NullValueParameterParameters>
     {

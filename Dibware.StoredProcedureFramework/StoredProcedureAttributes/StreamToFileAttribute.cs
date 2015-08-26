@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+﻿namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     ///// <summary>
     ///// Stream to File output

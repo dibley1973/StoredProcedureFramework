@@ -1,4 +1,4 @@
-﻿namespace Dibware.StoredProcedureFramework.StoredProcAttributes
+﻿namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
 {
     ///// <summary>
     ///// Stream to MemoryStream, Array or String

@@ -1,8 +1,8 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.StoredProcAttributes;
 using System;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework
 {

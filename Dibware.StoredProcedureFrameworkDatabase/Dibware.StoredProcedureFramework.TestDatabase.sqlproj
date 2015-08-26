@@ -92,5 +92,6 @@
     <Build Include="app\Stored Procedures\DecimalTest.sql" />
     <Build Include="app\Stored Procedures\NullValueParameterAndResult.sql" />
     <Build Include="app\Stored Procedures\CountCharsInOutputParameter.sql" />
+    <Build Include="app\Stored Procedures\SizeAttributeTest.sql" />
   </ItemGroup>
 </Project>

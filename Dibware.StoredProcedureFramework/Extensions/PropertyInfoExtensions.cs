@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -49,7 +49,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 //TODO: complete this below!
                 //// save direction (default is input)
-                var directionAttribute = propertyInfo.GetAttribute<StoredProcAttributes.DirectionAttribute>();
+                var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
                 if (null != directionAttribute)
                 sqlParameter.Direction = directionAttribute.Value;
                 //sqlParameter.Direction = DefaultParameterDirection;

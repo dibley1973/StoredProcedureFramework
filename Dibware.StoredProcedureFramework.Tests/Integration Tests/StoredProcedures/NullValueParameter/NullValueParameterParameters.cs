@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcAttributes;
-using System.Data;
+﻿using System.Data;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter
 {

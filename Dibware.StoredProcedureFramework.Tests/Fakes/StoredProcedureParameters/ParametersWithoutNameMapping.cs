@@ -1,15 +1,16 @@
 ﻿using System.Data;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters
 {
     internal class ParametersWithoutNameMapping
     {
-        [StoredProcAttributes.NameAttribute("Id")]
-        [StoredProcAttributes.ParameterDbTypeAttribute(SqlDbType.VarChar)]
+        [Name("Id")]
+        [ParameterDbType(SqlDbType.VarChar)]
         public string Id { get; set; }
 
-        [StoredProcAttributes.NameAttribute("Name")]
-        [StoredProcAttributes.ParameterDbTypeAttribute(SqlDbType.VarChar)]
+        [Name("Name")]
+        [ParameterDbType(SqlDbType.VarChar)]
         public string Name { get; set; }
     }
 }

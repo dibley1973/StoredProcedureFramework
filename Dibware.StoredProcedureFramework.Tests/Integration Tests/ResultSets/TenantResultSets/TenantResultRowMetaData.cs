@@ -1,4 +1,5 @@
 ﻿using System;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets
 {
@@ -7,16 +8,16 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.Te
     /// </summary>
     public class TenantResultRowMetaData
     {
-        [StoredProcAttributes.Name("TenantId")]
+        [Name("TenantId")]
         public int TenantId { get; set; }
 
-        [StoredProcAttributes.Name("IsActive")]
+        [Name("IsActive")]
         public bool IsActive { get; set; }
 
-        [StoredProcAttributes.Name("TenantName")]
+        [Name("TenantName")]
         public string TenantName { get; set; }
 
-        [StoredProcAttributes.Name("RecordCreatedDateTime")]
+        [Name("RecordCreatedDateTime")]
         public DateTime RecordCreatedDateTime { get; set; }
     }
 }
