@@ -49,10 +49,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 //TODO: complete this below!
                 //// save direction (default is input)
-                //var dir = propertyInfo.GetAttribute<StoredProcAttributes.Direction>();
-                //if (null != dir)
-                //sqlParameter.Direction = dir.Value;
-                sqlParameter.Direction = DefaultParameterDirection;
+                var directionAttribute = propertyInfo.GetAttribute<StoredProcAttributes.DirectionAttribute>();
+                if (null != directionAttribute)
+                sqlParameter.Direction = directionAttribute.Value;
+                //sqlParameter.Direction = DefaultParameterDirection;
 
                 // save size
                 var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();

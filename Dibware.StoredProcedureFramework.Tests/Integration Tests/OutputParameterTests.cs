@@ -1,4 +1,6 @@
 ﻿using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.CountCharsInOutputParameterProcedures;
+using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
@@ -10,23 +12,22 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
         {
             // ARRANGE
-            //int? expectedValue1 = 10;
-            ////int? expectedvalue2 = null;
-            //var parameters = new NullValueParameterParameters
-            //{
-            //    Value1 = expectedValue1,
-            //    Value2 = null
-            //};
-            //var procedure = new NullValueParameterStoreProcedure(parameters);
-            //procedure.InitializeFromAttributes();
+            const string expectedValue1 = "MonkeyTube";
+            const int initialValue2 = 0;
+            int expectedvalue2 = expectedValue1.Length;
+            var parameters = new CountCharsInOutputParameterParameters
+            {
+                Value1 = expectedValue1,
+                Value2 = initialValue2
+            };
+            var procedure = new CountCharsInOutputParameterStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
 
             // ACT
-            //var results = Context.ExecuteStoredProcedure(procedure);
-            //var result = results.First();
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
-            //Assert.AreEqual(expectedValue1, result.Value1);
-            //Assert.IsNull(result.Value2);
+            Assert.AreEqual(expectedvalue2, parameters.Value2);
         }
     }
 }

@@ -14,10 +14,11 @@ The aim of this project is to provide the following:
 * (Must) Ability to execute the stored procedure represented by the POCO against DBConnection using extensions **WIP**
 * (Must) Ability to execute the stored procedure represented by the POCO against SqlConnection using extensions **WIP**
 * (Must) Ability to execute the stored procedure represented by the POCO against DBContext using extensions **WIP**
-* (Must) Ability to handle output parameters
+* (Must) Ability to handle output parameters **Done**
 * (Must) Ability to handle all common parameter types **Done**
 * (Must) Ability to handle all common return data types **Done**
 * (Must) Ability to handle precision and scale for number data types **WIP**
+* (Must) Ability to handle size for string data types 
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**

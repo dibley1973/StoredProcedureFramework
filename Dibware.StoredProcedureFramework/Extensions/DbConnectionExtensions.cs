@@ -87,6 +87,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 commandBehavior,
                 transaction);
 
+            // Process any output parameters
+            ProcessOutputParms(procedureParameters, storedProcedure);
+
             // return the results
             return results;
         }
@@ -212,7 +215,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             results.Add(item);
         }
 
-        private static IEnumerable<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
+        private static ICollection<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
             IStoredProcedure<TReturnType, TParameterType> procedure)
             where TReturnType : class
             where TParameterType : class
@@ -228,6 +231,38 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // Return parameters
             return sqlParameters;
+        }
+
+
+
+        private static void ProcessOutputParms<TReturnType, TParameterType>(IEnumerable<SqlParameter> procedureParameters,
+            IStoredProcedure<TReturnType, TParameterType> storedProcedure)
+            where TReturnType : class
+            where TParameterType : class
+        {
+            // Validate arguments
+            if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+            
+            // If the procdeure has no parameters then bug out of this method
+            if (storedProcedure.Parameters is NullStoredProcedureParameters || 
+                procedureParameters == null) return;
+
+            // create mapped properties
+            var mappedProperties = typeof(TParameterType).GetMappedProperties();
+
+            // we want to write data back to properties for every non-input only parameter
+            foreach (SqlParameter sqlParameter in procedureParameters
+                .Where(p => p.Direction != ParameterDirection.Input)
+                .Select(p => p))
+            {
+                // get the property name mapped to this parameter
+                //String propertyName = MappedParams.Where(p => p.Key == sqlParameter.ParameterName).Select(p => p.Value).First();
+                String propertyName = sqlParameter.ParameterName;
+
+                // extract the matchingproperty and set its value
+                PropertyInfo propertyInfo = mappedProperties.Where(p => p.Name == propertyName).FirstOrDefault();
+                if (propertyInfo != null) propertyInfo.SetValue(storedProcedure.Parameters, sqlParameter.Value, null);
+            }
         }
 
         /// <summary>
