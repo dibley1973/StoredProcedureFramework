@@ -186,6 +186,91 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
+        //public static void ValidateParemeters<TReturnType, TParameterType>(
+        //    this DbConnection connection,
+        //    IStoredProcedure<TReturnType, TParameterType> storedProcedure)
+        //    where TReturnType : class
+        //    where TParameterType : class
+        //{
+        //    // Validate arguments
+        //    if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+
+        //    // Ensure the procedure is fully constructed
+        //    storedProcedure.EnsureFullyConstructed();
+
+        //    // Get the procedure name
+        //    string procedureName = storedProcedure.GetTwoPartName();
+
+        //    // Prepare the parameters if any exist
+        //    IEnumerable<SqlParameter> procedureParameters =
+        //        (storedProcedure.Parameters is NullStoredProcedureParameters) ?
+        //        null :
+        //        BuildProcedureParameters(storedProcedure);
+
+        //    // Pass through to overloaded method
+        //    ValidateParemeters(connection, procedureName, procedureParameters);
+        //}
+
+        //public static void ValidateParemeters(
+        //    this DbConnection connection,
+        //    string procedureName,
+        //    IEnumerable<SqlParameter> procedureParameters)
+        //{
+        //    // Validate arguments
+        //    if (string.IsNullOrEmpty(procedureName)) throw new ArgumentNullException("procedureName");
+        //    if (procedureParameters == null) throw new ArgumentNullException("procedureParameters");
+
+        //    // A flag to track whether we opened the connection or not
+        //    bool connectionWasOpen = (connection.State == ConnectionState.Open);
+
+        //    try
+        //    {
+        //        // Open the connection if it is not
+        //        if (!connectionWasOpen) connection.Open();
+
+        //        // Create a command to execute the stored storedProcedure
+        //        using (DbCommand command = connection.CreateStoredProcedureCommand(
+        //            procedureName,
+        //            procedureParameters))
+        //        {
+        //            // Derive the parameters from teh stored procedure
+        //            SqlCommandBuilder.DeriveParameters(command);
+        //            connection.Database.
+        //            DbCommandBuilder.D
+
+        //            // Check the derived parameters against the 
+
+                    
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //// We want to add a slightly more informative message to the
+        //        //// exception before rethrowing it
+        //        //var message = string.Format(
+        //        //    ExceptionMessages.ErrorReadingStoredProcedure,
+        //        //    procedureName,
+        //        //    ex.Message);
+
+        //        //Type exceptionType = ex.GetType();
+
+        //        //// Option 1: Edit the actual message field insode the exception and rethrow
+        //        //var fieldInfo = exceptionType.GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic);
+        //        //if (fieldInfo != null) fieldInfo.SetValue(ex, message);
+        //        //throw;
+
+        //        //// Option 2: Create a new insatnce of the same type as the caught
+        //        //// exception with a new message, and throw that
+        //        ////throw (Exception)Activator.CreateInstance(exceptionType, message, ex);
+        //    }
+        //    finally
+        //    {
+        //        if (connectionWasOpen) connection.Close();
+        //    }
+        //}
+
+
+
         /// <summary>
         /// Adds the record to results.
         /// </summary>
