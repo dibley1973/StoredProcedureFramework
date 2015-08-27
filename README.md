@@ -3,7 +3,7 @@
 This framework can be used with or without the presence of Entity Framework, but a seperate dll is required when using EF.
 
 **Please Note:**
-This is an on-going project and has been inspired by and some of teh ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
+This is an on-going project and has been inspired by and some of the ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
 ## Project Brief ##
@@ -18,7 +18,7 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle all common parameter types **Done**
 * (Must) Ability to handle all common return data types **Done**
 * (Must) Ability to handle precision and scale for number data types **WIP**
-* (Must) Ability to handle size for string data types 
+* (Must) Ability to handle size for string data types **WIP**
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**

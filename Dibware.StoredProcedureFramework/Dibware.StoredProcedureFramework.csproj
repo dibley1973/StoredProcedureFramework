@@ -47,6 +47,8 @@
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
+    <Compile Include="Helpers\SqlParameterHelper.cs" />
+    <Compile Include="NoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
@@ -58,8 +60,8 @@
     <Compile Include="StoredProcedureAttributes\PrecisionAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SizeAttribute.cs" />
-    <Compile Include="StoredProcedureNoParametersNoReturnBase.cs" />
-    <Compile Include="StoredProcedureWithNoParametersBase.cs" />
+    <Compile Include="NoParametersNoReturnTypeStoredProcedureBase.cs" />
+    <Compile Include="NoParametersStoredProcedureBase.cs" />
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="Z_LegacyCode\ResultList.cs" />

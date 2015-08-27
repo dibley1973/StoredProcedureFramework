@@ -1,5 +1,6 @@
 ﻿using System;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
+using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FakeParameters = Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters;
@@ -18,7 +19,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             
             // ACT
-            new MostBasicStoredProcedure(null);
+            new StoredProcedureWithParameters(null);
 
             // ASSERT
             Assert.Fail();
@@ -30,8 +31,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string expectedSchemaName = StoredProcedureDefaults.DefaultSchemaName;
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var procedure = new MostBasicStoredProcedure();
             
             // ACT
             var actualSchemaValue = procedure.SchemaName;
@@ -46,8 +46,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             const string expectedSchemaName = StoredProcedureDefaults.DefaultSchemaName;
             const string expectedProcedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(expectedProcedureName, parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(expectedProcedureName, parameters);
 
             // ACT
             var actualSchemaName = procedure.SchemaName;
@@ -61,10 +61,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithEmptyProcedureName_ThrowsArgumentOutOfRangeException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
             
             // ACT
-            new MostBasicStoredProcedure(string.Empty, parameters);
+            new StoredProcedureWithParameters(string.Empty, parameters);
             
             // ASSERT
             Assert.Fail();
@@ -75,10 +75,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithNullProcedureName_ThrowsException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
 
             // ACT
-            new MostBasicStoredProcedure(null, parameters);
+            new StoredProcedureWithParameters(null, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -90,8 +90,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             const string expectedSchemaName = "application";
             const string expectedProcedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(expectedSchemaName, expectedProcedureName, parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(expectedSchemaName, expectedProcedureName, parameters);
 
             // ACT
             var actualSchemaName = procedure.SchemaName;
@@ -106,8 +106,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             const string expectedSchemaName = "application";
             const string expectedProcedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(expectedSchemaName, expectedProcedureName, parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(expectedSchemaName, expectedProcedureName, parameters);
             
             // ACT
             var actualProcedureName = procedure.ProcedureName;
@@ -121,10 +121,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithEmptyProcedureAndSchemaName_ThrowsArgumentOutOfRangeException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
             
             // ACT
-            new MostBasicStoredProcedure(string.Empty, string.Empty, parameters);
+            new StoredProcedureWithParameters(string.Empty, string.Empty, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -136,10 +136,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string expectedProcedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
 
             // ACT
-            new MostBasicStoredProcedure(string.Empty, expectedProcedureName, parameters);
+            new StoredProcedureWithParameters(string.Empty, expectedProcedureName, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -150,10 +150,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithNullProcedureAndSchemaName_ThrowsArgumentNullException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
 
             // ACT
-            new MostBasicStoredProcedure(null, null, parameters);
+            new StoredProcedureWithParameters(null, null, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -165,10 +165,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string expectedProcedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
+            var parameters = new BasicParameters();
 
             // ACT
-            new MostBasicStoredProcedure(null, expectedProcedureName, parameters);
+            new StoredProcedureWithParameters(null, expectedProcedureName, parameters);
 
             // ASSERT
             Assert.Fail();
@@ -183,8 +183,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void EnsureFullyConstructed_WhenConstructedWithParamerters_DoesNotThrowException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.EnsureFullyConstructed();
@@ -208,8 +208,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         //    Assert.Fail();
         //}
 
-        
-
         #endregion
 
         #region GetTwoPartName
@@ -218,10 +216,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void GetTwoPartName_WhenConstructedWithoutProcedureName_ReturnsCorrectly()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
             const string expectedSchemaName = StoredProcedureDefaults.DefaultSchemaName;
-            string expectedProcedureName = typeof(MostBasicStoredProcedure).Name;
+            string expectedProcedureName = typeof(StoredProcedureWithParameters).Name;
             string expectedTwoPartName = String.Concat(
                 expectedSchemaName,
                 StoredProcedureDefaults.DotIdentifier,
@@ -244,9 +242,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
                 expectedSchemaName,
                 StoredProcedureDefaults.DotIdentifier,
                 expectedProcedureName);
-            var parameters = new NullStoredProcedureParameters();
-
-            var procedure = new MostBasicStoredProcedure(expectedProcedureName, parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(expectedProcedureName, parameters);
 
             // ACT
             var actualTwoPartName = procedure.GetTwoPartName();
@@ -264,8 +261,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string procedureName = "GetAllMonkeys";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(procedureName, parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(procedureName, parameters);
 
             // ACT
             var actualvalue = procedure.IsFullyConstructed();
@@ -278,8 +275,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void IsFullyConstructed_WhenProcedureNameNotSet_ReturnsTrue()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             var actualvalue = procedure.IsFullyConstructed();
@@ -367,8 +364,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string expectedValue = "TestName";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetProcedureName(expectedValue);
@@ -383,8 +380,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void SetName_WithInvalidValue_ThrowsArgumentOutOfRangeException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetProcedureName(string.Empty);
@@ -398,8 +395,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void SetName_WithNullValue_ThrowsArgumentNullException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetProcedureName(null);
@@ -450,8 +447,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             const string expectedValue = "TestSchema";
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetSchemaName(expectedValue);
@@ -466,8 +463,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void SetSchema_WithInvalidValue_ThrowsArgumentOutOfRangeException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetSchemaName(string.Empty);
@@ -481,8 +478,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void SetSchema_WithNullValue_ThrowsArgumentNullException()
         {
             // ARRANGE
-            var parameters = new NullStoredProcedureParameters();
-            var procedure = new MostBasicStoredProcedure(parameters);
+            var parameters = new BasicParameters();
+            var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
             procedure.SetSchemaName(null);

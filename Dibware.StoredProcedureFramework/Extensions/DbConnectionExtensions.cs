@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Helpers;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -132,6 +133,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     if (typeof(TReturnType) == typeof(NullStoredProcedureResult))
                     {
                         results = null;
+                        command.ExecuteNonQuery();
                     }
                     else
                     {
@@ -140,7 +142,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                         // Populate a DataReder by calling the command
                         using (DbDataReader reader = command.ExecuteReader(commandBehavior))
                         {
-
                             // Get properties to save for the current destination type
                             PropertyInfo[] props = outputType.GetMappedProperties();
 
@@ -152,7 +153,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                             // Close the reader
                             reader.Close();
-                            //reader.Dispose();
                         }
                     }
                 }
@@ -309,7 +309,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var mappedProperties = typeof(TParameterType).GetMappedProperties();
 
             // Create parameters from mapped properties
-            var sqlParameters = mappedProperties.ToSqlParameters();
+            //var sqlParameters = mappedProperties.ToSqlParameters();
+            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
 
             // Populate parameters from storedProcedure parameters
             PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);

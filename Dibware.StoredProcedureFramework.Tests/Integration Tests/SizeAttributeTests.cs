@@ -114,6 +114,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 
 
         [TestMethod]
+        [Ignore]
         [ExpectedException(typeof(SqlParameterOutOfRangeException))]
         public void CallProcedureWithSizeAttributeLargerThanProcedure_ThrowsException()
         {

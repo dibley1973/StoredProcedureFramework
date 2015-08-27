@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -48,51 +47,51 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 transaction);
         }
 
-        /// <summary>
-        /// Executes the stored procedure and gets the results.
-        /// </summary>
-        /// <param name="connection">This instance.</param>
-        /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="outputType">Type of the output.</param>
-        /// <param name="procedureParameters">The procedure parameters.</param>
-        /// <param name="commandTimeout">The command timeout.</param>
-        /// <param name="commandBehavior">The command behavior.</param>
-        /// <param name="transaction">The transaction.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// procedureName
-        /// or
-        /// outputType
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
-        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
-            this SqlConnection connection,
-            string procedureName,
-            Type outputType,
-            IEnumerable<SqlParameter> procedureParameters = null,
-            int? commandTimeout = null,
-            CommandBehavior commandBehavior = CommandBehavior.Default,
-            SqlTransaction transaction = null)
-            where TReturnType : class
-        {
-            // Validate arguments
-            if (procedureName == null) throw new ArgumentNullException("procedureName");
-            if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (outputType == null) throw new ArgumentNullException("outputType");
+        ///// <summary>
+        ///// Executes the stored procedure and gets the results.
+        ///// </summary>
+        ///// <param name="connection">This instance.</param>
+        ///// <param name="procedureName">Name of the procedure.</param>
+        ///// <param name="outputType">Type of the output.</param>
+        ///// <param name="procedureParameters">The procedure parameters.</param>
+        ///// <param name="commandTimeout">The command timeout.</param>
+        ///// <param name="commandBehavior">The command behavior.</param>
+        ///// <param name="transaction">The transaction.</param>
+        ///// <exception cref="System.ArgumentNullException">
+        ///// procedureName
+        ///// or
+        ///// outputType
+        ///// </exception>
+        ///// <exception cref="System.ArgumentOutOfRangeException">procedureName</exception>
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
+        //    this SqlConnection connection,
+        //    string procedureName,
+        //    Type outputType,
+        //    IEnumerable<SqlParameter> procedureParameters = null,
+        //    int? commandTimeout = null,
+        //    CommandBehavior commandBehavior = CommandBehavior.Default,
+        //    SqlTransaction transaction = null)
+        //    where TReturnType : class
+        //{
+        //    // Validate arguments
+        //    if (procedureName == null) throw new ArgumentNullException("procedureName");
+        //    if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+        //    if (outputType == null) throw new ArgumentNullException("outputType");
 
-            // Downcast the connection to it's base so we can call 
-            // through to it's extenstion method.
-            DbConnection dbConnection = connection;
+        //    // Downcast the connection to it's base so we can call 
+        //    // through to it's extenstion method.
+        //    DbConnection dbConnection = connection;
 
-            // Return the results of the call through to the 
-            // extension method on the Dbconnection
-            return dbConnection.ExecuteStoredProcedure<TReturnType>(
-                procedureName,
-                outputType,
-                procedureParameters,
-                commandTimeout,
-                commandBehavior,
-                transaction);
-        }
+        //    // Return the results of the call through to the 
+        //    // extension method on the Dbconnection
+        //    return dbConnection.ExecuteStoredProcedure<TReturnType>(
+        //        procedureName,
+        //        outputType,
+        //        procedureParameters,
+        //        commandTimeout,
+        //        commandBehavior,
+        //        transaction);
+        //}
     }
 }
