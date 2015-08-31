@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
+    <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
+    <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersButNoReturn.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
