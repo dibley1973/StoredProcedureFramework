@@ -93,5 +93,6 @@
     <Build Include="app\Stored Procedures\NullValueParameterAndResult.sql" />
     <Build Include="app\Stored Procedures\CountCharsInOutputParameter.sql" />
     <Build Include="app\Stored Procedures\SizeAttributeTest.sql" />
+    <Build Include="dbo\Stored Procedures\NormalStoredProcedure.sql" />
   </ItemGroup>
 </Project>
