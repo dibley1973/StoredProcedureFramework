@@ -13,7 +13,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         [ExpectedException(typeof(MissingFieldException))]
         public void LessColumnsInProcedureResultSetThanReturnObject_ThrowsMissingFieldException()
         {
-            // TODO - create test
             var procedure = new DecimalTestStoredProcedure();
             procedure.InitializeFromAttributes();
 

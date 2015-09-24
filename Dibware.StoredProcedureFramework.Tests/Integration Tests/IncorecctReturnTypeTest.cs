@@ -13,7 +13,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         [ExpectedException(typeof(InvalidCastException))]
         public void DifferentDataTypeInReturnTypeThanProcedureResultSet_ThrowsInvalidCastException()
         {
-            // TODO - create test
             var procedure = new DecimalWrongReturnTestStoredProcedure();
             procedure.InitializeFromAttributes();
 
