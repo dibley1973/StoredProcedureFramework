@@ -144,11 +144,24 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     // handles missing fields from result set exceptions
                     string returnTypeName = targetObject.GetType().Name;
                     HandleMissingField(ex, fieldName, returnTypeName);
+                    HandleArgumentException(ex, fieldName, returnTypeName);
                     HandleOtherExceptions(ex, fieldName, returnTypeName);
                 }
             }
 
             //return targetObject;
+        }
+
+        private static void HandleArgumentException(Exception ex, string fieldName, string returnTypeName)
+        {
+            if (ex is ArgumentException)
+            {
+                // Create an informative message
+                string message = string.Format(
+                    ExceptionMessages.FieldNotFoundForName,
+                    fieldName, returnTypeName);
+                throw new InvalidCastException(message, ex);
+            };
         }
 
         private static void HandleDbNullValues(DbDataReader reader, 

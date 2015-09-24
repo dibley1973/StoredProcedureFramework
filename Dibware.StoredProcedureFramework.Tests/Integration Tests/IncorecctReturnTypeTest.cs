@@ -7,14 +7,14 @@ using System;
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
     [TestClass]
-    public class LessColumnsInResultSetThanReturnObjectTests : BaseIntegrationTest
+    public class IncorecctReturnTypeTest : BaseIntegrationTest
     {
         [TestMethod]
-        [ExpectedException(typeof(MissingFieldException))]
-        public void LessColumnsInProcedureResultSetThanReturnObject_ThrowsMissingFieldException()
+        [ExpectedException(typeof(InvalidCastException))]
+        public void DifferentDataTypeInReturnTypeThanProcedureResultSet_ThrowsInvalidCastException()
         {
             // TODO - create test
-            var procedure = new DecimalTestStoredProcedure();
+            var procedure = new DecimalWrongReturnTestStoredProcedure();
             procedure.InitializeFromAttributes();
 
             // ACT

@@ -88,6 +88,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong return data type for field {0} in return type {1}.
+        /// </summary>
+        public static string IncorrectReturnType {
+            get {
+                return ResourceManager.GetString("IncorrectReturnType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected type of &apos;{1}&apos;, but actual type was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterInvalidTypeFormat {
