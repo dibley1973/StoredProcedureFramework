@@ -6,13 +6,17 @@ This framework can be used with or without the presence of Entity Framework, but
 This is an on-going project and has been inspired by and some of the ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
+## Versions
+1.0 This was the initial version which did not support multiple recordsets. To enable multiple recordsets to be supported alongside single recordsets a break to the API is required. Development has stopped on this version but the code will remain available for use.
+2.0 This version will suupport multiple recordsets and will have a different API to version 1.0. This is the version that is currently in development.
+
 ## Project Brief ##
 The aim of this project is to provide the following:
-* (Must) Ability to support a POCO that represent a stored procedure **Done**
-* (Must) Ability to support a POCO that represents a row that is returned by a stored procedure **Done**
-* (Must) Ability to support a POCO that represents the parameters **Done**
-* (Must) Ability to execute the stored procedure represented by the POCO against DBConnection using extensions **Done**
-* (Must) Ability to execute the stored procedure represented by the POCO against SqlConnection using extensions **WIP**
+* (Must) Ability to support a POCO that represent a stored procedure  **Done**
+* (Must) Ability to support a POCO that represents a row that is returned by a stored procedure  **Done**
+* (Must) Ability to support a POCO that represents the parameters  **Done**
+* (Must) Ability to execute the stored procedure represented by the POCO against DBConnection using extensions  **Done**
+* (Must) Ability to execute the stored procedure represented by the POCO against SqlConnection using extensions **Done**
 * (Must) Ability to execute the stored procedure represented by the POCO against DBContext using extensions **Done**
 * (Must) Ability to handle output parameters **Done**
 * (Must) Ability to handle all common parameter types **Done**
@@ -27,7 +31,7 @@ The aim of this project is to provide the following:
 * (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Ability to handle lesser used parameter types
 * (Should) Ability to handle lesser used return data types
-* (Should) Ability to handle multiple recordsets returned from a stored procedure
+* (Should) Ability to handle multiple recordsets returned from a stored procedure **WIP**
 * (Should) Warn calling code if parameter value data may be truncated due to smaller pameter type
 * (Should) Implement David Doran's "FastActivator" for object intanciation
 * (Could) Not have any "Resharper" warnings or "code clones" in production code
