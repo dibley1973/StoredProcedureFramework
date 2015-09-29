@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.NullValueParameter;
 
@@ -7,11 +8,22 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     [Schema("app")]
     [Name("CountCharsInOutputParameter")]
     internal class CountCharsInOutputParameterStoredProcedure
-        : StoredProcedureBase<NullValueParameterNullableReturnType, CountCharsInOutputParameterParameters>
+        : StoredProcedureBase<NullValueParameterNullableResultSet, CountCharsInOutputParameterParameters>
     {
         public CountCharsInOutputParameterStoredProcedure(CountCharsInOutputParameterParameters parameters)
             : base(parameters)
         {
+        }
+    }
+
+
+    internal class NullValueParameterNullableResultSet
+    {
+        public List<NullValueParameterNullableReturnType> RecordSet1 { get; set; }
+
+        public NullValueParameterNullableResultSet()
+        {
+            RecordSet1 = new List<NullValueParameterNullableReturnType>();
         }
     }
 }

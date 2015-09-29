@@ -141,6 +141,9 @@
   <data name="ProcessingReturnColumnError" xml:space="preserve">
     <value>Exception processing return column {0} in {1}</value>
   </data>
+  <data name="RecordSetListNotInstatiated" xml:space="preserve">
+    <value>The RecordSet list property '{0}' in ResultSet object '{1}' was not instantiated!</value>
+  </data>
   <data name="StoredProcedureDoesNotHaveName" xml:space="preserve">
     <value>Stored storedProcedure does not havea name set!</value>
   </data>

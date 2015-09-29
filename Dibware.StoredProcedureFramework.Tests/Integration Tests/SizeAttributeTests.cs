@@ -43,7 +43,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT
@@ -63,7 +64,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1; 
             var result = results.First();
 
             // ASSERT
@@ -105,7 +107,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT
@@ -128,7 +131,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT

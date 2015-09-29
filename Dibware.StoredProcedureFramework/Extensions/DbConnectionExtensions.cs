@@ -3,12 +3,14 @@ using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Resources;
 using Dibware.StoredProcedureFramework.Validators;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Dibware.StoredProcedureFramework.Helpers;
 
 namespace Dibware.StoredProcedureFramework.Extensions
@@ -53,14 +55,23 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return command;
         }
 
+        ////[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
+        //    this DbConnection connection,
+        //    IStoredProcedure<TReturnType, TParameterType> storedProcedure,
+        //    int? commandTimeout = null,
+        //    CommandBehavior commandBehavior = CommandBehavior.Default,
+        //    SqlTransaction transaction = null)
+        //    where TReturnType : class
+        //    where TParameterType : class
         //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
+        public static TReturnType ExecuteStoredProcedure<TReturnType, TParameterType>(
             this DbConnection connection,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
-            where TReturnType : class
+            where TReturnType : class, new()
             where TParameterType : class
         {
             // Validate arguments
@@ -70,7 +81,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             storedProcedure.EnsureFullyConstructed();
 
             string procedureName = storedProcedure.GetTwoPartName();
-            Type returnType = typeof(TReturnType);
+            //Type returnType = typeof(TReturnType);
 
             // Prepare the parameters if any exist
             IEnumerable<SqlParameter> procedureParameters =
@@ -82,7 +93,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var results = ExecuteStoredProcedure<TReturnType>(
                 connection,
                 procedureName,
-                returnType,
+                //returnType,
                 procedureParameters,
                 commandTimeout,
                 commandBehavior,
@@ -95,28 +106,39 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return results;
         }
 
+        ////[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
+        //    this DbConnection connection,
+        //    string procedureName,
+        //    Type outputType,
+        //    IEnumerable<SqlParameter> procedureParameters = null,
+        //    int? commandTimeout = null,
+        //    CommandBehavior commandBehavior = CommandBehavior.Default,
+        //    SqlTransaction transaction = null) where TReturnType : class
         //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
+        public static TReturnType ExecuteStoredProcedure<TReturnType>(
             this DbConnection connection,
             string procedureName,
-            Type outputType,
+            //Type outputType,
             IEnumerable<SqlParameter> procedureParameters = null,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
-            SqlTransaction transaction = null) where TReturnType : class
+            SqlTransaction transaction = null) where TReturnType : class, new()
         {
             // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (outputType == null) throw new ArgumentNullException("outputType");
+            //if (outputType == null) throw new ArgumentNullException("outputType");
 
             // A flag to track whether we opened the connection or not
             bool connectionWasOpen = (connection.State == ConnectionState.Open);
 
             try
             {
-                // Create a result list
-                List<TReturnType> results; // = new List<TReturnType>();
+                // Create a result object
+                TReturnType results;
+
+                //List<TReturnType> results; // = new List<TReturnType>();
 
                 // Open the connection if it is not
                 if (!connectionWasOpen) connection.Open();
@@ -137,19 +159,42 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     }
                     else
                     {
-                        results = new List<TReturnType>();
+                        results = new TReturnType();
+                        Type resultType = typeof(TReturnType);
+                        string typeName = resultType.Name;
+
+                        //results = new List<TReturnType>();
 
                         // Populate a DataReder by calling the command
                         using (DbDataReader reader = command.ExecuteReader(commandBehavior))
                         {
                             // Get properties to save for the current destination type
-                            PropertyInfo[] props = outputType.GetMappedProperties();
+                            PropertyInfo[] returnTypeProps = resultType.GetMappedProperties();
 
-                            // Process the result set line by line
-                            while (reader.Read())
+                            // Iterate through each result set...
+                            var recordSetNumber = 0;
+                            do
                             {
-                                AddRecordToResults(outputType, results, reader, props);
-                            }
+                                var listName = returnTypeProps[recordSetNumber].Name;
+
+                                PropertyInfo info = resultType.GetProperty(listName);
+                                IList dtoList = (IList)info.GetValue(results);
+                                EnsureRecorsetListIsInstantiated(dtoList, typeName, listName);
+
+                                //IList dtoList = (IList)outputType.GetProperty(listName).GetValue(results);
+                                Type dtoListType = dtoList.GetType().GetGenericArguments()[0];
+
+                                PropertyInfo[] props = dtoListType.GetMappedProperties();
+
+                                // Process the result set line by line
+                                while (reader.Read())
+                                {
+                                    AddRecordToResults2(dtoListType, dtoList, reader, props);
+                                }
+
+                                recordSetNumber++;
+
+                            } while (reader.NextResult());
 
                             // Close the reader
                             reader.Close();
@@ -183,6 +228,23 @@ namespace Dibware.StoredProcedureFramework.Extensions
             finally
             {
                 if (connectionWasOpen) connection.Close();
+            }
+        }
+
+        private static void EnsureRecorsetListIsInstantiated(
+            IList dtoList,
+            string resultSetTypeName,
+            string listPropertyName)
+        {
+
+            if (dtoList == null)
+            {
+                string errorMessage = string.Format(
+                   ExceptionMessages.RecordSetListNotInstatiated,
+                   resultSetTypeName,
+                   listPropertyName);
+
+                throw new NullReferenceException(errorMessage);
             }
         }
 
@@ -240,7 +302,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         //            // Check the derived parameters against the 
 
-                    
+
         //        }
         //    }
         //    catch (Exception ex)
@@ -269,6 +331,38 @@ namespace Dibware.StoredProcedureFramework.Extensions
         //    }
         //}
 
+
+        /// <summary>
+        /// Adds the record to results.
+        /// </summary>
+        /// <param name="outputType">Type of the output.</param>
+        /// <param name="results">The results.</param>
+        /// <param name="reader">The reader.</param>
+        /// <param name="props">The props.</param>
+        private static void AddRecordToResults2(
+            Type outputType,
+            IList results,
+            DbDataReader reader,
+            PropertyInfo[] props)
+        {
+            // Providing we have a constructor...
+            ConstructorInfo constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
+            if (constructorInfo == null) return;
+
+            // ...create an object to hold this result
+
+            //TReturnType item = constructorInfo.Invoke(new TReturnType[0]);
+            //TODO: Investigate FastActivator
+            var item = Activator.CreateInstance(outputType);
+            if (item == null) return;
+
+            // Providing we created an object
+            // Copy data elements by parameter name from result to destination object
+            reader.ReadRecord(item, props);
+
+            // add newly populated item to our output list
+            results.Add(item);
+        }
 
 
         /// <summary>
@@ -328,9 +422,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
         {
             // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
-            
+
             // If the procdeure has no parameters then bug out of this method
-            if (storedProcedure.Parameters is NullStoredProcedureParameters || 
+            if (storedProcedure.Parameters is NullStoredProcedureParameters ||
                 procedureParameters == null) return;
 
             // create mapped properties

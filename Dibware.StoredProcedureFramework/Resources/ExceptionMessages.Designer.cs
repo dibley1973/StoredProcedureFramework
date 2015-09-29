@@ -133,6 +133,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The RecordSet list property &apos;{0}&apos; in ResultSet object &apos;{1}&apos; was not instantiated!.
+        /// </summary>
+        public static string RecordSetListNotInstatiated {
+            get {
+                return ResourceManager.GetString("RecordSetListNotInstatiated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stored storedProcedure does not havea name set!.
         /// </summary>
         public static string StoredProcedureDoesNotHaveName {

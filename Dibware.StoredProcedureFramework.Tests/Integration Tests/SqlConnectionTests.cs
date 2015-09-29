@@ -24,7 +24,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             {
                 Id = expectedId
             };
-            List<NormalStoredProcedureReturnType> results;
+            //List<NormalStoredProcedureRecordSet1ReturnType> results;
+            NormalStoredProcedureResultSet resultSet;
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
@@ -32,8 +33,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                results = connection.ExecuteStoredProcedure(procedure);
+                resultSet = connection.ExecuteStoredProcedure(procedure);
             }
+            var results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT

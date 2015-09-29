@@ -45,12 +45,14 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             const int expectedCount = 2;
             const string expectedProcedureName = "Tenant_GetAll";
             const string expectedSchemaName = "app";
+            TenantGetAllNoAttributesResultSet resultSet;
             var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
                 expectedProcedureName);
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedCount, results.Count);
@@ -63,12 +65,14 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             Type expectedType = typeof(TenantResultRow);
             const string expectedProcedureName = "Tenant_GetAll";
             const string expectedSchemaName = "app";
+            TenantGetAllNoAttributesResultSet resultSet;
             var procedure = new TenantGetAllNoAttributes(expectedSchemaName,
                 expectedProcedureName);
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.IsInstanceOfType(results.First(), expectedType);
@@ -93,7 +97,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedCount, results.Count);
@@ -113,7 +118,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             AddTenentsToContext(Context);
 
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedName, results.First().TenantName);

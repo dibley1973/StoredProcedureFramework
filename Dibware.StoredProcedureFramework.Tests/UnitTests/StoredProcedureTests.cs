@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FakeParameters = Dibware.StoredProcedureFramework.Tests.Fakes.StoredProcedureParameters;
+using System;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {
@@ -17,7 +20,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ConstructWithNullProcedureParameters_ThrowsArgumentNullException()
         {
             // ARRANGE
-            
+
             // ACT
             new StoredProcedureWithParameters(null);
 
@@ -32,7 +35,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             // ARRANGE
             const string expectedSchemaName = StoredProcedureDefaults.DefaultSchemaName;
             var procedure = new MostBasicStoredProcedure();
-            
+
             // ACT
             var actualSchemaValue = procedure.SchemaName;
 
@@ -62,10 +65,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             var parameters = new BasicParameters();
-            
+
             // ACT
             new StoredProcedureWithParameters(string.Empty, parameters);
-            
+
             // ASSERT
             Assert.Fail();
         }
@@ -108,7 +111,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             const string expectedProcedureName = "GetAllMonkeys";
             var parameters = new BasicParameters();
             var procedure = new StoredProcedureWithParameters(expectedSchemaName, expectedProcedureName, parameters);
-            
+
             // ACT
             var actualProcedureName = procedure.ProcedureName;
 
@@ -122,7 +125,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         {
             // ARRANGE
             var parameters = new BasicParameters();
-            
+
             // ACT
             new StoredProcedureWithParameters(string.Empty, string.Empty, parameters);
 

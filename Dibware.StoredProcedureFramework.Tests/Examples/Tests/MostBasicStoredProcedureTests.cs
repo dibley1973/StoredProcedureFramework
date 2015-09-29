@@ -28,7 +28,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             var procedure = new NormalStoredProcedure(parameters);
             
             // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT
@@ -49,7 +50,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             {
                 Id = expectedId
             };
-            List<NormalStoredProcedureReturnType> results;
+            //List<NormalStoredProcedureRecordSet1ReturnType> results;
+            NormalStoredProcedureResultSet resultSet;
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             
@@ -57,8 +59,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                results = connection.ExecuteStoredProcedure(procedure);
+                resultSet = connection.ExecuteStoredProcedure(procedure);
             }
+            var results = resultSet.RecordSet1;
             var result = results.First();
             
             // ASSERT

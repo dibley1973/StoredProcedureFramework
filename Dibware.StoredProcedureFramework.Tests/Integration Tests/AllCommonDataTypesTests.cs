@@ -82,7 +82,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             procedure.InitializeFromAttributes();
 
             // ACT
-            List<AllCommonDataTypesReturnType> results = Context.ExecuteStoredProcedure(procedure);
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            List<AllCommonDataTypesReturnType> results = resultSet.RecordSet1;
             var result = results.First();
 
             // ASSERT

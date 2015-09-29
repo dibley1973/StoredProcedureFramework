@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.DecimalTests
@@ -6,11 +7,21 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
     [Schema("app")]
     [Name("DecimalTest")]
     internal class DecimalWrongReturnTestStoredProcedure
-        : StoredProcedureBase<DecimalWrongReturnTestReturnType, NullStoredProcedureParameters>
+        : StoredProcedureBase<DecimalWrongReturnTestStoredProcedureResultSet, NullStoredProcedureParameters>
     {
         public DecimalWrongReturnTestStoredProcedure()
             : base(new NullStoredProcedureParameters())
         {
+        }
+    }
+
+    internal class DecimalWrongReturnTestStoredProcedureResultSet
+    {
+        public List<DecimalWrongReturnTestReturnType> RecordSet1 { get; set; }
+
+        public DecimalWrongReturnTestStoredProcedureResultSet()
+        {
+            RecordSet1 = new List<DecimalWrongReturnTestReturnType>();
         }
     }
 }

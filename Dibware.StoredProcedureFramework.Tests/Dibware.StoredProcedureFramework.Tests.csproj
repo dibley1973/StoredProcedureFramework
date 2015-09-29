@@ -77,6 +77,8 @@
     <Compile Include="Integration Tests\SizeAttributeTests.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalWrongReturnTestReturnType.cs" />
     <Compile Include="Integration Tests\StoredProcedures\DecimalTests\DecimalWrongReturnTestStoredProcedure.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\MultipleRecordSets\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\NotInstantiatedRecordSetStoredProcedure.cs" />
     <Compile Include="Integration Tests\StoredProcedures\SizeAttributeProcedures\SizeAttributeParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\SizeAttributeProcedures\SizeAttributeReturnTypes.cs" />
     <Compile Include="Integration Tests\StoredProcedures\SizeAttributeProcedures\SizeAttributeStoredProcedures.cs" />
@@ -118,6 +120,8 @@
     <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureStoredProcedure.cs" />
     <Compile Include="Integration Tests\SqlConnectionTests.cs" />
     <Compile Include="Integration Tests\IncorecctReturnTypeTest.cs" />
+    <Compile Include="Integration Tests\MultipleRecordSetTests.cs" />
+    <Compile Include="Integration Tests\RecordSetNotInstantiatedTests.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />

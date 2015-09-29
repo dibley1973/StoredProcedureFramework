@@ -19,13 +19,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
+        public static TReturnType ExecuteStoredProcedure<TReturnType, TParameterType>(
             this SqlConnection connection,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
-            where TReturnType : class
+            where TReturnType : class, new()
             where TParameterType : class
         {
             // Validate arguments

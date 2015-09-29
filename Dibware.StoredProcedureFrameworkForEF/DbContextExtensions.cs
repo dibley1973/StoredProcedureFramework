@@ -14,13 +14,13 @@ namespace Dibware.StoredProcedureFrameworkForEF
     /// </summary>
     public static class DbContextExtensions
     {
-        public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
+        public static TReturnType ExecuteStoredProcedure<TReturnType, TParameterType>(
                this DbContext context,
                IStoredProcedure<TReturnType, TParameterType> storedProcedure,
                int? commandTimeout = null,
                CommandBehavior commandBehavior = CommandBehavior.Default,
                SqlTransaction transaction = null)
-            where TReturnType : class
+            where TReturnType : class, new()
             where TParameterType : class
         {
             // Validate arguments

@@ -1,4 +1,5 @@
 ﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
@@ -8,11 +9,21 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     /// a single result set
     /// </summary>
     internal class NormalStoredProcedure
-        : StoredProcedureBase<NormalStoredProcedureReturnType, NormalStoredProcedureParameters>
+        : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
     {
         public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
             : base(parameters)
         {
+        }
+    }
+
+    internal class NormalStoredProcedureResultSet
+    {
+        public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
+
+        public NormalStoredProcedureResultSet()
+        {
+            RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
         }
     }
 
@@ -22,7 +33,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         public int Id { get; set; }
     }
 
-    internal class NormalStoredProcedureReturnType
+    internal class NormalStoredProcedureRecordSet1ReturnType
     {
         public int Id { get; set; }
         public string Name { get; set; }

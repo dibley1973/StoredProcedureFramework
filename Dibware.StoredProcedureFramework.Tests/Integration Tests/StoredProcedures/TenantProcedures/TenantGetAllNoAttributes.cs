@@ -1,9 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures
 {
-    public class TenantGetAllNoAttributes
-            : NoParametersStoredProcedureBase<TenantResultRow>
+    internal class TenantGetAllNoAttributes
+            : NoParametersStoredProcedureBase<TenantGetAllNoAttributesResultSet>
     {
         #region Constructors
 
@@ -35,4 +36,15 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
 
         #endregion
     }
+
+    internal class TenantGetAllNoAttributesResultSet
+    {
+        public List<TenantResultRow> RecordSet1 { get; set; }
+
+        public TenantGetAllNoAttributesResultSet()
+        {
+            RecordSet1 = new List<TenantResultRow>();
+        }
+    }
+
 }
