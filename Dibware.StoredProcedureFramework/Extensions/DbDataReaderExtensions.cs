@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="fieldName">Name of the field.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">fieldName</exception>
-        public static Type GetFieldType(this DbDataReader instance,
+        private static Type GetFieldType(this DbDataReader instance,
             string fieldName)
         {
             if (string.IsNullOrEmpty(fieldName)) throw new ArgumentNullException("fieldName");
@@ -97,13 +97,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// </summary>
         /// <param name="reader">data reader holding return data</param>
         /// <param name="targetObject">object to populate</param>
-        /// <param name="props">properties list to copy from result set row 'reader' to object 'targetObject'</param>
-        public static void ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] props)
+        /// <param name="dtoListItemTypePropertyInfos">properties list to copy from result set row 'reader' to object 'targetObject'</param>
+        public static void ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] dtoListItemTypePropertyInfos)
         {
             string fieldName = "";
 
             // copy mapped properties
-            foreach (PropertyInfo propertyInfo in props)
+            foreach (PropertyInfo listItemPropertyInfo in dtoListItemTypePropertyInfos)
             {
                 try
                 {
@@ -113,7 +113,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     // default name is property name, override of parameter name by attribute
                     //var attr = propertyInfo.GetAttribute<NameAttribute>();
                     //fieldName = (null == attr) ? propertyInfo.Name : attr.Value;
-                    fieldName = propertyInfo.Name;
+                    fieldName = listItemPropertyInfo.Name;
 
 
                     //// see if we're being asked to stream this property
@@ -131,11 +131,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     if (data is DBNull)
                     {
                         // Handle DBNull values
-                        HandleDbNullValues(reader, targetObject, propertyInfo, fieldName);
+                        HandleDbNullValues(reader, targetObject, listItemPropertyInfo, fieldName);
                     }
                     else
                     {
-                        propertyInfo.SetValue(targetObject, data, null);
+                        listItemPropertyInfo.SetValue(targetObject, data, null);
                     }
                     //}
                 }
@@ -148,8 +148,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     HandleOtherExceptions(ex, fieldName, returnTypeName);
                 }
             }
-
-            //return targetObject;
         }
 
         private static void HandleArgumentException(Exception ex, string fieldName, string returnTypeName)
@@ -161,7 +159,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     ExceptionMessages.FieldNotFoundForName,
                     fieldName, returnTypeName);
                 throw new InvalidCastException(message, ex);
-            };
+            }
         }
 
         private static void HandleDbNullValues(DbDataReader reader, 

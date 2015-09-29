@@ -1,17 +1,17 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.Validators;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -55,23 +55,14 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return command;
         }
 
-        ////[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        //public static List<TReturnType> ExecuteStoredProcedure<TReturnType, TParameterType>(
-        //    this DbConnection connection,
-        //    IStoredProcedure<TReturnType, TParameterType> storedProcedure,
-        //    int? commandTimeout = null,
-        //    CommandBehavior commandBehavior = CommandBehavior.Default,
-        //    SqlTransaction transaction = null)
-        //    where TReturnType : class
-        //    where TParameterType : class
-        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static TReturnType ExecuteStoredProcedure<TReturnType, TParameterType>(
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
             this DbConnection connection,
-            IStoredProcedure<TReturnType, TParameterType> storedProcedure,
+            IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
-            where TReturnType : class, new()
+            where TResultSetType : class, new()
             where TParameterType : class
         {
             // Validate arguments
@@ -90,7 +81,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 BuildProcedureParameters(storedProcedure);
 
             // Populate results using an overload
-            var results = ExecuteStoredProcedure<TReturnType>(
+            var results = ExecuteStoredProcedure<TResultSetType>(
                 connection,
                 procedureName,
                 //returnType,
@@ -106,100 +97,38 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return results;
         }
 
-        ////[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        //public static List<TReturnType> ExecuteStoredProcedure<TReturnType>(
-        //    this DbConnection connection,
-        //    string procedureName,
-        //    Type outputType,
-        //    IEnumerable<SqlParameter> procedureParameters = null,
-        //    int? commandTimeout = null,
-        //    CommandBehavior commandBehavior = CommandBehavior.Default,
-        //    SqlTransaction transaction = null) where TReturnType : class
-        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static TReturnType ExecuteStoredProcedure<TReturnType>(
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static TResultSetType ExecuteStoredProcedure<TResultSetType>(
             this DbConnection connection,
             string procedureName,
-            //Type outputType,
             IEnumerable<SqlParameter> procedureParameters = null,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
-            SqlTransaction transaction = null) where TReturnType : class, new()
+            SqlTransaction transaction = null) 
+            where TResultSetType : class, new()
         {
             // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            //if (outputType == null) throw new ArgumentNullException("outputType");
-
+            
             // A flag to track whether we opened the connection or not
             bool connectionWasOpen = (connection.State == ConnectionState.Open);
 
             try
             {
-                // Create a result object
-                TReturnType results;
+                TResultSetType results; // Create a result object
 
-                //List<TReturnType> results; // = new List<TReturnType>();
+                if (!connectionWasOpen) connection.Open(); // Open a closed connection
 
-                // Open the connection if it is not
-                if (!connectionWasOpen) connection.Open();
-
-                // Create a command to execute the stored storedProcedure
+                // Create a command to execute the stored storedProcedure...
                 using (DbCommand command = connection.CreateStoredProcedureCommand(
                     procedureName,
                     procedureParameters,
                     commandTimeout,
                     transaction))
                 {
-                    // Check the type of the ReturnType to determine if the 
-                    // procedure is defined as not to return anything
-                    if (typeof(TReturnType) == typeof(NullStoredProcedureResult))
-                    {
-                        results = null;
-                        command.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        results = new TReturnType();
-                        Type resultType = typeof(TReturnType);
-                        string typeName = resultType.Name;
-
-                        //results = new List<TReturnType>();
-
-                        // Populate a DataReder by calling the command
-                        using (DbDataReader reader = command.ExecuteReader(commandBehavior))
-                        {
-                            // Get properties to save for the current destination type
-                            PropertyInfo[] returnTypeProps = resultType.GetMappedProperties();
-
-                            // Iterate through each result set...
-                            var recordSetNumber = 0;
-                            do
-                            {
-                                var listName = returnTypeProps[recordSetNumber].Name;
-
-                                PropertyInfo info = resultType.GetProperty(listName);
-                                IList dtoList = (IList)info.GetValue(results);
-                                EnsureRecorsetListIsInstantiated(dtoList, typeName, listName);
-
-                                //IList dtoList = (IList)outputType.GetProperty(listName).GetValue(results);
-                                Type dtoListType = dtoList.GetType().GetGenericArguments()[0];
-
-                                PropertyInfo[] props = dtoListType.GetMappedProperties();
-
-                                // Process the result set line by line
-                                while (reader.Read())
-                                {
-                                    AddRecordToResults2(dtoListType, dtoList, reader, props);
-                                }
-
-                                recordSetNumber++;
-
-                            } while (reader.NextResult());
-
-                            // Close the reader
-                            reader.Close();
-                        }
-                    }
+                    // ...execute the command to get results
+                    results = ExecuteCommand<TResultSetType>(commandBehavior, command);
                 }
 
                 // Return the results
@@ -229,6 +158,87 @@ namespace Dibware.StoredProcedureFramework.Extensions
             {
                 if (connectionWasOpen) connection.Close();
             }
+        }
+
+        private static TResultSetType ExecuteCommand<TResultSetType>(
+            CommandBehavior commandBehavior, 
+            DbCommand command)
+            where TResultSetType : class, new()
+        {
+            var procedureHasNoReturnType =
+                (typeof (TResultSetType) == typeof (NullStoredProcedureResult));
+
+            var results = procedureHasNoReturnType 
+                ? ExecuteCommandWithNoReturnType<TResultSetType>(command) 
+                : ExecuteCommandWithResultSet<TResultSetType>(commandBehavior, command);
+
+            return results;
+        }
+
+        private static TResultSetType ExecuteCommandWithResultSet<TResultSetType>(
+            CommandBehavior commandBehavior,
+            DbCommand command) 
+            where TResultSetType : class, new()
+        {
+            TResultSetType resultSet = new TResultSetType();
+            Type resultSetType = typeof (TResultSetType);
+            string resultSetTypeName = resultSetType.Name;
+
+            // Populate a DataReder by calling the command
+            using (DbDataReader reader = command.ExecuteReader(commandBehavior))
+            {
+                var recordSetIndex = 0;
+
+                // Get properties to save for the current destination type
+                PropertyInfo[] resultSetTypePropertyInfos = resultSetType.GetMappedProperties();
+
+                // Iterate through each result set and read records into DTO list
+                do
+                {
+                    var recordSetPropertyName = resultSetTypePropertyInfos[recordSetIndex].Name;
+                    var recordSetDtoList = GetRecordSetDtoList(resultSetType, recordSetPropertyName, resultSet);
+                    EnsureRecorsetListIsInstantiated(recordSetDtoList, resultSetTypeName, recordSetPropertyName);
+                    ReadRecordSet(reader, recordSetDtoList);
+
+                    recordSetIndex++;
+                } 
+                while (reader.NextResult());
+
+                // Close the reader
+                reader.Close();
+            }
+            return resultSet;
+        }
+
+        private static TResultSetType ExecuteCommandWithNoReturnType<TResultSetType>(DbCommand command)
+            where TResultSetType : class, new()
+        {
+            command.ExecuteNonQuery();
+            return null;
+        }
+
+        private static void ReadRecordSet(DbDataReader reader, IList recordSetDtoList)
+        {
+            // Recordset row 
+            Type dtoListItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
+            PropertyInfo[] dtoListItemTypePropertyInfo = dtoListItemType.GetMappedProperties();
+
+            // Process the result set line by line
+            while (reader.Read())
+            {
+                AddRecordToResults(dtoListItemType, recordSetDtoList, reader, dtoListItemTypePropertyInfo);
+            }
+        }
+
+        private static IList GetRecordSetDtoList<TResultSetType>(
+            Type resultSetType, 
+            string recordSetPropertyName,
+            TResultSetType resultSet) 
+            where TResultSetType : class, new()
+        {
+            PropertyInfo recordSetPropertyInfo = resultSetType.GetProperty(recordSetPropertyName);
+            IList recordSetDtoList = (IList) recordSetPropertyInfo.GetValue(resultSet);
+            return recordSetDtoList;
         }
 
         private static void EnsureRecorsetListIsInstantiated(
@@ -338,61 +348,60 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="outputType">Type of the output.</param>
         /// <param name="results">The results.</param>
         /// <param name="reader">The reader.</param>
-        /// <param name="props">The props.</param>
-        private static void AddRecordToResults2(
+        /// <param name="dtoListItemTypePropertyInfos">The DTO ListItem Type Property Information.</param>
+        private static void AddRecordToResults(
             Type outputType,
             IList results,
             DbDataReader reader,
-            PropertyInfo[] props)
+            PropertyInfo[] dtoListItemTypePropertyInfos)
         {
             // Providing we have a constructor...
-            ConstructorInfo constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
+            var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
             if (constructorInfo == null) return;
 
             // ...create an object to hold this result
 
-            //TReturnType item = constructorInfo.Invoke(new TReturnType[0]);
             //TODO: Investigate FastActivator
             var item = Activator.CreateInstance(outputType);
             if (item == null) return;
 
             // Providing we created an object
             // Copy data elements by parameter name from result to destination object
-            reader.ReadRecord(item, props);
+            reader.ReadRecord(item, dtoListItemTypePropertyInfos);
 
             // add newly populated item to our output list
             results.Add(item);
         }
 
 
-        /// <summary>
-        /// Adds the record to results.
-        /// </summary>
-        /// <typeparam name="TReturnType">The type of the return type.</typeparam>
-        /// <param name="outputType">Type of the output.</param>
-        /// <param name="results">The results.</param>
-        /// <param name="reader">The reader.</param>
-        /// <param name="props">The props.</param>
-        private static void AddRecordToResults<TReturnType>(Type outputType, List<TReturnType> results, DbDataReader reader, PropertyInfo[] props)
-        {
-            // Providing we have a constructor...
-            ConstructorInfo constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
-            if (constructorInfo == null) return;
+        ///// <summary>
+        ///// Adds the record to results.
+        ///// </summary>
+        ///// <typeparam name="TReturnType">The type of the return type.</typeparam>
+        ///// <param name="outputType">Type of the output.</param>
+        ///// <param name="results">The results.</param>
+        ///// <param name="reader">The reader.</param>
+        ///// <param name="dtoListItemTypePropertyInfos">The dtoListItemTypePropertyInfos.</param>
+        //private static void AddRecordToResults<TReturnType>(Type outputType, List<TReturnType> results, DbDataReader reader, PropertyInfo[] dtoListItemTypePropertyInfos)
+        //{
+        //    // Providing we have a constructor...
+        //    ConstructorInfo constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
+        //    if (constructorInfo == null) return;
 
-            // ...create an object to hold this result
+        //    // ...create an object to hold this result
 
-            //TReturnType item = constructorInfo.Invoke(new TReturnType[0]);
-            //TODO: Investigate FastActivator
-            TReturnType item = Activator.CreateInstance<TReturnType>();
-            if (item == null) return;
+        //    //TReturnType item = constructorInfo.Invoke(new TReturnType[0]);
+        //    //TODO: Investigate FastActivator
+        //    TReturnType item = Activator.CreateInstance<TReturnType>();
+        //    if (item == null) return;
 
-            // Providing we created an object
-            // Copy data elements by parameter name from result to destination object
-            reader.ReadRecord(item, props);
+        //    // Providing we created an object
+        //    // Copy data elements by parameter name from result to destination object
+        //    reader.ReadRecord(item, dtoListItemTypePropertyInfos);
 
-            // add newly populated item to our output list
-            results.Add(item);
-        }
+        //    // add newly populated item to our output list
+        //    results.Add(item);
+        //}
 
         private static ICollection<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
             IStoredProcedure<TReturnType, TParameterType> procedure)

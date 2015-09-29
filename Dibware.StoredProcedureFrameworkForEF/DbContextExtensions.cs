@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Extensions;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Extensions;
 
 namespace Dibware.StoredProcedureFrameworkForEF
 {
@@ -14,13 +13,13 @@ namespace Dibware.StoredProcedureFrameworkForEF
     /// </summary>
     public static class DbContextExtensions
     {
-        public static TReturnType ExecuteStoredProcedure<TReturnType, TParameterType>(
+        public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
                this DbContext context,
-               IStoredProcedure<TReturnType, TParameterType> storedProcedure,
+               IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
                int? commandTimeout = null,
                CommandBehavior commandBehavior = CommandBehavior.Default,
                SqlTransaction transaction = null)
-            where TReturnType : class, new()
+            where TResultSetType : class, new()
             where TParameterType : class
         {
             // Validate arguments
@@ -32,7 +31,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
             // Get the context database connection...
             DbConnection connection = context.Database.Connection;
 
-            // ... then return results from secondary extention method.
+            // ... then return results from DbConnection's extention method.
             return connection.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeout,

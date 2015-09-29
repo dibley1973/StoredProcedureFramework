@@ -76,7 +76,6 @@
     <Compile Include="Z_LegacyCode\DbContextExtensions_Legacy.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />
-    <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
