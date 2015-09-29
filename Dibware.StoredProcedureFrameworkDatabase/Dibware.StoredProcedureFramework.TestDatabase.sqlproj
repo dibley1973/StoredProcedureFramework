@@ -66,6 +66,7 @@
     <Folder Include="Security\" />
     <Folder Include="app\Stored Procedures\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Tables\Tenant.sql" />
@@ -96,5 +97,11 @@
     <Build Include="dbo\Stored Procedures\NormalStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\NotInstantiatedRecordSetStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\MultipleRecordSetStoredProcedure.sql" />
+    <Build Include="dbo\Tables\VolumnAndPerformance.sql" />
+    <Build Include="dbo\Views\RANDOM.sql" />
+    <Build Include="dbo\Functions\RandomTextGenerator.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_Truncate.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_InsertNRecords.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_GetAll.sql" />
   </ItemGroup>
 </Project>

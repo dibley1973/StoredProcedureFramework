@@ -1,5 +1,4 @@
 ﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -7,12 +6,12 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedu
 {
     internal class NotInstantiatedRecordSetStoredProcedure
         : StoredProcedureBase<
-            NotInstantiatedRecordSetStoredProcedureResultSet, 
+            NotInstantiatedRecordSetStoredProcedureResultSet,
             NullStoredProcedureParameters>
     {
         public NotInstantiatedRecordSetStoredProcedure(NullStoredProcedureParameters parameters)
-            :base(parameters)
-        {   
+            : base(parameters)
+        {
         }
     }
 
