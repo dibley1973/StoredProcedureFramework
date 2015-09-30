@@ -26,15 +26,16 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
-* (Must) Contain a suite of unit tests that test all public accessors
-* (Must) Contain a suite of integration tests that document usage of the assembly
 * (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
+* (Should) Ability to handle multiple recordsets returned from a stored procedure **Done**
+* (Should) Contain a suite of unit tests that test all public accessors
+* (Should) Contain a suite of integration tests that document usage of the assembly **WIP**
 * (Should) Ability to handle lesser used parameter types
 * (Should) Ability to handle lesser used return data types
-* (Should) Ability to handle multiple recordsets returned from a stored procedure **WIP**
 * (Should) Warn calling code if parameter value data may be truncated due to smaller pameter type
-* (Should) Implement David Doran's "FastActivator" for object intanciation
-* (Could) Not have any "Resharper" warnings or "code clones" in production code
+* (Should) Implement David Doran's "FastActivator" for object intanciation **Investigated: no gain**
+* (Could) Not have any "Resharper" warnings **WIP**
+* (Could) Not have any "Code Clones" in production code **WIP**
 
 ## WIKI ##
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)
