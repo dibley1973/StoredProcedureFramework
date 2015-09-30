@@ -20,10 +20,6 @@ BEGIN
     SELECT 
         @Active as Active
     ,   @Price  AS Price
-    --UNION
-    --SELECT
-    --    CAST(0 AS BIT)                  AS Active
-    --,   CAST(99.99 AS DECIMAL(10,4))    AS Price
 
     /* Third Record Set */
     SELECT
