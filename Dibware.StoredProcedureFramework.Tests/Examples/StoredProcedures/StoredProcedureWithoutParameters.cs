@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
     internal class StoredProcedureWithoutParameters2
@@ -11,8 +13,18 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     }
 
     internal class StoredProcedureWithoutParameters
-        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersReturntype>
+        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
     {
+    }
+
+    internal class StoredProcedureWithoutParametersResultSet
+    {
+        public List<StoredProcedureWithoutParametersReturntype> RecordSet { get; set; }
+
+        public StoredProcedureWithoutParametersResultSet()
+        {
+            RecordSet = new List<StoredProcedureWithoutParametersReturntype>();
+        }
     }
 
 

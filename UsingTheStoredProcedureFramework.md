@@ -21,6 +21,8 @@ The second constructor option takes a the procedure name as string as well as th
 The third constructor option takes a the schema name, the procedure name and the object that represents the parameters.
 
 
+**PLEASE NOT THIS DOCUMENT IS STILL BEING UPDATED FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+
 ### The most basic type of stored procedure
 The most basic type of stored procedure is one that has no parameters and returns no result. for example a stored procedure that just perform an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that. 
 
@@ -92,10 +94,21 @@ For this procedure we need to define a class that will represent a row of data i
         string Name { get; set; }
     }
 
-We now need to define a class which represents the stored procedure it self. First we will define the class the verbose way, in which we will define the return type **StoredProcedureWithoutParametersReturntype** in the **TReturn** type parameter and the lack of parameters for the stored procedure using the **NullStoredProcedureParameters** class in the **TParameters** type parameter.
+We need to to define a class that represnts the result set for the rpocedure. As Stroed procedures can return multiple recordsets we need the resultset will have one or more collections of return types. For this storedprocedure we need only one
+    internal class StoredProcedureWithoutParametersResultSet
+    {
+        public List<StoredProcedureWithoutParametersReturntype> RecordSet { get; set; }
+
+        public StoredProcedureWithoutParametersResultSet()
+        {
+            RecordSet = new List<StoredProcedureWithoutParametersReturntype>();
+        }
+    }
+
+We must ensure the RecordSet is instantiated before use. We now need to define a class which represents the stored procedure it self. First we will define the class the verbose way, in which we will define the return type **StoredProcedureWithoutParametersReturntype** in the **TReturn** type parameter and the lack of parameters for the stored procedure using the **NullStoredProcedureParameters** class in the **TParameters** type parameter.
 
     internal class StoredProcedureWithoutParameters
-        : StoredProcedureBase<StoredProcedureWithoutParametersReturntype, NullStoredProcedureParameters>
+        : StoredProcedureBase<StoredProcedureWithoutParametersResultSet, NullStoredProcedureParameters>
     {
         public StoredProcedureWithoutParameters()
             : base(new NullStoredProcedureParameters())
@@ -106,7 +119,7 @@ We now need to define a class which represents the stored procedure it self. Fir
 As this is a common stored procedure scenario the framework also contains another base class to make definition of this kind of stored procedure less verbose. This base class is the **NoParametersStoredProcedureBase**
 
     internal class StoredProcedureWithoutParameters
-        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersReturntype>
+        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
     {
     }
 
