@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VolumnAndPerformance
 {

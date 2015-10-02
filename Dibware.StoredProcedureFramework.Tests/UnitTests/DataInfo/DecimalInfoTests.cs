@@ -243,5 +243,93 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.DataInfo
             Assert.AreEqual(expectedScale, decimalInfo.Scale);
             Assert.AreEqual(expectedTrailingZeros, decimalInfo.TrailingZeros);
         }
+
+        #region Precsion
+
+        [TestMethod]
+        public void Preecision_WhenDecimalIsAllZeros_ReturnsCorrectCount()
+        {
+            // ARRANGE
+            const decimal value = 0.0000M;
+            var decimalnfo = DecimalInfo.FromDecimal(value);
+            const int expectedResult = 5;
+
+            // ACT
+            var actualResult = decimalnfo.Precision;
+
+            // ASSERT
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        #endregion
+
+        #region Scale
+
+        [TestMethod]
+        public void Scale_WhenDecimalIsAllZeros_ReturnscorrectCount()
+        {
+            // ARRANGE
+            const decimal value = 0.0000M;
+            var decimalnfo = DecimalInfo.FromDecimal(value);
+            const int expectedResult = 4;
+
+            // ACT
+            var actualResult = decimalnfo.Scale;
+
+            // ASSERT
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        #endregion
+
+        #region TrailingZeros
+
+        [TestMethod]
+        public void TrailingZeros_WhenDecimalHasNoTrailingZeros_ReturnsZeroCount()
+        {
+            // ARRANGE
+            const decimal value = 1234.456M;
+            var decimalnfo = DecimalInfo.FromDecimal(value);
+            const int expectedResult = 0;
+
+            // ACT
+            var actualResult = decimalnfo.TrailingZeros;
+
+            // ASSERT
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void TrailingZeros_WhenDecimalHasTrailingZeros_ReturnsCorrectCount()
+        {
+            // ARRANGE
+
+            const decimal value = 1234.400M;
+            var decimalnfo = DecimalInfo.FromDecimal(value);
+            const int expectedResult = 2;
+
+            // ACT
+            var actualResult = decimalnfo.TrailingZeros;
+
+            // ASSERT
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void TrailingZeros_WhenDecimalIsAllZeros_ReturnsZeroCount()
+        {
+            // ARRANGE
+            const decimal value = 0.0000M;
+            var decimalnfo = DecimalInfo.FromDecimal(value);
+            const int expectedResult = 4;
+
+            // ACT
+            var actualResult = decimalnfo.TrailingZeros;
+
+            // ASSERT
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        #endregion
     }
 }

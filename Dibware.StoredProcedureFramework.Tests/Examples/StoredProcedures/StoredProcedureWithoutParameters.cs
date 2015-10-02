@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {

@@ -1,4 +1,4 @@
-﻿namespace Dibware.StoredProcedureFramework
+﻿namespace Dibware.StoredProcedureFramework.Base
 {
     /// <summary>
     /// Represents the base class that a stored procedures without parameters

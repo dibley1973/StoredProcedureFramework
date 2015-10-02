@@ -1,4 +1,5 @@
 ﻿
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures

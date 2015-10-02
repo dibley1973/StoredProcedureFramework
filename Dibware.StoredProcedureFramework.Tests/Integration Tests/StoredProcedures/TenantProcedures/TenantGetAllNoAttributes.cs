@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.ResultSets.TenantResultSets;
 
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures

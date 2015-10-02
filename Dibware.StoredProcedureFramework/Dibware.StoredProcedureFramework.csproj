@@ -50,7 +50,7 @@
     <Compile Include="Helpers\FastActivator.cs" />
     <Compile Include="Helpers\FastActivator2.cs" />
     <Compile Include="Helpers\SqlParameterHelper.cs" />
-    <Compile Include="NoReturnTypeStoredProcedureBase.cs" />
+    <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
@@ -62,8 +62,8 @@
     <Compile Include="StoredProcedureAttributes\PrecisionAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SizeAttribute.cs" />
-    <Compile Include="NoParametersNoReturnTypeStoredProcedureBase.cs" />
-    <Compile Include="NoParametersStoredProcedureBase.cs" />
+    <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBase.cs" />
+    <Compile Include="Base\NoParametersStoredProcedureBase.cs" />
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="Z_LegacyCode\ResultList.cs" />

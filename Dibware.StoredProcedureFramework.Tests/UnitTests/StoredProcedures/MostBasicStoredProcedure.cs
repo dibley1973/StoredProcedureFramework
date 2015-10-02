@@ -1,4 +1,6 @@
 ﻿
+using Dibware.StoredProcedureFramework.Base;
+
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
     /// <summary>

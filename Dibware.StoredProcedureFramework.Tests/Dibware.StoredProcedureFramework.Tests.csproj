@@ -62,6 +62,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssertExtensions\ByteArray.cs" />
+    <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
+    <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
+    <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
@@ -129,7 +132,9 @@
     <Compile Include="Resources\TableNames.cs" />
     <Compile Include="UnitTests\DataInfo\DecimalInfoTests.cs" />
     <Compile Include="UnitTests\ExtentionTests\SqlConnectionExtensionsTests.cs" />
+    <Compile Include="UnitTests\ExtentionTests\DbConnectionExtensionsTests.cs" />
     <Compile Include="UnitTests\Helpers\ExceptionHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlParameterHelperTests.cs" />
     <Compile Include="UnitTests\StoredProcedureParameters\BasicParameters.cs" />
     <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />
@@ -148,6 +153,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DataInfo\" />
     <Folder Include="Integration Tests\StoredProcedures\Base\" />
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="commandTimeout">The command timeout.</param>
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
-        private static DbCommand CreateStoredProcedureCommand(
+        public static DbCommand CreateStoredProcedureCommand(
             this DbConnection connection,
             string procedureName,
             IEnumerable<SqlParameter> procedureParameters,
@@ -275,15 +275,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
             if (constructorInfo == null) return;
 
-            // ...create an object to hold this result
-
+            
             //TODO: Investigate FastActivator
             // Even at 2M records there is still neglidgable difference between
             // standard Activator and FastActivator
             //var item = FastActivator.CreateInstance(outputType);
             //var item = FastActivator2.CreateInstance(outputType);
+
+            // ...create an object to hold this result
             var item = Activator.CreateInstance(outputType);
-            if (item == null) return;
+            //if (item == null) return;
 
             // Providing we created an object
             // Copy data elements by parameter name from result to destination object
