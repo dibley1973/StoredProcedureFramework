@@ -64,6 +64,8 @@
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
+    <Compile Include="Integration Tests\IncorrectParameterTypeTests.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\InvalidParameterType\NotAStringStoredProcedure.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
@@ -124,7 +126,7 @@
     <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureParameters.cs" />
     <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureStoredProcedure.cs" />
     <Compile Include="Integration Tests\SqlConnectionTests.cs" />
-    <Compile Include="Integration Tests\IncorecctReturnTypeTest.cs" />
+    <Compile Include="Integration Tests\IncorectReturnTypeTests.cs" />
     <Compile Include="Integration Tests\MultipleRecordSetTests.cs" />
     <Compile Include="Integration Tests\RecordSetNotInstantiatedTests.cs" />
     <Compile Include="Resources\SchemaNames.cs" />

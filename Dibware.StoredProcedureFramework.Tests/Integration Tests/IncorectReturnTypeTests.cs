@@ -7,10 +7,10 @@ using System;
 namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
 {
     [TestClass]
-    public class IncorecctReturnTypeTest : BaseIntegrationTest
+    public class IncorectReturnTypeTests : BaseIntegrationTest
     {
         [TestMethod]
-        [ExpectedException(typeof(InvalidCastException))]
+        [ExpectedException(typeof (InvalidCastException))]
         public void DifferentDataTypeInReturnTypeThanProcedureResultSet_ThrowsInvalidCastException()
         {
             var procedure = new DecimalWrongReturnTestStoredProcedure();
@@ -22,5 +22,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             // ASSERT
             Assert.Fail();
         }
+
     }
 }

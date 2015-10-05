@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
@@ -18,12 +18,14 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
         {
             // ARRANGE
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+            IStoredProcedure<NullStoredProcedureResult, NullStoredProcedureParameters> procedure1 = null;
+            //MostBasicStoredProcedure procedure = null;
 
             // ACT
             using (DbConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(null);
+                connection.ExecuteStoredProcedure(procedure1);
             }
 
             // ASSERT
