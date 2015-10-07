@@ -32,16 +32,15 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
         //{
         //}
 
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="MostBasicStoredProcedure"/> 
-        ///// class with parameters and procedure name.
-        ///// </summary>
-        ///// <param name="procedureName">Name of the procedure.</param>
-        ///// <param name="parameters">The parameters.</param>
-        //public MostBasicStoredProcedure(string procedureName, NullStoredProcedureParameters parameters)
-        //    : base(procedureName, parameters)
-        //{
-        //}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MostBasicStoredProcedure"/> 
+        /// class with parameters and procedure name.
+        /// </summary>
+        /// <param name="procedureName">Name of the procedure.</param>
+        public MostBasicStoredProcedure(string procedureName)
+            : base(procedureName)
+        {
+        }
 
         ///// <summary>
         ///// Initializes a new instance of the <see cref="MostBasicStoredProcedure"/> 

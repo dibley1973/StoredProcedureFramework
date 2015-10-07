@@ -7,11 +7,11 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 namespace Dibware.StoredProcedureFramework
 {
     /// <summary>
-    /// Represents the base class that all Stored proedures that have parameters
+    /// Represents the base class that all Stored proedures that have parametersType
     /// should inherit from. Contains common stored procedure functionality.
     /// </summary>
     /// <typeparam name="TReturn">The type of the return.</typeparam>
-    /// <typeparam name="TParameters">The type of the parameters.</typeparam>
+    /// <typeparam name="TParameters">The type of the parametersType.</typeparam>
     public abstract class StoredProcedureBase<TReturn, TParameters>
         : IStoredProcedure<TReturn, TParameters>
         where TReturn : class
@@ -20,9 +20,9 @@ namespace Dibware.StoredProcedureFramework
         #region Fields
 
         /// <summary>
-        /// The object that represents the procedure parameters
+        /// The object that represents the procedure parametersType
         /// </summary>
-        private TParameters _parameters;
+        private TParameters _parametersType;
 
         /// <summary>
         /// The holds the procedure name
@@ -50,26 +50,26 @@ namespace Dibware.StoredProcedureFramework
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
-        /// class with parameters. This is the minimum requirement for constructing
+        /// class with parametersType. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        protected StoredProcedureBase(TParameters parameters)
+        /// <param name="parametersType">The parametersType.</param>
+        protected StoredProcedureBase(TParameters parametersType)
             : this()
         {
             // Validate arguments
-            if (parameters == null) throw new ArgumentNullException("parameters");
+            if (parametersType == null) throw new ArgumentNullException("parametersType");
 
-            _parameters = parameters;
+            _parametersType = parametersType;
             SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> 
-        /// class with parameters and procedure name.
+        /// class with parametersType and procedure name.
         /// </summary>
         /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="parameters">The parametersType.</param>
         protected StoredProcedureBase(string procedureName,
             TParameters parameters)
             : this(parameters)
@@ -84,11 +84,11 @@ namespace Dibware.StoredProcedureFramework
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> 
-        /// class with parameters, schema name and procedure name.
+        /// class with parametersType, schema name and procedure name.
         /// </summary>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="parameters">The parametersType.</param>
         protected StoredProcedureBase(string schemaName,
             string procedureName, TParameters parameters)
             : this(procedureName, parameters)
@@ -135,11 +135,11 @@ namespace Dibware.StoredProcedureFramework
         //}
 
         /// <summary>
-        /// The object that represents the procedure parameters
+        /// The object that represents the procedure parametersType
         /// </summary>
         public TParameters Parameters
         {
-            get { return _parameters; }
+            get { return _parametersType; }
         }
 
         public string ProcedureName

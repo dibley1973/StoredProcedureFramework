@@ -1,12 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.DecimalTests;
 using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Configuration;
-using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {
@@ -196,24 +194,35 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(StoredProcedureConstructionException))]
-        //public void EnsureFullyConstructed_WhenNotFullyConstructed_ThrowsException()
-        //{
-        //    // ARRANGE
-        //    var parameters = new NullStoredProcedureParameters();
-        //    var procedure = new MostBasicStoredProcedure("", parameters);
+        [TestMethod]
+        [ExpectedException(typeof(StoredProcedureConstructionException))]
+        public void EnsureFullyConstructed_WhenNotFullyConstructed_ThrowsException()
+        {
+            // ARRANGE
+            var procedure = new NotFullyConstructedStoredProcedure();
 
-        //    // ACT
-        //    procedure.EnsureFullyConstructed();
+            // ACT
+            procedure.EnsureFullyConstructed();
 
-        //    // ASSERT
-        //    Assert.Fail();
-        //}
+            // ASSERT
+        }
 
         #endregion
 
         #region GetTwoPartName
+
+        [TestMethod]
+        [ExpectedException(typeof(StoredProcedureConstructionException))]
+        public void GetTwoPartNamed_WhenNotFullyConstructed_ThrowsException()
+        {
+            // ARRANGE
+            var procedure = new NotFullyConstructedStoredProcedure();
+
+            // ACT
+            procedure.GetTwoPartName();
+
+            // ASSERT
+        }
 
         [TestMethod]
         public void GetTwoPartName_WhenConstructedWithoutProcedureName_ReturnsCorrectly()
@@ -356,6 +365,42 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ASSERT
             Assert.IsTrue(actualValue);
+        }
+
+        #endregion
+
+        #region ParametersType
+
+        [TestMethod]
+        public void ParametersType_WhenProcedureConstructed_ReturnsCorrectType()
+        {
+            // ARRANGE
+            var expectedReturnType = typeof(NullStoredProcedureParameters);
+            var procedure = new DecimalTestStoredProcedure();
+
+            // ACT
+            var actualReturnType = procedure.ParametersType;
+
+            // ASSERT
+            Assert.AreEqual(actualReturnType, expectedReturnType);
+        }
+
+        #endregion
+
+        #region ParametersType
+
+        [TestMethod]
+        public void ReturnType_WhenProcedureConstructed_ReturnsCorrectType()
+        {
+            // ARRANGE
+            var expectedReturnType = typeof(DecimalTestExtendedResultSet);
+            var procedure = new DecimalTestStoredProcedure();
+
+            // ACT
+            var actualReturnType = procedure.ReturnType;
+
+            // ASSERT
+            Assert.AreEqual(actualReturnType, expectedReturnType);
         }
 
         #endregion

@@ -65,7 +65,7 @@
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
     <Compile Include="Integration Tests\IncorrectParameterTypeTests.cs" />
-    <Compile Include="Integration Tests\StoredProcedures\InvalidParameterType\NotAStringStoredProcedure.cs" />
+    <Compile Include="Integration Tests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
@@ -123,8 +123,6 @@
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="Integration Tests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
-    <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureParameters.cs" />
-    <Compile Include="Integration Tests\StoredProcedures\VarCharTestProcedures\VarCharTestProcedureStoredProcedure.cs" />
     <Compile Include="Integration Tests\SqlConnectionTests.cs" />
     <Compile Include="Integration Tests\IncorectReturnTypeTests.cs" />
     <Compile Include="Integration Tests\MultipleRecordSetTests.cs" />
@@ -139,6 +137,7 @@
     <Compile Include="UnitTests\Helpers\SqlParameterHelperTests.cs" />
     <Compile Include="UnitTests\StoredProcedureParameters\BasicParameters.cs" />
     <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\NotFullyConstructedStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

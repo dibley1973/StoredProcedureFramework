@@ -14,9 +14,40 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
         [ExpectedException(typeof(SqlParameterInvalidDataTypeException))]
         public void IncorrectStringParameterType_ThrowsSqlParameterInvalidDataTypeException()
         {
-            var procedure = new IncorrectStringParameterStoredProcedure();
+            var parameters = new IncorrectParameterTypeStoredProcedureParameters()
+            {
+                Value1 = 10,
+                Value2 = 5
+            };
+            var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+            IncorrectParameterTypeStoredProcedureResultSet resultSet;
+
+            // ACT
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                connection.ExecuteStoredProcedure(procedure);
+            }
+            
+            // ASSERT
+            // should experience an exception before here!
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SqlParameterInvalidDataTypeException))]
+        public void IncorrectDecimalParameterType_ThrowsSqlParameterInvalidDataTypeException()
+        {
+            var parameters = new IncorrectParameterTypeStoredProcedureParameters()
+            {
+                Value1 = 10,
+                Value2 = "EEE"
+            };
+            var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
+            procedure.InitializeFromAttributes();
+            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+            IncorrectParameterTypeStoredProcedureResultSet resultSet;
 
             // ACT
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -26,7 +57,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             }
 
             // ASSERT
-            Assert.Fail();
+            // should experience an exception before here!
         }
     }
 }
