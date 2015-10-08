@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 

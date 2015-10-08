@@ -88,7 +88,7 @@
     <Compile Include="StoredProcedureAttributes\StreamToMemoryAttribute.cs" />
     <Compile Include="Z_LegacyCode\StoredProcedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoredProcedureBase.cs" />
+    <Compile Include="Base\StoredProcedureBase.cs" />
     <Compile Include="StoredProcedureDefaults.cs" />
     <Compile Include="Z_LegacyCode\StoredProcedureOfT.cs" />
   </ItemGroup>

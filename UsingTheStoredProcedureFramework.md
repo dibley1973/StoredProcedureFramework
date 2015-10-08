@@ -4,21 +4,58 @@
 (All code examples can be found in the **Examples** folder of the **Dibware.StoredProcedureFramework.Tests** project
 
 ### General Rules
-To represent a Stored Procedure in the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for. The stored procedure class must inherit from the **StoredProcedureBase** base class which exists in the **Dibware.StoredProcedureFramework** namespace of the framework. The **StoredProcedureBase** base class demands two type parameters; **TReturn** and **TParameters**. 
+To represent a Stored Procedure when using the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for it. The stored procedure class must inherit from one of a predetermined number of base classes. These base classes all exists in the **Dibware.StoredProcedureFramework.Base** namespace of the framework. In most cases the class should inherit from the **StoredProcedureBase** base class, but three other base class *shortcuts* are also provided for convenience.
 
-The **TReturn** type parameter define the type that represents a single row in the result set. 
+#### Base Classes
+There are four base classes from which a stored procedure must be defined to inherit from.
+* StoredProcedureBase - for Stored Procedures with parameters and return types
+* NoParametersStoredProcedureBase - for Stored Procedures with return types but no parameters
+* NoReturnTypeStoredProcedureBase - for Stored procedures with parameters but no return types
+* NoParametersNoReturnTypeStoredProcedureBase - for Stored Procedures without parameters or returns types
+
+##### StoredProcedureBase
+The **StoredProcedureBase** base class is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a *ResultSet*. This will be used for your *GetProductForId* type of stored procedures and when inherited from this class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
+
+##### NoParametersStoredProcedureBase
+The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a *ResultSet*. This will be used for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
+
+##### NoReturnTypeStoredProcedureBase
+The **NoReturnTypeStoredProcedureBase** base class is used for a stored procedure which does have one or more parameters but does not return a *ResultSet*. This will be used for your *DeleteProductById* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TParameters**.
+
+#####NoParametersNoReturnTypeStoredProcedureBase
+The **NoParametersNoReturnTypeStoredProcedureBase** base class is used for a stored procedure which do not have any parameters and also do not return a *ResultSet*. This will be used for your *RunHouseKeepingBatch* type of stored procedures and when inherited from does not demand any *Type Parameters* to be defined.
+
+#### Type Parameters
+Typically when defining the stored procedure POCO class there will be a requirement to define one or both of the following *Type Parameters*. 
+* TReturn
+* TParameters
+
+##### TReturn
+The **TReturn** type parameter defines the type that represents *ResultSet* which is what will be returned from a stored procedure when it is executed. The *ResultSet* must contain one or more properties which are in effect *RecordSets* or lists of return types.
+
+##### TParameters
 The **TParameters** type parameter defines the type that represents the collection of parameters which the stored procedure requires.
 
-The class will also require one of three constructor signatures:
+#### Constructors
+The stored procedure POCO class will also require one of three constructor signatures:
 
-#### ctor(TParameters parameters) : base(parameters) {}
-The first constructor option just takes an argument of the type that is defined by the **TParameters** type parameter. This is the bare minimum needed to construct a stored procedure and can be used if the stored procedure has the same name as the class which represents it and if the stored procedure is owned by the **dbo** schema and custom attributes are not being used to set the schema and procedure names.
+##### ctor()
+The default constructor is only available for stored procedures which do not have parameters. This is the bare minimum needed to construct a stored procedure and can be used if the stored procedure has the same name as the class which represents it and if the stored procedure is owned by the **dbo** schema and custom attributes are not being used to set the schema and procedure names.
 
-#### ctor(string procedureName, TParameters parameters) : base(procedureName, parameters) {}
-The second constructor option takes a the procedure name as string as well as the object that represents the parameters. This constructor can be used of the stored procedure is owned by the **dbo** schema and custom attributes are not being used to set the schema.
+##### ctor(string procedureName) : base(procedureName) {}
+This constructor is is only available for stored procedures which do not have parameters, but takes the procedure name. This constructor can be used of the stored procedure is owned by the **dbo** schema but has name that differs from the name of the POCO class.
 
-####ctor(string schemaName, string procedureName, TParameters parameters) : base(schemaName, procedureName, parameters) {}
-The third constructor option takes a the schema name, the procedure name and the object that represents the parameters.
+##### ctor(string schemaName, string procedureName) : base(schemaName, procedureName) {}
+This constructor is is only available for stored procedures which do not have parameters but takes a the schema name, the procedure name and the object that represents the parameters. This constructor can be used to set the schema name and the procedure name.
+
+##### ctor(TParameters parameters) : base(parameters) {}
+This constructor is is only available for stored procedures which do have parameters. It takes an argument of the type that is defined by the **TParameters** type parameter. This is the bare minimum needed to construct a stored procedure and can be used if the stored procedure has the same name as the class which represents it and if the stored procedure is owned by the **dbo** schema and custom attributes are not being used to set the schema and procedure names.
+
+##### ctor(string procedureName, TParameters parameters) : base(procedureName, parameters) {}
+This constructor is is only available for stored procedures which do have parameters. This constructor can be used of the stored procedure is owned by the **dbo** schema but has name that differs from the name of the POCO class. It takes an argument of the type that is defined by the **TParameters** type parameter. It also takes a the procedure name as string as well as the object that represents the parameters. 
+
+##### ctor(string schemaName, string procedureName, TParameters parameters) : base(schemaName, procedureName, parameters) {}
+This constructor is is only available for stored procedures which do have parameters. This constructor can be used to set the schema name and the procedure name. It takes an argument of the type that is defined by the **TParameters** type parameter. It also takes a the schema name and procedure name as string as well as the object that represents the parameters.  
 
 
 **PLEASE NOT THIS DOCUMENT IS STILL BEING UPDATED FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**

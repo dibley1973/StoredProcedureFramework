@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
+﻿using System;
+using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
-using System;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
-namespace Dibware.StoredProcedureFramework
+namespace Dibware.StoredProcedureFramework.Base
 {
     /// <summary>
     /// Represents the base class that all Stored proedures that have parametersType
