@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Base;
+﻿using Dibware.StoredProcedureFramework.Base;
+using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
-    //internal class StoredProcedureWithoutParameters2
+    // Verbose way of defining procedure
+    //internal class StoredProcedureWithoutParameters
     //    : StoredProcedureBase<StoredProcedureWithoutParametersResultSet, NullStoredProcedureParameters>
     //{
-    //    public StoredProcedureWithoutParameters2()
+    //    public StoredProcedureWithoutParameters()
     //        : base(new NullStoredProcedureParameters())
     //    {
     //    }

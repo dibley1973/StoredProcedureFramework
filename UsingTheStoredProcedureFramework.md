@@ -110,6 +110,7 @@ But this is a bit cumbersome for such a basic stored procedure, so the framework
 
 We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor.
 
+
 ### A Stored Procedure without Parameters
 The next stored procedure to look at is one which returns a result but does not have any parameters. This would typically be used for your *MyTable_GetAll* type of stored procedure, for example:
 
@@ -156,18 +157,20 @@ As the framework is capable of handling Stored procedures which can return *Mult
         }
     }
 
+**PLEASE NOTE:** You do not need to name the *RecordSet* property *RecordSet*. You can use a more meaningful name like *Orders* or  *Products*, or what ever the data in the RecordSet represents.
+    
 We now need to define a class which represents the stored procedure it self. First we will define the class the verbose way, inheriting from **StoredProcedureBase** where we would have to define the return type **StoredProcedureWithoutParametersResultSet** in the **TReturn** type parameter and the lack of parameters for the stored procedure using the **NullStoredProcedureParameters** class in the **TParameters** type parameter.
 
     internal class StoredProcedureWithoutParameters
         : StoredProcedureBase<StoredProcedureWithoutParametersResultSet, NullStoredProcedureParameters>
     {
-        public StoredProcedureWithoutParameters2()
+        public StoredProcedureWithoutParameters()
             : base(new NullStoredProcedureParameters())
         {
         }
     }
 
-However, as this format of Stored Procedure is a common scenario the framework also contains another base class to make definition of this kind of stored procedure a little less verbose. This best base class to use in this case is the **NoParametersStoredProcedureBase**. Again we do not need to worry about a constructor as the **NoParametersStoredProcedureBase** base class handles supplying the *NullStoredProcedureParameters* to it's base class (the *StoredProcedureBase* class) for us, which allows us to define the procedure like so:
+*However*, as this format of Stored Procedure is a common scenario the framework also contains another base class to make definition of this kind of stored procedure a little less verbose. This best base class to use in this case is the **NoParametersStoredProcedureBase**. Again we do not need to worry about a constructor as the **NoParametersStoredProcedureBase** base class handles supplying the *NullStoredProcedureParameters* to it's base class (the *StoredProcedureBase* class) for us, which allows us to define the procedure like so:
 
     internal class StoredProcedureWithoutParameters
         : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
@@ -175,13 +178,8 @@ However, as this format of Stored Procedure is a common scenario the framework a
     }
 
 
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-
-
 ### A Stored Procedure with Parameters but without a Return Type
-The next stored procedure in complexity is a procedure that takes a parameter but does not return a result set. For example a **DeleteById** stored procedure. So taking the example stored procedure below which deletes a record from the Blah table based upon the Id.
+The next type of stored procedure in complexity is a procedure that takes a parameter but does not return a result set. For example a **DeleteById** stored procedure. So taking the example stored procedure below which deletes a record from the Blah table based upon the Id.
 
     CREATE PROCEDURE dbo.StoredProcedureWithParametersButNoReturn
         @Id  INT
@@ -197,7 +195,7 @@ First we need to define a class which represents the parameters for the stored p
         int Id { get; set; }
     }
 
-The we can define the class which will represent the stored procedure and will use the parameters type define above as the **TParameters** type parameter.
+The we can define the class which will represent the stored procedure and will use the parameters type define above as the **TParameters** type parameter. We also now need a constructor which takes a parameters argument of StoredProcedureWithParametersButNoReturnParameters. This just passes straight through to the base class which handles construction tasks.
 
     internal class StoredProcedureWithParametersButNoReturn
         : StoredProcedureBase<NullStoredProcedureResult, StoredProcedureWithParametersButNoReturnParameters>
@@ -208,9 +206,7 @@ The we can define the class which will represent the stored procedure and will u
         }
     }
 
-You will notice that we have to define the **TReturn** type parameter as **NullStoredProcedureResult** as no results are expected to be returned form the stored procedure when it is called. We also now need a constructor which takes a parameters argument of StoredProcedureWithParametersButNoReturnParameters. This just passes straight through to the base class which handles construction tasks.
-
-The framework lets us short cut the definition slightly by omitting the **NullStoredProcedureResult** as teh **TReturn** return type parameter and using another base class, the **NoReturnTypeStoredProcedureBase** class, like so:
+You will notice that we have to define the **TReturn** type parameter as **NullStoredProcedureResult** as no results are expected to be returned form the stored procedure when it is called. The framework lets us short cut the definition slightly by omitting the **NullStoredProcedureResult** as the **TReturn** return type parameter and using another base class, the **NoReturnTypeStoredProcedureBase** class. We can inherit from this class like so:
 
     internal class StoredProcedureWithParametersButNoReturn
         : NoReturnTypeStoredProcedureBase<StoredProcedureWithParametersButNoReturnParameters>
@@ -221,9 +217,11 @@ The framework lets us short cut the definition slightly by omitting the **NullSt
         }
     }
 
-We do still need the constructor as the parameters will hold the actual values we wish to pass to the stored procedure in the database.
+This now brings us on nicely to what I call the "normal" and probably the most common type of stored procedure; one that takes parameters and returns a result set.
 
-This now brings us on nicely to the "normal" and probably the most common type of stored procedure; one that takes parameters and returns a result set.
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
 
 ### A "Normal" Stored procedure ###
 This represents what I consider to be the bread-and-butter of stored procedures; a procedure that has only input parameters, and returns a single result set. It might be the "GetMeSomethingById" type of stored procedure. So below is our stored procedure.
@@ -273,6 +271,16 @@ Once we have those we can define a class that represents the stored procedure.
 You will see the class inherits from the "StoredProcedureBase" and uses the return type and parameters classes defined above as the type parameters. At very least we need to provide a "pass-through" constructor with a argument which is of the same type as "NormalStoredProcedureParameters" class. 
 
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
+
+
+### Multiple RecordSets 
+
+TBC... (This section is yet to be completed )
+
+**PLEASE NOTE:** You do not need to name the *RecordSet* properties *RecordSet1*, *RecordSet2* etc. You can use a more meaningful name like *Account* and *Orders*, or what ever the data in each RecordSet represents.
+
+
+
 
 ## Calling the Stored Procedures from Code
 
