@@ -1,5 +1,7 @@
 # Using the StoredProcedureFramework
 
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+
 ## Representing Stored Procedures in Code
 (All code examples can be found in the **Examples** folder of the **Dibware.StoredProcedureFramework.Tests** project
 
@@ -58,18 +60,18 @@ This constructor is is only available for stored procedures which do have parame
 This constructor is is only available for stored procedures which do have parameters. This constructor can be used to set the schema name and the procedure name. It takes an argument of the type that is defined by the **TParameters** type parameter. It also takes a the schema name and procedure name as string as well as the object that represents the parameters.  
 
 
-**PLEASE NOT THIS DOCUMENT IS STILL BEING UPDATED FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-
 ### The most basic type of stored procedure
-The most basic type of stored procedure is one that has no parameters and returns no result. for example a stored procedure that just perform an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that. 
+The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that, and does not return any *ResultSet*, like below. 
 
     CREATE PROCEDURE dbo.MostBasicStoredProcedure
     AS
     BEGIN
         -- Does some function here...
+        PRINT 'Some silent operation'
     END
 
-As the **StoredProcedureBase** expects two type parameters so we must provide a class for each, the framework provides to concrete classes that can be used when there is not return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are:
+As the **StoredProcedureBase** abstract class expects two type parameters if we wish to inherit from that we would have to provide a class for each. The framework already provides to concrete classes that can be used when there is not return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are:
+
 #### NullStoredProcedureParameters
     /// <summary>
     /// An object that represents the absence of parameters
@@ -88,27 +90,28 @@ As the **StoredProcedureBase** expects two type parameters so we must provide a 
     {
     }
 
-So we could define our class that represent this stored procedure as follows:
+So we could define the class that represents this stored procedure as follows:
 
     internal class MostBasicStoredProcedure
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
-        public MostBasicStoredProcedure()
+        public MostBasicStoredProcedure2()
             : base(new NullStoredProcedureParameters())
         {
         }
     }
 
-But this is a bit cumbersome for such a basic stored procedure, so the framework provides another base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from making our code more succinct.
+But this is a bit cumbersome for such a basic stored procedure, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from making our code more succinct.
 
     internal class MostBasicStoredProcedure
         : NoParametersNoReturnTypeStoredProcedureBase
     {
-        
     }
 
+We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor.
+
 ### A Stored Procedure without Parameters
-The next stored procedure to look at is one which returns a result but does not have any parameters. This would typically be used for your "GetAll_X" type of stored procedure, for example:
+The next stored procedure to look at is one which returns a result but does not have any parameters. This would typically be used for your *MyTable_GetAll* type of stored procedure, for example:
 
     CREATE PROCEDURE dbo.StoredProcedureWithoutParameters
     AS
@@ -116,49 +119,66 @@ The next stored procedure to look at is one which returns a result but does not 
         SELECT * FROM dbo.Blah;
     END
 
-Which selects ALL records from the "Blah" table in the "dbo" schema.
+Which selects ALL records from the *Blah* table in the *dbo* schema. So in our example we will assume the *Blah* table is defined and populated as below.
 
     CREATE TABLE Blah (
         [Id]    INT    
     ,   [Name]  VARCHAR(50)
+    );
+    INSERT INTO Blah
+    (
+        [Id] 
+    ,   [Name]
     )
+    VALUES 
+    (
+        1
+    ,   'Sid'
+    );
 
-For this procedure we need to define a class that will represent a row of data in our results. We need a property in this class to match the name and data type of each of the fields in the row of the results returned from the "StoredProcedureWithoutParameters" stored procedure
+As this procedure returns data we need to define a class that will represent a row of data in our result *RecordSet*. For each field in the *RecordSet* we need a property in this class to represent it. The property must match the *Name* and *DataType* of the field it represents in the *RecordSet* row returned. So in the example case of the "StoredProcedureWithoutParameters" stored procedure we are looking at a class which contains an *Id* property of type *int* and a *Name* property of type *string*, as below.
 
-    internal class StoredProcedureWithoutParametersReturntype
+    internal class StoredProcedureWithoutParametersReturnType
     {
         int Id { get; set; }
         string Name { get; set; }
     }
 
-We need to to define a class that represnts the result set for the rpocedure. As Stroed procedures can return multiple recordsets we need the resultset will have one or more collections of return types. For this storedprocedure we need only one
+As the framework is capable of handling Stored procedures which can return *Multiple RecodSets* in a *ResultSet* we need to to define a class that represents the *ResultSet* for the Stored Procedure. The *ResultSet* will have one or more properties which are collections of *ReturnTypes*. As this Stored Procedure only returns one *RecordSet* we need only one property in the *ResultSet*. We must remember to instantiate the *RecordSet* in the constructor for the *ResultSet* before use. 
+
     internal class StoredProcedureWithoutParametersResultSet
     {
-        public List<StoredProcedureWithoutParametersReturntype> RecordSet { get; set; }
+        public List<StoredProcedureWithoutParametersReturnType> RecordSet { get; set; }
 
         public StoredProcedureWithoutParametersResultSet()
         {
-            RecordSet = new List<StoredProcedureWithoutParametersReturntype>();
+            RecordSet = new List<StoredProcedureWithoutParametersReturnType>();
         }
     }
 
-We must ensure the RecordSet is instantiated before use. We now need to define a class which represents the stored procedure it self. First we will define the class the verbose way, in which we will define the return type **StoredProcedureWithoutParametersReturntype** in the **TReturn** type parameter and the lack of parameters for the stored procedure using the **NullStoredProcedureParameters** class in the **TParameters** type parameter.
+We now need to define a class which represents the stored procedure it self. First we will define the class the verbose way, inheriting from **StoredProcedureBase** where we would have to define the return type **StoredProcedureWithoutParametersResultSet** in the **TReturn** type parameter and the lack of parameters for the stored procedure using the **NullStoredProcedureParameters** class in the **TParameters** type parameter.
 
     internal class StoredProcedureWithoutParameters
         : StoredProcedureBase<StoredProcedureWithoutParametersResultSet, NullStoredProcedureParameters>
     {
-        public StoredProcedureWithoutParameters()
+        public StoredProcedureWithoutParameters2()
             : base(new NullStoredProcedureParameters())
         {
         }
     }
 
-As this is a common stored procedure scenario the framework also contains another base class to make definition of this kind of stored procedure less verbose. This base class is the **NoParametersStoredProcedureBase**
+However, as this format of Stored Procedure is a common scenario the framework also contains another base class to make definition of this kind of stored procedure a little less verbose. This best base class to use in this case is the **NoParametersStoredProcedureBase**. Again we do not need to worry about a constructor as the **NoParametersStoredProcedureBase** base class handles supplying the *NullStoredProcedureParameters* to it's base class (the *StoredProcedureBase* class) for us, which allows us to define the procedure like so:
 
     internal class StoredProcedureWithoutParameters
         : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
     {
     }
+
+
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
+
 
 ### A Stored Procedure with Parameters but without a Return Type
 The next stored procedure in complexity is a procedure that takes a parameter but does not return a result set. For example a **DeleteById** stored procedure. So taking the example stored procedure below which deletes a record from the Blah table based upon the Id.

@@ -103,5 +103,9 @@
     <Build Include="dbo\Stored Procedures\VolumeAndPerformance_Truncate.sql" />
     <Build Include="dbo\Stored Procedures\VolumeAndPerformance_InsertNRecords.sql" />
     <Build Include="dbo\Stored Procedures\VolumeAndPerformance_GetAll.sql" />
+    <Build Include="dbo\Tables\Blah.sql" />
+    <Build Include="dbo\Stored Procedures\StoredProcedureWithoutParameters.sql" />
+    <Build Include="dbo\Stored Procedures\MostBasicStoredProcedure.sql" />
+    <Build Include="app\Stored Procedures\IncorrectStringParameter.sql" />
   </ItemGroup>
 </Project>
