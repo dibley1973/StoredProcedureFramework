@@ -188,11 +188,12 @@ The next type of stored procedure in complexity is a procedure that takes a para
         DELETE FROM dbo.Blah WHERE Id = @Id;
     END
 
-First we need to define a class which represents the parameters for the stored procedure.
+First we need a class that represents the stored procedure parameters. The default parameter data type is a *string* / *VarChar* combination. So for our procedure which uses an integer, we need to explicitly state the parameter type is an integer **SqlDBType** and we can do this using the **ParameterDbType** attribute. If we do not specify the parameter type the framework will fall back to the **default** *string* / *VarChar* *DataType* . If the Stored procedure had multiple parameters then there would be multiple properties representing each one.
 
     internal class StoredProcedureWithParametersButNoReturnParameters
     {
-        int Id { get; set; }
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
     }
 
 The we can define the class which will represent the stored procedure and will use the parameters type define above as the **TParameters** type parameter. We also now need a constructor which takes a parameters argument of StoredProcedureWithParametersButNoReturnParameters. This just passes straight through to the base class which handles construction tasks.
@@ -219,12 +220,8 @@ You will notice that we have to define the **TReturn** type parameter as **NullS
 
 This now brings us on nicely to what I call the "normal" and probably the most common type of stored procedure; one that takes parameters and returns a result set.
 
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
-
 ### A "Normal" Stored procedure ###
-This represents what I consider to be the bread-and-butter of stored procedures; a procedure that has only input parameters, and returns a single result set. It might be the "GetMeSomethingById" type of stored procedure. So below is our stored procedure.
+This represents what I consider to be the bread-and-butter of stored procedures; a procedure that has only input parameters, no output parameters, and returns a single result set. It might be the "GetMeSomethingById" type of stored procedure. So taking the stored procedure below...
 
     CREATE PROCEDURE dbo.NormalStoredProcedure
         @Id  INT
@@ -236,7 +233,7 @@ This represents what I consider to be the bread-and-butter of stored procedures;
         ,   CAST(1 AS BIT) AS Active
     END
 
-We need a class that represents the parameters. The default parameter data type is a string / varchar combination. So for our procedure which uses an integer, we need to explicitly state the parameter type is an integer **SqlDBType** and we can do this using the **ParameterDbType** attribute.
+So below we have a class which represents all of our parameters, albeit with only a single property for the single parameter. again as the parameter is not the default string type we need to explicitly state what *DataType* it is by decorating the property with a *ParameterDbType* attribute.
 
     internal class NormalStoredProcedureParameters
     {
@@ -244,7 +241,7 @@ We need a class that represents the parameters. The default parameter data type 
         public int Id { get; set; }
     }
 
-...and a class that represents the row we will return.
+Once the parameters class is complete we need to create a class that represents the row  from our the first and only RecordSet that we will return.
 
     internal class NormalStoredProcedureReturnType
     {
@@ -253,14 +250,26 @@ We need a class that represents the parameters. The default parameter data type 
         public bool Active { get; set; }
     }
 
-Once we have those we can define a class that represents the stored procedure.
+We now need to create a class that will represent the *ResultSet* that the stored procedure will return and in this case the ResultSet will have a single RecordSet property. This is a List of the row *ReturnType* we have already declared. Remember you can call the RecordSet property a more meaning full name like *Products* or *Accounts*, but don't forget to instantiate the recordSet in teh ResultSet's constructor.
+
+    internal class NormalStoredProcedureResultSet
+    {
+        public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
+
+        public NormalStoredProcedureResultSet()
+        {
+            RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
+        }
+    }
+    
+Once we have those three classes defined we can define a class that represents the stored procedure which pulls them altogether. This class inherits from the *StoredProcedureBase* and take the *NormalStoredProcedureResultSet* as the *TReturn* type parameter, and the *NormalStoredProcedureParameters* as the TParameters* Type pararmeter. We also need to provide a "pass-through" constructor with a argument which is of the same type as "NormalStoredProcedureParameters" class. 
 
     /// <summary>
     /// Represents a "normal" stored procedure which has parameters and returns
     /// a single result set
     /// </summary>
     internal class NormalStoredProcedure
-        : StoredProcedureBase<NormalStoredProcedureReturnType, NormalStoredProcedureParameters>
+        : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
     {
         public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
             : base(parameters)
@@ -268,10 +277,11 @@ Once we have those we can define a class that represents the stored procedure.
         }
     }
 
-You will see the class inherits from the "StoredProcedureBase" and uses the return type and parameters classes defined above as the type parameters. At very least we need to provide a "pass-through" constructor with a argument which is of the same type as "NormalStoredProcedureParameters" class. 
+Now we will look at a variation on this stored procedure, by looking at a stored procedure that returns multiple RecordSets.
 
-Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
-
+## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
+## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
+## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
 
 ### Multiple RecordSets 
 
@@ -281,6 +291,8 @@ TBC... (This section is yet to be completed )
 
 
 
+
+Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
 
 ## Calling the Stored Procedures from Code
 

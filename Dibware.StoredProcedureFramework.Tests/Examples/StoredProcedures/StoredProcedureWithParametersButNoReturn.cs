@@ -1,4 +1,6 @@
-﻿using Dibware.StoredProcedureFramework.Base;
+﻿using System.Data;
+using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
@@ -24,6 +26,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 
     internal class StoredProcedureWithParametersButNoReturnParameters
     {
-        int Id { get; set; }
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
     }
 }
