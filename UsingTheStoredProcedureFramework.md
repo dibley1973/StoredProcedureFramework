@@ -250,7 +250,7 @@ Once the parameters class is complete we need to create a class that represents 
         public bool Active { get; set; }
     }
 
-We now need to create a class that will represent the *ResultSet* that the stored procedure will return and in this case the ResultSet will have a single RecordSet property. This is a List of the row *ReturnType* we have already declared. Remember you can call the RecordSet property a more meaning full name like *Products* or *Accounts*, but don't forget to instantiate the recordSet in teh ResultSet's constructor.
+We now need to create a class that will represent the *ResultSet* that the stored procedure will return and in this case the ResultSet will have a single RecordSet property. This is a List of the row *ReturnType* we have already declared. Remember you can call the RecordSet property a more meaning full name like *Products* or *Accounts*, but don't forget to instantiate the recordSet in the ResultSet's constructor.
 
     internal class NormalStoredProcedureResultSet
     {
@@ -279,52 +279,160 @@ Once we have those three classes defined we can define a class that represents t
 
 Now we will look at a variation on this stored procedure, by looking at a stored procedure that returns multiple RecordSets.
 
-## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
-## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
-## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
-
 ### Multiple RecordSets 
 
-TBC... (This section is yet to be completed )
+So for our *Multiple RecordSet* stored procedure example we will use the following stored procedure:
 
-**PLEASE NOTE:** You do not need to name the *RecordSet* properties *RecordSet1*, *RecordSet2* etc. You can use a more meaningful name like *Account* and *Orders*, or what ever the data in each RecordSet represents.
+    CREATE PROCEDURE [dbo].[MultipleRecordSetStoredProcedure]
+        @Id                 INT
+    ,   @Name               VARCHAR(20)
+    ,   @Active             BIT
+    ,   @Price              DECIMAL(10, 4)
+    ,   @UniqueIdentifier   UNIQUEIDENTIFIER
+    ,   @Count              TINYINT
+    AS
+    BEGIN
+        /* First Record Set */
+        SELECT 
+            @Id     AS Id
+        ,   @Name   AS Name
+        UNION
+        SELECT
+            17      AS Id
+        ,   'Bill'  AS Name;
 
+        /* Second Record Set */
+        SELECT 
+            @Active as Active
+        ,   @Price  AS Price;
 
+        /* Third Record Set */
+        SELECT
+            @UniqueIdentifier   AS [UniqueIdentifier]
+        ,   @Count              AS [Count];
+        
+    END
 
+You can see that each *RecordSet* has a different signature. The first returns a column called *Id* of type *INT* and a column called *Name* of type *VARCHAR(20)*. The second returns a column called *Active* of type *BIT* and a column called *Price* of type *DECIMAL(10, 4)* and the last returns a column called *UniqueIdentifier* of type *UNIQUEIDENTIFIER* together with a column called *Count* of type *TINYINT*. we will need an object to represent each of these return row signatures, and these you an see below.
 
+    internal class MultipleRecordSetStoredProcedureReturnType1
+    {
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    internal class MultipleRecordSetStoredProcedureReturnType2
+    {
+        [ParameterDbType(SqlDbType.Bit)]
+        public bool Active { get; set; }
+
+        [ParameterDbType(SqlDbType.Decimal)]
+        public decimal Price { get; set; }
+    }
+
+    internal class MultipleRecordSetStoredProcedureReturnType3
+    {
+        [ParameterDbType(SqlDbType.UniqueIdentifier)]
+        public Guid UniqueIdentifier { get; set; }
+
+        [ParameterDbType(SqlDbType.TinyInt)]
+        public byte Count { get; set; }
+    }
+
+We will need a *ResultSet* object to hold each *RecordSet* list. We must remember to instantiate each *RecordSet* in the constructor
+    
+    internal class MultipleRecordSetStoredProcedureResultSet
+    {
+        public List<MultipleRecordSetStoredProcedureReturnType1> RecordSet1 { get; set; }
+        public List<MultipleRecordSetStoredProcedureReturnType2> RecordSet2 { get; set; }
+        public List<MultipleRecordSetStoredProcedureReturnType3> RecordSet3 { get; set; }
+
+        public MultipleRecordSetStoredProcedureResultSet()
+        {
+            RecordSet1 = new List<MultipleRecordSetStoredProcedureReturnType1>();
+            RecordSet2 = new List<MultipleRecordSetStoredProcedureReturnType2>();
+            RecordSet3 = new List<MultipleRecordSetStoredProcedureReturnType3>();
+        }
+    }
+
+**PLEASE NOTE:** We do not need to name the *RecordSet* properties *RecordSet1*, *RecordSet2* etc. We could just as easily use a more meaningful name like *Account* and *Orders*, or what ever the data in each RecordSet represents.
+
+We will need a parameters object to represent the six parameters which the stored procedure demands.
+
+    internal class MultipleRecordSetStoredProcedureParameters
+    {
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
+
+        [Size(20)]
+        public string Name { get; set; }
+
+        [ParameterDbType(SqlDbType.Bit)]
+        public bool Active { get; set; }
+
+        [ParameterDbType(SqlDbType.Decimal)]
+        [Precision(10)]
+        [Scale(4)]
+        public decimal Price { get; set; }
+
+        [ParameterDbType(SqlDbType.UniqueIdentifier)]
+        public Guid UniqueIdentifier { get; set; }
+
+        [ParameterDbType(SqlDbType.TinyInt)]
+        public byte Count { get; set; }
+    }
+
+And finally we need a class to represent the complete Stored Procedure:
+
+    internal class MultipleRecordSetStoredProcedure
+        : StoredProcedureBase<MultipleRecordSetStoredProcedureResultSet, MultipleRecordSetStoredProcedureParameters>
+    {
+        public MultipleRecordSetStoredProcedure(MultipleRecordSetStoredProcedureParameters parameters)
+            : base(parameters)
+        {
+        }
+    } 
+    
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
 
 ## Calling the Stored Procedures from Code
 
 The framework provides extension methods which can be used to call the stored procedures on three key .Net data access objects. **SqlConnection**, **DbConnection** and also **DbContext**.  The extension methods for **SqlConnection**, **DbConnection** can be found in the main **Dibware.StoredProcedureFramework** assembly, but for the **DbContext** extensions there is a separate assembly, **Dibware.StoredProcedureFrameworkForEF**. This is to prevent the need for a dependency on **Entity Framework** in the main assembly and hence extra bloat. If your project does not have **Entity Framework** or you are not using the **DbContext** extensions then you don't need a reference to **Dibware.StoredProcedureFrameworkForEF** to call the procedures. 
 
-Regardless of whether you are using **Entity Framework**or not you will _always _ need a reference to the main **Dibware.StoredProcedureFramework** assembly!
+Regardless of whether you are using *this* stored procedure framework alongside **Entity Framework** or not you will *always* need a reference to the main **Dibware.StoredProcedureFramework** assembly.
 
 So for the purpose of the examples we will call the extension method on the DbContext object, but the code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
-        [TestMethod]
-        public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
+## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
+Work in Progress
+
+
+
+    [TestMethod]
+    public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
+    {
+        // ARRANGE  
+        const int expectedId = 10;
+        const string expectedName = @"Dave";
+        const bool expectedActive = true;
+
+        var parameters = new NormalStoredProcedureParameters
         {
-            // ARRANGE  
-            const int expectedId = 10;
-            const string expectedName = @"Dave";
-            const bool expectedActive = true;
+            Id = expectedId
+        };
+        var procedure = new NormalStoredProcedure(parameters);
+        
+        // ACT
+        var results = Context.ExecuteStoredProcedure(procedure);
+        var result = results.First();
 
-            var parameters = new NormalStoredProcedureParameters
-            {
-                Id = expectedId
-            };
-            var procedure = new NormalStoredProcedure(parameters);
-            
-            // ACT
-            var results = Context.ExecuteStoredProcedure(procedure);
-            var result = results.First();
-
-            // ASSERT
-            Assert.AreEqual(expectedId, result.Id);
-            Assert.AreEqual(expectedName, result.Name);
-            Assert.AreEqual(expectedActive, result.Active);
-        }
+        // ASSERT
+        Assert.AreEqual(expectedId, result.Id);
+        Assert.AreEqual(expectedName, result.Name);
+        Assert.AreEqual(expectedActive, result.Active);
+    }
 
 So reading down through the test we can see first we are setting up our expected result (based upon what we know the stored procedure _SHOULD_ return). We then need to instantiate and populate a parameters object. We can then use the parameters object to instantiate our stored procedure giving us everything set up and ready to go.
 

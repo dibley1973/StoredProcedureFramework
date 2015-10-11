@@ -19,11 +19,11 @@ BEGIN
     /* Second Record Set */
     SELECT 
         @Active as Active
-    ,   @Price  AS Price
+    ,   @Price  AS Price;
 
     /* Third Record Set */
     SELECT
         @UniqueIdentifier   AS [UniqueIdentifier]
-    ,   @Count              AS [Count]
+    ,   @Count              AS [Count];
     
 END

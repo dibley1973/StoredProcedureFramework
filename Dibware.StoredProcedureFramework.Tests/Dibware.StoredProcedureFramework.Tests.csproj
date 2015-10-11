@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
+    <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
     <Compile Include="Integration Tests\IncorrectParameterTypeTests.cs" />
