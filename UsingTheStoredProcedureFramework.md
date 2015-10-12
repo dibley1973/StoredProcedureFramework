@@ -141,8 +141,8 @@ As this procedure returns data we need to define a class that will represent a r
 
     internal class StoredProcedureWithoutParametersReturnType
     {
-        int Id { get; set; }
-        string Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 
 As the framework is capable of handling Stored procedures which can return *Multiple RecodSets* in a *ResultSet* we need to to define a class that represents the *ResultSet* for the Stored Procedure. The *ResultSet* will have one or more properties which are collections of *ReturnTypes*. As this Stored Procedure only returns one *RecordSet* we need only one property in the *ResultSet*. We must remember to instantiate the *RecordSet* in the constructor for the *ResultSet* before use. 
@@ -397,46 +397,112 @@ And finally we need a class to represent the complete Stored Procedure:
     
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
 
-## Calling the Stored Procedures from Code
+## Calling the Stored Procedures from Code using SqlConnection
 
 The framework provides extension methods which can be used to call the stored procedures on three key .Net data access objects. **SqlConnection**, **DbConnection** and also **DbContext**.  The extension methods for **SqlConnection**, **DbConnection** can be found in the main **Dibware.StoredProcedureFramework** assembly, but for the **DbContext** extensions there is a separate assembly, **Dibware.StoredProcedureFrameworkForEF**. This is to prevent the need for a dependency on **Entity Framework** in the main assembly and hence extra bloat. If your project does not have **Entity Framework** or you are not using the **DbContext** extensions then you don't need a reference to **Dibware.StoredProcedureFrameworkForEF** to call the procedures. 
 
-Regardless of whether you are using *this* stored procedure framework alongside **Entity Framework** or not you will *always* need a reference to the main **Dibware.StoredProcedureFramework** assembly.
+Regardless of whether you are using *this* stored procedure framework alongside **Entity Framework** or not you will *always* need a reference to the main **Dibware.StoredProcedureFramework** assembly. 
 
-So for the purpose of the examples we will call the extension method on the DbContext object, but the code is basically the same when called on the **SqlConnection** or the **DbConnection**.
+So for the purpose of the examples we will call the extension method on the **SqlConnection** object, but the code is basically the same when called on the **DbConnection** or the **DbContext** objects. So lets use the *MostBasicStoredProcedure* which we defined earlier in this document and call it using the extension method on the SqlConnection Object. Remember this procedure has no parameters and returns no results. For convenience we will use a the MSTest harness, but it's not really a valid integration test, just example code. 
+
+    [TestMethod]
+    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnSqlConnection)
+    {
+        // ARRANGE
+        var procedure = new MostBasicStoredProcedure();
+        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+
+        // ACT
+        using (DbConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            connection.ExecuteStoredProcedure(procedure);
+        }
+
+        // ASSERT
+        // Should get here as Exception should not have been thrown
+    }
+
+So reading down through the test we can see first in the *ARRANGE* section that we are instantiating our stored procedure POCO class and a connection string. Then in the  *ACT*, once the *SqlConnection* object is created and the connection opened we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *SqlConnection* object. We we do not expect a *ResultSet* from this stored procedure we have no need to capture it.
+
+Now lets look at calling a stored procedure which does return results, but still does not have parameters. We will call the *StoredProcedureWithoutParameters* defined earlier in this document. See below to recap on how the objects for this stored procedure are defined.
+
+    internal class StoredProcedureWithoutParameters
+        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
+    {
+    }
+
+    internal class StoredProcedureWithoutParametersResultSet
+    {
+        public List<StoredProcedureWithoutParametersReturnType> RecordSet { get; set; }
+
+        public StoredProcedureWithoutParametersResultSet()
+        {
+            RecordSet = new List<StoredProcedureWithoutParametersReturnType>();
+        }
+    }
+
+    internal class StoredProcedureWithoutParametersReturnType
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+So assuming the values that will be returned have remained the same as when we defined the earlier we should get a value of *1* for the first row's *Id* field and a value of *Sid* for the *Name* field. We will use the example code below to call the procedure.
+
+    [TestMethod]
+    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnSqlConnection()
+    {
+        // ARRANGE
+        var procedure = new StoredProcedureWithoutParameters();
+        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        StoredProcedureWithoutParametersResultSet resultSet;
+        List<StoredProcedureWithoutParametersReturnType> resultList;
+        StoredProcedureWithoutParametersReturnType firstResult;
+
+        // ACT
+        using (DbConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            resultSet = connection.ExecuteStoredProcedure(procedure);
+        }
+        resultList = resultSet.RecordSet;
+        firstResult = resultList.First();
+
+        // ASSERT
+        Assert.AreEqual(1, firstResult.Id);
+        Assert.AreEqual("Sid", firstResult.Name);
+    }
+
+Set up is similar to what we did for the *MostBasicStoredProcedure*, but we need need a variable to hold the stored procedure's *ResultSet* and also a list to hold the *RecordSet*. For the sake of this example we will also create a variable to hold the first result, so we can make a couple of assertions against it. To access the results of the stored procedure we need to capture the return value of the *ExecuteStoredProcedure* extension method into the *resultSet* variable. This value is strongly typed and in this case will be of the type *StoredProcedureWithoutParametersResultSet*. from this we can drill in to the *RecordSet* and the individual records within the *RecordSet*.
+
+
 
 ## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
 Work in Progress
+    
+## Calling the Stored Procedures from Code using DbContext
 
+** WIP - TBC ** 
+
+So for the purpose of the examples we will call the extension method on the **DbContext** object, but the code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
 
     [TestMethod]
-    public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
+    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnDbConext()
     {
-        // ARRANGE  
-        const int expectedId = 10;
-        const string expectedName = @"Dave";
-        const bool expectedActive = true;
+        // ARRANGE
+        var procedure = new MostBasicStoredProcedure();
+        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
-        var parameters = new NormalStoredProcedureParameters
-        {
-            Id = expectedId
-        };
-        var procedure = new NormalStoredProcedure(parameters);
-        
         // ACT
-        var results = Context.ExecuteStoredProcedure(procedure);
-        var result = results.First();
-
+        Context.ExecuteStoredProcedure(procedure);
+        
         // ASSERT
-        Assert.AreEqual(expectedId, result.Id);
-        Assert.AreEqual(expectedName, result.Name);
-        Assert.AreEqual(expectedActive, result.Active);
+        // Should get here as Exception should not have been thrown
     }
-
-So reading down through the test we can see first we are setting up our expected result (based upon what we know the stored procedure _SHOULD_ return). We then need to instantiate and populate a parameters object. We can then use the parameters object to instantiate our stored procedure giving us everything set up and ready to go.
-
-The Context in this test inherits from an entity Framework **DbContext** so I can execute the stored procedure by calling **Context.ExecuteStoredProcedure(...)** passing in the instantiated stored procedure object. This will return a list of results, which in this case we know will be a single record so can use LinQ to provide the this.
+        
+The *Context* in this test inherits from an entity Framework **DbContext** so I can execute the stored procedure by calling **Context.ExecuteStoredProcedure(...)** passing in the instantiated stored procedure object. 
 
 
 ## TBC...
