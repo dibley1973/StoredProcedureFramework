@@ -13,7 +13,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
     public class StoredProcedureWithoutParametersTests
     {
         [TestMethod]
-        public void EXAMPLE_ExecuteMostBasicStoredProcedureOnSqlConnection()
+        public void EXAMPLE_ExecuteMostBasicStoredProcedureWithoutParametersOnSqlConnection()
         {
             // ARRANGE
             var procedure = new StoredProcedureWithoutParameters();

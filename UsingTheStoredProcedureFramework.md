@@ -476,17 +476,57 @@ So assuming the values that will be returned have remained the same as when we d
 
 Set up is similar to what we did for the *MostBasicStoredProcedure*, but we need need a variable to hold the stored procedure's *ResultSet* and also a list to hold the *RecordSet*. For the sake of this example we will also create a variable to hold the first result, so we can make a couple of assertions against it. To access the results of the stored procedure we need to capture the return value of the *ExecuteStoredProcedure* extension method into the *resultSet* variable. This value is strongly typed and in this case will be of the type *StoredProcedureWithoutParametersResultSet*. from this we can drill in to the *RecordSet* and the individual records within the *RecordSet*.
 
+Next up is a a stored procedure with parameters but no *ResultSet*, so we will use the *StoredProcedureWithParametersButNoReturn* from earlier in the document along with it's *StoredProcedureWithParametersButNoReturnParameters* class.
+
+    internal class StoredProcedureWithParametersButNoReturn
+        : NoReturnTypeStoredProcedureBase<StoredProcedureWithParametersButNoReturnParameters>
+    {
+        public StoredProcedureWithParametersButNoReturn(StoredProcedureWithParametersButNoReturnParameters parameters)
+            : base(parameters)
+        {
+        }
+    }
+
+    internal class StoredProcedureWithParametersButNoReturnParameters
+    {
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
+    }
+
+Looking at the example calling code below we can see that once we have instantiated and set up the parameters and then constructed the stored procedure with those parameters, we can then call the procedure.
+
+    [TestMethod]
+    public void EXAMPLE_ExecuteStoredProcedureWithParametersButNoReturnOnSqlConnection()
+    {
+        // ARRANGE
+        var parameters = new StoredProcedureWithParametersButNoReturnParameters
+        {
+            Id = 1
+        };
+        var procedure = new StoredProcedureWithParametersButNoReturn(parameters);
+        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+
+        // ACT
+        using (DbConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            connection.ExecuteStoredProcedure(procedure);
+        }
+    }
+
+    We do not need to concern our selves with a *ReturnType* or *ResultSet* as the procedure returns no results.
+
+    
 
 
 ## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
 Work in Progress
-    
+   
+
+
+   
 ## Calling the Stored Procedures from Code using DbContext
-
-** WIP - TBC ** 
-
-So for the purpose of the examples we will call the extension method on the **DbContext** object, but the code is basically the same when called on the **SqlConnection** or the **DbConnection**.
-
+If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
     [TestMethod]
     public void EXAMPLE_ExecuteMostBasicStoredProcedureOnDbConext()
