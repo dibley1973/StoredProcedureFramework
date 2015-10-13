@@ -69,6 +69,7 @@
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
     <Compile Include="Integration Tests\IncorrectParameterTypeTests.cs" />
     <Compile Include="Integration Tests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
+    <Compile Include="Integration Tests\DbContextTests.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />

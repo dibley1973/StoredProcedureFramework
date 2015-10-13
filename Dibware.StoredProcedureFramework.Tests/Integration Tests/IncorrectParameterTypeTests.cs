@@ -22,8 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            IncorrectParameterTypeStoredProcedureResultSet resultSet;
-
+            
             // ACT
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -47,8 +46,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
             procedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            IncorrectParameterTypeStoredProcedureResultSet resultSet;
-
+            
             // ACT
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

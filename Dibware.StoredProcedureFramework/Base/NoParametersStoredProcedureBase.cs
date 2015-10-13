@@ -7,7 +7,7 @@
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     public abstract class NoParametersStoredProcedureBase<TReturn>
         : StoredProcedureBase<TReturn, NullStoredProcedureParameters>
-        where TReturn : class
+        where TReturn : class, new()
     {
         #region Constructors
 

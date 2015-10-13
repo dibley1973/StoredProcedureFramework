@@ -34,6 +34,7 @@ The aim of this project is to provide the following:
 * (Should) Ability to handle lesser used return data types
 * (Should) Warn calling code if parameter value data may be truncated due to smaller pameter type
 * (Should) Implement David Doran's "FastActivator" for object intanciation **Investigated: no gain**
+* (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **WIP**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
 
