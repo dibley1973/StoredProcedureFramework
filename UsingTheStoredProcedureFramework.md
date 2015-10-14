@@ -279,7 +279,7 @@ Once we have those three classes defined we can define a class that represents t
 
 Now we will look at a variation on this stored procedure, by looking at a stored procedure that returns multiple RecordSets.
 
-### Multiple RecordSets 
+### A Stored Procedure With Multiple RecordSets 
 
 So for our *Multiple RecordSet* stored procedure example we will use the following stored procedure:
 
@@ -451,8 +451,16 @@ Now lets look at calling a stored procedure which does return results, but still
 So assuming the values that will be returned have remained the same as when we defined the earlier we should get a value of *1* for the first row's *Id* field and a value of *Sid* for the *Name* field. We will use the example code below to call the procedure.
 
     [TestMethod]
-    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnSqlConnection()
+    public void EXAMPLE_ExecuteStoredProcedureWithoutParametersOnSqlConnection()
     {
+        // NOTE:
+        // You need a record in the [dbo].[Blah] table with the following values for this test to pass!
+        // |--------------------|
+        // |    Id  |   Name    |
+        // |====================|
+        // |    1   |   Sid     |
+        // |--------------------|
+
         // ARRANGE
         var procedure = new StoredProcedureWithoutParameters();
         var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
@@ -514,9 +522,136 @@ Looking at the example calling code below we can see that once we have instantia
         }
     }
 
-    We do not need to concern our selves with a *ReturnType* or *ResultSet* as the procedure returns no results.
+We do not need to concern our selves with a *ReturnType* or *ResultSet* as the procedure returns no results.
 
+So now to move on to a stored procedure which takes parameters and returns results. For this we will use the *NormalStoredProcedure* class and associated parameters object, *ReturnType* and *ResultSet* which we defined earlier in the document...
+
+    /// <summary>
+    /// Represents a "normal" stored procedure which has parameters and returns
+    /// a single result set
+    /// </summary>
+    internal class NormalStoredProcedure
+        : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+    {
+        public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
+            : base(parameters)
+        {
+        }
+    }
+
+    internal class NormalStoredProcedureResultSet
+    {
+        public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
+
+        public NormalStoredProcedureResultSet()
+        {
+            RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
+        }
+    }
+
+    internal class NormalStoredProcedureParameters
+    {
+        [ParameterDbType(SqlDbType.Int)]
+        public int Id { get; set; }
+    }
+
+    internal class NormalStoredProcedureRecordSet1ReturnType
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool Active { get; set; }
+    }
+
+We can see in the example test below that the first task is to instantiate the parameters, which we then use to instantiate the stored procedure POCO. When we execute the procedure against the *SqlConnection* we get the *ResultSet* back which we can drill into to get the collection of records from the *RecordSet*. as we know our procedure returns canned results we can assert our expected values.
+
+    [TestMethod]
+    public void EXAMPLE_NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
+    {
+        // ARRANGE  
+        const int expectedId = 10;
+        const string expectedName = @"Dave";
+        const bool expectedActive = true;
+
+        var parameters = new NormalStoredProcedureParameters
+        {
+            Id = expectedId
+        };
+        NormalStoredProcedureResultSet resultSet;
+        var procedure = new NormalStoredProcedure(parameters);
+        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+
+        // ACT
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            resultSet = connection.ExecuteStoredProcedure(procedure);
+        }
+        var results = resultSet.RecordSet1;
+        var result = results.First();
+
+        // ASSERT
+        Assert.AreEqual(expectedId, result.Id);
+        Assert.AreEqual(expectedName, result.Name);
+        Assert.AreEqual(expectedActive, result.Active);
+    }
+
+Next up we will look at the calling code for a stored procedure which returns *Multiple RecordSets*. This is basically the same as the example above except when interorgating the *ResultSet* there are more RecordSets to drill into. We will stick with the example defined [earlier in the document](### A-Stored-Procedure-With-Multiple-RecordSets)
+
+    [TestClass]
+    public class MultipleRecordSetTests
+    {
+        [TestMethod]
+        public void EXAMPLE_MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
+        {
+            // ARRANGE
+            const int expectedId = 10;
+            const string expectedName = "Sid";
+            const bool expectedActive = true;
+            const decimal expectedPrice = 10.99M;
+            Guid expectedUniqueIdentifier = Guid.NewGuid();
+            const byte expectedCount = 17;
+            var parameters = new MultipleRecordSetStoredProcedureParameters
+            {
+                Id = expectedId,
+                Name = expectedName,
+                Active = expectedActive,
+                Price = expectedPrice,
+                UniqueIdentifier = expectedUniqueIdentifier,
+                Count = expectedCount
+            };
+            MultipleRecordSetStoredProcedureResultSet resultSet;
+            var procedure = new MultipleRecordSetStoredProcedure(parameters);
+            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+
+            // ACT
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                resultSet = connection.ExecuteStoredProcedure(procedure);
+            }
+            var results1 = resultSet.RecordSet1;
+            var result1 = results1.First();
+
+            var results2 = resultSet.RecordSet2;
+            var result2 = results2.First();
+
+            var results3 = resultSet.RecordSet3;
+            var result3 = results3.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedId, result1.Id);
+            Assert.AreEqual(expectedName, result1.Name);
+
+            Assert.AreEqual(expectedActive, result2.Active);
+            Assert.AreEqual(expectedPrice, result2.Price);
+
+            Assert.AreEqual(expectedUniqueIdentifier, result3.UniqueIdentifier);
+            Assert.AreEqual(expectedCount, result3.Count);
+        }
+    }
     
+We can see from this test we have access to each *RecordSet* and the records within them.
+
 
 
 ## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!

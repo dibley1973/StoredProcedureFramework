@@ -64,7 +64,7 @@
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
     <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
-    <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersButNoReturnTests.cs" />
+    <Compile Include="Examples\Tests\StoredProcedureWithParametersButNoReturnTests.cs" />
     <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
     <Compile Include="Examples\Tests\StoredProcedureWithoutParametersTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />

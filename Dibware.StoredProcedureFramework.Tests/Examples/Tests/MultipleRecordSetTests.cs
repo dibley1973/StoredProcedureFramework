@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
 {
@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
     public class MultipleRecordSetTests
     {
         [TestMethod]
-        public void MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
+        public void EXAMPLE_MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
         {
             // ARRANGE
             const int expectedId = 10;

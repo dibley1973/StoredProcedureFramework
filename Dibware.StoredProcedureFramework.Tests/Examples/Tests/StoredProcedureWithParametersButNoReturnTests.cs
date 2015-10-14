@@ -1,10 +1,11 @@
 ﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
+namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
 {
     [TestClass]
     public class StoredProcedureWithParametersButNoReturnTests
@@ -15,7 +16,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
             // ARRANGE
             var parameters = new StoredProcedureWithParametersButNoReturnParameters
             {
-                Id = 1
+                Id = 2
             };
             var procedure = new StoredProcedureWithParametersButNoReturn(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;

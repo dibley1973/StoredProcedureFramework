@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
     public class NormalStoredProcedureTests : BaseIntegrationTest
     {
         [TestMethod]
-        public void NormalStoredProcedure_WhenCalledOnDbContext_ReturnsCorrectValues()
+        public void EXAMPLE_NormalStoredProcedure_WhenCalledOnDbContext_ReturnsCorrectValues()
         {
             // ARRANGE  
             const int expectedId = 10;
@@ -43,7 +43,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
         }
 
         [TestMethod]
-        public void NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
+        public void EXAMPLE_NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
         {
             // ARRANGE  
             const int expectedId = 10;
@@ -54,7 +54,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             {
                 Id = expectedId
             };
-            //List<NormalStoredProcedureRecordSet1ReturnType> results;
             NormalStoredProcedureResultSet resultSet;
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
