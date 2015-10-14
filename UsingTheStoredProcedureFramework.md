@@ -2,6 +2,33 @@
 
 **PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!**
 
+## TOC
+
+* Representing Stored Procedures in Code
+  +  General Rules
+    -   Base Classes
+      * StoredProcedureBase
+      * NoParametersStoredProcedureBase
+      * NoReturnTypeStoredProcedureBase
+      * NoParametersNoReturnTypeStoredProcedureBase
+    - Type Parameters
+      * TReturn
+      * TParameters
+    - Constructors
+      * ctor()
+      * ctor(string procedureName)
+      * ctor(string schemaName, string procedureName)
+      * ctor(TParameters parameters)
+      * ctor(string procedureName, TParameters parameters)
+      * ctor(string schemaName, string procedureName, TParameters parameters)
+  + The most basic type of stored procedure
+  + A Stored Procedure without Parameters
+  + A Stored Procedure with Parameters but without a Return Type
+  + A "Normal" Stored procedure
+  + A Stored Procedure With Multiple RecordSets
+* [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
+* [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
+
 ## Representing Stored Procedures in Code
 (All code examples can be found in the **Examples** folder of the **Dibware.StoredProcedureFramework.Tests** project
 
@@ -220,7 +247,7 @@ You will notice that we have to define the **TReturn** type parameter as **NullS
 
 This now brings us on nicely to what I call the "normal" and probably the most common type of stored procedure; one that takes parameters and returns a result set.
 
-### A "Normal" Stored procedure ###
+### A "Normal" Stored procedure
 This represents what I consider to be the bread-and-butter of stored procedures; a procedure that has only input parameters, no output parameters, and returns a single result set. It might be the "GetMeSomethingById" type of stored procedure. So taking the stored procedure below...
 
     CREATE PROCEDURE dbo.NormalStoredProcedure
@@ -524,7 +551,7 @@ Looking at the example calling code below we can see that once we have instantia
 
 We do not need to concern our selves with a *ReturnType* or *ResultSet* as the procedure returns no results.
 
-So now to move on to a stored procedure which takes parameters and returns results. For this we will use the *NormalStoredProcedure* class and associated parameters object, *ReturnType* and *ResultSet* which we defined earlier in the document...
+So now to move on to a stored procedure which takes parameters and returns results. For this we will use the *NormalStoredProcedure* class and associated parameters object, *ReturnType* and *ResultSet* which we [defined earlier in the document](#a-normal-stored-procedure)...
 
     /// <summary>
     /// Represents a "normal" stored procedure which has parameters and returns
@@ -595,7 +622,9 @@ We can see in the example test below that the first task is to instantiate the p
         Assert.AreEqual(expectedActive, result.Active);
     }
 
-Next up we will look at the calling code for a stored procedure which returns *Multiple RecordSets*. This is basically the same as the example above except when interorgating the *ResultSet* there are more RecordSets to drill into. We will stick with the example defined [earlier in the document](### A-Stored-Procedure-With-Multiple-RecordSets)
+### Multiple RecordSet Stored Procedure
+    
+Next up we will look at the calling code for a stored procedure which returns *Multiple RecordSets*. This is basically the same as the example above except when interrogating the *ResultSet* there are more RecordSets to drill into. We will stick with the example defined [earlier in the document](#a-stored-procedure-with-multiple-recordsets)
 
     [TestClass]
     public class MultipleRecordSetTests
@@ -651,14 +680,6 @@ Next up we will look at the calling code for a stored procedure which returns *M
     }
     
 We can see from this test we have access to each *RecordSet* and the records within them.
-
-
-
-## PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED BELOW FOLLOWING AN API CHANGE FOR MULTIPLE RECORDSETS!
-Work in Progress
-   
-
-
    
 ## Calling the Stored Procedures from Code using DbContext
 If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
