@@ -46,9 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseForEF.cs" />
+    <Compile Include="Base\NoParametersStoredProcedureBaseForEF.cs" />
+    <Compile Include="Base\NoReturnTypeStoredProcedureBaseForEF.cs" />
     <Compile Include="DbContextExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoredProcedureBase.cs" />
+    <Compile Include="StoredProcedureBaseForEF.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+﻿using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -7,17 +8,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
     internal class IntegrationTestContext : DbContext
     {
         #region Constructors
-
-        static IntegrationTestContext()
-        {
-            //// Set the chosen database initializer and initialize the database
-            ////IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
-            ////IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseIfModelChanges<IntegrationTestContext>();
-            ////IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseAlways<IntegrationTestContext>();
-            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new TestDbInitializer<IntegrationTestContext>();
-            //Database.SetInitializer(databaseInitializer);
-
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IntegrationTestContext"/> class.
@@ -33,11 +23,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
         {
             // Set the chosen database initializer and initialize the database
             IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
-            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseIfModelChanges<IntegrationTestContext>();
-            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new DropCreateDatabaseAlways<IntegrationTestContext>();
-            //IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new TestDbInitializer<IntegrationTestContext>();
             Database.SetInitializer(databaseInitializer);
 
+            MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
         }
 
         #endregion
@@ -71,6 +59,12 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
 
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Company> Companies { get; set; }
+
+        #endregion
+
+        #region Stored Procedures
+
+        public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
 
         #endregion
 

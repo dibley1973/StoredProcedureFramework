@@ -700,5 +700,56 @@ If you are already using Entity Framework in your solution you may wish to call 
         
 The *Context* in this test inherits from an entity Framework **DbContext** so I can execute the stored procedure by calling **Context.ExecuteStoredProcedure(...)** passing in the instantiated stored procedure object. 
 
+Alternatively if you can also call the stored procedure in a more entity framework code first method, like so.
 
-## TBC...
+    MyContext.MyStoredProcedure.Execute();
+
+But to do this we have to change the base classes which the store procedures inherit from and use the base classes from the `Dibware.StoredProcedureFrameworkForEF` assembly rather than the ones in the `Dibware.StoredProcedureFramework`. The EF specific base classes are as follows:
+
+* StoredProcedureBaseForEF
+* NoParametersNoReturnTypeStoredProcedureBaseForEF
+* NoParametersStoredProcedureBaseForEF
+* NoReturnTypeStoredProcedureBaseForEF
+
+So if we change our most basic stored procedure to inherit from `NoParametersNoReturnTypeStoredProcedureBaseForEF` like so...
+
+    internal class MostBasicStoredProcedureForEF
+        : NoParametersNoReturnTypeStoredProcedureBaseForEF
+    {
+        public MostBasicStoredProcedureForEF(DbContext context)
+            : base(context)
+        {}
+    }
+
+And we create a property for it on our database context, and then initialise the stored procedure with the instance of the context in the context constructor, like so...
+
+    internal class IntegrationTestContext : DbContext
+    {
+        #region Stored Procedures
+
+        public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
+
+        #endregion
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntegrationTestContext"/> class.
+        /// </summary>
+        /// <param name="nameOrConnectionString">The name or connection string.</param>
+        public IntegrationTestContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+            // Set the chosen database initializer and initialize the database
+            IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
+            Database.SetInitializer(databaseInitializer);
+
+            MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
+        }
+        
+    }
+    
+Then we can execute the stored procedure via the new property like so...
+
+    var context = new IntegrationTestContext("MyDatabaseConnectionName");
+    context.MostBasicStoredProcedure.Execute();
+
+## TBC... As need to add method to set parameters for this kind of calling code!
