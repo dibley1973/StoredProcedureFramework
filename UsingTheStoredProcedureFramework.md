@@ -721,6 +721,8 @@ So if we change our most basic stored procedure to inherit from `NoParametersNoR
         {}
     }
 
+   ### Code below is a WIP and the API is yet to be fully defined!
+    
 And we create a property for it on our database context, and then initialise the stored procedure with the instance of the context in the context constructor, like so...
 
     internal class IntegrationTestContext : DbContext
@@ -728,6 +730,7 @@ And we create a property for it on our database context, and then initialise the
         #region Stored Procedures
 
         public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
+        public MostBasicStoredProcedureForEF NormalStoredProcedure { get; private set; }
 
         #endregion
         
@@ -751,5 +754,13 @@ Then we can execute the stored procedure via the new property like so...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     context.MostBasicStoredProcedure.Execute();
+    
+or
+
+    var context = new IntegrationTestContext("MyDatabaseConnectionName");
+    var parameters = new NormalStoredProcedureParameters { .... }; 
+    context.NormalStoredProcedure.ExecuteFor( parameters)
+      
+    
 
 ## TBC... As need to add method to set parameters for this kind of calling code!

@@ -101,6 +101,25 @@ namespace Dibware.StoredProcedureFrameworkForEF
         /// Executes this instance against the DbContext which this instance was
         /// constructred with.
         /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="commandTimeout">The command timeout. [optional]</param>
+        /// <param name="commandBehavior">The command behavior. [optional]</param>
+        /// <param name="transaction">The transaction. [optional]</param>
+        /// <returns></returns>
+        public TReturn ExecuteFor(
+            TParameters parameters,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
+        {
+            SetParameters(parameters);
+            return Execute(commandTimeout, commandBehavior, transaction);
+        }
+
+        /// <summary>
+        /// Executes this instance against the DbContext which this instance was
+        /// constructred with.
+        /// </summary>
         /// <param name="commandTimeout">The command timeout. [optional]</param>
         /// <param name="commandBehavior">The command behavior. [optional]</param>
         /// <param name="transaction">The transaction. [optional]</param>

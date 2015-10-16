@@ -60,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Base
             // Validate arguments
             if (parameters == null) throw new ArgumentNullException("parameters");
 
-            _parameters = parameters;
+            SetParameters(parameters);
             SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
         }
 
@@ -237,7 +237,7 @@ namespace Dibware.StoredProcedureFramework.Base
         }
 
         /// <summary>
-        /// Determines whether [has return type].
+        /// Determines whether this instance has a return type.
         /// </summary>
         /// <returns></returns>
         private bool HasReturnType()
@@ -245,6 +245,11 @@ namespace Dibware.StoredProcedureFramework.Base
             return (ReturnType != null);
         }
 
+
+        protected void SetParameters(TParameters parameters)
+        {
+            _parameters = parameters;
+        }
 
         /// <summary>
         /// Sets the procedure name.

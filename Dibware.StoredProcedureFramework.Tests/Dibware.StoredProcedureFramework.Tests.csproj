@@ -65,6 +65,7 @@
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedureForEF.cs" />
     <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="Examples\StoredProcedures\NormalStoredProcedureForEF.cs" />
     <Compile Include="Examples\Tests\StoredProcedureWithParametersButNoReturnTests.cs" />
     <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
     <Compile Include="Examples\Tests\StoredProcedureWithoutParametersTests.cs" />
