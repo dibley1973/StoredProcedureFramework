@@ -24,29 +24,9 @@ namespace Dibware.StoredProcedureFramework.Base
         /// </summary>
         private TParameters _parameters;
 
-        /// <summary>
-        /// The holds the procedure name
-        /// </summary>
-        private string _procedureName;
-
-        /// <summary>
-        /// The holds the schema name
-        /// </summary>
-        private string _schemaName;
-
         #endregion
 
         #region Constructors
-
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> class.
-        ///// Sets the procedure name to match the stored procedure class.
-        ///// </summary>
-        //private StoredProcedureBase()
-        //{
-        //    string className = GetType().Name;
-        //    SetProcedureName(className);
-        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
@@ -55,17 +35,13 @@ namespace Dibware.StoredProcedureFramework.Base
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(TParameters parameters)
-        //: this()
         {
             // Validate arguments
             if (parameters == null) throw new ArgumentNullException("parameters");
 
-            //SetParameters(parameters);
-            //SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
-
             string procedureName = GetType().Name;
-            const string schemaName = StoredProcedureDefaults.DefaultSchemaName;
-            InitializeFromParameters(schemaName, procedureName, parameters);
+            InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName, 
+                procedureName, parameters);
         }
 
         /// <summary>
@@ -76,18 +52,14 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(string procedureName,
             TParameters parameters)
-        //: this(parameters)
         {
             // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
             if (parameters == null) throw new ArgumentNullException("parameters");
 
-            //SetProcedureName(procedureName);
-            //SetSchemaName(StoredProcedureDefaults.DefaultSchemaName);
-
-            const string schemaName = StoredProcedureDefaults.DefaultSchemaName;
-            InitializeFromParameters(schemaName, procedureName, parameters);
+            InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName, 
+                procedureName, parameters);
         }
 
         /// <summary>
@@ -99,7 +71,6 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(string schemaName,
             string procedureName, TParameters parameters)
-        //: this(procedureName, parameters)
         {
             // Validate arguments
             if (schemaName == null) throw new ArgumentNullException("schemaName");
@@ -108,7 +79,6 @@ namespace Dibware.StoredProcedureFramework.Base
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
             if (parameters == null) throw new ArgumentNullException("parameters");
 
-            //SetSchemaName(schemaName);
             InitializeFromParameters(schemaName, procedureName, parameters);
         }
 
@@ -129,54 +99,24 @@ namespace Dibware.StoredProcedureFramework.Base
             SetProcedureName(procedureName);
             SetParameters(parameters);
 
-            InitializeFromAttributesInternal();
+            TryInitializeFromAttributesInternal();
         }
 
         /// <summary>
-        /// Initializes from attributes internal.
+        /// Tries to initializes properties from attributes.
         /// </summary>
-        private void InitializeFromAttributesInternal()
+        private void TryInitializeFromAttributesInternal()
         {
             Type type = GetType();
 
-            TrySetProcedureNameFromAttribute(type);
+            TrySetProcedureNameFromNameAttribute(type);
             //TrySetReturnTypeFromAttribute(type);
-            TrySetSchemaNameFromAttribute(type);
-        }
-
-        #endregion
-
-        #region Members
-
-        /// <summary>
-        /// Gets the type of the result.
-        /// </summary>
-        /// <value>
-        /// The type of the result.
-        /// </value>
-        public Type ReturnType
-        {
-            get { return typeof(TReturn); }
-        }
-
-        public Type ParametersType
-        {
-            get { return typeof(TParameters); }
+            TrySetSchemaNameFromSchemaAttribute(type);
         }
 
         #endregion
 
         #region IStoredProcedure<TReturn,TParameter> Members
-
-        //TReturn IStoredProcedure<TReturn, TParameters>.ReturnType
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-        //TParameters Parameters
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
 
         /// <summary>
         /// The object that represents the procedure parameters
@@ -185,22 +125,6 @@ namespace Dibware.StoredProcedureFramework.Base
         {
             get { return _parameters; }
         }
-
-        public string ProcedureName
-        {
-            get { return _procedureName; }
-            private set { _procedureName = value; }
-        }
-
-        public string SchemaName
-        {
-            get { return _schemaName; }
-            private set { _schemaName = value; }
-        }
-
-        #endregion
-
-        #region Methods : Public
 
         /// <summary>
         /// Ensurefullies the construcuted.
@@ -231,6 +155,47 @@ namespace Dibware.StoredProcedureFramework.Base
                 FormatStrings.TwoPartNameformat, SchemaName, ProcedureName);
         }
 
+        #endregion
+
+        #region Properties
+
+        public Type ParametersType
+        {
+            get { return typeof(TParameters); }
+        }
+
+        /// <summary>
+        /// Gets the name of the procedure.
+        /// </summary>
+        /// <value>
+        /// The name of the procedure.
+        /// </value>
+        public string ProcedureName { get; private set; }
+
+        /// <summary>
+        /// Gets the type of the result.
+        /// </summary>
+        /// <value>
+        /// The type of the result.
+        /// </value>
+        public Type ReturnType
+        {
+            get { return typeof(TReturn); }
+        }
+
+        /// <summary>
+        /// Gets the name of the schema.
+        /// </summary>
+        /// <value>
+        /// The name of the schema.
+        /// </value>
+        public string SchemaName { get; private set; }
+
+        #endregion
+
+        #region Methods : Public
+
+
         /// <summary>
         /// Initializes from attributes.
         /// </summary>
@@ -240,7 +205,7 @@ namespace Dibware.StoredProcedureFramework.Base
                            "later release. ", false)]
         public void InitializeFromAttributes()
         {
-            //InitializeFromAttributesInternal();
+            //TryInitializeFromAttributesInternal();
         }
 
         /// <summary>
@@ -326,7 +291,11 @@ namespace Dibware.StoredProcedureFramework.Base
             SchemaName = schemaName;
         }
 
-        private void TrySetProcedureNameFromAttribute(Type type)
+        /// <summary>
+        /// Tries the set procedure name from Name attribute.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        private void TrySetProcedureNameFromNameAttribute(Type type)
         {
             var attribute = Attribute.GetCustomAttribute(type, typeof(NameAttribute)) as NameAttribute;
             if (attribute != null)
@@ -344,7 +313,11 @@ namespace Dibware.StoredProcedureFramework.Base
         //    }
         //}
 
-        private void TrySetSchemaNameFromAttribute(Type type)
+        /// <summary>
+        /// Tries the set schema name from schema attribute.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        private void TrySetSchemaNameFromSchemaAttribute(Type type)
         {
             SchemaAttribute attribute = Attribute.GetCustomAttribute(type, typeof(SchemaAttribute)) as SchemaAttribute;
             if (attribute != null)

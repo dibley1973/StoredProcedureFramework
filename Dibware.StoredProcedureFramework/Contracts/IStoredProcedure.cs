@@ -18,16 +18,6 @@
         /// </value>
         TParameters Parameters { get; }
 
-        ///// <summary>
-        ///// Gets the procedureName of the stored procedure
-        ///// </summary>
-        //string ProcedureName { get; }
-
-        ///// <summary>
-        ///// Gets (or privately sets) the schemaName this objects resides
-        ///// </summary>
-        //string SchemaName { get; }
-
         /// <summary>
         /// Ensurefullies the construcuted.
         /// </summary>

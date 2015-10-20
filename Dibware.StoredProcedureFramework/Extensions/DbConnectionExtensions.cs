@@ -72,7 +72,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
             storedProcedure.EnsureFullyConstructed();
 
             string procedureName = storedProcedure.GetTwoPartName();
-            //Type returnType = typeof(TReturnType);
 
             // Prepare the parameters if any exist
             IEnumerable<SqlParameter> procedureParameters =
@@ -155,7 +154,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
             finally
             {
-                if (connectionWasOpen) connection.Close();
+                if (!connectionWasOpen) connection.Close();  // Close connection if it arrived closed
             }
         }
 
