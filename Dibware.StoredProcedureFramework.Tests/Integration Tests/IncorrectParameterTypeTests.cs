@@ -20,7 +20,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = 5
             };
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             
             // ACT
@@ -44,7 +43,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = "EEE"
             };
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             
             // ACT

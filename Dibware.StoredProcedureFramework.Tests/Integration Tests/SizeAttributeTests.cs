@@ -40,8 +40,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1;
@@ -61,8 +60,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1; 
@@ -83,8 +81,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             Context.ExecuteStoredProcedure(procedure);
             //var result = results.First();
@@ -104,8 +101,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value1 = initialValue
             };
             var procedure = new TooSmallSizeAttributeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1;
@@ -128,8 +124,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value1 = initialValue
             };
             var procedure = new TooLargeSizeAttributeStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1;

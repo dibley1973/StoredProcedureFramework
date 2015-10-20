@@ -24,15 +24,12 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             bool truncateData = false;
             bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
-            truncateTableProcedure.InitializeFromAttributes();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
                 NumberOfRecords = expectedNumberOfRecords
             };
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
-            insertTableProcedure.InitializeFromAttributes();
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
-            getAllStoredProcedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
             Stopwatch stopwatch = new Stopwatch();
@@ -71,15 +68,12 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             bool truncateData = false;
             bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
-            truncateTableProcedure.InitializeFromAttributes();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
                 NumberOfRecords = expectedNumberOfRecords
             };
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
-            insertTableProcedure.InitializeFromAttributes();
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
-            getAllStoredProcedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
             Stopwatch stopwatch = new Stopwatch();
@@ -105,7 +99,7 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
         }
 
         [TestMethod]
-        //[Ignore] /* long running so switch in  / out as required */
+        /*[Ignore] /* long running so switch in  / out as required */
         public void HowLongToSelect2MRows()
         {
             /* Note it takes 20 minutes to INSERT 2M of these rows in sql server */
@@ -122,15 +116,12 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             bool truncateData = false;
             bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
-            truncateTableProcedure.InitializeFromAttributes();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
                 NumberOfRecords = expectedNumberOfRecords
             };
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
-            insertTableProcedure.InitializeFromAttributes();
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
-            getAllStoredProcedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
             Stopwatch stopwatch = new Stopwatch();
@@ -168,15 +159,12 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             bool truncateData = false;
             bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
-            truncateTableProcedure.InitializeFromAttributes();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
                 NumberOfRecords = expectedNumberOfRecords
             };
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
-            insertTableProcedure.InitializeFromAttributes();
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
-            getAllStoredProcedure.InitializeFromAttributes();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
             Stopwatch stopwatch = new Stopwatch();

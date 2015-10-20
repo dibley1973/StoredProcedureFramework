@@ -22,8 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = null
             };
             var procedure = new NullValueParameterStoreProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1; 
@@ -47,8 +46,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = null
             };
             var procedure = new NullValueParameterStoreProcedure2(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1;

@@ -14,7 +14,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
             // ARRANGE
             var parameters = new NullStoredProcedureParameters();
             var procedure = new ReturnNoResultStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
 
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);

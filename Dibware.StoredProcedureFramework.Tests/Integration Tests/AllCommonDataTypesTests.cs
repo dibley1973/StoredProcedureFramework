@@ -79,8 +79,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Xml = expectedXml
             };
             var procedure = new AllCommonDataTypesStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             List<AllCommonDataTypesReturnType> results = resultSet.RecordSet1;

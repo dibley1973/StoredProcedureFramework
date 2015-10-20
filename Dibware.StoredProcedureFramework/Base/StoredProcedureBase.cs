@@ -1,8 +1,8 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Contracts;
+﻿using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using System;
 
 namespace Dibware.StoredProcedureFramework.Base
 {
@@ -55,7 +55,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(TParameters parameters)
-            //: this()
+        //: this()
         {
             // Validate arguments
             if (parameters == null) throw new ArgumentNullException("parameters");
@@ -76,7 +76,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(string procedureName,
             TParameters parameters)
-            //: this(parameters)
+        //: this(parameters)
         {
             // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
@@ -99,7 +99,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <param name="parameters">The parameters.</param>
         protected StoredProcedureBase(string schemaName,
             string procedureName, TParameters parameters)
-            //: this(procedureName, parameters)
+        //: this(procedureName, parameters)
         {
             // Validate arguments
             if (schemaName == null) throw new ArgumentNullException("schemaName");
@@ -237,17 +237,10 @@ namespace Dibware.StoredProcedureFramework.Base
         [ObsoleteAttribute("This method is obsolete. The code it ran is now called " +
                            "internally from this class's constructors. Please remove " +
                            "references to this method call as it will be removed in a" +
-                           "later release. ", false)] 
+                           "later release. ", false)]
         public void InitializeFromAttributes()
         {
             //InitializeFromAttributesInternal();
-            
-            ////Type type = typeof(TParameters);
-            //Type type = GetType();
-
-            //TrySetProcedureNameFromAttribute(type);
-            ////TrySetReturnTypeFromAttribute(type);
-            //TrySetSchemaNameFromAttribute(type);
         }
 
         /// <summary>

@@ -93,7 +93,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 TenantName = expectedName
             };
             var procedure = new GetTenantForTenantNameProcedure(parameters);
-            procedure.InitializeFromAttributes();
             AddTenentsToContext(Context);
 
             // ACT
@@ -114,7 +113,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 TenantName = expectedName
             };
             var procedure = new GetTenantForTenantNameProcedure(parameters);
-            procedure.InitializeFromAttributes();
             AddTenentsToContext(Context);
 
             // ACT

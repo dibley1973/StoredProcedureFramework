@@ -310,7 +310,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var procedure = new TenantGetAllWithAttributes(parameters);
 
             // ACT
-            procedure.InitializeFromAttributes();
             var actualValue = procedure.IsFullyConstructed();
 
             // ASSERT

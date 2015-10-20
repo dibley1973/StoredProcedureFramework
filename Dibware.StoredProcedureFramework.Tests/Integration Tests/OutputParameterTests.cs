@@ -21,8 +21,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = initialValue2
             };
             var procedure = new CountCharsInOutputParameterStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             Context.ExecuteStoredProcedure(procedure);
 

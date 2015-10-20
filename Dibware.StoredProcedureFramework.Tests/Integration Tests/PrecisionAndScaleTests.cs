@@ -22,8 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = initialValue2
             };
             var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             var results = resultSet.RecordSet1;
@@ -47,8 +46,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = initialValue
             };
             var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);
 
@@ -69,8 +67,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Integration_Tests
                 Value2 = initialValue2
             };
             var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
-            procedure.InitializeFromAttributes();
-
+            
             // ACT
             var results = Context.ExecuteStoredProcedure(procedure);
 
