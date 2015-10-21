@@ -13,18 +13,21 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
     {
         #region Constructor Tests
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ConstructWithNullProcedureParameters_ThrowsArgumentNullException()
-        {
-            // ARRANGE
+        // NOTE:
+        //  This test is no longer valid as the EF style specific stored procedures
+        //  require the ability to not set the parameters until execution time
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void ConstructWithNullProcedureParameters_ThrowsArgumentNullException()
+        //{
+        //    // ARRANGE
 
-            // ACT
-            new StoredProcedureWithParameters(null);
+        //    // ACT
+        //    new StoredProcedureWithParameters(null);
 
-            // ASSERT
-            Assert.Fail();
-        }
+        //    // ASSERT
+        //    Assert.Fail();
+        //}
 
 
         [TestMethod]

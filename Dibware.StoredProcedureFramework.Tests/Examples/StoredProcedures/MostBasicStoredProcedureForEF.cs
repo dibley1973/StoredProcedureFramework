@@ -8,6 +8,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     {
         public MostBasicStoredProcedureForEF(DbContext context)
             : base(context)
-        {}
+        { }
     }
 }

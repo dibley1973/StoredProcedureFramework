@@ -721,9 +721,19 @@ So if we change our most basic stored procedure to inherit from `NoParametersNoR
         {}
     }
 
-   ### Code below is a WIP and the API is yet to be fully defined!
+and our normal stored procedure to inherit from `StoredProcedureBaseForEF` like so..
+
+    internal class NormalStoredProcedureForEF
+        : StoredProcedureBaseForEF<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+    {
+        public NormalStoredProcedureForEF(DbContext context)
+            : base(context, null)
+        {
+        }
+    }
     
-And we create a property for it on our database context, and then initialise the stored procedure with the instance of the context in the context constructor, like so...
+    
+Then if we create a properties for the procedures on our database context, and initialise them both with the instance of the context in the context constructor, like so...
 
     internal class IntegrationTestContext : DbContext
     {
@@ -746,11 +756,12 @@ And we create a property for it on our database context, and then initialise the
             Database.SetInitializer(databaseInitializer);
 
             MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
+            NormalStoredProcedure = new NormalStoredProcedureForEF(this);
         }
         
     }
     
-Then we can execute the stored procedure via the new property like so...
+... we can then execute the stored procedures via the new properties like so...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     context.MostBasicStoredProcedure.Execute();
@@ -758,9 +769,16 @@ Then we can execute the stored procedure via the new property like so...
 or
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
-    var parameters = new NormalStoredProcedureParameters { .... }; 
+    var parameters = new NormalStoredProcedureParameters
+    {
+        Id = 1
+    };
     context.NormalStoredProcedure.ExecuteFor( parameters)
+    
+or if you would prefer to *inline* the parameters...
+
+    var context = new IntegrationTestContext("MyDatabaseConnectionName");
+    context.NormalStoredProcedure.ExecuteFor( new NormalStoredProcedureParameters { Id = 1 })
       
     
-
-## TBC... As need to add method to set parameters for this kind of calling code!
+## TBC... The code for calling Stored Procedures in this way is still experimental and may be subject to change as the framework matures.

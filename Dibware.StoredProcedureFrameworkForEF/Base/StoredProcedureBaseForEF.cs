@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Contracts;
 
-namespace Dibware.StoredProcedureFrameworkForEF
+namespace Dibware.StoredProcedureFrameworkForEF.Base
 {
     /// <summary>
     /// Expands upon functionality of the <see cref="Dibware.StoredProcedureFramework.Base.StoredProcedureBase{TReturn, TParameters}"/> 
@@ -112,7 +112,12 @@ namespace Dibware.StoredProcedureFrameworkForEF
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
+            // Validate arguments
+            if (parameters == null) throw new ArgumentNullException("parameters");
+
             SetParameters(parameters);
+            EnsureFullyConstructed();
+
             return Execute(commandTimeout, commandBehavior, transaction);
         }
 

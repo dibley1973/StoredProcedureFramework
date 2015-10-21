@@ -37,7 +37,7 @@ namespace Dibware.StoredProcedureFramework.Base
         protected StoredProcedureBase(TParameters parameters)
         {
             // Validate arguments
-            if (parameters == null) throw new ArgumentNullException("parameters");
+            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             string procedureName = GetType().Name;
             InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName, 
@@ -56,7 +56,7 @@ namespace Dibware.StoredProcedureFramework.Base
             // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (parameters == null) throw new ArgumentNullException("parameters");
+            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName, 
                 procedureName, parameters);
@@ -77,7 +77,7 @@ namespace Dibware.StoredProcedureFramework.Base
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (parameters == null) throw new ArgumentNullException("parameters");
+            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             InitializeFromParameters(schemaName, procedureName, parameters);
         }
@@ -93,7 +93,7 @@ namespace Dibware.StoredProcedureFramework.Base
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            if (parameters == null) throw new ArgumentNullException("parameters");
+            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             SetSchemaName(schemaName);
             SetProcedureName(procedureName);

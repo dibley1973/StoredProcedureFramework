@@ -26,7 +26,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
             Database.SetInitializer(databaseInitializer);
 
             MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
-            //NormalStoredProcedure = new NormalStoredProcedureForEF(this);
+            NormalStoredProcedure = new NormalStoredProcedureForEF(this);
         }
 
         #endregion
