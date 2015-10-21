@@ -108,5 +108,7 @@
     <Build Include="dbo\Stored Procedures\MostBasicStoredProcedure.sql" />
     <Build Include="app\Stored Procedures\IncorrectStringParameter.sql" />
     <Build Include="dbo\Stored Procedures\StoredProcedureWithParametersButNoReturn.sql" />
+    <Build Include="dbo\Stored Procedures\NormalStoredProcedureForEF.sql" />
+    <Build Include="dbo\Stored Procedures\MostBasicStoredProcedureForEF.sql" />
   </ItemGroup>
 </Project>
