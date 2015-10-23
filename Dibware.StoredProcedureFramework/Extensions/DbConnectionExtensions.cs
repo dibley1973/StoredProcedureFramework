@@ -299,7 +299,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TParameterType : class
         {
             // create mapped properties
-            var mappedProperties = typeof(TParameterType).GetMappedProperties();
+            //var mappedProperties = typeof(TParameterType).GetMappedProperties();
+            var mappedProperties = procedure.Parameters.GetType().GetMappedProperties();
 
             // Create parameters from mapped properties
             //var sqlParameters = mappedProperties.ToSqlParameters();

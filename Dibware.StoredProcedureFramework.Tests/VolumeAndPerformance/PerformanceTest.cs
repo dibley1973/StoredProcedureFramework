@@ -1,10 +1,10 @@
 ﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.VolumnAndPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.VolumnAndPerformance;
 
 namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
 {

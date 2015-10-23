@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\AnonymousParameterProcedureBase.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseForEF.cs" />
     <Compile Include="Base\NoParametersStoredProcedureBaseForEF.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBaseForEF.cs" />

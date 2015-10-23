@@ -2,6 +2,7 @@
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Dibware.StoredProcedureFrameworkForEF.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.Context
 {
@@ -27,6 +28,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
 
             MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
             NormalStoredProcedure = new NormalStoredProcedureForEF(this);
+            AnonymousParameterStoredProcedure = new AnonParamNormalStoredProcedureForEF(this);
         }
 
         #endregion
@@ -67,8 +69,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
 
         public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
         public NormalStoredProcedureForEF NormalStoredProcedure { get; private set; }
-
+        public AnonParamNormalStoredProcedureForEF AnonymousParameterStoredProcedure { get; private set; }
+        
         #endregion
-
     }
 }

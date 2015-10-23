@@ -700,7 +700,10 @@ If you are already using Entity Framework in your solution you may wish to call 
         
 The *Context* in this test inherits from an entity Framework **DbContext** so I can execute the stored procedure by calling **Context.ExecuteStoredProcedure(...)** passing in the instantiated stored procedure object. 
 
-Alternatively if you can also call the stored procedure in a more entity framework code first method, like so.
+
+## Please note... The code below for calling Stored Procedures in a more "EF-friendly"  way is still experimental and may be subject to change as the framework matures. Please be aware of that if you choose this method of calling stored procedures.
+
+Alternatively if you can also call the stored procedure in a more *entity framework code first kind of approach*, so they appear more like DBSet properties on your custom DbContext object, like so:
 
     MyContext.MyStoredProcedure.Execute();
 
@@ -779,6 +782,28 @@ or if you would prefer to *inline* the parameters...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     context.NormalStoredProcedure.ExecuteFor( new NormalStoredProcedureParameters { Id = 1 })
-      
+
+or (Following a request from a Senior Developer at work) you can now call the procedure with an anonymous parameter like so.
+
+        [TestMethod]
+        public void ExecuteFor_WhenPassedAnonymousParameterObject_GetsExpectedResults()
+        {
+            // ARRANGE
+            const int expectedId = 10;
+            const string expectedName = @"Dave";
+            const bool expectedActive = true;
+            NormalStoredProcedureResultSet resultSet;
+
+            // ACT
+            resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
+            var results = resultSet.RecordSet1;
+            var result = results.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedId, result.Id);
+            Assert.AreEqual(expectedName, result.Name);
+            Assert.AreEqual(expectedActive, result.Active);
+        }
+  
+**PLEASE NOTE** I have only just started *flirting* with the API for using anonymous parameters. I do not have yet any complex tests to validate the code is fully bug free. Other tests continue to pass so I don't anticipate that the new API option has broken the exiting API.
     
-## TBC... The code for calling Stored Procedures in this way is still experimental and may be subject to change as the framework matures.

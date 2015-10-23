@@ -1,10 +1,10 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.DecimalTests;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {

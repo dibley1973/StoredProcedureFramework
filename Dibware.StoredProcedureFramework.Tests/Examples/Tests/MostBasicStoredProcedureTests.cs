@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Tests.Integration_Tests.Base;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Dibware.StoredProcedureFrameworkForEF;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
