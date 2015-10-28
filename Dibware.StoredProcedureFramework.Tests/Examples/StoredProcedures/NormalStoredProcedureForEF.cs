@@ -4,20 +4,20 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
-    internal class NormalStoredProcedureForEF
-        : StoredProcedureBaseForEF<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+    internal class NormalStoredProcedureForEf
+        : StoredProcedureBaseForEf<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
     {
-        public NormalStoredProcedureForEF(DbContext context)
+        public NormalStoredProcedureForEf(DbContext context)
             : base(context, null)
         {
         }
     }
 
-    [Name("NormalStoredProcedureForEF")]
-    internal class AnonParamNormalStoredProcedureForEF
-       : StoredProcedureBaseForEF<NormalStoredProcedureResultSet, object>
+    [Name("NormalStoredProcedureForEf")]
+    internal class AnonParamNormalStoredProcedureForEf
+       : StoredProcedureBaseForEf<NormalStoredProcedureResultSet, object>
     {
-        public AnonParamNormalStoredProcedureForEF(DbContext context)
+        public AnonParamNormalStoredProcedureForEf(DbContext context)
             : base(context, null)
         {
         }

@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class NullParameterTests : BaseIntegrationTest
+    public class NullParameterTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()

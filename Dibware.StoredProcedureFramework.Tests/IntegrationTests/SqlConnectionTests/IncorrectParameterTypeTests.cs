@@ -1,14 +1,13 @@
-﻿using System.Configuration;
-using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Exceptions;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.InvalidParameterType;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class IncorrectParameterTypeTests
+    public class IncorrectParameterTypeTests : BaseIntegrationTest
     {
         [TestMethod]
         [ExpectedException(typeof(SqlParameterInvalidDataTypeException))]
@@ -20,15 +19,12 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value2 = 5
             };
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            
+
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.ExecuteStoredProcedure(procedure);
-            }
-            
+            Connection.Open();
+            Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
+
             // ASSERT
             // should experience an exception before here!
         }
@@ -43,14 +39,11 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value2 = "EEE"
             };
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            
+
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.ExecuteStoredProcedure(procedure);
-            }
+            Connection.Open();
+            Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
 
             // ASSERT
             // should experience an exception before here!

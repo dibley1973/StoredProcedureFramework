@@ -1,8 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
+using Dibware.StoredProcedureFrameworkForEF.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Dibware.StoredProcedureFrameworkForEF.Base;
+using Dibware.StoredProcedureFrameworkForEF;
 
 namespace Dibware.StoredProcedureFramework.Tests.Context
 {
@@ -26,9 +28,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
             IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
             Database.SetInitializer(databaseInitializer);
 
-            MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
-            NormalStoredProcedure = new NormalStoredProcedureForEF(this);
-            AnonymousParameterStoredProcedure = new AnonParamNormalStoredProcedureForEF(this);
+            // Instantiate all of the Stored procedure properties
+            this.InitializeStoredProcedureProperties();
         }
 
         #endregion
@@ -67,10 +68,14 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
 
         #region Stored Procedures
 
-        public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
-        public NormalStoredProcedureForEF NormalStoredProcedure { get; private set; }
-        public AnonParamNormalStoredProcedureForEF AnonymousParameterStoredProcedure { get; private set; }
-        
+        public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
+        public NormalStoredProcedureForEf NormalStoredProcedure { get; private set; }
+        public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
+
+        [Name("NormalStoredProcedure")]
+        public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure2 { get; private set; }
+
+
         #endregion
     }
 }

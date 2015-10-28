@@ -32,7 +32,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
     }
 
     [TestClass]
-    public class MostBasicStoredProcedureTestsForDbContext : BaseIntegrationTest
+    public class MostBasicStoredProcedureTestsWithDbContextForDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void EXAMPLE_ExecuteMostBasicStoredProcedureOnDbConext()

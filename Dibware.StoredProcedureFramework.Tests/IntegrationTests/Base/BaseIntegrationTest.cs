@@ -1,8 +1,8 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Transactions;
-using Dibware.StoredProcedureFramework.Tests.Context;
-using Dibware.StoredProcedureFramework.Tests.Resources;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base
 {
@@ -11,9 +11,18 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base
     {
         #region Fields
 
-        private IntegrationTestContext _context;
+        private string _connectionString;
+        private SqlConnection _connection;
         private TransactionScope _transaction;
-        //private const bool CreateTransaction = true;
+
+        #endregion
+
+        #region Properties
+
+        protected SqlConnection Connection
+        {
+            get { return _connection; }
+        }
 
         #endregion
 
@@ -22,106 +31,26 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base
         [TestInitialize]
         public void TestSetup()
         {
-            PrepareDatabase();
+            _connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+            _connection = new SqlConnection(_connectionString);
+            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            CleanupDatabase();
-        }
-
-        #endregion
-
-        #region Test Initialization / Cleanup
-
-        /// <summary>
-        /// Prepares the database.
-        /// </summary>
-        private void PrepareDatabase()
-        {
-            _context = new IntegrationTestContext("IntegrationTestConnection");
-            _context.Database.CreateIfNotExists();
-            ClearDownAllTables();
-            //if (CreateTransaction)
-            //{
-            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
-            //}
-        }
-
-        private void CleanupDatabase()
-        {
-            //if (CreateTransaction)
-            //{
-            if (_transaction != null) _transaction.Dispose();
-            //}
-            _context.Dispose();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the context.
-        /// </summary>
-        /// <value>
-        /// The context.
-        /// </value>
-        internal IntegrationTestContext Context
-        {
-            get { return _context; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void ClearDownAllTables()
-        {
-            TruncateTable(SchemaNames.App, TableNames.Company);
-            DeleteAllFromTable(SchemaNames.App, TableNames.Tenant);
-        }
-
-        private void DeleteAllFromTable(string tableName)
-        {
-            string statement =
-                string.Format(SqlStatements.DeleteAllFromTable,
-                tableName);
-            ExecuteStatement(statement);
-        }
-
-        private void DeleteAllFromTable(string schema, string tableName)
-        {
-            string statement =
-                string.Format(SqlStatements.DeleteAllFromTableWithSchema,
-                schema,
-                tableName);
-            ExecuteStatement(statement);
-        }
-
-        private void ExecuteStatement(string statement)
-        {
-            Context.Database.ExecuteSqlCommand(
-                TransactionalBehavior.DoNotEnsureTransaction,
-                statement);
-        }
-
-        private void TruncateTable(string tableName)
-        {
-            string statement =
-                string.Format(SqlStatements.TruncateTable,
-                tableName);
-            ExecuteStatement(statement);
-        }
-
-        private void TruncateTable(string schema, string tableName)
-        {
-            string statement =
-                string.Format(SqlStatements.TruncateTableWithSchema,
-                schema,
-                tableName);
-            ExecuteStatement(statement);
+            if (_connection != null)
+            {
+                if (_connection.State != ConnectionState.Closed)
+                {
+                    _connection.Close();
+                }
+                _connection.Dispose();
+            }
+            if (_transaction != null)
+            {
+                _transaction.Dispose();
+            }
         }
 
         #endregion

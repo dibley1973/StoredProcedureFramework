@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class SizeAttributeTests : BaseIntegrationTest
+    public class SizeAttributeTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         //[TestMethod]
         //[ExpectedException(typeof(SqlParameterOutOfRangeException))]

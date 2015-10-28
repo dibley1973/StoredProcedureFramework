@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class ReturnNoResultTests : BaseIntegrationTest
+    public class ReturnNoResultTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void ReturnNoResultsProcedure_ReturnsNull()

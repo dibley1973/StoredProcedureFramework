@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class OutputParameterTests : BaseIntegrationTest
+    public class OutputParameterTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()

@@ -709,41 +709,41 @@ Alternatively if you can also call the stored procedure in a more *entity framew
 
 But to do this we have to change the base classes which the store procedures inherit from and use the base classes from the `Dibware.StoredProcedureFrameworkForEF` assembly rather than the ones in the `Dibware.StoredProcedureFramework`. The EF specific base classes are as follows:
 
-* StoredProcedureBaseForEF
-* NoParametersNoReturnTypeStoredProcedureBaseForEF
-* NoParametersStoredProcedureBaseForEF
-* NoReturnTypeStoredProcedureBaseForEF
+* StoredProcedureBaseForEf
+* NoParametersNoReturnTypeStoredProcedureBaseForEf
+* NoParametersStoredProcedureBaseForEf
+* NoReturnTypeStoredProcedureBaseForEf
 
-So if we change our most basic stored procedure to inherit from `NoParametersNoReturnTypeStoredProcedureBaseForEF` like so...
+So if we change our most basic stored procedure to inherit from `NoParametersNoReturnTypeStoredProcedureBaseForEf` like so...
 
-    internal class MostBasicStoredProcedureForEF
-        : NoParametersNoReturnTypeStoredProcedureBaseForEF
+    internal class MostBasicStoredProcedureForEf
+        : NoParametersNoReturnTypeStoredProcedureBaseForEf
     {
-        public MostBasicStoredProcedureForEF(DbContext context)
+        public MostBasicStoredProcedureForEf(DbContext context)
             : base(context)
         {}
     }
 
-and our normal stored procedure to inherit from `StoredProcedureBaseForEF` like so..
+and our normal stored procedure to inherit from `StoredProcedureBaseForEf` like so..
 
-    internal class NormalStoredProcedureForEF
-        : StoredProcedureBaseForEF<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+    internal class NormalStoredProcedureForEf
+        : StoredProcedureBaseForEf<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
     {
-        public NormalStoredProcedureForEF(DbContext context)
+        public NormalStoredProcedureForEf(DbContext context)
             : base(context, null)
         {
         }
     }
     
     
-Then if we create a properties for the procedures on our database context, and initialise them both with the instance of the context in the context constructor, like so...
+Then if we create a properties for the procedures on our database context, and initialise any properties that are stored procedure in the context constructor using the call to `InitializeStoredProcedureProperties`, like so...
 
     internal class IntegrationTestContext : DbContext
     {
         #region Stored Procedures
 
-        public MostBasicStoredProcedureForEF MostBasicStoredProcedure { get; private set; }
-        public MostBasicStoredProcedureForEF NormalStoredProcedure { get; private set; }
+        public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
+        public MostBasicStoredProcedureForEf NormalStoredProcedure { get; private set; }
 
         #endregion
         
@@ -758,18 +758,17 @@ Then if we create a properties for the procedures on our database context, and i
             IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
             Database.SetInitializer(databaseInitializer);
 
-            MostBasicStoredProcedure = new MostBasicStoredProcedureForEF(this);
-            NormalStoredProcedure = new NormalStoredProcedureForEF(this);
-        }
-        
+            // Instantiate all of the Stored procedure properties
+            this.InitializeStoredProcedureProperties();
+        }   
     }
     
-... we can then execute the stored procedures via the new properties like so...
+... we can then execute the stored procedures via the new properties like this for stored procedures without parameters...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     context.MostBasicStoredProcedure.Execute();
     
-or
+or like this for stored procedures with parameters...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     var parameters = new NormalStoredProcedureParameters
@@ -778,32 +777,71 @@ or
     };
     context.NormalStoredProcedure.ExecuteFor( parameters)
     
-or if you would prefer to *inline* the parameters...
+or if you would prefer you can *inline* the parameters like this...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");
     context.NormalStoredProcedure.ExecuteFor( new NormalStoredProcedureParameters { Id = 1 })
 
-or (Following a request from a Senior Developer at work) you can now call the procedure with an anonymous parameter like so.
+or you can call the procedure with *inline* anonymous parameter like so.
 
-        [TestMethod]
-        public void ExecuteFor_WhenPassedAnonymousParameterObject_GetsExpectedResults()
+    [TestMethod]
+    public void ExecuteFor_WhenPassedAnonymousParameterObject_GetsExpectedResults()
+    {
+        // ARRANGE
+        const int expectedId = 10;
+        const string expectedName = @"Dave";
+        const bool expectedActive = true;
+        NormalStoredProcedureResultSet resultSet;
+
+        // ACT
+        resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
+        var results = resultSet.RecordSet1;
+        var result = results.First();
+
+        // ASSERT
+        Assert.AreEqual(expectedId, result.Id);
+        Assert.AreEqual(expectedName, result.Name);
+        Assert.AreEqual(expectedActive, result.Active);
+    }
+
+If you would prefer to uses a more generic API and would like to have your stored procedure properties look more like your DbSet properties, then you can declare them on your custom DbContext like so:
+
+    public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure { get; private set; }
+
+The stored procedure framework will understand that the stored procedure to be called will match the name of the property. Using the example above the stored procedure will call a stored procedure called "NormalStoredProcedure" in the "dbo" schema. If you wish to override the name you can use the `NameAttribute` like so...
+
+    [Name("NormalStoredProcedure")]
+    public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure2 { get; private set; }
+
+That is also the process used to override the schema using the `SchemaAttribute`. 
+    
+and call it just the same as the rest like so:
+
+    [TestMethod]
+    public void ExecuteForWithGenericstoredProce_WhenPassedConstructedParameters_GetsExpectedResults()
+    {
+        // ARRANGE
+        const int expectedId = 10;
+        const string expectedName = @"Dave";
+        const bool expectedActive = true;
+        NormalStoredProcedureResultSet resultSet;
+
+        var parameters = new NormalStoredProcedureParameters
         {
-            // ARRANGE
-            const int expectedId = 10;
-            const string expectedName = @"Dave";
-            const bool expectedActive = true;
-            NormalStoredProcedureResultSet resultSet;
+            Id = expectedId
+        };
 
-            // ACT
-            resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+        // ACT
+        resultSet = Context.NormalStoredProcedure2.ExecuteFor(parameters);
+        var results = resultSet.RecordSet1;
+        var result = results.First();
 
-            // ASSERT
-            Assert.AreEqual(expectedId, result.Id);
-            Assert.AreEqual(expectedName, result.Name);
-            Assert.AreEqual(expectedActive, result.Active);
-        }
+        // ASSERT
+        Assert.AreEqual(expectedId, result.Id);
+        Assert.AreEqual(expectedName, result.Name);
+        Assert.AreEqual(expectedActive, result.Active);
+    }
   
+        
 **PLEASE NOTE** I have only just started *flirting* with the API for using anonymous parameters. I do not have yet any complex tests to validate the code is fully bug free. Other tests continue to pass so I don't anticipate that the new API option has broken the exiting API.
     

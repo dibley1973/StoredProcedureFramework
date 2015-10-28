@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class TenantDataBasedTests : BaseIntegrationTest
+    public class TenantDataBasedTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         #region Tests
 

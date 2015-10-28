@@ -63,32 +63,34 @@
   <ItemGroup>
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
-    <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedureForEF.cs" />
+    <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedureForEf.cs" />
     <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
-    <Compile Include="Examples\StoredProcedures\NormalStoredProcedureForEF.cs" />
+    <Compile Include="Examples\StoredProcedures\NormalStoredProcedureForEf.cs" />
     <Compile Include="Examples\Tests\StoredProcedureWithParametersButNoReturnTests.cs" />
     <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
     <Compile Include="Examples\Tests\StoredProcedureWithoutParametersTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
-    <Compile Include="IntegrationTests\IncorrectParameterTypeTests.cs" />
+    <Compile Include="IntegrationTests\Base\BaseIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\GenericStoredProcedureTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\IncorrectParameterTypeTests.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\ExecuteForTests.cs" />
-    <Compile Include="IntegrationTests\ExecuteTest.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\ExecuteForTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\ExecuteTestWithDbContext.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersButNoReturn.cs" />
-    <Compile Include="Examples\Tests\NormalStoredProcedureTests.cs" />
+    <Compile Include="Examples\Tests\NormalStoredProcedureTestsWithDbContext.cs" />
     <Compile Include="Examples\Tests\MultipleRecordSetTests.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
     <Compile Include="Context\IntegrationTestContext.cs" />
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
-    <Compile Include="IntegrationTests\AllCommonDataTypesTests.cs" />
-    <Compile Include="IntegrationTests\Base\BaseIntegrationTest.cs" />
-    <Compile Include="IntegrationTests\SizeAttributeTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\AllCommonDataTypesTests.cs" />
+    <Compile Include="IntegrationTests\Base\BaseIntegrationTestWithDbContext.cs" />
+    <Compile Include="IntegrationTests\SizeAttributeTestsWithDbContext.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestReturnType.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestStoredProcedure.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\MultipleRecordSets\MultipleRecordSetStoredProcedure.cs" />
@@ -97,18 +99,18 @@
     <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeReturnTypes.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeStoredProcedures.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\VolumnAndPerformance\VolumeAndPerformanceTruncateStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\TenantDataBasedTests.cs" />
-    <Compile Include="IntegrationTests\LessColumnsInResultSetThanReturnObjectTests.cs" />
-    <Compile Include="IntegrationTests\NullParameterTests.cs" />
-    <Compile Include="IntegrationTests\OutputParameterTests.cs" />
-    <Compile Include="IntegrationTests\PrecisionAndScaleTests.cs" />
+    <Compile Include="IntegrationTests\TenantDataBasedTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\NullParameterTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\OutputParameterTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\PrecisionAndScaleTestsWithDbContext.cs" />
     <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRow.cs" />
     <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRowMetaData.cs" />
     <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRow.cs" />
     <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRowMetaData.cs" />
     <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRow.cs" />
     <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
-    <Compile Include="IntegrationTests\ReturnNoResultTests.cs" />
+    <Compile Include="IntegrationTests\ReturnNoResultTestsWithDbContext.cs" />
     <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesReturnType.cs" />
     <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesParameters.cs" />
     <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesStoredProcedure.cs" />
@@ -131,10 +133,10 @@
     <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
-    <Compile Include="IntegrationTests\SqlConnectionTests.cs" />
-    <Compile Include="IntegrationTests\IncorectReturnTypeTests.cs" />
-    <Compile Include="IntegrationTests\MultipleRecordSetTests.cs" />
-    <Compile Include="IntegrationTests\RecordSetNotInstantiatedTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\SqlConnectionTests.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\IncorectReturnTypeTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\MultipleRecordSetTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\RecordSetNotInstantiatedTests.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
     <Compile Include="Resources\TableNames.cs" />
@@ -163,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataInfo\" />
-    <Folder Include="IntegrationTests\EntityFrameworkTests\" />
     <Folder Include="IntegrationTests\StoredProcedures\Base\" />
   </ItemGroup>
   <ItemGroup>

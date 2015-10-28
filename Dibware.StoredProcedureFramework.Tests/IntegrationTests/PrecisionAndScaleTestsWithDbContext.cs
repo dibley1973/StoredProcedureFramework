@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
     [TestClass]
-    public class PrecisionAndScaleTests : BaseIntegrationTest
+    public class PrecisionAndScaleTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void CallDecimalProcedureWithValuesCorrectPrecisionAndScale_ResultsInNoLossOfData()

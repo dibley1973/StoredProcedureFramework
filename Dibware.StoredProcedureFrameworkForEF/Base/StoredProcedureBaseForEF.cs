@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Base
 {
@@ -13,7 +13,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
     /// </summary>
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     /// <typeparam name="TParameters">The type of the parameters.</typeparam>
-    public abstract class StoredProcedureBaseForEF<TReturn, TParameters>
+    public abstract class StoredProcedureBaseForEf<TReturn, TParameters>
         : StoredProcedureFramework.Base.StoredProcedureBase<TReturn, TParameters>
         where TReturn : class, new()
         where TParameters : class
@@ -26,25 +26,16 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
 
         #region Constructors
 
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}" /> class.
-        ///// Sets the procedure name to match the stored procedure class.
-        ///// </summary>
-        ///// <param name="context">The context.</param>
-        //private StoredProcedureBase(DbContext context)
-        //    : base()
-        //{
-        //    _context = context;
-        //}
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEF{TReturn, TParameters}" />
-        /// class with parameters. This is the minimum requirement for constructing
+        /// Initializes a new instance of the <see>
+        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
+        ///     </see>
+        ///     class with parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="parameters">The parameters.</param>
-        protected StoredProcedureBaseForEF(DbContext context, TParameters parameters)
+        protected StoredProcedureBaseForEf(DbContext context, TParameters parameters)
             : base(parameters)
         {
             // Validate arguments
@@ -54,14 +45,16 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEF{TReturn, TParameters}" />
-        /// class with parameters and procedure name.
+        /// Initializes a new instance of the <see>
+        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
+        ///     </see>
+        ///     class with parameters and procedure name.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
         /// <exception cref="System.ArgumentNullException">context</exception>
-        protected StoredProcedureBaseForEF(DbContext context,
+        protected StoredProcedureBaseForEf(DbContext context,
             string procedureName,
             TParameters parameters)
             : base(procedureName, parameters)
@@ -73,19 +66,21 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEF{TReturn, TParameters}" />
-        /// class with parameters, schema name and procedure name.
+        /// Initializes a new instance of the <see>
+        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
+        ///     </see>
+        ///     class with parameters, schema name and procedure name.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
         /// <exception cref="System.ArgumentNullException">context</exception>
-        protected StoredProcedureBaseForEF(DbContext context,
+        protected StoredProcedureBaseForEf(DbContext context,
             string schemaName,
             string procedureName,
             TParameters parameters)
-            : base(procedureName, parameters)
+            : base(schemaName, procedureName, parameters)
         {
             // Validate arguments
             if (context == null) throw new ArgumentNullException("context");
@@ -135,7 +130,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
             SqlTransaction transaction = null)
         {
             IStoredProcedure<TReturn, TParameters> storedProcedure = this;
-            TReturn result = _context.ExecuteStoredProcedure<TReturn, TParameters>(
+            TReturn result = _context.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeout,
                 commandBehavior,
@@ -144,7 +139,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
             return result;
         }
 
-       
+
         #endregion
     }
 }

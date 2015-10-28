@@ -1,5 +1,48 @@
 ﻿namespace Dibware.StoredProcedureFramework.Contracts
 {
+    public interface IStoredProcedure
+    {
+        /// <summary>
+        /// Gets the name of the procedure.
+        /// </summary>
+        /// <value>
+        /// The name of the procedure.
+        /// </value>
+        string ProcedureName { get; }
+
+        /// <summary>
+        /// Gets the name of the schema.
+        /// </summary>
+        /// <value>
+        /// The name of the schema.
+        /// </value>
+        string SchemaName { get; }
+
+        /// <summary>
+        /// Gets the combined schema and procedure name.
+        /// </summary>
+        /// <returns></returns>
+        string GetTwoPartName();
+
+        /// <summary>
+        /// Sets the procedure name.
+        /// </summary>
+        /// <param name="procedureName">Name of the procedure.</param>
+        /// <returns>
+        /// This instance
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">procedureName</exception>
+        void SetProcedureName(string procedureName);
+
+        /// <summary>
+        /// Sets the schema name.
+        /// </summary>
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">schemaName</exception>
+        void SetSchemaName(string schemaName);
+    }
+
     /// <summary>
     /// Defines the expected members and type parameters of an object that
     /// represents a Stored procedure
@@ -7,6 +50,7 @@
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     /// <typeparam name="TParameters">The type of the parameter.</typeparam>
     public interface IStoredProcedure<in TReturn, out TParameters>
+        : IStoredProcedure
         where TReturn : class
         where TParameters : class
     {
@@ -25,11 +69,5 @@
         /// this instance is not fully constrcuted
         /// </exception>
         void EnsureFullyConstructed();
-
-        /// <summary>
-        /// Gets the combined schema and procedure name.
-        /// </summary>
-        /// <returns></returns>
-        string GetTwoPartName();
     }
 }

@@ -9,33 +9,33 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
     /// type should inherit from if used in conjunction with Entity Framework.
     /// </summary>
     /// <typeparam name="TParameters">The type of the parameters.</typeparam>
-    public abstract class NoReturnTypeStoredProcedureBaseForEF<TParameters>
-        : StoredProcedureBaseForEF<NullStoredProcedureResult, TParameters>
+    public abstract class NoReturnTypeStoredProcedureBaseForEf<TParameters>
+        : StoredProcedureBaseForEf<NullStoredProcedureResult, TParameters>
         where TParameters : class
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoReturnTypeStoredProcedureBaseForEF{TReturn}" />
+        /// Initializes a new instance of the <see cref="NoReturnTypeStoredProcedureBaseForEff{TParameters}" />
         /// class with parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="parameters">The parameters.</param>
-        protected NoReturnTypeStoredProcedureBaseForEF(DbContext context,
+        protected NoReturnTypeStoredProcedureBaseForEf(DbContext context,
             TParameters parameters)
             : base(context, parameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoReturnTypeStoredProcedureBaseForEF{TReturn}" />
+        /// Initializes a new instance of the <see cref="NoReturnTypeStoredProcedureBaseForEff{TParameters}" />
         /// class with parameters and stored procedure name
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
-        protected NoReturnTypeStoredProcedureBaseForEF(DbContext context,
+        protected NoReturnTypeStoredProcedureBaseForEf(DbContext context,
             string procedureName,
             TParameters parameters)
             : base(context, procedureName, parameters)
@@ -51,7 +51,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
-        protected NoReturnTypeStoredProcedureBaseForEF(DbContext context,
+        protected NoReturnTypeStoredProcedureBaseForEf(DbContext context,
             string schemaName,
             string procedureName,
             TParameters parameters)

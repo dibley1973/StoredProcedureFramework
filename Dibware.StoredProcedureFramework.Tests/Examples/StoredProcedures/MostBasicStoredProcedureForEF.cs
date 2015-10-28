@@ -3,10 +3,10 @@ using System.Data.Entity;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
-    internal class MostBasicStoredProcedureForEF
-        : NoParametersNoReturnTypeStoredProcedureBaseForEF
+    internal class MostBasicStoredProcedureForEf
+        : NoParametersNoReturnTypeStoredProcedureBaseForEf
     {
-        public MostBasicStoredProcedureForEF(DbContext context)
+        public MostBasicStoredProcedureForEf(DbContext context)
             : base(context)
         { }
     }

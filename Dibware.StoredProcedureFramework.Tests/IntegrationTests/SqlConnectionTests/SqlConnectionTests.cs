@@ -1,37 +1,30 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data;
+using System.Linq;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class SqlConnectionTests
+    public class SqlConnectionTests : BaseIntegrationTest
     {
         [TestMethod]
         public void ExecuteStoredProcedure_WhenNotAlreadyOpened_ClosesConnection()
         {
             // ARRANGE  
             const int expectedId = 10;
-            bool connectionStillOpen;
 
             var parameters = new NormalStoredProcedureParameters
             {
                 Id = expectedId
             };
             var procedure = new NormalStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                //connection.Open();
-                connection.ExecuteStoredProcedure(procedure);
-                connectionStillOpen = connection.State == ConnectionState.Open;
-            }
+            Connection.ExecuteStoredProcedure(procedure);
+            var connectionStillOpen = Connection.State == ConnectionState.Open;
 
             // ASSERT
             Assert.IsFalse(connectionStillOpen);
@@ -42,27 +35,22 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
         {
             // ARRANGE  
             const int expectedId = 10;
-            bool connectionStillOpen;
 
             var parameters = new NormalStoredProcedureParameters
             {
                 Id = expectedId
             };
             var procedure = new NormalStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.ExecuteStoredProcedure(procedure);
-                connectionStillOpen = connection.State == ConnectionState.Open;
-            }
+            Connection.Open();
+            Connection.ExecuteStoredProcedure(procedure);
+            var connectionStillOpen = Connection.State == ConnectionState.Open;
+            Connection.Close();
 
             // ASSERT
             Assert.IsTrue(connectionStillOpen);
         }
-
 
         [TestMethod]
         public void NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
@@ -76,16 +64,13 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             {
                 Id = expectedId
             };
-            NormalStoredProcedureResultSet resultSet;
             var procedure = new NormalStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
-            }
+            Connection.Open();
+            var resultSet = Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
+
             var results = resultSet.RecordSet1;
             var result = results.First();
 

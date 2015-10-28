@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.AssertExtensions;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.AllCommonDataTypes;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
-using Dibware.StoredProcedureFrameworkForEF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
     public class AllCommonDataTypesTests : BaseIntegrationTest
@@ -78,9 +78,11 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Xml = expectedXml
             };
             var procedure = new AllCommonDataTypesStoredProcedure(parameters);
-            
+
             // ACT
-            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            Connection.Open();
+            var resultSet = Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
             List<AllCommonDataTypesReturnType> results = resultSet.RecordSet1;
             var result = results.First();
 

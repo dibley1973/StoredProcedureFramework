@@ -1,15 +1,14 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.MultipleRecordSets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class MultipleRecordSetTests
+    public class MultipleRecordSetTests : BaseIntegrationTest
     {
         [TestMethod]
         public void MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
@@ -30,16 +29,13 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 UniqueIdentifier = expectedUniqueIdentifier,
                 Count = expectedCount
             };
-            MultipleRecordSetStoredProcedureResultSet resultSet;
             var procedure = new MultipleRecordSetStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
             // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
-            }
+            Connection.Open();
+            var resultSet = Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
+
             var results1 = resultSet.RecordSet1;
             var result1 = results1.First();
 

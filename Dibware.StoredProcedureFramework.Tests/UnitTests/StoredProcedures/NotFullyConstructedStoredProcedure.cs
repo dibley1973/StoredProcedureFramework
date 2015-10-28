@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
+    /// <summary>
+    /// Used for testing purposes only.
+    /// Resets the procedure name to empty string
+    /// </summary>
     public class NotFullyConstructedStoredProcedure
         : NoParametersNoReturnTypeStoredProcedureBase
     {
@@ -14,19 +18,27 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 
         private void EraseProcedureNameValue()
         {
-            Type type = GetType();
-            var baseType = type.BaseType;
+            var baseType = GetTypeOfStoredProcedureBase();
             if (baseType != null)
             {
-                var baseBaseType = baseType.BaseType;
-                if (baseBaseType != null)
-                {
-                    PropertyInfo pi = baseBaseType.GetProperty("ProcedureName",
-                        BindingFlags.Public | BindingFlags.Instance);
+                PropertyInfo pi = baseType.GetProperty("ProcedureName",
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance);
 
-                    if (pi != null) pi.SetValue(this, "");
-                }
+                if (pi != null) pi.SetValue(this, "");
             }
+        }
+
+        private Type GetTypeOfStoredProcedureBase()
+        {
+            Type baseType = GetType();
+            do
+            {
+                baseType = baseType.BaseType;
+            }
+            while (baseType != null && baseType != typeof(StoredProcedureBase));
+            return baseType;
         }
     }
 }

@@ -9,7 +9,7 @@ using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
 {
     [TestClass]
-    public class NormalStoredProcedureTests : BaseIntegrationTest
+    public class NormalStoredProcedureTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void EXAMPLE_NormalStoredProcedure_WhenCalledOnDbContext_ReturnsCorrectValues()

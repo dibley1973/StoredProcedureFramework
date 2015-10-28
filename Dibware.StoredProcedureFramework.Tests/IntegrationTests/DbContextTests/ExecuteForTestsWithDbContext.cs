@@ -4,10 +4,10 @@ using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class ExecuteForTests : BaseIntegrationTest
+    public class ExecuteForTestsWithDbContext : BaseIntegrationTestWithDbContext
     {
         [TestMethod]
         public void ExecuteFor_WhenPassedConstructedParameters_GetsExpectedResults()
