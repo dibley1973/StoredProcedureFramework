@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\StoredProcedureBaseOfType.cs" />
+    <Compile Include="Contracts\IMultipleRecordSet.cs" />
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
     <Compile Include="DataInfo\StringInfo.cs" />

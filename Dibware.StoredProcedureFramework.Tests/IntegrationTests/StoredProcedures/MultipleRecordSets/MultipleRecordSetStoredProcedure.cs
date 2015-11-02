@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.MultipleRecordSets
@@ -33,7 +34,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         public byte Count { get; set; }
     }
 
-    internal class MultipleRecordSetStoredProcedureResultSet
+    internal class MultipleRecordSetStoredProcedureResultSet : IMultipleRecordSet
     {
         public List<MultipleRecordSetStoredProcedureReturnType1> RecordSet1 { get; set; }
         public List<MultipleRecordSetStoredProcedureReturnType2> RecordSet2 { get; set; }

@@ -1,5 +1,8 @@
 ﻿namespace Dibware.StoredProcedureFramework.Contracts
 {
+    /// <summary>
+    /// Defines the expected members for a stored procedure
+    /// </summary>
     public interface IStoredProcedure
     {
         /// <summary>

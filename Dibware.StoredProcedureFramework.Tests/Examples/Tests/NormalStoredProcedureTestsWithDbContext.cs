@@ -26,12 +26,14 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureRecordSet1ReturnType result;
 
             // ACT
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 resultSet = connection.ExecuteStoredProcedure(procedure);
+                //result = connection.ExecuteStoredProcedure(procedure);
             }
             var results = resultSet.RecordSet1;
             var result = results.First();
@@ -55,6 +57,8 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
                 Id = expectedId
             };
             NormalStoredProcedureResultSet resultSet;
+            NormalStoredProcedureRecordSet1ReturnType result;
+
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
@@ -63,9 +67,10 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             {
                 connection.Open();
                 resultSet = connection.ExecuteStoredProcedure(procedure);
+                //result = connection.ExecuteStoredProcedure(procedure);
             }
             var results = resultSet.RecordSet1;
-            var result = results.First();
+            result = results.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);

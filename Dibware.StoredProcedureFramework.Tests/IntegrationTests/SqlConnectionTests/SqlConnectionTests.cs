@@ -73,6 +73,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionT
 
             var results = resultSet.RecordSet1;
             var result = results.First();
+            //var result = resultSet;
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);

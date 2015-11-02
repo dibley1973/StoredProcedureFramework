@@ -1,10 +1,23 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+﻿using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System.Collections.Generic;
 using System.Data;
-using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
+    ///// <summary>
+    ///// Represents a "normal" stored procedure which has parameters and returns
+    ///// a single result set
+    ///// </summary>
+    //internal class NormalStoredProcedure
+    //    : StoredProcedureBase<NormalStoredProcedureRecordSet1ReturnType, NormalStoredProcedureParameters>
+    //{
+    //    public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
+
     /// <summary>
     /// Represents a "normal" stored procedure which has parameters and returns
     /// a single result set
