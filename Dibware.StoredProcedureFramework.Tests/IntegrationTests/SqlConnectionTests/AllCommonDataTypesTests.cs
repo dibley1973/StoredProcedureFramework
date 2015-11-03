@@ -81,9 +81,10 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionT
 
             // ACT
             Connection.Open();
-            var resultSet = Connection.ExecuteStoredProcedure(procedure);
+            List<AllCommonDataTypesReturnType> results = Connection.ExecuteStoredProcedure(procedure);
             Connection.Close();
-            List<AllCommonDataTypesReturnType> results = resultSet.RecordSet1;
+            //List<AllCommonDataTypesReturnType> results = resultSet.RecordSet1;
+
             var result = results.First();
 
             // ASSERT

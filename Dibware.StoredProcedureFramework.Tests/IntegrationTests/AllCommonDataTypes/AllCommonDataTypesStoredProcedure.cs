@@ -4,10 +4,21 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.AllCommonDataTypes
 {
+    //[Schema("app")]
+    //[Name("AllCommonDataTypes")]
+    //internal class AllCommonDataTypesStoredProcedure
+    //    : StoredProcedureBase<AllCommonDataTypesResultSet, AllCommonDataTypesParameters>
+    //{
+    //    public AllCommonDataTypesStoredProcedure(AllCommonDataTypesParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
+
     [Schema("app")]
     [Name("AllCommonDataTypes")]
     internal class AllCommonDataTypesStoredProcedure
-        : StoredProcedureBase<AllCommonDataTypesResultSet, AllCommonDataTypesParameters>
+        : StoredProcedureBase<List<AllCommonDataTypesReturnType>, AllCommonDataTypesParameters>
     {
         public AllCommonDataTypesStoredProcedure(AllCommonDataTypesParameters parameters)
             : base(parameters)
@@ -15,13 +26,13 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.AllCommonDataT
         }
     }
 
-    internal class AllCommonDataTypesResultSet
-    {
-        public List<AllCommonDataTypesReturnType> RecordSet1 { get; set; }
+    //internal class AllCommonDataTypesResultSet
+    //{
+    //    public List<AllCommonDataTypesReturnType> RecordSet1 { get; set; }
 
-        public AllCommonDataTypesResultSet()
-        {
-            RecordSet1 = new List<AllCommonDataTypesReturnType>();
-        }
-    }
+    //    public AllCommonDataTypesResultSet()
+    //    {
+    //        RecordSet1 = new List<AllCommonDataTypesReturnType>();
+    //    }
+    //}
 }

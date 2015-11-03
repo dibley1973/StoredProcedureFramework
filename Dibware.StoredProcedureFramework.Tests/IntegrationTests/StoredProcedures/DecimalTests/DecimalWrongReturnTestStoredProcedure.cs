@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("DecimalTest")]
     internal class DecimalWrongReturnTestStoredProcedure
-        : StoredProcedureBase<DecimalWrongReturnTestStoredProcedureResultSet, NullStoredProcedureParameters>
+        : StoredProcedureBase<List<DecimalWrongReturnTestReturnType>, NullStoredProcedureParameters>
     {
         public DecimalWrongReturnTestStoredProcedure()
             : base(new NullStoredProcedureParameters())
@@ -15,13 +15,24 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class DecimalWrongReturnTestStoredProcedureResultSet
-    {
-        public List<DecimalWrongReturnTestReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("DecimalTest")]
+    //internal class DecimalWrongReturnTestStoredProcedure
+    //    : StoredProcedureBase<DecimalWrongReturnTestStoredProcedureResultSet, NullStoredProcedureParameters>
+    //{
+    //    public DecimalWrongReturnTestStoredProcedure()
+    //        : base(new NullStoredProcedureParameters())
+    //    {
+    //    }
+    //}
 
-        public DecimalWrongReturnTestStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<DecimalWrongReturnTestReturnType>();
-        }
-    }
+    //internal class DecimalWrongReturnTestStoredProcedureResultSet
+    //{
+    //    public List<DecimalWrongReturnTestReturnType> RecordSet1 { get; set; }
+
+    //    public DecimalWrongReturnTestStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<DecimalWrongReturnTestReturnType>();
+    //    }
+    //}
 }

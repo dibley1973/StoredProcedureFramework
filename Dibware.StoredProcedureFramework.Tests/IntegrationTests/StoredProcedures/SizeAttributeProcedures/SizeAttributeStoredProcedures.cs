@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("SizeAttributeTest")]
     internal class CorrectSizeAttributeStoredProcedure
-        : StoredProcedureBase<CorrectSizeAttributeStoredProcedureResultSet, CorrectSizeAttributeParameters>
+        : StoredProcedureBase<List<CorrectSizeAttributeReturnType>, CorrectSizeAttributeParameters>
     {
         public CorrectSizeAttributeStoredProcedure(CorrectSizeAttributeParameters parameters)
             : base(parameters)
@@ -15,15 +15,27 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class CorrectSizeAttributeStoredProcedureResultSet
-    {
-        public List<CorrectSizeAttributeReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class CorrectSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<CorrectSizeAttributeStoredProcedureResultSet, CorrectSizeAttributeParameters>
+    //{
+    //    public CorrectSizeAttributeStoredProcedure(CorrectSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
-        public CorrectSizeAttributeStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<CorrectSizeAttributeReturnType>();
-        }
-    }
+    
+    //internal class CorrectSizeAttributeStoredProcedureResultSet
+    //{
+    //    public List<CorrectSizeAttributeReturnType> RecordSet1 { get; set; }
+
+    //    public CorrectSizeAttributeStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<CorrectSizeAttributeReturnType>();
+    //    }
+    //}
 
 
 
@@ -31,7 +43,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("SizeAttributeTest")]
     internal class TooSmallSizeAttributeStoredProcedure
-        : StoredProcedureBase<TooSmallSizeAttributeStoredProcedureResultSet, TooSmallSizeAttributeParameters>
+        : StoredProcedureBase<List<TooSmallSizeAttributeReturnType>, TooSmallSizeAttributeParameters>
     {
         public TooSmallSizeAttributeStoredProcedure(TooSmallSizeAttributeParameters parameters)
             : base(parameters)
@@ -39,21 +51,32 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class TooSmallSizeAttributeStoredProcedureResultSet
-    {
-        public List<TooSmallSizeAttributeReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class TooSmallSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<TooSmallSizeAttributeStoredProcedureResultSet, TooSmallSizeAttributeParameters>
+    //{
+    //    public TooSmallSizeAttributeStoredProcedure(TooSmallSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
-        public TooSmallSizeAttributeStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<TooSmallSizeAttributeReturnType>();
-        }
-    }
+    //internal class TooSmallSizeAttributeStoredProcedureResultSet
+    //{
+    //    public List<TooSmallSizeAttributeReturnType> RecordSet1 { get; set; }
+
+    //    public TooSmallSizeAttributeStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<TooSmallSizeAttributeReturnType>();
+    //    }
+    //}
 
 
     [Schema("app")]
     [Name("SizeAttributeTest")]
     internal class TooLargeSizeAttributeStoredProcedure
-        : StoredProcedureBase<TooLargeSizeAttributeStoredProcedureResultSet, TooLargeSizeAttributeParameters>
+        : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeSizeAttributeParameters>
     {
         public TooLargeSizeAttributeStoredProcedure(TooLargeSizeAttributeParameters parameters)
             : base(parameters)
@@ -61,8 +84,19 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class TooLargeSizeAttributeStoredProcedureResultSet
-    {
-        public List<TooLargeSizeAttributeReturnType> RecordSet1 { get; set; }
-    }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class TooLargeSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<TooLargeSizeAttributeStoredProcedureResultSet, TooLargeSizeAttributeParameters>
+    //{
+    //    public TooLargeSizeAttributeStoredProcedure(TooLargeSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
+
+    //internal class TooLargeSizeAttributeStoredProcedureResultSet
+    //{
+    //    public List<TooLargeSizeAttributeReturnType> RecordSet1 { get; set; }
+    //}
 }

@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("NullValueParameterAndResult")]
     internal class NullValueParameterStoreProcedure
-        : StoredProcedureBase<NullValueParameterStoreProcedureResultSet, NullValueParameterParameters>
+        : StoredProcedureBase<List<NullValueParameterNullableReturnType>, NullValueParameterParameters>
     {
         public NullValueParameterStoreProcedure(NullValueParameterParameters parameters)
             : base(parameters)
@@ -16,20 +16,32 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class NullValueParameterStoreProcedureResultSet
-    {
-        public List<NullValueParameterNullableReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("NullValueParameterAndResult")]
+    //internal class NullValueParameterStoreProcedure
+    //    : StoredProcedureBase<NullValueParameterStoreProcedureResultSet, NullValueParameterParameters>
+    //{
+    //    public NullValueParameterStoreProcedure(NullValueParameterParameters parameters)
+    //        : base(parameters)
+    //    {
 
-        public NullValueParameterStoreProcedureResultSet()
-        {
-            RecordSet1 = new List<NullValueParameterNullableReturnType>();
-        }
-    }
+    //    }
+    //}
+
+    //internal class NullValueParameterStoreProcedureResultSet
+    //{
+    //    public List<NullValueParameterNullableReturnType> RecordSet1 { get; set; }
+
+    //    public NullValueParameterStoreProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<NullValueParameterNullableReturnType>();
+    //    }
+    //}
 
     [Schema("app")]
     [Name("NullValueParameterAndResult")]
     internal class NullValueParameterStoreProcedure2
-        : StoredProcedureBase<NullValueParameterStoreProcedure2ResultSet, NullValueParameterParameters>
+        : StoredProcedureBase<List<NullValueParameterNonNullableReturnType>, NullValueParameterParameters>
     {
         public NullValueParameterStoreProcedure2(NullValueParameterParameters parameters)
             : base(parameters)
@@ -38,13 +50,25 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class NullValueParameterStoreProcedure2ResultSet
-    {
-        public List<NullValueParameterNonNullableReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("NullValueParameterAndResult")]
+    //internal class NullValueParameterStoreProcedure2
+    //    : StoredProcedureBase<NullValueParameterStoreProcedure2ResultSet, NullValueParameterParameters>
+    //{
+    //    public NullValueParameterStoreProcedure2(NullValueParameterParameters parameters)
+    //        : base(parameters)
+    //    {
 
-        public NullValueParameterStoreProcedure2ResultSet()
-        {
-            RecordSet1 = new List<NullValueParameterNonNullableReturnType>();
-        }
-    }
+    //    }
+    //}
+
+    //internal class NullValueParameterStoreProcedure2ResultSet
+    //{
+    //    public List<NullValueParameterNonNullableReturnType> RecordSet1 { get; set; }
+
+    //    public NullValueParameterStoreProcedure2ResultSet()
+    //    {
+    //        RecordSet1 = new List<NullValueParameterNonNullableReturnType>();
+    //    }
+    //}
 }

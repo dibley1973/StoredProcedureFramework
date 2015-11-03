@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Configuration;
@@ -25,15 +26,18 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             // ARRANGE
             var procedure = new StoredProcedureWithoutParameters();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            StoredProcedureWithoutParametersResultSet resultSet;
+            //StoredProcedureWithoutParametersResultSet resultSet;
+            List<StoredProcedureWithoutParametersReturnType> resultList;
 
             // ACT
             using (DbConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
+                //resultSet = connection.ExecuteStoredProcedure(procedure);
+                resultList = connection.ExecuteStoredProcedure(procedure);
             }
-            var resultList = resultSet.RecordSet;
+            //var resultList = resultSet.RecordSet;
+            //var firstResult = resultList.First();
             var firstResult = resultList.First();
 
             // ASSERT

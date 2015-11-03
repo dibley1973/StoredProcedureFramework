@@ -24,8 +24,8 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             var procedure = new DecimalPrecisionAndScaleStoredProcedure(parameters);
             
             // ACT
-            var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var results = resultSet.RecordSet1;
+            var results = Context.ExecuteStoredProcedure(procedure);
+            //var results = resultSet.RecordSet1;
             var result = results.FirstOrDefault();
 
             // ASSERT

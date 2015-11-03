@@ -16,20 +16,32 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         public string TenantName { get; set; }
     }
 
-    internal class GetTenantForTenantNameProcedureResultSet
-    {
-        public List<TenantResultRow> RecordSet1 { get; set; }
+    //internal class GetTenantForTenantNameProcedureResultSet
+    //{
+    //    public List<TenantResultRow> RecordSet1 { get; set; }
 
-        public GetTenantForTenantNameProcedureResultSet()
-        {
-            RecordSet1 = new List<TenantResultRow>();
-        }
-    }
+    //    public GetTenantForTenantNameProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<TenantResultRow>();
+    //    }
+    //}
+
+    //[Schema("app")]
+    //[Name("Tenant_GetForTenantName")]
+    //internal class GetTenantForTenantNameProcedure
+    //    : StoredProcedureBase<GetTenantForTenantNameProcedureResultSet, GetTenantForTenantNameParameters>
+    //{
+    //    public GetTenantForTenantNameProcedure(
+    //        GetTenantForTenantNameParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
     [Schema("app")]
     [Name("Tenant_GetForTenantName")]
     internal class GetTenantForTenantNameProcedure
-        : StoredProcedureBase<GetTenantForTenantNameProcedureResultSet, GetTenantForTenantNameParameters>
+        : StoredProcedureBase<List<TenantResultRow>, GetTenantForTenantNameParameters>
     {
         public GetTenantForTenantNameProcedure(
             GetTenantForTenantNameParameters parameters)

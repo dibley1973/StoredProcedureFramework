@@ -32,19 +32,25 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
 
     [Name("VolumeAndPerformance_GetAll")]
     internal class VolumeAndPerformanceGetAllStoredProcedure
-        : NoParametersStoredProcedureBase<VolumeAndPerformanceGetAllStoredProcedureResultSet>
+        : NoParametersStoredProcedureBase<List<VolumeAndPerformanceGetAllStoredProcedureReturnType>>
     {
     }
 
-    internal class VolumeAndPerformanceGetAllStoredProcedureResultSet
-    {
-        public List<VolumeAndPerformanceGetAllStoredProcedureReturnType> RecordSet1 { get; set; }
+    //[Name("VolumeAndPerformance_GetAll")]
+    //internal class VolumeAndPerformanceGetAllStoredProcedure
+    //    : NoParametersStoredProcedureBase<VolumeAndPerformanceGetAllStoredProcedureResultSet>
+    //{
+    //}
 
-        public VolumeAndPerformanceGetAllStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<VolumeAndPerformanceGetAllStoredProcedureReturnType>();
-        }
-    }
+    //internal class VolumeAndPerformanceGetAllStoredProcedureResultSet
+    //{
+    //    public List<VolumeAndPerformanceGetAllStoredProcedureReturnType> RecordSet1 { get; set; }
+
+    //    public VolumeAndPerformanceGetAllStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<VolumeAndPerformanceGetAllStoredProcedureReturnType>();
+    //    }
+    //}
 
     internal class VolumeAndPerformanceGetAllStoredProcedureReturnType
     {

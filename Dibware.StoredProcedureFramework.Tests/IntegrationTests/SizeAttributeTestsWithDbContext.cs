@@ -43,8 +43,8 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //var results = resultSet.RecordSet1;
+            var result = resultSet.First();
 
             // ASSERT
             Assert.AreEqual(initialValue, result.Value1);
@@ -63,8 +63,8 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var results = resultSet.RecordSet1; 
-            var result = results.First();
+            //var results = resultSet.RecordSet1;
+            var result = resultSet.First();
 
             // ASSERT
             Assert.AreEqual(initialValue, result.Value1);
@@ -104,8 +104,8 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //var results = resultSet.RecordSet1;
+            var result = resultSet.First();
 
             // ASSERT
             Assert.AreEqual(initialValue, result.Value1);
@@ -127,8 +127,8 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //var results = resultSet.RecordSet1;
+            var result = resultSet.First();
 
             // ASSERT
             Assert.Fail();

@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("CountCharsInOutputParameter")]
     internal class CountCharsInOutputParameterStoredProcedure
-        : StoredProcedureBase<NullValueParameterNullableResultSet, CountCharsInOutputParameterParameters>
+        : StoredProcedureBase<List<NullValueParameterNullableReturnType>, CountCharsInOutputParameterParameters>
     {
         public CountCharsInOutputParameterStoredProcedure(CountCharsInOutputParameterParameters parameters)
             : base(parameters)
@@ -16,14 +16,25 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
+    //[Schema("app")]
+    //[Name("CountCharsInOutputParameter")]
+    //internal class CountCharsInOutputParameterStoredProcedure
+    //    : StoredProcedureBase<NullValueParameterNullableResultSet, CountCharsInOutputParameterParameters>
+    //{
+    //    public CountCharsInOutputParameterStoredProcedure(CountCharsInOutputParameterParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
-    internal class NullValueParameterNullableResultSet
-    {
-        public List<NullValueParameterNullableReturnType> RecordSet1 { get; set; }
 
-        public NullValueParameterNullableResultSet()
-        {
-            RecordSet1 = new List<NullValueParameterNullableReturnType>();
-        }
-    }
+    //internal class NullValueParameterNullableResultSet
+    //{
+    //    public List<NullValueParameterNullableReturnType> RecordSet1 { get; set; }
+
+    //    public NullValueParameterNullableResultSet()
+    //    {
+    //        RecordSet1 = new List<NullValueParameterNullableReturnType>();
+    //    }
+    //}
 }

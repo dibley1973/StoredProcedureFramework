@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("DecimalTest")]
     internal class DecimalTestStoredProcedure
-        : StoredProcedureBase<DecimalTestExtendedResultSet, NullStoredProcedureParameters>
+        : StoredProcedureBase<List<DecimalTestExtendedReturnType>, NullStoredProcedureParameters>
     {
         public DecimalTestStoredProcedure()
             : base(new NullStoredProcedureParameters())
@@ -15,13 +15,24 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class DecimalTestExtendedResultSet
-    {
-        public List<DecimalTestExtendedReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("DecimalTest")]
+    //internal class DecimalTestStoredProcedure
+    //    : StoredProcedureBase<DecimalTestExtendedResultSet, NullStoredProcedureParameters>
+    //{
+    //    public DecimalTestStoredProcedure()
+    //        : base(new NullStoredProcedureParameters())
+    //    {
+    //    }
+    //}
 
-            public DecimalTestExtendedResultSet()
-        {
-            RecordSet1 = new List<DecimalTestExtendedReturnType>();
-        }
-    }
+    //internal class DecimalTestExtendedResultSet
+    //{
+    //    public List<DecimalTestExtendedReturnType> RecordSet1 { get; set; }
+
+    //        public DecimalTestExtendedResultSet()
+    //    {
+    //        RecordSet1 = new List<DecimalTestExtendedReturnType>();
+    //    }
+    //}
 }

@@ -1,6 +1,7 @@
 ﻿using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -31,7 +32,8 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            //VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            List<VolumeAndPerformanceGetAllStoredProcedureReturnType> results;
             Stopwatch stopwatch = new Stopwatch();
             TimeSpan elapsed;
 
@@ -43,11 +45,11 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
                 if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
 
                 stopwatch.Start();
-                resultSet = connection.ExecuteStoredProcedure(getAllStoredProcedure);
+                results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
             }
             elapsed = stopwatch.Elapsed;
-            var results = resultSet.RecordSet1;
+            //var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);
@@ -75,7 +77,8 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            //VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            List<VolumeAndPerformanceGetAllStoredProcedureReturnType> results;
             Stopwatch stopwatch = new Stopwatch();
             TimeSpan elapsed;
 
@@ -87,11 +90,11 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
                 if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
 
                 stopwatch.Start();
-                resultSet = connection.ExecuteStoredProcedure(getAllStoredProcedure);
+                results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
             }
             elapsed = stopwatch.Elapsed;
-            var results = resultSet.RecordSet1;
+            //var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);
@@ -123,7 +126,8 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            //VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            List<VolumeAndPerformanceGetAllStoredProcedureReturnType> results;
             Stopwatch stopwatch = new Stopwatch();
             TimeSpan elapsed;
 
@@ -135,11 +139,11 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
                 if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
 
                 stopwatch.Start();
-                resultSet = connection.ExecuteStoredProcedure(getAllStoredProcedure);
+                results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
             }
             elapsed = stopwatch.Elapsed;
-            var results = resultSet.RecordSet1;
+            //var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);
@@ -166,7 +170,8 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            //VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
+            List<VolumeAndPerformanceGetAllStoredProcedureReturnType> results;
             Stopwatch stopwatch = new Stopwatch();
             TimeSpan elapsed;
 
@@ -178,11 +183,11 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
                 if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
 
                 stopwatch.Start();
-                resultSet = connection.ExecuteStoredProcedure(getAllStoredProcedure);
+                results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
             }
             elapsed = stopwatch.Elapsed;
-            var results = resultSet.RecordSet1;
+            //var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);

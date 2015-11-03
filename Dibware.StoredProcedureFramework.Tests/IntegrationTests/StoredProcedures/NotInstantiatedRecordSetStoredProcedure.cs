@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
 {
     internal class NotInstantiatedRecordSetStoredProcedure
         : StoredProcedureBase<
-            NotInstantiatedRecordSetStoredProcedureResultSet,
+            List<NotInstantiatedRecordSetStoredProcedureReturnType>,
             NullStoredProcedureParameters>
     {
         public NotInstantiatedRecordSetStoredProcedure(NullStoredProcedureParameters parameters)
@@ -16,10 +16,21 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class NotInstantiatedRecordSetStoredProcedureResultSet
-    {
-        public List<NotInstantiatedRecordSetStoredProcedureReturnType> RecordSet1 { get; set; }
-    }
+    //internal class NotInstantiatedRecordSetStoredProcedure
+    //    : StoredProcedureBase<
+    //        NotInstantiatedRecordSetStoredProcedureResultSet,
+    //        NullStoredProcedureParameters>
+    //{
+    //    public NotInstantiatedRecordSetStoredProcedure(NullStoredProcedureParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
+
+    //internal class NotInstantiatedRecordSetStoredProcedureResultSet
+    //{
+    //    public List<NotInstantiatedRecordSetStoredProcedureReturnType> RecordSet1 { get; set; }
+    //}
 
     internal class NotInstantiatedRecordSetStoredProcedureReturnType
     {

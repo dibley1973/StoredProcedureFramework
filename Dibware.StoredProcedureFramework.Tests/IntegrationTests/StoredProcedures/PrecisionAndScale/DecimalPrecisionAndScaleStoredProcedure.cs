@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     [Schema("app")]
     [Name("DecimalPrecisionAndScale")]
     internal class DecimalPrecisionAndScaleStoredProcedure
-        : StoredProcedureBase<DecimalPrecisionAndScaleStoredProcedureResultSet, DecimalPrecisionAndScaleParameters>
+        : StoredProcedureBase<List<DecimalPrecisionAndScaleReturnType>, DecimalPrecisionAndScaleParameters>
     {
         public DecimalPrecisionAndScaleStoredProcedure(DecimalPrecisionAndScaleParameters parameters)
             : base(parameters)
@@ -16,13 +16,25 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
-    internal class DecimalPrecisionAndScaleStoredProcedureResultSet
-    {
-        public List<DecimalPrecisionAndScaleReturnType> RecordSet1 { get; set; }
+    //[Schema("app")]
+    //[Name("DecimalPrecisionAndScale")]
+    //internal class DecimalPrecisionAndScaleStoredProcedure
+    //    : StoredProcedureBase<DecimalPrecisionAndScaleStoredProcedureResultSet, DecimalPrecisionAndScaleParameters>
+    //{
+    //    public DecimalPrecisionAndScaleStoredProcedure(DecimalPrecisionAndScaleParameters parameters)
+    //        : base(parameters)
+    //    {
 
-        public DecimalPrecisionAndScaleStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<DecimalPrecisionAndScaleReturnType>();
-        }
-    }
+    //    }
+    //}
+
+    //internal class DecimalPrecisionAndScaleStoredProcedureResultSet
+    //{
+    //    public List<DecimalPrecisionAndScaleReturnType> RecordSet1 { get; set; }
+
+    //    public DecimalPrecisionAndScaleStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<DecimalPrecisionAndScaleReturnType>();
+    //    }
+    //}
 }

@@ -14,19 +14,24 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     //}
 
     internal class StoredProcedureWithoutParameters
-        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
+        : NoParametersStoredProcedureBase<List<StoredProcedureWithoutParametersReturnType>>
     {
     }
 
-    internal class StoredProcedureWithoutParametersResultSet
-    {
-        public List<StoredProcedureWithoutParametersReturnType> RecordSet { get; set; }
+    //internal class StoredProcedureWithoutParameters
+    //    : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
+    //{
+    //}
 
-        public StoredProcedureWithoutParametersResultSet()
-        {
-            RecordSet = new List<StoredProcedureWithoutParametersReturnType>();
-        }
-    }
+    //internal class StoredProcedureWithoutParametersResultSet
+    //{
+    //    public List<StoredProcedureWithoutParametersReturnType> RecordSet { get; set; }
+
+    //    public StoredProcedureWithoutParametersResultSet()
+    //    {
+    //        RecordSet = new List<StoredProcedureWithoutParametersReturnType>();
+    //    }
+    //}
 
     internal class StoredProcedureWithoutParametersReturnType
     {

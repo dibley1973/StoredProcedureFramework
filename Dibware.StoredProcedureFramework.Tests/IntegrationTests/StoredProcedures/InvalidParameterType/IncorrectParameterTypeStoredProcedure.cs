@@ -5,17 +5,28 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.InvalidParameterType
 {
-
     [Schema("app")]
     [Name("DecimalPrecisionAndScale")]
     internal class IncorrectParameterTypeStoredProcedure
-        : StoredProcedureBase<IncorrectParameterTypeStoredProcedureResultSet, IncorrectParameterTypeStoredProcedureParameters>
+        : StoredProcedureBase<List<NullStoredProcedureResult>, IncorrectParameterTypeStoredProcedureParameters>
     {
         public IncorrectParameterTypeStoredProcedure(IncorrectParameterTypeStoredProcedureParameters parametersType)
             : base(parametersType)
         {
         }
     }
+
+    
+    //[Schema("app")]
+    //[Name("DecimalPrecisionAndScale")]
+    //internal class IncorrectParameterTypeStoredProcedure
+    //    : StoredProcedureBase<IncorrectParameterTypeStoredProcedureResultSet, IncorrectParameterTypeStoredProcedureParameters>
+    //{
+    //    public IncorrectParameterTypeStoredProcedure(IncorrectParameterTypeStoredProcedureParameters parametersType)
+    //        : base(parametersType)
+    //    {
+    //    }
+    //}
 
     internal class IncorrectParameterTypeStoredProcedureParameters
     {
@@ -28,13 +39,13 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         public object Value2 { get; set; }
     }
 
-    internal class IncorrectParameterTypeStoredProcedureResultSet
-    {
-        public List<NullStoredProcedureResult> RecordSet1 { get; set; }
+    //internal class IncorrectParameterTypeStoredProcedureResultSet
+    //{
+    //    public List<NullStoredProcedureResult> RecordSet1 { get; set; }
 
-        public IncorrectParameterTypeStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<NullStoredProcedureResult>();
-        }
-    }
+    //    public IncorrectParameterTypeStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<NullStoredProcedureResult>();
+    //    }
+    //}
 }

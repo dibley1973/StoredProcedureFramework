@@ -3,6 +3,7 @@ using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures;
 
@@ -395,11 +396,12 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void ReturnType_WhenProcedureConstructed_ReturnsCorrectType()
         {
             // ARRANGE
-            var expectedReturnType = typeof(DecimalTestExtendedResultSet);
+            //var expectedReturnType = typeof(DecimalTestExtendedResultSet);
+            var expectedReturnType = typeof(List<DecimalTestExtendedReturnType>);
             var procedure = new DecimalTestStoredProcedure();
 
             // ACT
-            var actualReturnType = procedure.ReturnType;
+            Type actualReturnType = procedure.ReturnType;
 
             // ASSERT
             Assert.AreEqual(actualReturnType, expectedReturnType);
