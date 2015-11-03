@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
@@ -16,7 +17,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
             const int expectedId = 10;
             const string expectedName = @"Dave";
             const bool expectedActive = true;
-            NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureResultSet resultSet;
 
             var parameters = new NormalStoredProcedureParameters
             {
@@ -24,9 +25,11 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
             };
 
             // ACT
-            resultSet = Context.NormalStoredProcedure.ExecuteFor(parameters);
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //resultSet = Context.NormalStoredProcedure.ExecuteFor(parameters);
+            var resultList = Context.NormalStoredProcedure.ExecuteFor(parameters);
+            //var results = resultSet.RecordSet1;
+            //var result = results.First();
+            var result = resultList.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);
@@ -41,12 +44,14 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
             const int expectedId = 10;
             const string expectedName = @"Dave";
             const bool expectedActive = true;
-            NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureResultSet resultSet;
 
             // ACT
-            resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
+            var resultList = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
+            //var results = resultSet.RecordSet1;
+            //var result = results.First();
+            var result = resultList.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);

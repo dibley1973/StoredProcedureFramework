@@ -6,6 +6,8 @@ This framework can be used with or without the presence of Entity Framework, but
 This is an on-going project and has been inspired by and some of the ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
+Please note a new API change is in progress. Please refer to code in branch "v0.2" which is in synch with the current documentation.
+
 ## Versions
 * 0.2 This version will suupport multiple recordsets and will have a different API to version 1.0. This is the version that is currently in development.
 * 0.1 This was the initial version which did not support multiple recordsets. To enable multiple recordsets to be supported alongside single recordsets a break to the API is required. Development has stopped on this version but the code will remain available for use.

@@ -186,15 +186,22 @@ namespace Dibware.StoredProcedureFramework.Extensions
             // Populate a DataReder by calling the command
             using (DbDataReader reader = command.ExecuteReader(commandBehavior))
             {
-                //bool isReturnTypeMultipleRecordSet = resultSet is IMultipleRecordSet;
-                //if (isReturnTypeMultipleRecordSet)
-                //{
+                bool isSingleRecordSet = ImplementsICollection(resultSetType);
+                if (isSingleRecordSet)
+                {
+                    IList recordSetDtoList = (IList)new TResultSetType();
+                    ReadRecordSet(reader, recordSetDtoList);
+                    resultSet = (TResultSetType)recordSetDtoList;
+                }
+                else // Multiple recordsets
+                {
                     var recordSetIndex = 0;
 
                     // Get properties to save for the current destination type
                     PropertyInfo[] resultSetTypePropertyInfos = resultSetType.GetMappedProperties();
 
                     // Iterate through each result set and read records into DTO list
+                    bool readerContainsAnotherResult;
                     do
                     {
                         var recordSetPropertyName = resultSetTypePropertyInfos[recordSetIndex].Name;
@@ -203,22 +210,37 @@ namespace Dibware.StoredProcedureFramework.Extensions
                         ReadRecordSet(reader, recordSetDtoList);
 
                         recordSetIndex++;
+                        readerContainsAnotherResult = reader.NextResult();
                     } 
-                    while (reader.NextResult());
-                //}
-                //else
-                //{
-                //    IList recordSetDtoList = new List<TResultSetType>();
-                //    ReadRecordSet(reader, recordSetDtoList);
-                //    // TODO: wont compile but kind of where we need to be going...
-                //    //resultSet = recordSetDtoList;
-                //}
+                    while (readerContainsAnotherResult);
+                }
 
                 // Close the reader
                 reader.Close();
             }
             return resultSet;
         }
+
+        private static bool ImplementsICollection(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+            foreach (Type @interface in type.GetInterfaces())
+            {
+                if (@interface.IsGenericType)
+                {
+                    if (@interface.GetGenericTypeDefinition() == typeof(ICollection<>))
+                    {
+                        // if needed, you can also return the type used as generic argument
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         private static TResultSetType ExecuteCommandWithNoReturnType<TResultSetType>(DbCommand command)
             where TResultSetType : class, new()
@@ -238,13 +260,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
             {
                 AddRecordToResults(dtoListItemType, recordSetDtoList, reader, dtoListItemTypePropertyInfo);
             }
-        }
-
-
-
-        private static IList GetRecordSetDtoList(Type resultSetType, object resultSet)
-        {
-            throw new NotImplementedException();
         }
 
         private static IList GetRecordSetDtoList<TResultSetType>(

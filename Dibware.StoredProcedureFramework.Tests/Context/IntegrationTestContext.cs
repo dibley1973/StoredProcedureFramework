@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
 using Dibware.StoredProcedureFrameworkForEF.Generic;
@@ -73,7 +74,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
         public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
 
         [Name("NormalStoredProcedure")]
-        public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure2 { get; private set; }
+        public StoredProcedure<List<NormalStoredProcedureRecordSet1ReturnType>> NormalStoredProcedure2 { get; private set; }
 
 
         #endregion

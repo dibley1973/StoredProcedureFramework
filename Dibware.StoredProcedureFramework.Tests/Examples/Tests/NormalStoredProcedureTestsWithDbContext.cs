@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Configuration;
@@ -25,18 +26,21 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             };
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureResultSet resultSet;
             //NormalStoredProcedureRecordSet1ReturnType result;
+            List<NormalStoredProcedureRecordSet1ReturnType> resultList;
 
             // ACT
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
+                //resultSet = connection.ExecuteStoredProcedure(procedure);
+                resultList = connection.ExecuteStoredProcedure(procedure);
                 //result = connection.ExecuteStoredProcedure(procedure);
             }
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //var results = resultSet.RecordSet1;
+            var result = resultList.First();
+            //var result = results.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);
@@ -56,8 +60,9 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             {
                 Id = expectedId
             };
-            NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureResultSet resultSet;
             NormalStoredProcedureRecordSet1ReturnType result;
+            List<NormalStoredProcedureRecordSet1ReturnType> resultList;
 
             var procedure = new NormalStoredProcedure(parameters);
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
@@ -66,11 +71,13 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.Tests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
+                //resultSet = connection.ExecuteStoredProcedure(procedure);
+                resultList = connection.ExecuteStoredProcedure(procedure);
                 //result = connection.ExecuteStoredProcedure(procedure);
             }
-            var results = resultSet.RecordSet1;
-            result = results.First();
+            //var results = resultSet.RecordSet1;
+            //result = results.First();
+            result = resultList.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);

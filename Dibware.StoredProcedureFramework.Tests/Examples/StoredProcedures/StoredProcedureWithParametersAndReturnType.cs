@@ -5,25 +5,12 @@ using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
-    ///// <summary>
-    ///// Represents a "normal" stored procedure which has parameters and returns
-    ///// a single result set
-    ///// </summary>
-    //internal class NormalStoredProcedure
-    //    : StoredProcedureBase<NormalStoredProcedureRecordSet1ReturnType, NormalStoredProcedureParameters>
-    //{
-    //    public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
-    //        : base(parameters)
-    //    {
-    //    }
-    //}
-
     /// <summary>
     /// Represents a "normal" stored procedure which has parameters and returns
     /// a single result set
     /// </summary>
     internal class NormalStoredProcedure
-        : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+        : StoredProcedureBase<List<NormalStoredProcedureRecordSet1ReturnType>, NormalStoredProcedureParameters>
     {
         public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
             : base(parameters)
@@ -31,15 +18,28 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         }
     }
 
-    internal class NormalStoredProcedureResultSet
-    {
-        public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
+    ///// <summary>
+    ///// Represents a "normal" stored procedure which has parameters and returns
+    ///// a single result set
+    ///// </summary>
+    //internal class NormalStoredProcedure
+    //    : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
+    //{
+    //    public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
-        public NormalStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
-        }
-    }
+    //internal class NormalStoredProcedureResultSet
+    //{
+    //    public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
+
+    //    public NormalStoredProcedureResultSet()
+    //    {
+    //        RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
+    //    }
+    //}
 
     internal class NormalStoredProcedureParameters
     {

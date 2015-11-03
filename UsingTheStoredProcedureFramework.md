@@ -2,6 +2,8 @@
 
 **PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED FOR THE API FOR USE WITH ENTITY FRAMEWORK**
 
+Please note a new API change is in progress. Please refer to code in branch "v0.2" which is in synch with the current documentation.
+
 ## TOC
 
 * Representing Stored Procedures in Code

@@ -16,7 +16,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
             const int expectedId = 10;
             const string expectedName = @"Dave";
             const bool expectedActive = true;
-            NormalStoredProcedureResultSet resultSet;
+            //NormalStoredProcedureResultSet resultSet;
 
             var parameters = new NormalStoredProcedureParameters
             {
@@ -24,9 +24,11 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
             };
 
             // ACT
-            resultSet = Context.NormalStoredProcedure2.ExecuteFor(parameters);
-            var results = resultSet.RecordSet1;
-            var result = results.First();
+            //resultSet = Context.NormalStoredProcedure2.ExecuteFor(parameters);
+            var resultList = Context.NormalStoredProcedure2.ExecuteFor(parameters);
+            //var results = resultSet.RecordSet1;
+            //var result = results.First();
+            var result = resultList.First();
 
             // ASSERT
             Assert.AreEqual(expectedId, result.Id);
