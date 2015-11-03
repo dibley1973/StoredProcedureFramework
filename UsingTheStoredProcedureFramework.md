@@ -2,7 +2,14 @@
 
 **PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED FOR THE API FOR USE WITH ENTITY FRAMEWORK**
 
-Please note a new API change is in progress. Please refer to code in branch "v0.2" which is in synch with the current documentation.
+Please note a new API change is in progress and documentation may not be fully accurate for the current API! Please refer to the integration tests and example tests in the source code for an accurate example of using the framework.
+
+Please also note the current single TEST project is going to be split into three projects:
+* Unit Tests
+* Integration Tests
+* Examples
+
+
 
 ## TOC
 
@@ -45,16 +52,16 @@ There are four base classes from which a stored procedure must be defined to inh
 * NoParametersNoReturnTypeStoredProcedureBase - for Stored Procedures without parameters or returns types
 
 ##### StoredProcedureBase
-The **StoredProcedureBase** base class is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a *ResultSet*. This will be used for your *GetProductForId* type of stored procedures and when inherited from this class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
+The **StoredProcedureBase** base class is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a result. The result can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This will be used for your *GetProductForId* type of stored procedures and when inherited from this class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
 
 ##### NoParametersStoredProcedureBase
-The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a *ResultSet*. This will be used for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
+The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a result. Again this result can be either a  *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This will be used for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
 
 ##### NoReturnTypeStoredProcedureBase
-The **NoReturnTypeStoredProcedureBase** base class is used for a stored procedure which does have one or more parameters but does not return a *ResultSet*. This will be used for your *DeleteProductById* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TParameters**.
+The **NoReturnTypeStoredProcedureBase** base class is used for a stored procedure which does have one or more parameters but does not return any results. This will be used for your *DeleteProductById* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TParameters**.
 
 #####NoParametersNoReturnTypeStoredProcedureBase
-The **NoParametersNoReturnTypeStoredProcedureBase** base class is used for a stored procedure which do not have any parameters and also do not return a *ResultSet*. This will be used for your *RunHouseKeepingBatch* type of stored procedures and when inherited from does not demand any *Type Parameters* to be defined.
+The **NoParametersNoReturnTypeStoredProcedureBase** base class is used for a stored procedure which do not have any parameters and also do not return any results. This will be used for your *RunHouseKeepingBatch* type of stored procedures and when inherited from does not demand any *Type Parameters* to be defined.
 
 #### Type Parameters
 Typically when defining the stored procedure POCO class there will be a requirement to define one or both of the following *Type Parameters*. 
@@ -62,7 +69,7 @@ Typically when defining the stored procedure POCO class there will be a requirem
 * TParameters
 
 ##### TReturn
-The **TReturn** type parameter defines the type that represents *ResultSet* which is what will be returned from a stored procedure when it is executed. The *ResultSet* must contain one or more properties which are in effect *RecordSets* or lists of return types.
+The **TReturn** type parameter defines the type that represents the result returned from a stored procedure. this can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. The *ResultSet* must contain one or more properties which are in effect *RecordSets* or lists of return types.
 
 ##### TParameters
 The **TParameters** type parameter defines the type that represents the collection of parameters which the stored procedure requires.
@@ -90,7 +97,7 @@ This constructor is is only available for stored procedures which do have parame
 
 
 ### The most basic type of stored procedure
-The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that, and does not return any *ResultSet*, like below. 
+The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that, and does not return any results, like below. 
 
     CREATE PROCEDURE dbo.MostBasicStoredProcedure
     AS
