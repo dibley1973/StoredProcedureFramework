@@ -1,11 +1,11 @@
 ﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.VolumnAndPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.VolumnAndPerformance;
 
 namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
 {
@@ -22,8 +22,6 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             // ARRANGE
             const int expectedNumberOfRecords = 250000;
             const int commandTimeOut = 600;
-            bool truncateData = false;
-            bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
@@ -41,12 +39,10 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                if (truncateData) connection.ExecuteStoredProcedure(truncateTableProcedure);
-                if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
-
                 stopwatch.Start();
                 results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
+                connection.Close();
             }
             elapsed = stopwatch.Elapsed;
             //var results = resultSet.RecordSet1;
@@ -67,8 +63,6 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             // ARRANGE
             const int expectedNumberOfRecords = 1000000;
             const int commandTimeOut = 800;
-            bool truncateData = false;
-            bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
@@ -86,12 +80,10 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                if (truncateData) connection.ExecuteStoredProcedure(truncateTableProcedure);
-                if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
-
                 stopwatch.Start();
                 results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
+                connection.Close();
             }
             elapsed = stopwatch.Elapsed;
             //var results = resultSet.RecordSet1;
@@ -116,8 +108,6 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             // ARRANGE
             const int expectedNumberOfRecords = 2000000;
             const int commandTimeOut = 1200;
-            bool truncateData = false;
-            bool dataIsPresent = true;
             var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
             var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedureParameters
             {
@@ -135,12 +125,10 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                if (truncateData) connection.ExecuteStoredProcedure(truncateTableProcedure);
-                if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
-
                 stopwatch.Start();
                 results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
+                connection.Close();
             }
             elapsed = stopwatch.Elapsed;
             //var results = resultSet.RecordSet1;
@@ -179,12 +167,10 @@ namespace Dibware.StoredProcedureFramework.Tests.VolumeAndPerformance
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                if (truncateData) connection.ExecuteStoredProcedure(truncateTableProcedure);
-                if (!dataIsPresent) connection.ExecuteStoredProcedure(insertTableProcedure, commandTimeout: commandTimeOut);
-
                 stopwatch.Start();
                 results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
                 stopwatch.Stop();
+                connection.Close();
             }
             elapsed = stopwatch.Elapsed;
             //var results = resultSet.RecordSet1;

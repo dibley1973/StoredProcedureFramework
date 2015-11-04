@@ -4,11 +4,14 @@
 
 Please note a new API change is in progress and documentation may not be fully accurate for the current API! Please refer to the integration tests and example tests in the source code for an accurate example of using the framework.
 
-Please also note the current single TEST project is going to be split into three projects:
-* Unit Tests
-* Integration Tests
-* Examples
+Please also note there is on-going work to split the current single TEST project into three specific projects:
+* Dibware.StoredProcedureFramework.UnitTests
+* Dibware.StoredProcedureFramework.IntegrationTests
+* Dibware.StoredProcedureFramework.Examples
 
+There will then be two database projects
+* Dibware.StoredProcedureFramework.IntegrationTests.Database
+* Dibware.StoredProcedureFramework.Examples.Database
 
 
 ## TOC
@@ -97,16 +100,22 @@ This constructor is is only available for stored procedures which do have parame
 
 
 ### The most basic type of stored procedure
-The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like purging some history, but does not take a parameter as it loads information from a configuration table and performs its action based upon that, and does not return any results, like below. 
+The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like resetting a field value, but does not take any parameters, and does not return any results. For example the procedure below which resets the *LastUpdatedDateTime* field on the *Account* table.
 
-    CREATE PROCEDURE dbo.MostBasicStoredProcedure
+    CREATE PROCEDURE [dbo].[AccountLastUpdatedDateTimeReset] 
     AS
     BEGIN
-        -- Does some function here...
-        PRINT 'Some silent operation'
+        UPDATE
+            [app].[Account]
+        SET
+            [LastUpdatedDateTime] = GETDATE();
     END
 
-As the **StoredProcedureBase** abstract class expects two type parameters if we wish to inherit from that we would have to provide a class for each. The framework already provides to concrete classes that can be used when there is not return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are:
+So we need a class to represent this stored procedure. The **StoredProcedureBase** abstract class which the framework expects all stored procedure class to inherit from expects two type parameters. 
+
+    public abstract class StoredProcedureBase<TReturn, TParameters> {...}
+
+One *TReturn* defines the type of the which the stored procedure is to return and the other *TParameters* defines a class for the stored procedure parameters. If we wish to inherit from this class (which we must for the framework to function correctly) then we would have to provide a class for each. As our procedure neither returns any values or takes any parameters we need to explictly stat this. The framework already provides us with concrete classes that can be used when there is no return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are:
 
 #### NullStoredProcedureParameters
     /// <summary>
@@ -128,7 +137,7 @@ As the **StoredProcedureBase** abstract class expects two type parameters if we 
 
 So we could define the class that represents this stored procedure as follows:
 
-    internal class MostBasicStoredProcedure
+    internal class AccountLastUpdatedDateTimeReset
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
         public MostBasicStoredProcedure2()
@@ -139,7 +148,7 @@ So we could define the class that represents this stored procedure as follows:
 
 But this is a bit cumbersome for such a basic stored procedure, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from making our code more succinct.
 
-    internal class MostBasicStoredProcedure
+    internal class AccountLastUpdatedDateTimeReset
         : NoParametersNoReturnTypeStoredProcedureBase
     {
     }

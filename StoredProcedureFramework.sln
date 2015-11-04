@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework", "Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj", "{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Tests", "Dibware.StoredProcedureFramework.Tests\Dibware.StoredProcedureFramework.Tests.csproj", "{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.TestDatabase", "Dibware.StoredProcedureFrameworkDatabase\Dibware.StoredProcedureFramework.TestDatabase.sqlproj", "{34273AEF-9100-4517-858A-8F665A64AB2B}"
 EndProject
@@ -18,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF", "Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj", "{96A94F73-A554-4B4F-B304-E9464123813D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.Examples.Database", "Dibware.StoredProcedureFramework.Examples.Database\Dibware.StoredProcedureFramework.Examples.Database.sqlproj", "{7D9C8196-3438-4086-AEFB-F9D7DA14D585}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Tests", "Dibware.StoredProcedureFramework.Tests\Dibware.StoredProcedureFramework.Tests.csproj", "{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Examples", "Dibware.StoredProcedureFramework.Examples\Dibware.StoredProcedureFramework.Examples.csproj", "{31071B73-76C4-4B66-B02A-509E64E36627}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +32,6 @@ Global
 		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.Build.0 = Release|Any CPU
-		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -42,6 +42,20 @@ Global
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
