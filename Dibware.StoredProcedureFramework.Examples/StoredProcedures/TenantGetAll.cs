@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Dibware.StoredProcedureFramework.Examples.StoredProcedures
 {
     [Schema("app")]
-    public class TenantGetAll
+    internal class TenantGetAll
         : NoParametersStoredProcedureBase<List<TenantDto>>
     {
     }

@@ -3,13 +3,18 @@
 namespace Dibware.StoredProcedureFramework.Examples.Dtos
 {
     /// <summary>
-    /// Encapsulates tenant data
+    /// Encapsulates compnay data
     /// </summary>
-    internal class TenantDto
+    internal class CompanyDto
     {
-        public int TenantId { get; set; }
+        public int CompanyID { get; set; }
+
+        public int TenantID { get; set; }
+
         public bool IsActive { get; set; }
-        public string TenantName { get; set; }
+
+        public string CompanyName { get; set; }
+
         public DateTime RecordCreatedDateTime { get; set; }
     }
 }

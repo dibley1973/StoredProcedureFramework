@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests
 {
     [TestClass]
-    public class MostBasicStoredProcedure
+    public class StoredProcedureWithoutParametersOrReturnType
     {
         #region Fields
 
