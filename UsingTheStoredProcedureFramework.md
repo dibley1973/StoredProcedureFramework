@@ -781,6 +781,29 @@ Then if we create a properties for the procedures on our database context, and i
         }   
     }
     
+Alternately you can make sure your application DbContext inherits from the stored procedure framework's `StoredProcedureDbContext` which is in the `Dibware.StoredProcedureFrameworkForEF` namespace and this will automatically call the `InitializeStoredProcedureProperties` extension method on `DbContext` from it's constructor so you don't have to.
+
+    internal class ExampleTestDbContext : StoredProcedureDbContext
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExampleTestDbContext"/> class.
+        /// </summary>
+        /// <param name="nameOrConnectionString">The name or connection string.</param>
+        public ExampleTestDbContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+            // Set the chosen database initializer and initialize the database
+            IDatabaseInitializer<ExampleTestDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<ExampleTestDbContext>();
+            Database.SetInitializer(databaseInitializer);
+
+            // We do not need to explicitly instantiate all of the Stored 
+            // procedures properties using "this.InitializeStoredProcedureProperties();"
+            // as this os carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
+            // class constructors
+        }
+    }    
+    
 ... we can then execute the stored procedures via the new properties like this for stored procedures without parameters...
 
     var context = new IntegrationTestContext("MyDatabaseConnectionName");

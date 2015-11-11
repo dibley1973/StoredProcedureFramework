@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework", "Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj", "{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}"
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.TestDatabase", "Dibware.StoredProcedureFrameworkDatabase\Dibware.StoredProcedureFramework.TestDatabase.sqlproj", "{34273AEF-9100-4517-858A-8F665A64AB2B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{97DF9418-8959-4E58-9F42-A0E775AA3AC4}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
@@ -14,13 +10,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		UsingTheStoredProcedureFramework.md = UsingTheStoredProcedureFramework.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF", "Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj", "{96A94F73-A554-4B4F-B304-E9464123813D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.Examples.Database", "Dibware.StoredProcedureFramework.Examples.Database\Dibware.StoredProcedureFramework.Examples.Database.sqlproj", "{7D9C8196-3438-4086-AEFB-F9D7DA14D585}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{5A3E93B7-0C02-4C77-B2F3-600F0DC3170E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Tests", "Dibware.StoredProcedureFramework.Tests\Dibware.StoredProcedureFramework.Tests.csproj", "{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeBase", "CodeBase", "{FD91FB97-9DF0-4B0C-AB7B-53C2F369DCA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Examples", "Dibware.StoredProcedureFramework.Examples\Dibware.StoredProcedureFramework.Examples.csproj", "{31071B73-76C4-4B66-B02A-509E64E36627}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.Examples", "Examples\Dibware.StoredProcedureFramework.Examples\Dibware.StoredProcedureFramework.Examples.csproj", "{31071B73-76C4-4B66-B02A-509E64E36627}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.Examples.Database", "Examples\Dibware.StoredProcedureFramework.Examples.Database\Dibware.StoredProcedureFramework.Examples.Database.sqlproj", "{7D9C8196-3438-4086-AEFB-F9D7DA14D585}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.UnitTests", "Tests\Dibware.StoredProcedureFramework.UnitTests\Dibware.StoredProcedureFramework.UnitTests.csproj", "{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.IntegrationTests", "Tests\Dibware.StoredProcedureFramework.IntegrationTests\Dibware.StoredProcedureFramework.IntegrationTests.csproj", "{E793E3B1-013C-410F-89CF-FFD6A8877C46}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Dibware.StoredProcedureFramework.IntegrationTests.Database", "Tests\Dibware.StoredProcedureFramework.IntegrationTests.Database\Dibware.StoredProcedureFramework.IntegrationTests.Database.sqlproj", "{34273AEF-9100-4517-858A-8F665A64AB2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework", "CodeBase\Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj", "{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF", "CodeBase\Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj", "{96A94F73-A554-4B4F-B304-E9464123813D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,20 +36,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D9C8196-3438-4086-AEFB-F9D7DA14D585}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -52,12 +50,35 @@ Global
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31071B73-76C4-4B66-B02A-509E64E36627}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31071B73-76C4-4B66-B02A-509E64E36627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E793E3B1-013C-410F-89CF-FFD6A8877C46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E793E3B1-013C-410F-89CF-FFD6A8877C46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E793E3B1-013C-410F-89CF-FFD6A8877C46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E793E3B1-013C-410F-89CF-FFD6A8877C46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34273AEF-9100-4517-858A-8F665A64AB2B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31071B73-76C4-4B66-B02A-509E64E36627} = {5A3E93B7-0C02-4C77-B2F3-600F0DC3170E}
+		{7D9C8196-3438-4086-AEFB-F9D7DA14D585} = {5A3E93B7-0C02-4C77-B2F3-600F0DC3170E}
+		{093482C6-AE91-4DB7-83C0-9C161FFE9E7D} = {EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}
+		{E793E3B1-013C-410F-89CF-FFD6A8877C46} = {EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}
+		{34273AEF-9100-4517-858A-8F665A64AB2B} = {EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}
+		{BAAF11EB-3C8D-4187-9E83-C0ACE9F06451} = {FD91FB97-9DF0-4B0C-AB7B-53C2F369DCA4}
+		{96A94F73-A554-4B4F-B304-E9464123813D} = {FD91FB97-9DF0-4B0C-AB7B-53C2F369DCA4}
 	EndGlobalSection
 EndGlobal

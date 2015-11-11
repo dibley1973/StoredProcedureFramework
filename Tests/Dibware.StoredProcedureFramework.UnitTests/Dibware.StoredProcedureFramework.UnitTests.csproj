@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{093482C6-AE91-4DB7-83C0-9C161FFE9E7D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dibware.StoredProcedureFramework.Tests</RootNamespace>
+    <AssemblyName>Dibware.StoredProcedureFramework.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="AssertExtensions\ByteArray.cs" />
+    <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
+    <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedureForEf.cs" />
+    <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="Examples\StoredProcedures\NormalStoredProcedureForEf.cs" />
+    <Compile Include="Examples\Tests\StoredProcedureWithParametersButNoReturnTests.cs" />
+    <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
+    <Compile Include="Examples\Tests\StoredProcedureWithoutParametersTests.cs" />
+    <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
+    <Compile Include="IntegrationTests\Base\BaseIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\GenericStoredProcedureTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\IncorrectParameterTypeTests.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\ExecuteForTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\ExecuteTestWithDbContext.cs" />
+    <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
+    <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
+    <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
+    <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
+    <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersButNoReturn.cs" />
+    <Compile Include="Examples\Tests\NormalStoredProcedureTestsWithDbContext.cs" />
+    <Compile Include="Examples\Tests\MultipleRecordSetTests.cs" />
+    <Compile Include="Fakes\Entities\Company.cs" />
+    <Compile Include="Fakes\Entities\Tenant.cs" />
+    <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
+    <Compile Include="Context\IntegrationTestContext.cs" />
+    <Compile Include="DBInitializers\TestDbInitializer.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\AllCommonDataTypesTests.cs" />
+    <Compile Include="IntegrationTests\Base\BaseIntegrationTestWithDbContext.cs" />
+    <Compile Include="IntegrationTests\SizeAttributeTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestReturnType.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\MultipleRecordSets\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\NotInstantiatedRecordSetStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeParameters.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeReturnTypes.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeStoredProcedures.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\VolumnAndPerformance\VolumeAndPerformanceTruncateStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\TenantDataBasedTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\NullParameterTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\OutputParameterTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\PrecisionAndScaleTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRow.cs" />
+    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRowMetaData.cs" />
+    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRow.cs" />
+    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRowMetaData.cs" />
+    <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRow.cs" />
+    <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
+    <Compile Include="IntegrationTests\ReturnNoResultTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesReturnType.cs" />
+    <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesParameters.cs" />
+    <Compile Include="IntegrationTests\AllCommonDataTypes\AllCommonDataTypesStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CompanyForTenantProcedures\GetForTenantID.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CompanyProcedures\GetAll.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterParameters.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalTestStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalTestExtendedReturnType.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\NullValueParameter\NullValueParameterNullableReturnType.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\NullValueParameter\NullValueParameterParameters.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\NullValueParameter\NullValueParameterStoreProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleReturnType.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleParameters.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\ReturnNoResultStoredProcedure.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\TenantGetAllWithAttributes.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\GetTenantForAll.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\SqlConnectionTests.cs" />
+    <Compile Include="IntegrationTests\DbContextTests\IncorectReturnTypeTestsWithDbContext.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\MultipleRecordSetTests.cs" />
+    <Compile Include="IntegrationTests\SqlConnectionTests\RecordSetNotInstantiatedTests.cs" />
+    <Compile Include="Resources\SchemaNames.cs" />
+    <Compile Include="Resources\SqlStatements.cs" />
+    <Compile Include="Resources\TableNames.cs" />
+    <Compile Include="UnitTests\DataInfo\DecimalInfoTests.cs" />
+    <Compile Include="UnitTests\ExtentionTests\SqlConnectionExtensionsTests.cs" />
+    <Compile Include="UnitTests\ExtentionTests\DbConnectionExtensionsTests.cs" />
+    <Compile Include="UnitTests\Helpers\ExceptionHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlParameterHelperTests.cs" />
+    <Compile Include="UnitTests\StoredProcedureParameters\BasicParameters.cs" />
+    <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\NotFullyConstructedStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />
+    <Compile Include="UnitTests\StoredProcedureTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VolumeAndPerformance\PerformanceTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataInfo\" />
+    <Folder Include="IntegrationTests\StoredProcedures\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj">
+      <Project>{96a94f73-a554-4b4f-b304-e9464123813d}</Project>
+      <Name>Dibware.StoredProcedureFrameworkForEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CodeBase\Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj">
+      <Project>{baaf11eb-3c8d-4187-9e83-c0ace9f06451}</Project>
+      <Name>Dibware.StoredProcedureFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
