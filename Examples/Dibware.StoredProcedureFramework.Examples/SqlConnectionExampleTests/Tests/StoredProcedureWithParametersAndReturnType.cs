@@ -7,10 +7,10 @@ using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests
+namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
 {
     [TestClass]
-    public class StoredProcedureWithoutParameters
+    public class StoredProcedureWithParametersAndReturnType
     {
         #region Fields
 
@@ -29,12 +29,16 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests
         #endregion
 
         [TestMethod]
-        public void TenantGetAll()
+        public void CompanyGetAllForTenantId()
         {
             // ARRANGE
-            var procedure = new TenantGetAll();
-            List<TenantDto> results;
-            const int expectedTenantCount = 1;
+            var parameters = new CompanyGetAllForTenantID.TenantIdParameters
+            {
+                TenantId = 1
+            };
+            var procedure = new CompanyGetAllForTenantID(parameters);
+            List<CompanyDto> results;
+            const int expectedCompanyCount = 2;
 
             // ACT
             using (DbConnection connection = new SqlConnection(_connectionString))
@@ -43,10 +47,10 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests
                 results = connection.ExecuteStoredProcedure(procedure);
                 connection.Close();
             }
-            TenantDto firstResult = results.FirstOrDefault();
+            CompanyDto firstResult = results.FirstOrDefault();
 
             // ASSERT
-            Assert.AreEqual(expectedTenantCount, results.Count);
+            Assert.AreEqual(expectedCompanyCount, results.Count);
             Assert.IsNotNull(firstResult);
         }
     }

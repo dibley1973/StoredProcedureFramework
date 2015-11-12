@@ -1,15 +1,16 @@
-﻿using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Data.SqlClient;
 using System.Transactions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base
+namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base
 {
     [TestClass]
-    public abstract class DbContextExampleTestBase
+    public abstract class SqlConnectionExampleTestBase
     {
         #region Fields
 
-        private ApplicationDbContext _context;
+        private SqlConnection _connection;
         private TransactionScope _transaction;
 
         #endregion
@@ -17,14 +18,14 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base
         #region Properties
 
         /// <summary>
-        /// Gets the context.
+        /// Gets the connection.
         /// </summary>
         /// <value>
-        /// The context.
+        /// The connection.
         /// </value>
-        internal ApplicationDbContext Context
+        internal SqlConnection Connection
         {
-            get { return _context; }
+            get { return _connection; }
         }
 
         #endregion
@@ -53,15 +54,19 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base
         private void PrepareDatabase()
         {
             string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
-            _context = new ApplicationDbContext(connectionName);
-            _context.Database.CreateIfNotExists();
+            _connection = new SqlConnection(connectionName);
+            _connection.Open();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
         private void CleanupDatabase()
         {
             if (_transaction != null) _transaction.Dispose();
-            _context.Dispose();
+            if (_connection != null)
+            {
+                _connection.Close();
+                _connection.Dispose();
+            }
         }
 
         #endregion

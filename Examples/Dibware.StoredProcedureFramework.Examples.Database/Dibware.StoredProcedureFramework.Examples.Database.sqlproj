@@ -90,8 +90,8 @@
     <Build Include="app\Stored Procedures\AccountGetAllForCompanyId.sql" />
     <Build Include="dbo\Stored Procedures\AccountLastUpdatedDateTimeReset.sql" />
     <Build Include="app\Stored Procedures\TenantDeleteForId.sql" />
-    <Build Include="app\Stored Procedures\Tenant_GetForTenantName.sql" />
     <Build Include="app\Stored Procedures\TenantGetForId.sql" />
+    <Build Include="app\Stored Procedures\TenantMarkAllInactive.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="_Post Deployment Scripts\Script.PostDeployment.sql" />

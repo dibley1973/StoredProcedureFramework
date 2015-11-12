@@ -8,25 +8,25 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context
 {
-    internal class ExampleTestDbContext : StoredProcedureDbContext
+    internal class ApplicationDbContext : StoredProcedureDbContext
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExampleTestDbContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
-        protected ExampleTestDbContext() : base("ExampleTestDbContext") { }
+        protected ApplicationDbContext() : base("ApplicationDbContext") { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExampleTestDbContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="nameOrConnectionString">The name or connection string.</param>
-        public ExampleTestDbContext(string nameOrConnectionString)
+        public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             // Set the chosen database initializer and initialize the database
-            IDatabaseInitializer<ExampleTestDbContext> databaseInitializer =
-                new CreateDatabaseIfNotExists<ExampleTestDbContext>();
+            IDatabaseInitializer<ApplicationDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<ApplicationDbContext>();
             Database.SetInitializer(databaseInitializer);
 
             // We do not need to explicitly instantiate all of the Stored 
@@ -39,7 +39,6 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Contex
 
         #region Stored Procedures
 
-        //public StoredProcedure<List<TenantDto>, NullStoredProcedureParameters> TenantGetAll { get; private set; }
         [Schema("app")]
         public StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
         [Schema("app")]

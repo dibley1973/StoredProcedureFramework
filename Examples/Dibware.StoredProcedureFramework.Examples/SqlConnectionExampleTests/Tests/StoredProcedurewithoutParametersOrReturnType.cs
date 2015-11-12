@@ -1,11 +1,11 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Properties;
+﻿using System.Data.Common;
+using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Examples.Properties;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.Common;
-using System.Data.SqlClient;
 
-namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests
+namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
 {
     [TestClass]
     public class StoredProcedureWithoutParametersOrReturnType
