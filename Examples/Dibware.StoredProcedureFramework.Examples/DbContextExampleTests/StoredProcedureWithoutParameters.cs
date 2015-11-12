@@ -47,9 +47,11 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests
         {
             //StoredProcedure<TenantDto> TenantGetForId {get;set;}
 
-            var tenant = Context.TenantGetForId.ExecuteFor(new { Id = "1" });
+            var tenant = Context.TenantGetForId.ExecuteFor(new { TenantId = 1 });
             //var tenant = Context.TenantGetForId.GetFirst(new {Id = "1"}); //Possibility
 
+            // ASSERT
+            Assert.IsNotNull(tenant);
         }
 
         /// <summary>
@@ -59,9 +61,8 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests
         [TestMethod]
         public void TenantDeleteId()
         {
-            //StoredProcedure TenantDeleteId {get;set;}
-
-            Context.TenantDeleteId.ExecuteFor(new { Id = "1" });
+            //StoredProcedure TenantDeleteForId {get;set;}
+            Context.TenantDeleteForId.ExecuteFor(new { Id = 100 });
         }
 
         /// <summary>
@@ -71,9 +72,9 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests
         [TestMethod]
         public void TenantMarkAllinactive()
         {
-            //StoredProcedure TenantMarkAllinactive {get;set;}
+            //StoredProcedure TenantMarkAllInactive {get;set;}
 
-            Context.TenantMarkAllinactive.Execute();
+            Context.TenantMarkAllInactive.Execute();
         }
     }
 }

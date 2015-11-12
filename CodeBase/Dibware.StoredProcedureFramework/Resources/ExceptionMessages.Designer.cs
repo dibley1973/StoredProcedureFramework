@@ -61,7 +61,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading from stargetObjectored storedProcedure &apos;{0}&apos; :  &apos;{1}&apos;.
+        ///   Looks up a localized string similar to Error reading from target stored procedure &apos;{0}&apos; :  &apos;{1}&apos;.
         /// </summary>
         public static string ErrorReadingStoredProcedure {
             get {
@@ -70,7 +70,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The resultset returned from the stored procedure does not contain a field of the name &apos;{0}&apos; found in return type &apos;{1}&apos;.
+        ///   Looks up a localized string similar to The ResultSet returned from the stored procedure does not contain a field of the name &apos;{0}&apos; found in return type &apos;{1}&apos;.
         /// </summary>
         public static string FieldNotFoundForName {
             get {
@@ -142,7 +142,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stored storedProcedure does not havea name set!.
+        ///   Looks up a localized string similar to Stored procedure does not havea name set!.
         /// </summary>
         public static string StoredProcedureDoesNotHaveName {
             get {
@@ -151,7 +151,7 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stored storedProcedure is not fully constructed! Ensure storedProcedure has name and return type. .
+        ///   Looks up a localized string similar to Stored procedure is not fully constructed! Ensure stored procedure has name and return type. .
         /// </summary>
         public static string StoredProcedureIsNotFullyConstructed {
             get {

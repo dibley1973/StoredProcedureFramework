@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
     /// </summary>
     internal static class TypeExtensions
     {
-        public static string GetPropertName(this Type instance, string propertyInfoName)
+        public static string GetPropertyName(this Type instance, string propertyInfoName)
         {
             var memberInfos = instance.GetMember(propertyInfoName);
             var memberInfo = memberInfos.FirstOrDefault();

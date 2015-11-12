@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorReadingStoredProcedure" xml:space="preserve">
-    <value>Error reading from stargetObjectored storedProcedure '{0}' :  '{1}'</value>
+    <value>Error reading from target stored procedure '{0}' :  '{1}'</value>
   </data>
   <data name="FieldNotFoundForName" xml:space="preserve">
-    <value>The resultset returned from the stored procedure does not contain a field of the name '{0}' found in return type '{1}'</value>
+    <value>The ResultSet returned from the stored procedure does not contain a field of the name '{0}' found in return type '{1}'</value>
   </data>
   <data name="FieldNotNullableTypeFormat" xml:space="preserve">
     <value>Field '{0}' had an expected non-nullable type of '{1}' but DBNull.Value was returned for a nullable type of '{2}'</value>
@@ -145,9 +145,9 @@
     <value>The RecordSet list property '{0}' in ResultSet object '{1}' was not instantiated!</value>
   </data>
   <data name="StoredProcedureDoesNotHaveName" xml:space="preserve">
-    <value>Stored storedProcedure does not havea name set!</value>
+    <value>Stored procedure does not havea name set!</value>
   </data>
   <data name="StoredProcedureIsNotFullyConstructed" xml:space="preserve">
-    <value>Stored storedProcedure is not fully constructed! Ensure storedProcedure has name and return type. </value>
+    <value>Stored procedure is not fully constructed! Ensure stored procedure has name and return type. </value>
   </data>
 </root>

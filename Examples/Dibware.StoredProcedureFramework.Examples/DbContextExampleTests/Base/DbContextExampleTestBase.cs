@@ -53,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base
         private void PrepareDatabase()
         {
             string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
-            _context = new ExampleTestDbContext("ExampleDatabaseConnection");
+            _context = new ExampleTestDbContext(connectionName);
             _context.Database.CreateIfNotExists();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }

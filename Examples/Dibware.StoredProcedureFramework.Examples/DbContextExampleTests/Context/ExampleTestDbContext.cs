@@ -45,9 +45,9 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Contex
         [Schema("app")]
         public StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
         [Schema("app")]
-        public StoredProcedure TenantDeleteId { get; set; }
+        public StoredProcedure TenantDeleteForId { get; set; }
         [Schema("app")]
-        public StoredProcedure TenantMarkAllinactive { get; set; }
+        public StoredProcedure TenantMarkAllInactive { get; set; }
 
         #endregion
 

@@ -57,51 +57,99 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
                 bool typeInheritsFromStoredProcedureBase = StoredProcedureBase.DoesTypeInheritsFromThis(propertyType);
                 if (typeInheritsFromStoredProcedureBase)
                 {
-                    InitializeStoredProcedureProperty(context, propertyInfo, contextType);
+                    InitializeStoredProcedureProperty(context, contextType, propertyInfo);
                 }
             }
         }
 
-        private static void InitializeStoredProcedureProperty(DbContext context, PropertyInfo propertyInfo, Type contextType)
+        private static string GetStoredProcedureNameFromStoredProcedurePropertyName(Type contextType, PropertyInfo propertyInfo)
+        {
+            var propertyInfoName = propertyInfo.Name;
+            var name = contextType.GetPropertyName(propertyInfoName);
+            return name;
+        }
+
+        private static string GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
+        {
+            string name = null;
+            var nameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(NameAttribute));
+            var nameAttribute = nameAttributes.FirstOrDefault() as NameAttribute;
+            if (nameAttribute != null) name = nameAttribute.Value;
+            return name;
+        }
+
+        private static string GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
+        {
+            string name = null;
+            var propertyType = storedProcedurePropertyInfo.PropertyType;
+            var attributes = propertyType.GetCustomAttributes<NameAttribute>();
+            var attribute = attributes.FirstOrDefault();
+            if (attribute != null) name = attribute.Value;
+            return name;
+        }
+
+        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
+        {
+            string schemaName = null;
+            var schemaNameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(SchemaAttribute));
+            var schemaNameAttribute = schemaNameAttributes.FirstOrDefault() as SchemaAttribute;
+            if (schemaNameAttribute != null) schemaName = schemaNameAttribute.Value;
+            return schemaName;
+        }
+
+        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
+        {
+            string schemaName = null;
+            var propertyType = storedProcedurePropertyInfo.PropertyType;
+            var attributes = propertyType.GetCustomAttributes<SchemaAttribute>();
+            var attribute = attributes.FirstOrDefault();
+            if (attribute != null) schemaName = attribute.Value;
+            return schemaName;
+        }
+
+        private static void InitializeStoredProcedureProperty(DbContext context, Type contextType, PropertyInfo propertyInfo)
         {
             var storedProcedurePropertyInfo = propertyInfo;
             var constructorInfo = storedProcedurePropertyInfo.PropertyType.GetConstructor(new[] { contextType });
             if (constructorInfo == null) return;
 
             object procedure = constructorInfo.Invoke(new object[] { context });
-            string name = null;
+            SetStoredProcedureName(contextType, propertyInfo, storedProcedurePropertyInfo, procedure);
+            SetStoredProcedureSchemaName(storedProcedurePropertyInfo, procedure);
 
-            // try and get name attribute of property
-            var nameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(NameAttribute));
-            var nameAttribute = nameAttributes.FirstOrDefault() as NameAttribute;
-            if (nameAttribute != null)
-            {
-                name = nameAttribute.Value;
-                //((StoredProcedureBase)procedure).SetProcedureName(nameAttribute.Value);
-            }
+            storedProcedurePropertyInfo.SetValue(context, procedure);
+        }
 
-            // try get name attribute of object
-            var propertyType = storedProcedurePropertyInfo.PropertyType;
-            var attributes = propertyType.GetCustomAttributes<NameAttribute>();
-            var attribute = attributes.FirstOrDefault();
-            if (attribute != null) name = attribute.Value;
+        private static void SetStoredProcedureName(Type contextType, PropertyInfo propertyInfo,
+            PropertyInfo storedProcedurePropertyInfo, object procedure)
+        {
+            var name = GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo);
 
             if (name == null)
             {
-                // Get property name
-                var propertyInfoName = propertyInfo.Name;
-                name = contextType.GetPropertName(propertyInfoName);
-                //var name = contextType.GetMember(propertyInfoName).First().Name;
+                name = GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo);
+            }
 
-                //((StoredProcedureBase)procedure).SetProcedureName(name);
+            if (name == null)
+            {
+                name = GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, propertyInfo);
             }
 
             if (name != null)
             {
-                ((StoredProcedureBase)procedure).SetProcedureName(name);
+                ((StoredProcedureBase) procedure).SetProcedureName(name);
             }
+        }
 
-            storedProcedurePropertyInfo.SetValue(context, procedure);
+        private static void SetStoredProcedureSchemaName(PropertyInfo storedProcedurePropertyInfo, object procedure)
+        {
+            string schemaName = GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo) ??
+                                GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo);
+
+            if (schemaName != null)
+            {
+                ((StoredProcedureBase)procedure).SetSchemaName(schemaName);
+            }
         }
     }
 }
