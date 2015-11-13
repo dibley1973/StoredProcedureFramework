@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.SqlClient;
 using System.Transactions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base
 {
@@ -11,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Ba
         #region Fields
 
         private SqlConnection _connection;
-        private TransactionScope _transaction;
+        private TransactionScope _transactionScope;
 
         #endregion
 
@@ -53,20 +52,23 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Ba
         /// </summary>
         private void PrepareDatabase()
         {
+            _transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);
             string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
             _connection = new SqlConnection(connectionName);
             _connection.Open();
-            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 
+        /// <summary>
+        /// Cleanups the database.
+        /// </summary>
         private void CleanupDatabase()
         {
-            if (_transaction != null) _transaction.Dispose();
             if (_connection != null)
             {
                 _connection.Close();
                 _connection.Dispose();
             }
+            if (_transactionScope != null) _transactionScope.Dispose();
         }
 
         #endregion

@@ -1,16 +1,14 @@
 ﻿using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.Examples.StoredProcedures
 {
     [Schema("app")]
-    internal class CompanyGetAllForTenantID
-        : StoredProcedureBase<List<CompanyDto>, TenantIdParameters>
+    internal class CompanyDeleteForTenantId
+        : NoReturnTypeStoredProcedureBase<TenantIdParameters>
     {
-        public CompanyGetAllForTenantID(TenantIdParameters parameters)
+        public CompanyDeleteForTenantId(TenantIdParameters parameters)
             : base(parameters)
         {
         }

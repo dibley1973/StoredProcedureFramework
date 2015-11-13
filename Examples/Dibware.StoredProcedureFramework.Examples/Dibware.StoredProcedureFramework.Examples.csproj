@@ -82,9 +82,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersAndReturnType.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersButWithoutReturnType.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
+    <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />
+    <Compile Include="StoredProcedures\Parameters\TenantIdParameters.cs" />
     <Compile Include="StoredProcedures\TenantGetAll.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithoutParametersButWithReturnType.cs" />
   </ItemGroup>

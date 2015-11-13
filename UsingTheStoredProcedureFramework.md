@@ -886,3 +886,5 @@ and call it just the same as the rest like so:
         
 **PLEASE NOTE** I have only just started *flirting* with the API for using anonymous parameters. I do not have yet any complex tests to validate the code is fully bug free. Other tests continue to pass so I don't anticipate that the new API option has broken the exiting API.
     
+### Using Transactions
+W.I.P.
