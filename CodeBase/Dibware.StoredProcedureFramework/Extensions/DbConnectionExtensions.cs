@@ -412,12 +412,19 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 PropertyInfo propertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
                 if (propertyInfo == null) throw new NullReferenceException("Mapped property not found");
 
-                // Use the PropertyInfo to get the value from teh parameters,
+                // Use the PropertyInfo to get the value from the parameters,
                 // then validate the value and if validation passes, set it 
                 var value = propertyInfo.GetValue(procedure.Parameters);
                 ValidateParameterValueIsInRange(sqlParameter, value);
                 if (value == null) value = DBNull.Value; /* Handle null values */
-                sqlParameter.Value = value;
+                if (sqlParameter.SqlDbType == SqlDbType.Structured)
+                {
+                    sqlParameter.Value = TableValuedParameterHelper.TableValuedParameter((IList) value);
+                }
+                else
+                {
+                    sqlParameter.Value = value;
+                }
             }
         }
 

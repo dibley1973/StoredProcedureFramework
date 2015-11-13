@@ -56,6 +56,7 @@
     <Compile Include="Helpers\FastActivator2.cs" />
     <Compile Include="Helpers\SqlParameterHelper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
+    <Compile Include="Helpers\TableValuedParameterHelper.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />

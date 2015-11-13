@@ -68,6 +68,7 @@
     <Folder Include="_Deployment Profiles\" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="app\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -92,6 +93,9 @@
     <Build Include="app\Stored Procedures\TenantDeleteForId.sql" />
     <Build Include="app\Stored Procedures\TenantGetForId.sql" />
     <Build Include="app\Stored Procedures\TenantMarkAllInactive.sql" />
+    <Build Include="app\Stored Procedures\CompanyDeleteForTenantId.sql" />
+    <Build Include="app\Stored Procedures\CompaniesAdd.sql" />
+    <Build Include="app\User Defined Types\CompanyTableType.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="_Post Deployment Scripts\Script.PostDeployment.sql" />

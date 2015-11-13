@@ -1,10 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
+namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
     public class RecordSetNotInstantiatedTests : BaseIntegrationTest

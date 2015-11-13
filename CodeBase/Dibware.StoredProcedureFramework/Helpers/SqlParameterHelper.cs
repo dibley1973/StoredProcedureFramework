@@ -171,59 +171,18 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         internal static Type GetType(SqlDbType sqltype)
         {
-            // TODO: Consider something more like this:
+            // Ref:
             // http://stackoverflow.com/a/1058348/254215
-
             Type result;
-            //Dictionary<SqlDbType, Type> sqlToClrTypeMaps = new Dictionary<SqlDbType, Type>();
-            //sqlToClrTypeMaps.Add(SqlDbType.BigInt, typeof(Int64));
-            //sqlToClrTypeMaps.Add(SqlDbType.Binary, typeof(Byte[]));
-            //sqlToClrTypeMaps.Add(SqlDbType.Bit, typeof(Boolean));
-            //sqlToClrTypeMaps.Add(SqlDbType.Char, typeof(String));
-            //sqlToClrTypeMaps.Add(SqlDbType.Date, typeof(DateTime));
-            //sqlToClrTypeMaps.Add(SqlDbType.DateTime, typeof(DateTime));
-            //sqlToClrTypeMaps.Add(SqlDbType.DateTime2, typeof(DateTime));
-            //sqlToClrTypeMaps.Add(SqlDbType.DateTimeOffset, typeof(DateTimeOffset));
-            //sqlToClrTypeMaps.Add(SqlDbType.Decimal, typeof(Decimal));
-            //sqlToClrTypeMaps.Add(SqlDbType.Float, typeof(Double));
-            //sqlToClrTypeMaps.Add(SqlDbType.Image, typeof(Byte[]));
-            //sqlToClrTypeMaps.Add(SqlDbType.Int, typeof(Int32));
-            //sqlToClrTypeMaps.Add(SqlDbType.Money, typeof(Decimal));
-            //sqlToClrTypeMaps.Add(SqlDbType.NChar, typeof(String));
-            //sqlToClrTypeMaps.Add(SqlDbType.NText, typeof(String));
-            //sqlToClrTypeMaps.Add(SqlDbType.NVarChar, typeof(String));
-            //sqlToClrTypeMaps.Add(SqlDbType.Real, typeof(Single));
-            //sqlToClrTypeMaps.Add(SqlDbType.SmallDateTime, typeof(DateTime));
-            //sqlToClrTypeMaps.Add(SqlDbType.SmallInt, typeof(Int16));
-            //sqlToClrTypeMaps.Add(SqlDbType.SmallMoney, typeof(Decimal));
-            //sqlToClrTypeMaps.Add(SqlDbType.Text, typeof(String));
-            //sqlToClrTypeMaps.Add(SqlDbType.Time, typeof(TimeSpan));
-            //sqlToClrTypeMaps.Add(SqlDbType.Timestamp, typeof(Byte[]));
-            //sqlToClrTypeMaps.Add(SqlDbType.TinyInt, typeof(Byte));
-            //sqlToClrTypeMaps.Add(SqlDbType.UniqueIdentifier, typeof(Guid));
-            //sqlToClrTypeMaps.Add(SqlDbType.VarBinary, typeof(Byte[]));
-            //sqlToClrTypeMaps.Add(SqlDbType.VarChar, typeof(String));
             _sqlToClrTypeMaps.TryGetValue(sqltype, out result);
             return result;
         }
 
         internal static SqlDbType GetSqlDbType(Type clrType)
         {
-            SqlDbType result = SqlDbType.NVarChar;
-            //Dictionary<Type, SqlDbType> clrToSqlTypeMaps = new Dictionary<Type, SqlDbType>();
-            //clrToSqlTypeMaps.Add(typeof(Boolean), SqlDbType.Bit);
-            //clrToSqlTypeMaps.Add(typeof(String), SqlDbType.NVarChar);
-            //clrToSqlTypeMaps.Add(typeof(DateTime), SqlDbType.DateTime);
-            //clrToSqlTypeMaps.Add(typeof(Int16), SqlDbType.Int);
-            //clrToSqlTypeMaps.Add(typeof(Int32), SqlDbType.Int);
-            //clrToSqlTypeMaps.Add(typeof(Int64), SqlDbType.Int);
-            //clrToSqlTypeMaps.Add(typeof(Decimal), SqlDbType.Float);
-            //clrToSqlTypeMaps.Add(typeof(Double), SqlDbType.Float);
-            //clrToSqlTypeMaps.Add(typeof(char[]), SqlDbType.NVarChar);
-            _clrToSqlTypeMaps.TryGetValue(clrType, out result);
-
             // TODO add a catch for unknown types rather than assume NVarchar
-
+            SqlDbType result = SqlDbType.NVarChar;
+            _clrToSqlTypeMaps.TryGetValue(clrType, out result);
             return result;
         }
     }
