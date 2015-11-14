@@ -28,6 +28,7 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
+* (Must) Ability to support Table Value Parameters
 * (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Ability to handle multiple recordsets returned from a stored procedure **Done**
 * (Should) Contain a suite of unit tests that test all public accessors
