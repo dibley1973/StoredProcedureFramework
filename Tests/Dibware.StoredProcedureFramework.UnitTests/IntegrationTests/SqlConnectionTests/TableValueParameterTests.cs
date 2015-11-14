@@ -10,6 +10,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionT
     public class TableValueParameterTests : BaseIntegrationTest
     {
         [TestMethod]
+        [Ignore] // until stored procedure is added to integration database!
         public void CompaniesAdd()
         {
             // ARRANGE

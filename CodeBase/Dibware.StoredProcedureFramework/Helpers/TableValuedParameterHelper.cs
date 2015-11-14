@@ -53,23 +53,35 @@ namespace Dibware.StoredProcedureFramework.Helpers
             // get the propery column name to property name mapping
             // and generate the SqlMetaData for each property/column
             Dictionary<String, String> mapping = new Dictionary<string, string>();
-            foreach (PropertyInfo p in props)
+            foreach (PropertyInfo propertyInfo in props)
             {
                 // default name is property name, override of parameter name by attribute
-                var attr = p.GetAttribute<NameAttribute>();
-                String name = (null == attr) ? p.Name : attr.Value;
-                mapping.Add(name, p.Name);
+                var attr = propertyInfo.GetAttribute<NameAttribute>();
+                String name = (null == attr) ? propertyInfo.Name : attr.Value;
+                mapping.Add(name, propertyInfo.Name);
 
                 // get column type
-                ParameterDbTypeAttribute ct = p.GetAttribute<ParameterDbTypeAttribute>();
-                SqlDbType coltype = (null == ct) ? SqlDbType.Int : ct.Value;
-
-                //TODO; handle data type mappings from underlying CLR type!
+                ParameterDbTypeAttribute dbTypeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
+                SqlDbType columnType; // = (null == dbTypeAttribute) ? SqlDbType.Int : dbTypeAttribute.Value;
+                if (dbTypeAttribute != null)
+                {
+                    columnType = dbTypeAttribute.Value;
+                }
+                else
+                {
+                    // or fall back on CLR type
+                    columnType = SqlParameterHelper.GetSqlDbType(propertyInfo.PropertyType);
+                }
+                
+                
+                
+                
+                //TODO: handle data type mappings from underlying CLR type!
                 // dont just default to INT!
 
                 // create metadata column definition
                 SqlMetaData column;
-                switch (coltype)
+                switch (columnType)
                 {
                     case SqlDbType.Binary:
                     case SqlDbType.Char:
@@ -81,22 +93,22 @@ namespace Dibware.StoredProcedureFramework.Helpers
                     case SqlDbType.NText:
                     case SqlDbType.VarBinary:
                         // get column size
-                        var sa = p.GetAttribute<SizeAttribute>();
+                        var sa = propertyInfo.GetAttribute<SizeAttribute>();
                         int size = (null == sa) ? 50 : sa.Value;
-                        column = new SqlMetaData(name, coltype, size);
+                        column = new SqlMetaData(name, columnType, size);
                         break;
 
                     case SqlDbType.Decimal:
                         // get column precision and scale
-                        var pa = p.GetAttribute<PrecisionAttribute>();
+                        var pa = propertyInfo.GetAttribute<PrecisionAttribute>();
                         Byte precision = (null == pa) ? (byte)10 : pa.Value;
-                        var sca = p.GetAttribute<ScaleAttribute>();
+                        var sca = propertyInfo.GetAttribute<ScaleAttribute>();
                         Byte scale = (null == sca) ? (byte)2 : sca.Value;
-                        column = new SqlMetaData(name, coltype, precision, scale);
+                        column = new SqlMetaData(name, columnType, precision, scale);
                         break;
 
                     default:
-                        column = new SqlMetaData(name, coltype);
+                        column = new SqlMetaData(name, columnType);
                         break;
                 }
 

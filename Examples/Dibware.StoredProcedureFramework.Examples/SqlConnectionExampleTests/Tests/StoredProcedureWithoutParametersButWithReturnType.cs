@@ -16,7 +16,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
         {
             // ARRANGE
             var procedure = new TenantGetAll();
-            const int expectedTenantCount = 1;
+            const int expectedTenantCount = 2;
 
             // ACT
             // TODO: Investigate if stored procs can be called using the simplified API like DbContext has

@@ -83,7 +83,9 @@
     </Compile>
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersButWithoutReturnType.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTableParameters.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
+    <Compile Include="StoredProcedures\CompaniesAdd.cs" />
     <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />

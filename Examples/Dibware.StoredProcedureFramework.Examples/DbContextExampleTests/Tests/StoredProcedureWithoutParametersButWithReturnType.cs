@@ -19,7 +19,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
         public void TenantGetAll()
         {
             // ARRANGE
-            const int expectedTenantCount = 1;
+            const int expectedTenantCount = 2;
 
             // ACT
             var tenants = Context.TenantGetAll.Execute();
