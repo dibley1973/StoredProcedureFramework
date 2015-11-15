@@ -16,8 +16,8 @@ There will then be two database projects
 
 ## TOC
 
-* Representing Stored Procedures in Code
-  +  General Rules
+* [Representing Stored Procedures in Code] (## Representing Stored Procedures in Code)
+  +  [General Rules] (### General Rules)
     -   Base Classes
       * StoredProcedureBase
       * NoParametersStoredProcedureBase
@@ -38,6 +38,7 @@ There will then be two database projects
   + A Stored Procedure with Parameters but without a Return Type
   + A "Normal" Stored procedure
   + A Stored Procedure With Multiple RecordSets
+  + [A Stored Procedure with Table Value Parameters] (### A Stored Procedure with Table Value Parameters)
 * [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
 
@@ -439,7 +440,88 @@ And finally we need a class to represent the complete Stored Procedure:
         {
         }
     } 
-    
+
+### A Stored Procedure with Table Value Parameters
+Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This framework can call stored procedures with table value parameters with only a small amount of extra code. so lets look at the stored procedure below...
+
+    CREATE PROCEDURE [app].[CompaniesAdd]
+    (
+        @Companies [app].[CompanyTableType] READONLY
+    )
+    AS
+    BEGIN
+        MERGE INTO [app].[Company] AS [target]
+        USING   @Companies AS [source]
+        ON      [target].[TenantId] = [source].[TenantId]
+        AND     [target].[CompanyName] = [source].[CompanyName]
+        WHEN MATCHED THEN UPDATE SET 
+            [target].[IsActive] = [source].[IsActive]
+        WHEN NOT MATCHED THEN INSERT VALUES
+        (
+            [source].[TenantId]
+        ,   [source].[IsActive]
+        ,   [source].[CompanyName]
+        ,   GETDATE()
+        );
+    END
+
+... which uses the table User Defined Type...
+
+CREATE TYPE [app].[CompanyTableType] AS TABLE (
+    [TenantId]    INT            NOT NULL,
+    [IsActive]    BIT            NOT NULL,
+    [CompanyName] NVARCHAR (100) NULL);
+
+... as the table value parameter we can represent this in code for the framework using the `CompaniesAdd` class and associated nested classes below. 
+
+    [Schema("app")]
+    internal class CompaniesAdd
+        : NoReturnTypeStoredProcedureBase<CompaniesAdd.CompaniesAddParameters>
+    {
+        public CompaniesAdd(CompaniesAddParameters parameters)
+            : base(parameters)
+        {
+        }
+        internal class CompaniesAddParameters
+        {
+            [ParameterDbType(SqlDbType.Structured)]
+            public List<CompanyTableType> Companies { get; set; }
+        }
+
+        internal class CompanyTableType
+        {
+            public int TenantId { get; set; }
+            public bool IsActive { get; set; }
+            public string CompanyName { get; set; }
+        }
+    }
+
+The two internal classes represent the the parameters and the table type. We do not need to make these two classes internal, but by doing this it helps identify their purpose. The `CompanyTableType` represents the *User Defined Type* and `CompaniesAddParameters` class, the parameters. Note that the parameters class has a property which is a list of our table type. The stored procedure can be called using the framework like below:
+
+    [TestMethod]
+    public void CompaniesAdd()
+    {
+        // ARRANGE
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var parameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var procedure = new CompaniesAdd(parameters);
+
+        // ACT
+        Connection.ExecuteStoredProcedure(procedure);
+
+        // ASSERT
+    }
+
+first we create a new list of the table type and populate this list with the values we want to pass to the stored procedure. We then create the parameters object setting the companies property to be our list. Next we construct the stored procedure using the parameters, and finally execute the procedure against the current SqlConnection (Or DbContext).
+
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
 
 ## Calling the Stored Procedures from Code using SqlConnection
