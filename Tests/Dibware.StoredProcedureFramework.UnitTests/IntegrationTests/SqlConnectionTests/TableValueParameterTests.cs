@@ -10,21 +10,20 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionT
     public class TableValueParameterTests : BaseIntegrationTest
     {
         [TestMethod]
-        [Ignore] // until stored procedure is added to integration database!
-        public void CompaniesAdd()
+        public void SimpleTableValueParameterStoredProcedure_CallsCorrectly()
         {
             // ARRANGE
-            var companiesToAdd = new List<CompanyTableType>
+            var itemsToAdd = new List<SimpleTableValueParameterTableType>
             {
-                new CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
-                new CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
-                new CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+                new SimpleTableValueParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
+                new SimpleTableValueParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new SimpleTableValueParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
             };
-            var parameters = new CompaniesAddParameters
+            var parameters = new SimpleTableValueParameterTableTypeParameters
             {
-                Companies = companiesToAdd
+                TvpParameters = itemsToAdd
             };
-            var procedure = new CompaniesAdd(parameters);
+            var procedure = new SimpleTableValueParameterStoredProcedure(parameters);
 
             // ACT
             Connection.Open();
@@ -32,6 +31,34 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionT
             Connection.Close();
 
             // ASSERT
+        }
+
+        [TestMethod]
+        public void TableValueParameterStoredProcedureWithReturn_CallsCorrectlyAndReturnsValues()
+        {
+            // ARRANGE
+            var itemsToAdd = new List<SimpleTableValueParameterTableType>
+            {
+                new SimpleTableValueParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
+                new SimpleTableValueParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new SimpleTableValueParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+            };
+            int expectedCount = itemsToAdd.Count;
+            var parameters = new TableValueParameterStoredProcedureWithReturnParameters
+            {
+                TvpParameters = itemsToAdd
+            };
+            var procedure = new TableValueParameterStoredProcedureWithReturn(parameters);
+
+            // ACT
+            Connection.Open();
+            var results = Connection.ExecuteStoredProcedure(procedure);
+            Connection.Close();
+            var actualCount = results.Count;
+
+            // ASSERT
+            Assert.IsNotNull(results);
+            Assert.AreEqual(expectedCount, actualCount);
         }
     }
 }

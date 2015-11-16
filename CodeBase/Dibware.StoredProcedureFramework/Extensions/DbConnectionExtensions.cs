@@ -414,21 +414,39 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                 // Use the PropertyInfo to get the value from the parameters,
                 // then validate the value and if validation passes, set it 
-                var value = propertyInfo.GetValue(procedure.Parameters);
-                ValidateParameterValueIsInRange(sqlParameter, value);
-                if (value == null) value = DBNull.Value; /* Handle null values */
-                if (sqlParameter.SqlDbType == SqlDbType.Structured)
-                {
-                    sqlParameter.Value = TableValuedParameterHelper.TableValuedParameter((IList) value);
-                }
-                else
-                {
-                    sqlParameter.Value = value;
-                }
+                object value = propertyInfo.GetValue(procedure.Parameters);
+                ValidateValueIsInRangeForSqlParameter(sqlParameter, value);
+                SetSqlParameterValue(value, sqlParameter);
             }
         }
 
-        private static void ValidateParameterValueIsInRange(SqlParameter sqlParameter, object value)
+        /// <summary>
+        /// Sets the SQL parameter value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="sqlParameter">The SQL parameter.</param>
+        private static void SetSqlParameterValue(object value, SqlParameter sqlParameter)
+        {
+            if (value == null) /* Handle null values */
+            {
+                sqlParameter.Value = DBNull.Value;
+            }
+            else if (sqlParameter.SqlDbType != SqlDbType.Structured)
+            {
+                sqlParameter.Value = value;
+            }
+            else
+            {
+                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList) value);
+            }
+        }
+
+        /// <summary>
+        /// Validates the value is in range for SQL parameter.
+        /// </summary>
+        /// <param name="sqlParameter">The SQL parameter.</param>
+        /// <param name="value">The value.</param>
+        private static void ValidateValueIsInRangeForSqlParameter(SqlParameter sqlParameter, object value)
         {
             // For parameters that have precision and scale we need to validate the value
             if (sqlParameter.RequiresPrecisionAndScaleValidation())

@@ -16,8 +16,8 @@ There will then be two database projects
 
 ## TOC
 
-* [Representing Stored Procedures in Code] (## Representing Stored Procedures in Code)
-  +  [General Rules] (### General Rules)
+* [Representing Stored Procedures in Code] (#representing-stored-procedures-in-code)
+  +  [General Rules] (#general-rules)
     -   Base Classes
       * StoredProcedureBase
       * NoParametersStoredProcedureBase
@@ -38,7 +38,7 @@ There will then be two database projects
   + A Stored Procedure with Parameters but without a Return Type
   + A "Normal" Stored procedure
   + A Stored Procedure With Multiple RecordSets
-  + [A Stored Procedure with Table Value Parameters] (### A Stored Procedure with Table Value Parameters)
+  + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
 * [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
 
@@ -467,10 +467,10 @@ Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This 
 
 ... which uses the table User Defined Type...
 
-CREATE TYPE [app].[CompanyTableType] AS TABLE (
-    [TenantId]    INT            NOT NULL,
-    [IsActive]    BIT            NOT NULL,
-    [CompanyName] NVARCHAR (100) NULL);
+    CREATE TYPE [app].[CompanyTableType] AS TABLE (
+        [TenantId]    INT            NOT NULL,
+        [IsActive]    BIT            NOT NULL,
+        [CompanyName] NVARCHAR (100) NULL);
 
 ... as the table value parameter we can represent this in code for the framework using the `CompaniesAdd` class and associated nested classes below. 
 

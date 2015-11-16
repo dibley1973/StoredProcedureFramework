@@ -76,8 +76,9 @@
     <Compile Include="IntegrationTests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="IntegrationTests\DbContextTests\ExecuteForTestsWithDbContext.cs" />
     <Compile Include="IntegrationTests\DbContextTests\ExecuteTestWithDbContext.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\TableValueParameter\CompaniesAdd.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TableValueParameter\SimpleTableValueParameterStoredProcedure.cs" />
     <Compile Include="IntegrationTests\SqlConnectionTests\TableValueParameterTests.cs" />
+    <Compile Include="IntegrationTests\StoredProcedures\TableValueParameter\TableValueParameterStoredProcedureWithReturn.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />

@@ -68,6 +68,7 @@
     <Folder Include="app\Stored Procedures\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\User Defined Types" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Tables\Tenant.sql" />
@@ -111,5 +112,8 @@
     <Build Include="dbo\Stored Procedures\StoredProcedureWithParametersButNoReturn.sql" />
     <Build Include="dbo\Stored Procedures\NormalStoredProcedureForEF.sql" />
     <Build Include="dbo\Stored Procedures\MostBasicStoredProcedureForEF.sql" />
+    <Build Include="dbo\User Defined Types\SimpleTableValueParameterTableType.sql" />
+    <Build Include="dbo\Stored Procedures\SimpleTableValueParameterStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\TableValueParameterStoredProcedureWithReturn.sql" />
   </ItemGroup>
 </Project>
