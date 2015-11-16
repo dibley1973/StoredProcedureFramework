@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Extensions;
@@ -21,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             // ACT
             // TODO: Investigate if stored procs can be called using the simplified API like DbContext has
             //var tenants = Connection.TenantGetAll.Execute();
-            var tenants = Connection.ExecuteStoredProcedure(procedure);
+            List<TenantDto> tenants = Connection.ExecuteStoredProcedure(procedure);
             TenantDto tenant1 = tenants.FirstOrDefault();
 
             // ASSERT
