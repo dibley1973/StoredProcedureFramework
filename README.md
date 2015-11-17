@@ -43,3 +43,25 @@ The aim of this project is to provide the following:
 
 ## WIKI ##
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)
+
+
+## Solution
+The solution is written in C# .Net v4.0. The decision to write in v4.0 and not a later version is to enable other projects with this framework version and above to be able to consume it.
+
+### Folder Structure
+The folder structure is an ever evolving beast, as I strive to get a logical organisation for it
+
+* Solution
+  + Binaries
+    - 0.3
+  + CodeBase
+    - Dibware.StoredProcedureFramework.csproj
+    - Dibware.StoredProcedureFrameworkForEF.csproj
+  + Documents
+  + Examples
+    - Dibware.StoredProcedureFramework.Examples.csproj
+    - Dibware.StoredProcedureFramework.Examples.Database.sqlproj
+  + Tests
+    - Dibware.StoredProcedureFramework.IntegrationTests.csproj
+    - Dibware.StoredProcedureFramework.IntegrationTests.Database.sqlproj
+    - Dibware.StoredProcedureFramework.UnitTests.csproj
