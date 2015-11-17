@@ -15,7 +15,6 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
         {
             // ARRANGE
             int? expectedValue1 = 10;
-            //int? expectedvalue2 = null;
             var parameters = new NullValueParameterParameters
             {
                 Value1 = expectedValue1,
@@ -25,7 +24,6 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            //var results = resultSet.RecordSet1;
             var result = resultSet.First();
 
             // ASSERT
@@ -39,7 +37,6 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
         {
             // ARRANGE
             int? expectedValue1 = 10;
-            //int? expectedvalue2 = null;
             var parameters = new NullValueParameterParameters
             {
                 Value1 = expectedValue1,
@@ -49,7 +46,6 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            //var results = resultSet.RecordSet1;
             var result = resultSet.First();
 
             // ASSERT

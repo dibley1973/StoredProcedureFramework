@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Dibware.StoredProcedureFramework.Exceptions;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.SizeAttributeProcedures;
-using Dibware.StoredProcedureFrameworkForEF;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
@@ -41,7 +40,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            
+
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             //var results = resultSet.RecordSet1;
@@ -61,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            
+
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             //var results = resultSet.RecordSet1;
@@ -82,7 +81,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value1 = initialValue
             };
             var procedure = new CorrectSizeAttributeStoredProcedure(parameters);
-            
+
             // ACT
             Context.ExecuteStoredProcedure(procedure);
             //var result = results.First();
@@ -102,7 +101,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value1 = initialValue
             };
             var procedure = new TooSmallSizeAttributeStoredProcedure(parameters);
-            
+
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
             //var results = resultSet.RecordSet1;
@@ -112,7 +111,9 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             Assert.AreEqual(initialValue, result.Value1);
         }
 
-
+        // DEV NOTE: To be able to write code for this test to pass we would need to 
+        // call SqlCommand.DeriveParameters. This can have quite a performance hit 
+        // without some level of parameter caching.
         [TestMethod]
         [Ignore]
         [ExpectedException(typeof(SqlParameterOutOfRangeException))]
@@ -125,14 +126,12 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
                 Value1 = initialValue
             };
             var procedure = new TooLargeSizeAttributeStoredProcedure(parameters);
-            
+
             // ACT
             var resultSet = Context.ExecuteStoredProcedure(procedure);
-            //var results = resultSet.RecordSet1;
-            var result = resultSet.First();
 
             // ASSERT
-            Assert.Fail();
+            // Exception should have been thrown by here!
         }
     }
 }
