@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.Validators;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Helpers;
-using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -102,13 +103,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
             IEnumerable<SqlParameter> procedureParameters = null,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
-            SqlTransaction transaction = null) 
+            SqlTransaction transaction = null)
             where TResultSetType : class, new()
         {
             // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            
+
             // A flag to track whether we opened the connection or not
             bool connectionWasOpen = (connection.State == ConnectionState.Open);
 
@@ -159,15 +160,15 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         private static TResultSetType ExecuteCommand<TResultSetType>(
-            CommandBehavior commandBehavior, 
+            CommandBehavior commandBehavior,
             DbCommand command)
             where TResultSetType : class, new()
         {
             var procedureHasNoReturnType =
-                (typeof (TResultSetType) == typeof (NullStoredProcedureResult));
+                (typeof(TResultSetType) == typeof(NullStoredProcedureResult));
 
-            var results = procedureHasNoReturnType 
-                ? ExecuteCommandWithNoReturnType<TResultSetType>(command) 
+            var results = procedureHasNoReturnType
+                ? ExecuteCommandWithNoReturnType<TResultSetType>(command)
                 : ExecuteCommandWithResultSet<TResultSetType>(commandBehavior, command);
 
             return results;
@@ -175,12 +176,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         private static TResultSetType ExecuteCommandWithResultSet<TResultSetType>(
             CommandBehavior commandBehavior,
-            DbCommand command) 
+            DbCommand command)
             where TResultSetType : class, new()
         {
             TResultSetType resultSet = new TResultSetType();
-            Type resultSetType = typeof (TResultSetType);
-            
+            Type resultSetType = typeof(TResultSetType);
+
             string resultSetTypeName = resultSetType.Name;
 
             // Populate a DataReder by calling the command
@@ -211,7 +212,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                         recordSetIndex++;
                         readerContainsAnotherResult = reader.NextResult();
-                    } 
+                    }
                     while (readerContainsAnotherResult);
                 }
 
@@ -263,13 +264,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         private static IList GetRecordSetDtoList<TResultSetType>(
-            Type resultSetType, 
+            Type resultSetType,
             string recordSetPropertyName,
-            TResultSetType resultSet) 
+            TResultSetType resultSet)
             where TResultSetType : class, new()
         {
             PropertyInfo recordSetPropertyInfo = resultSetType.GetProperty(recordSetPropertyName);
-            IList recordSetDtoList = (IList) recordSetPropertyInfo.GetValue(resultSet);
+            IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(resultSet);
             return recordSetDtoList;
         }
 
@@ -307,7 +308,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
             if (constructorInfo == null) return;
 
-            
+
             //TODO: Investigate FastActivator
             // Even at 2M records there is still neglidgable difference between
             // standard Activator and FastActivator
@@ -437,7 +438,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
             else
             {
-                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList) value);
+                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
             }
         }
 
@@ -489,6 +490,24 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 // ... and validate it if it is
                 var validator = new SqlParameterStringValueValidator();
                 validator.Validate(new string((char[])value), sqlParameter);
+            }
+            else if (value == null)
+            {
+                bool parameterIsStringOrNullable = (
+                    sqlParameter.DbType == DbType.AnsiString || 
+                    sqlParameter.DbType == DbType.AnsiStringFixedLength || 
+                    sqlParameter.DbType == DbType.String || 
+                    sqlParameter.DbType == DbType.StringFixedLength || 
+                    sqlParameter.IsNullable);
+                if (parameterIsStringOrNullable) return;
+
+                string message = string.Format(
+                    "'{0}' parameter had a null value",
+                    sqlParameter.ParameterName);
+                throw new SqlNullValueException(message);
+                //throw new SqlParameterInvalidDataTypeException(
+                //    sqlParameter.ParameterName,
+                //    typeof(string), typeof(string));
             }
             else
             {

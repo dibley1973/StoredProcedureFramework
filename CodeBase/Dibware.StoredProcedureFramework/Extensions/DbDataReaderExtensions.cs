@@ -168,8 +168,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
             string fieldName)
         {
             var propertyType = propertyInfo.PropertyType;
-            var isNullable = (Nullable.GetUnderlyingType(propertyType) != null);
-            if (isNullable)
+            var isNullableType = (propertyType == typeof(string) ||
+                (Nullable.GetUnderlyingType(propertyType) != null));
+            if (isNullableType)
             {
                 propertyInfo.SetValue(targetObject, null, null);
             }
