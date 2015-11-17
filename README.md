@@ -9,7 +9,8 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 Please note a new API change is in progress. Please refer to code in branch "v0.2" which is in synch with the current documentation.
 
 ## Versions
-* 0.2 This version will suupport multiple recordsets and will have a different API to version 1.0. This is the version that is currently in development.
+* 0.3 This version supports stored procedures with Table Value Parameters. This is the version that is currently in development.
+* 0.2 This version will suupport multiple recordsets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
 * 0.1 This was the initial version which did not support multiple recordsets. To enable multiple recordsets to be supported alongside single recordsets a break to the API is required. Development has stopped on this version but the code will remain available for use.
 
 ## Project Brief ##
