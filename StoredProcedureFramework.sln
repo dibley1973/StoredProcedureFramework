@@ -31,6 +31,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF", "CodeBase\Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj", "{96A94F73-A554-4B4F-B304-E9464123813D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binaries", "Binaries", "{3011B710-DA21-4288-8A22-B0AE7FE58B5B}"
+	ProjectSection(SolutionItems) = preProject
+		Binaries\BinariesReadMe.md = Binaries\BinariesReadMe.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.3", "0.3", "{842BCB72-A8F9-4944-A4DA-74574D8416B5}"
 	ProjectSection(SolutionItems) = preProject
