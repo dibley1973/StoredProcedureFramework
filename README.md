@@ -29,11 +29,12 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle stored procedures that return no results **Done**
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
-* (Must) Ability to support Table Value Parameters
+* (Must) Ability to support Table Value Parameters **Done**
 * (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Ability to handle multiple recordsets returned from a stored procedure **Done**
-* (Should) Contain a suite of unit tests that test all public accessors
-* (Should) Contain a suite of integration tests that document usage of the assembly **WIP**
+* (Should) Contain a suite of Unit Tests that test all public accessors
+* (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
+* (Should) Contain a suite of Integration Tests for both assemblies **WIP**
 * (Should) Ability to handle lesser used parameter types
 * (Should) Ability to handle lesser used return data types
 * (Should) Warn calling code if parameter value data may be truncated due to smaller pameter type
