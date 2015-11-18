@@ -157,7 +157,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
         // TODO: Investigate if we can set VARCHAR size from the value of the parameters,
         // and where is best to perform this... Refer to Issue #1
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         public void CallProcedureWithParameterValueLongerThanProcedureParameterLengthAndNoSizeAttributeSet_TruncatesValueOncedPassedToStoredProcedure()
         {
             // ARRANGE

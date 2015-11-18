@@ -12,6 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Fields
 
+        private const int DefaultStringSize = 8000;
         private static Dictionary<SqlDbType, Type> _sqlToClrTypeMaps; // = new Dictionary<SqlDbType, Type>();
         private static Dictionary<Type, SqlDbType> _clrToSqlTypeMaps; // = new 
 
@@ -108,8 +109,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private static void TrySetSqlParameterSizeFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
         {
+            // TODO: DW-2015-11-18 - Investigate a better solution than the default 
+            // size for string parameters when no SizeAttribute has been set. 
+            // Previously the framework used to default to ZERO, but this is not 
+            // very useful to most callers.
             var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
-            if (sizeAttribute != null) sqlParameter.Size = sizeAttribute.Value;
+            sqlParameter.Size = sizeAttribute != null
+                ? sizeAttribute.Value
+                : DefaultStringSize;
         }
 
         /// <summary>
