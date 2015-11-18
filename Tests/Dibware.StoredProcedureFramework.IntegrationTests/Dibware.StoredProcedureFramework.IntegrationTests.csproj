@@ -71,6 +71,8 @@
     <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
     <Compile Include="SqlConnectionTests\MultipleRecordSetTests.cs" />
     <Compile Include="SqlConnectionTests\TableValueParameterTests.cs" />
+    <Compile Include="SqlConnectionTests\IncorrectParameterTypeTests.cs" />
+    <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="StoredProcedures\ParametersAndReturnTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\TableValueParameterWithoutReturnTypeStoredProcedure.cs" />

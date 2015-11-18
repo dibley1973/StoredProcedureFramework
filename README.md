@@ -6,7 +6,7 @@ This framework can be used with or without the presence of Entity Framework, but
 This is an on-going project and has been inspired by and some of the ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-Please note a new API change is in progress. Please refer to code in branch "v0.2" which is in synch with the current documentation.
+Please note this is a work in progress. Currently integration tests are being pulled out of teh Unittest project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
 
 ## Versions
 * 0.3 This version supports stored procedures with Table Value Parameters. This is the version that is currently in development.

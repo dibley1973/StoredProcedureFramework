@@ -5,16 +5,16 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.InvalidParameterType
 {
-    [Schema("app")]
-    [Name("DecimalPrecisionAndScale")]
-    internal class IncorrectParameterTypeStoredProcedure
-        : StoredProcedureBase<List<NullStoredProcedureResult>, IncorrectParameterTypeStoredProcedureParameters>
-    {
-        public IncorrectParameterTypeStoredProcedure(IncorrectParameterTypeStoredProcedureParameters parametersType)
-            : base(parametersType)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("DecimalPrecisionAndScale")]
+    //internal class IncorrectParameterTypeStoredProcedure
+    //    : StoredProcedureBase<List<NullStoredProcedureResult>, IncorrectParameterTypeStoredProcedureParameters>
+    //{
+    //    public IncorrectParameterTypeStoredProcedure(IncorrectParameterTypeStoredProcedureParameters parametersType)
+    //        : base(parametersType)
+    //    {
+    //    }
+    //}
 
     
     //[Schema("app")]
@@ -28,16 +28,16 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     //    }
     //}
 
-    internal class IncorrectParameterTypeStoredProcedureParameters
-    {
-        [Size(10)]
-        [ParameterDbType(SqlDbType.VarChar)]
-        public object Value1 { get; set; }
+    //internal class IncorrectParameterTypeStoredProcedureParameters
+    //{
+    //    [Size(10)]
+    //    [ParameterDbType(SqlDbType.VarChar)]
+    //    public object Value1 { get; set; }
 
-        //[Size(10)]
-        [ParameterDbType(SqlDbType.Decimal)]
-        public object Value2 { get; set; }
-    }
+    //    //[Size(10)]
+    //    [ParameterDbType(SqlDbType.Decimal)]
+    //    public object Value2 { get; set; }
+    //}
 
     //internal class IncorrectParameterTypeStoredProcedureResultSet
     //{
