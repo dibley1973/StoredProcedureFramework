@@ -84,6 +84,19 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         }
     }
 
+
+    [Schema("app")]
+    [Name("SizeAttributeTest")]
+    internal class TooLargeValueButNoSizeAttributeStoredProcedure
+        : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeValueButNoSizeAttribute>
+    {
+        public TooLargeValueButNoSizeAttributeStoredProcedure(TooLargeValueButNoSizeAttribute parameters)
+            : base(parameters)
+        {
+        }
+    }
+
+
     //[Schema("app")]
     //[Name("SizeAttributeTest")]
     //internal class TooLargeSizeAttributeStoredProcedure

@@ -340,6 +340,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
             //var sqlParameters = mappedProperties.ToSqlParameters();
             var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
 
+            // TODO: Investigate if we can set VARCHAR size from the value of the parameters,
+            // and where is best to perform this... Refer to Issue #1
+
             // Populate parameters from storedProcedure parameters
             PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);
 
@@ -494,10 +497,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
             else if (value == null)
             {
                 bool parameterIsStringOrNullable = (
-                    sqlParameter.DbType == DbType.AnsiString || 
-                    sqlParameter.DbType == DbType.AnsiStringFixedLength || 
-                    sqlParameter.DbType == DbType.String || 
-                    sqlParameter.DbType == DbType.StringFixedLength || 
+                    sqlParameter.DbType == DbType.AnsiString ||
+                    sqlParameter.DbType == DbType.AnsiStringFixedLength ||
+                    sqlParameter.DbType == DbType.String ||
+                    sqlParameter.DbType == DbType.StringFixedLength ||
                     sqlParameter.IsNullable);
                 if (parameterIsStringOrNullable) return;
 

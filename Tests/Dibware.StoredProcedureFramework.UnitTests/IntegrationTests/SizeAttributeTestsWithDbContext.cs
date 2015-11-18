@@ -133,5 +133,48 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
             // ASSERT
             // Exception should have been thrown by here!
         }
+
+        [TestMethod]
+        public void CallProcedureWithParameterValueAndSizeAttributeLongerThanProcedureParameterLength_TruncatesValueOncedPassedToStoredProcedure()
+        {
+            // ARRANGE
+            const int expectedTruncatedLength = 20;
+            const string initialValue = @"123456789012345678901234567890";
+            var parameters = new TooLargeSizeAttributeParameters
+            {
+                Value1 = initialValue
+            };
+            var procedure = new TooLargeSizeAttributeStoredProcedure(parameters);
+
+            // ACT
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var result = resultSet.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedTruncatedLength, result.Value1.Length);
+        }
+
+        // TODO: Investigate if we can set VARCHAR size from the value of the parameters,
+        // and where is best to perform this... Refer to Issue #1
+        [TestMethod]
+        [Ignore]
+        public void CallProcedureWithParameterValueLongerThanProcedureParameterLengthAndNoSizeAttributeSet_TruncatesValueOncedPassedToStoredProcedure()
+        {
+            // ARRANGE
+            const int expectedTruncatedLength = 20;
+            const string initialValue = @"123456789012345678901234567890";
+            var parameters = new TooLargeValueButNoSizeAttribute
+            {
+                Value1 = initialValue
+            };
+            var procedure = new TooLargeValueButNoSizeAttributeStoredProcedure(parameters);
+
+            // ACT
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            var result = resultSet.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedTruncatedLength, result.Value1.Length);
+        }
     }
 }

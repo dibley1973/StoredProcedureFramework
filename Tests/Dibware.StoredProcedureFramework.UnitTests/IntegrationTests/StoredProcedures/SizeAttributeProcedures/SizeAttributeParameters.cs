@@ -23,4 +23,10 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
         [ParameterDbType(SqlDbType.VarChar)]
         public string Value1 { get; set; }
     }
+
+
+    internal class TooLargeValueButNoSizeAttribute
+    {
+        public string Value1 { get; set; }
+    }
 }
