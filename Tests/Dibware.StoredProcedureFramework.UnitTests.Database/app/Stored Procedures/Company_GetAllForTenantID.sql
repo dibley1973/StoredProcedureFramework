@@ -8,7 +8,7 @@
 -- =============================================
 CREATE PROCEDURE [app].[Company_GetAllForTenantID]
 (
-    @TenantId INT
+    @TenantID INT
 )
 AS
 BEGIN
@@ -18,13 +18,13 @@ BEGIN
 
     -- Insert statements for procedure here
        SELECT 
-        CompanyId
-    ,   TenantId
+        CompanyID
+    ,   TenantID
     ,   IsActive
     ,   CompanyName
     ,   RecordCreatedDateTime
     FROM
         app.Company
     WHERE
-        TenantId = @TenantId;
+        TenantID = @TenantID;
 END

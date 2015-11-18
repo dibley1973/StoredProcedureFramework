@@ -7,80 +7,83 @@ using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
-    [TestClass]
-    public class SqlConnectionTests : BaseIntegrationTest
-    {
-        [TestMethod]
-        public void ExecuteStoredProcedure_WhenNotAlreadyOpened_ClosesConnection()
-        {
-            // ARRANGE  
-            const int expectedId = 10;
+    // These tests have now moved to:
+    // Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.ConnectionStateTests
 
-            var parameters = new NormalStoredProcedureParameters
-            {
-                Id = expectedId
-            };
-            var procedure = new NormalStoredProcedure(parameters);
+    //[TestClass]
+    //public class SqlConnectionTests : BaseIntegrationTest
+    //{
+    //    [TestMethod]
+    //    public void ExecuteStoredProcedure_WhenNotAlreadyOpened_ClosesConnection()
+    //    {
+    //        // ARRANGE  
+    //        const int expectedId = 10;
 
-            // ACT
-            Connection.ExecuteStoredProcedure(procedure);
-            var connectionStillOpen = Connection.State == ConnectionState.Open;
+    //        var parameters = new NormalStoredProcedureParameters
+    //        {
+    //            Id = expectedId
+    //        };
+    //        var procedure = new NormalStoredProcedure(parameters);
 
-            // ASSERT
-            Assert.IsFalse(connectionStillOpen);
-        }
+    //        // ACT
+    //        Connection.ExecuteStoredProcedure(procedure);
+    //        var connectionStillOpen = Connection.State == ConnectionState.Open;
 
-        [TestMethod]
-        public void ExecuteStoredProcedure_WhenAlreadyOpened_KeepsConnectionOpen()
-        {
-            // ARRANGE  
-            const int expectedId = 10;
+    //        // ASSERT
+    //        Assert.IsFalse(connectionStillOpen);
+    //    }
 
-            var parameters = new NormalStoredProcedureParameters
-            {
-                Id = expectedId
-            };
-            var procedure = new NormalStoredProcedure(parameters);
+    //    [TestMethod]
+    //    public void ExecuteStoredProcedure_WhenAlreadyOpened_KeepsConnectionOpen()
+    //    {
+    //        // ARRANGE  
+    //        const int expectedId = 10;
 
-            // ACT
-            Connection.Open();
-            Connection.ExecuteStoredProcedure(procedure);
-            var connectionStillOpen = Connection.State == ConnectionState.Open;
-            Connection.Close();
+    //        var parameters = new NormalStoredProcedureParameters
+    //        {
+    //            Id = expectedId
+    //        };
+    //        var procedure = new NormalStoredProcedure(parameters);
 
-            // ASSERT
-            Assert.IsTrue(connectionStillOpen);
-        }
+    //        // ACT
+    //        Connection.Open();
+    //        Connection.ExecuteStoredProcedure(procedure);
+    //        var connectionStillOpen = Connection.State == ConnectionState.Open;
+    //        Connection.Close();
 
-        [TestMethod]
-        public void NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
-        {
-            // ARRANGE  
-            const int expectedId = 10;
-            const string expectedName = @"Dave";
-            const bool expectedActive = true;
+    //        // ASSERT
+    //        Assert.IsTrue(connectionStillOpen);
+    //    }
 
-            var parameters = new NormalStoredProcedureParameters
-            {
-                Id = expectedId
-            };
-            var procedure = new NormalStoredProcedure(parameters);
+    //    [TestMethod]
+    //    public void NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
+    //    {
+    //        // ARRANGE  
+    //        const int expectedId = 10;
+    //        const string expectedName = @"Dave";
+    //        const bool expectedActive = true;
 
-            // ACT
-            Connection.Open();
-            //var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            var resultList = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
+    //        var parameters = new NormalStoredProcedureParameters
+    //        {
+    //            Id = expectedId
+    //        };
+    //        var procedure = new NormalStoredProcedure(parameters);
 
-            //var results = resultSet.RecordSet1;
-            //var result = results.First();
-            var result = resultList.First();
-            //var result = resultSet;
+    //        // ACT
+    //        Connection.Open();
+    //        //var resultSet = Connection.ExecuteStoredProcedure(procedure);
+    //        var resultList = Connection.ExecuteStoredProcedure(procedure);
+    //        Connection.Close();
 
-            // ASSERT
-            Assert.AreEqual(expectedId, result.Id);
-            Assert.AreEqual(expectedName, result.Name);
-            Assert.AreEqual(expectedActive, result.Active);
-        }
-    }
+    //        //var results = resultSet.RecordSet1;
+    //        //var result = results.First();
+    //        var result = resultList.First();
+    //        //var result = resultSet;
+
+    //        // ASSERT
+    //        Assert.AreEqual(expectedId, result.Id);
+    //        Assert.AreEqual(expectedName, result.Name);
+    //        Assert.AreEqual(expectedActive, result.Active);
+    //    }
+    //}
 }

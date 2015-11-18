@@ -6,5 +6,3 @@
     CONSTRAINT [PK_app.Tenant] PRIMARY KEY CLUSTERED ([TenantId] ASC)
 );
 
-
-

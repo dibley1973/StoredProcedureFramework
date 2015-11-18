@@ -74,46 +74,16 @@
     <None Include="dbo\Tables\Tenant.sql" />
     <None Include="dbo\Tables\Company.sql" />
     <Build Include="app\Tables\Company.sql" />
-    <Build Include="app\Tables\Tenant.sql" />
     <None Include="dbo\Views\CompanyForTenant.sql" />
-    <Build Include="app\Views\CompanyForTenant.sql" />
     <Build Include="Security\app.sql" />
     <Build Include="Security\TestUserLogin.sql" />
     <Build Include="Security\TestRole.sql" />
     <Build Include="Security\Permissions.sql" />
-    <Build Include="Security\TestUser.sql" />
-    <Build Include="app\Stored Procedures\Tenant_GetForTenantName.sql" />
-    <Build Include="app\Stored Procedures\CompanyForTenant_GetForTenantID.sql" />
-    <Build Include="app\Stored Procedures\Company_GetAllForTenantID.sql" />
-    <Build Include="app\Stored Procedures\Company_GetAll.sql" />
-    <Build Include="app\Stored Procedures\Tenant_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="app\Stored Procedures\ReturnNoResult.sql" />
-    <Build Include="app\Stored Procedures\AllCommonDataTypes.sql" />
-    <Build Include="app\Stored Procedures\DecimalPrecisionAndScale.sql" />
-    <Build Include="app\Stored Procedures\DecimalTest.sql" />
-    <Build Include="app\Stored Procedures\NullValueParameterAndResult.sql" />
-    <Build Include="app\Stored Procedures\CountCharsInOutputParameter.sql" />
-    <Build Include="app\Stored Procedures\SizeAttributeTest.sql" />
-    <Build Include="dbo\Stored Procedures\NormalStoredProcedure.sql" />
-    <Build Include="dbo\Stored Procedures\NotInstantiatedRecordSetStoredProcedure.sql" />
-    <Build Include="dbo\Stored Procedures\MultipleRecordSetStoredProcedure.sql" />
-    <Build Include="dbo\Tables\VolumnAndPerformance.sql" />
-    <Build Include="dbo\Views\RANDOM.sql" />
-    <Build Include="dbo\Functions\RandomTextGenerator.sql" />
-    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_Truncate.sql" />
-    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_InsertNRecords.sql" />
-    <Build Include="dbo\Stored Procedures\VolumeAndPerformance_GetAll.sql" />
-    <Build Include="dbo\Tables\Blah.sql" />
-    <Build Include="dbo\Stored Procedures\StoredProcedureWithoutParameters.sql" />
-    <Build Include="dbo\Stored Procedures\MostBasicStoredProcedure.sql" />
-    <Build Include="app\Stored Procedures\IncorrectStringParameter.sql" />
-    <Build Include="dbo\Stored Procedures\StoredProcedureWithParametersButNoReturn.sql" />
-    <Build Include="dbo\Stored Procedures\NormalStoredProcedureForEF.sql" />
-    <Build Include="dbo\Stored Procedures\MostBasicStoredProcedureForEF.sql" />
     <Build Include="dbo\User Defined Types\SimpleTableValueParameterTableType.sql" />
-    <Build Include="dbo\Stored Procedures\SimpleTableValueParameterStoredProcedure.sql" />
-    <Build Include="dbo\Stored Procedures\TableValueParameterStoredProcedureWithReturn.sql" />
+    <Build Include="dbo\Stored Procedures\TableValueParameterWithReturnTypeStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\TableValueParameterWithoutReturnTypeStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\ParametersAndReturnTypeStoredProcedure.sql" />
   </ItemGroup>
 </Project>

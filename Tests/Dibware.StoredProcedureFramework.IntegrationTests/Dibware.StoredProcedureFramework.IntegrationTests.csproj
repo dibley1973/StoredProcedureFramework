@@ -45,6 +45,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -65,10 +68,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
+    <Compile Include="SqlConnectionTests\MultipleRecordSetTests.cs" />
+    <Compile Include="SqlConnectionTests\TableValueParameterTests.cs" />
+    <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\ParametersAndReturnTypeStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\TableValueParameterWithoutReturnTypeStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\TableValueParameterWithReturnTypeStoredProcedure.cs" />
+    <Compile Include="TestBase\BaseIntegrationTest.cs" />
+    <Compile Include="UserDefinedTypes\SimpleParameterTableType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbContextTests\" />
-    <Folder Include="SqlConnectionTests\" />
     <Folder Include="VolumeAndPerformanceTests\" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +89,16 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeBase\Dibware.StoredProcedureFrameworkForEF\Dibware.StoredProcedureFrameworkForEF.csproj">
+      <Project>{96a94f73-a554-4b4f-b304-e9464123813d}</Project>
+      <Name>Dibware.StoredProcedureFrameworkForEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CodeBase\Dibware.StoredProcedureFramework\Dibware.StoredProcedureFramework.csproj">
+      <Project>{baaf11eb-3c8d-4187-9e83-c0ace9f06451}</Project>
+      <Name>Dibware.StoredProcedureFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

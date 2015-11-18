@@ -1,12 +1,10 @@
 ﻿
 -- =============================================
 -- Author:		Duane Wingett
--- Create date: 2015/07/31
--- Description:	Gets the Tenant for the specified tenant name
+-- Create date: 2015/08/10
+-- Description:	Gets all the Tenants
 -- =============================================
-CREATE PROCEDURE [app].[Tenant_GetForTenantName]
-	-- Add the parameters for the stored procedure here
-	@TenantName varchar(100)
+CREATE PROCEDURE [app].[Tenant_GetAll]
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -14,10 +12,9 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT      [TenantId]
+	SELECT      [TenantID]
     ,           [IsActive]
     ,           [TenantName]
     ,           [RecordCreatedDateTime]
-    FROM        [app].[Tenant]
-    WHERE       [TenantName] = @TenantName;
+    FROM        [app].[Tenant];
 END

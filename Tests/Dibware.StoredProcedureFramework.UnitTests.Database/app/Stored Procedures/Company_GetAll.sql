@@ -15,8 +15,8 @@ BEGIN
 
     -- Insert statements for procedure here
        SELECT 
-        CompanyId
-    ,   TenantId
+        CompanyID
+    ,   TenantID
     ,   IsActive
     ,   CompanyName
     ,   RecordCreatedDateTime
