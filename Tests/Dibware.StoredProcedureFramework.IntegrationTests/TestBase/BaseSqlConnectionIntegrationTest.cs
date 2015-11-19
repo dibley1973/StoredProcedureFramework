@@ -7,7 +7,7 @@ using System.Transactions;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
 {
     [TestClass]
-    public abstract class BaseIntegrationTest
+    public abstract class BaseSqlConnectionIntegrationTest
     {
         #region Fields
 

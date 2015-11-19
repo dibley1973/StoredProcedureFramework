@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class TableValueParameterTests : BaseIntegrationTest
+    public class TableValueParameterTests : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void TableValueParameterWithoutReturnTypeStoredProcedure_CallsCorrectly()

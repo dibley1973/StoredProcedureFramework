@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.AssertExtensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class AllCommonDataTypesTests : BaseSqlConnectionIntegrationTest
+    public class AllCommonDataTypesTests : BaseDbContextIntegrationTest
     {
         [TestMethod]
         public void AllCommonDataTypes_ReturnsCorrectDataTypes()
         {
             // ARRANGE
             const Int64 expectedBigint = Int64.MaxValue;
-            Byte[] expectedBinary = {0, 1, 2, 3, 4, 5, 6, 7};
+            Byte[] expectedBinary = { 0, 1, 2, 3, 4, 5, 6, 7 };
             const Boolean expectedBit = true;
-            Char[] expectedChar = {'a', 'b', 'c'};
+            Char[] expectedChar = { 'a', 'b', 'c' };
             DateTime expectedDate = DateTime.Today;
             DateTime expectedDatetime = DateTime.Now.AddHours(1);
             DateTime expectedDatetime2 = DateTime.Now.AddMinutes(10);
             const Decimal expectedDecimal = 1234567890123456.02M;
             const Double expectedFloat = Double.MaxValue;
-            Byte[] expectedImage = {0x10, 0x20, 0x30, 0x10, 0x20, 0x30, 0x10, 0x20};
+            Byte[] expectedImage = { 0x10, 0x20, 0x30, 0x10, 0x20, 0x30, 0x10, 0x20 };
             const Int32 expectedInt = Int32.MaxValue;
             const Decimal expectedMoney = 922337203685477.5807M;
             const String expectedNChar = @"NChar";
@@ -39,10 +39,10 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 
             const String expectedText = @"Some boring text...";
             TimeSpan expectedTime = TimeSpan.FromMinutes(20);
-            Byte[] expectedTimestamp = {10, 20, 30, 0, 0, 0, 0, 0};
+            Byte[] expectedTimestamp = { 10, 20, 30, 0, 0, 0, 0, 0 };
             const Byte expectedTinyInt = Byte.MaxValue;
             Guid expectedUniqueIdentifier = Guid.NewGuid();
-            Byte[] expectedVarBinary = {110, 120, 130};
+            Byte[] expectedVarBinary = { 110, 120, 130 };
             const String expectedVarChar = @"VarChar";
             const String expectedXml = @"<parent><child name=""Fred"">Angus</child></parent>";
 
@@ -80,10 +80,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new AllCommonDataTypesStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            var results = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
-            
+            var results = Context.ExecuteStoredProcedure(procedure);
             var result = results.First();
 
             // ASSERT

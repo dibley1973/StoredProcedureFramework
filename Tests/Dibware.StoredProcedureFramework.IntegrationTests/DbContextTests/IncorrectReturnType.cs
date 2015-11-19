@@ -1,13 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
+﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class IncorectReturnTypeTestsWithDbContext : BaseIntegrationTestWithDbContext
+    public class IncorrectReturnType : BaseDbContextIntegrationTest
     {
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]

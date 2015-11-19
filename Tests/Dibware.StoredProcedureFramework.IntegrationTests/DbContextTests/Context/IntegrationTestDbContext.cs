@@ -1,36 +1,34 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
-using Dibware.StoredProcedureFramework.Tests.Fakes.Entities;
-using Dibware.StoredProcedureFrameworkForEF.Extensions;
-using Dibware.StoredProcedureFrameworkForEF.Generic;
-using System.Collections.Generic;
+﻿using Dibware.StoredProcedureFrameworkForEF;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace Dibware.StoredProcedureFramework.Tests.Context
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context
 {
-    internal class IntegrationTestContext : DbContext
+    internal class IntegrationTestDbContext : StoredProcedureDbContext
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntegrationTestContext"/> class.
+        /// Initializes a new instance of the <see cref="IntegrationTestDbContext"/> class.
         /// </summary>
-        protected IntegrationTestContext() : base("IntegrationTestContext") { }
+        protected IntegrationTestDbContext() : base("IntegrationTestContext") { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntegrationTestContext"/> class.
+        /// Initializes a new instance of the <see cref="IntegrationTestDbContext"/> class.
         /// </summary>
         /// <param name="nameOrConnectionString">The name or connection string.</param>
-        public IntegrationTestContext(string nameOrConnectionString)
+        public IntegrationTestDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             // Set the chosen database initializer and initialize the database
-            IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
+            IDatabaseInitializer<IntegrationTestDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<IntegrationTestDbContext>();
             Database.SetInitializer(databaseInitializer);
 
-            // Instantiate all of the Stored procedure properties
-            this.InitializeStoredProcedureProperties();
+            // We do not need to explicitly instantiate all of the Stored 
+            // procedures properties using "this.InitializeStoredProcedureProperties();"
+            // as this os carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
+            // class constructors
         }
 
         #endregion
@@ -62,19 +60,19 @@ namespace Dibware.StoredProcedureFramework.Tests.Context
 
         #region DBSets
 
-        public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<Company> Companies { get; set; }
+        //public DbSet<Tenant> Tenants { get; set; }
+        //public DbSet<Company> Companies { get; set; }
 
         #endregion
 
         #region Stored Procedures
 
-        public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
-        public NormalStoredProcedureForEf NormalStoredProcedure { get; private set; }
-        public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
+        //public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
+        //public NormalStoredProcedureForEf NormalStoredProcedure { get; private set; }
+        //public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
 
-        [Name("NormalStoredProcedure")]
-        public StoredProcedure<List<NormalStoredProcedureRecordSet1ReturnType>> NormalStoredProcedure2 { get; private set; }
+        //[Name("NormalStoredProcedure")]
+        //public StoredProcedure<List<NormalStoredProcedureRecordSet1ReturnType>> NormalStoredProcedure2 { get; private set; }
 
 
         //public StoredProcedure<List<TennantDto>> GetAllTenants { }

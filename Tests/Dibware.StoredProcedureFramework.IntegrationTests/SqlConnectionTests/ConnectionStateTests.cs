@@ -8,7 +8,7 @@ using System.Linq;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class ConnectionStateTests : BaseIntegrationTest
+    public class ConnectionStateTests : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void ExecuteStoredProcedure_WhenNotAlreadyOpened_ClosesConnection()

@@ -1,13 +1,13 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class IncorrectParameterTypeTests : BaseSqlConnectionIntegrationTest
+    public class IncorrectParameterTypeTests : BaseDbContextIntegrationTest
     {
         [TestMethod]
         [ExpectedException(typeof(SqlParameterInvalidDataTypeException))]
@@ -21,9 +21,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             // should experience an exception before here!
@@ -41,10 +39,8 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new IncorrectParameterTypeStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
-
+            Context.ExecuteStoredProcedure(procedure);
+            
             // ASSERT
             // should experience an exception before here!
         }

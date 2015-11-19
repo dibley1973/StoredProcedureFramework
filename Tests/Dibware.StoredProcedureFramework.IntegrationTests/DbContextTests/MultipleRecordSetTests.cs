@@ -1,14 +1,14 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System;
+using System.Linq;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class MultipleRecordSetTests : BaseSqlConnectionIntegrationTest
+    public class MultipleRecordSetTests : BaseDbContextIntegrationTest
     {
         [TestMethod]
         public void MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
@@ -32,10 +32,8 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new MultipleRecordSetStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
-
+            var resultSet = Context.ExecuteStoredProcedure(procedure);
+            
             var results1 = resultSet.RecordSet1;
             var result1 = results1.First();
 
