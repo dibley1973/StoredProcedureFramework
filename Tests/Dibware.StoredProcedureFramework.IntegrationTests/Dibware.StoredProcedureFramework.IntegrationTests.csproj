@@ -70,11 +70,15 @@
     </Compile>
     <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
     <Compile Include="SqlConnectionTests\MultipleRecordSetTests.cs" />
+    <Compile Include="SqlConnectionTests\NullParameterTests.cs" />
     <Compile Include="SqlConnectionTests\TableValueParameterTests.cs" />
     <Compile Include="SqlConnectionTests\IncorrectParameterTypeTests.cs" />
     <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\NullValueParameterAndNonNullableResultStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\NullValueParameterAndNullableResultStoredProcedure.cs" />
     <Compile Include="StoredProcedures\ParametersAndReturnTypeStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\StringParameterStoredProcedure.cs" />
     <Compile Include="StoredProcedures\TableValueParameterWithoutReturnTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\TableValueParameterWithReturnTypeStoredProcedure.cs" />
     <Compile Include="TestBase\BaseIntegrationTest.cs" />

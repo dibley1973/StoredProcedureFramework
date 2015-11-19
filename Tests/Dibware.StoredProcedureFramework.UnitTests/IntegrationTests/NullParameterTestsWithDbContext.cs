@@ -7,70 +7,73 @@ using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests
 {
-    [TestClass]
-    public class NullParameterTestsWithDbContext : BaseIntegrationTestWithDbContext
-    {
-        [TestMethod]
-        public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
-        {
-            // ARRANGE
-            int? expectedValue1 = 10;
-            var parameters = new NullValueParameterParameters
-            {
-                Value1 = expectedValue1,
-                Value2 = null
-            };
-            var procedure = new NullValueParameterStoreProcedure(parameters);
+    // Replaced with 
+    // Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.NullParameterTests
 
-            // ACT
-            var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var result = resultSet.First();
+    //[TestClass]
+    //public class NullParameterTestsWithDbContext : BaseIntegrationTestWithDbContext
+    //{
+    //    [TestMethod]
+    //    public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
+    //    {
+    //        // ARRANGE
+    //        int? expectedValue1 = 10;
+    //        var parameters = new NullValueParameterParameters
+    //        {
+    //            Value1 = expectedValue1,
+    //            Value2 = null
+    //        };
+    //        var procedure = new NullValueParameterStoreProcedure(parameters);
 
-            // ASSERT
-            Assert.AreEqual(expectedValue1, result.Value1);
-            Assert.IsNull(result.Value2);
-        }
+    //        // ACT
+    //        var resultSet = Context.ExecuteStoredProcedure(procedure);
+    //        var result = resultSet.First();
 
-        [TestMethod]
-        [ExpectedException(typeof(NullableFieldTypeException))]
-        public void NullValueParameterProcedure_WithNonNullableParamatersAndReturnType_ThrowsNullableFieldTypeException()
-        {
-            // ARRANGE
-            int? expectedValue1 = 10;
-            var parameters = new NullValueParameterParameters
-            {
-                Value1 = expectedValue1,
-                Value2 = null
-            };
-            var procedure = new NullValueParameterStoreProcedure2(parameters);
+    //        // ASSERT
+    //        Assert.AreEqual(expectedValue1, result.Value1);
+    //        Assert.IsNull(result.Value2);
+    //    }
 
-            // ACT
-            var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var result = resultSet.First();
+    //    [TestMethod]
+    //    [ExpectedException(typeof(NullableFieldTypeException))]
+    //    public void NullValueParameterProcedure_WithNonNullableParamatersAndReturnType_ThrowsNullableFieldTypeException()
+    //    {
+    //        // ARRANGE
+    //        int? expectedValue1 = 10;
+    //        var parameters = new NullValueParameterParameters
+    //        {
+    //            Value1 = expectedValue1,
+    //            Value2 = null
+    //        };
+    //        var procedure = new NullValueParameterStoreProcedure2(parameters);
 
-            // ASSERT
-            Assert.AreEqual(expectedValue1, result.Value1);
-            Assert.IsNull(result.Value2);
-        }
+    //        // ACT
+    //        var resultSet = Context.ExecuteStoredProcedure(procedure);
+    //        var result = resultSet.First();
 
-        [TestMethod]
-        public void StringParameterStoredProcedure_WithNullValue_CorrectlyPassesNullValueToProcedure()
-        {
-            // ARRANGE
-            const string nullValueString = null;
-            var parameters = new StringParameterStoredProcedure.StringParameterStoredProcedureParameters
-            {
-                Parameter1 = nullValueString
-            };
-            var procedure = new StringParameterStoredProcedure(parameters);
+    //        // ASSERT
+    //        Assert.AreEqual(expectedValue1, result.Value1);
+    //        Assert.IsNull(result.Value2);
+    //    }
 
-            // ACT
-            var resultSet = Context.ExecuteStoredProcedure(procedure);
-            var result = resultSet.First();
+    //    [TestMethod]
+    //    public void StringParameterStoredProcedure_WithNullValue_CorrectlyPassesNullValueToProcedure()
+    //    {
+    //        // ARRANGE
+    //        const string nullValueString = null;
+    //        var parameters = new StringParameterStoredProcedure.StringParameterStoredProcedureParameters
+    //        {
+    //            Parameter1 = nullValueString
+    //        };
+    //        var procedure = new StringParameterStoredProcedure(parameters);
 
-            // ASSERT
-            Assert.IsNotNull(resultSet);
-            Assert.IsNull(result.Value1);
-        }
-    }
+    //        // ACT
+    //        var resultSet = Context.ExecuteStoredProcedure(procedure);
+    //        var result = resultSet.First();
+
+    //        // ASSERT
+    //        Assert.IsNotNull(resultSet);
+    //        Assert.IsNull(result.Value1);
+    //    }
+    //}
 }
