@@ -88,5 +88,6 @@
     <Build Include="dbo\Stored Procedures\StringParameterStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\NullValueParameterAndResult.sql" />
     <Build Include="dbo\Stored Procedures\MultipleRecordSetStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\AllCommonDataTypesStoredProcedure.sql" />
   </ItemGroup>
 </Project>

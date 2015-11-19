@@ -62,6 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -73,6 +74,8 @@
     <Compile Include="SqlConnectionTests\NullParameterTests.cs" />
     <Compile Include="SqlConnectionTests\TableValueParameterTests.cs" />
     <Compile Include="SqlConnectionTests\IncorrectParameterTypeTests.cs" />
+    <Compile Include="SqlConnectionTests\AllCommonDataTypesTests.cs" />
+    <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="StoredProcedures\NullValueParameterAndNonNullableResultStoredProcedure.cs" />
