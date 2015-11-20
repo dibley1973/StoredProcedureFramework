@@ -116,6 +116,7 @@
     <Compile Include="StoredProcedures\TooSmallSizeAttributeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\VolumeAndPerformanceGetAllStoredProcedure.cs" />
     <Compile Include="StoredProcedures\VolumeAndPerformanceInsertNRecordsStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\VolumeAndPerformanceTruncateStoredProcedure.cs" />
     <Compile Include="TestBase\BaseDbContextIntegrationTest.cs" />
     <Compile Include="TestBase\BaseSqlConnectionIntegrationTest.cs" />
     <Compile Include="UserDefinedTypes\SimpleParameterTableType.cs" />

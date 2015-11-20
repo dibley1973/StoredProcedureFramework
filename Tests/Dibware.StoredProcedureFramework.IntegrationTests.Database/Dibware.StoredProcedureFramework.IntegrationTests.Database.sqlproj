@@ -99,5 +99,9 @@
     <Build Include="dbo\Stored Procedures\DecimalWrongReturnTestStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\DecimalPrecisionAndScaleStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\CountCharsInOutputParameterStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformanceTruncate.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformanceInsertNRecords.sql" />
+    <Build Include="dbo\Views\RANDOM.sql" />
+    <Build Include="dbo\Functions\RandomTextGenerator.sql" />
   </ItemGroup>
 </Project>

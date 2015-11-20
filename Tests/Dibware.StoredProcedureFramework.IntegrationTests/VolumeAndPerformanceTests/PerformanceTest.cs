@@ -11,38 +11,36 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
     public class PerformanceTest : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
-        [Ignore] /* long running so switch in  / out as required */
+        //[Ignore] /* long running so switch in  / out as required */
         public void HowLongToSelect250KRows()
         {
+            /* To clear records use:
+                    EXECUTE [dbo].[VolumeAndPerformanceTruncate]  
+              
+               To insert records use:
+                    DECLARE @NumberOfRecords int;
+                    EXECUTE [dbo].[VolumeAndPerformanceInsertNRecords] @NumberOfRecords;
+             */
             /* Note it takes 3 minutes to INSERT 250k of these rows in sql server */
-            /* Note it takes 3 seconds to SELECT 250k of these rows in sql server */
+            /* Note it takes 2 seconds to SELECT 250k of these rows in sql server */
+            /* It should take around 2 seconds for this framework to SELECT and process records */
 
             // ARRANGE
             const int expectedNumberOfRecords = 250000;
-            //var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedure.Parameter
-            //{
-            //    NumberOfRecords = expectedNumberOfRecords
-            //};
-            //var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
+            //TruncateRecords();                        // Uncomment to clear records
+            //InsertNRecords(expectedNumberOfRecords);  // Uncomment to insert records
+
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
-            //var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            //VolumeAndPerformanceGetAllStoredProcedureResultSet resultSet;
-            //List<VolumeAndPerformanceGetAllStoredProcedureReturnType> results;
             Stopwatch stopwatch = new Stopwatch();
             TimeSpan elapsed;
 
             // ACT
+            Connection.Open();
+            stopwatch.Start();
             var results = Connection.ExecuteStoredProcedure(getAllStoredProcedure);
-            //using (SqlConnection connection = new SqlConnection(connectionString))
-            //{
-            //    connection.Open();
-            //    stopwatch.Start();
-            //    results = connection.ExecuteStoredProcedure(getAllStoredProcedure);
-            //    stopwatch.Stop();
-            //    connection.Close();
-            //}
+            stopwatch.Stop();
+            Connection.Close();
             elapsed = stopwatch.Elapsed;
-            //var results = resultSet.RecordSet1;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);
@@ -161,5 +159,21 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
         //    Assert.AreEqual(expectedNumberOfRecords, results.Count);
         //    Assert.Inconclusive("Return Duration: " + elapsed);
         //}
+
+        private void InsertNRecords(int expectedNumberOfRecords)
+        {
+            var insertTableProcedureParameters = new VolumeAndPerformanceInsertNRecordsStoredProcedure.Parameter
+            {
+                NumberOfRecords = expectedNumberOfRecords
+            };
+            var insertTableProcedure = new VolumeAndPerformanceInsertNRecordsStoredProcedure(insertTableProcedureParameters);
+            Connection.ExecuteStoredProcedure(insertTableProcedure);
+        }
+
+        private void TruncateRecords()
+        {
+            var truncateTableProcedure = new VolumeAndPerformanceTruncateStoredProcedure();
+            Connection.ExecuteStoredProcedure(truncateTableProcedure);
+        }
     }
 }
