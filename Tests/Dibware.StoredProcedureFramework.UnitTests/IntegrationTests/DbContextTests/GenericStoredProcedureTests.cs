@@ -5,34 +5,36 @@ using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
 {
-    [TestClass]
-    public class GenericStoredProcedureTests : BaseIntegrationTestWithDbContext
-    {
-        [TestMethod]
-        public void ExecuteForWithGenericStoredProcedure_WhenPassedConstructedParameters_GetsExpectedResults()
-        {
-            // ARRANGE
-            const int expectedId = 10;
-            const string expectedName = @"Dave";
-            const bool expectedActive = true;
-            //NormalStoredProcedureResultSet resultSet;
+    // Duplicate of ExecuteForTestsWithDbContext
 
-            var parameters = new NormalStoredProcedureParameters
-            {
-                Id = expectedId
-            };
+    //[TestClass]
+    //public class GenericStoredProcedureTests : BaseIntegrationTestWithDbContext
+    //{
+    //    [TestMethod]
+    //    public void ExecuteForWithGenericStoredProcedure_WhenPassedConstructedParameters_GetsExpectedResults()
+    //    {
+    //        // ARRANGE
+    //        const int expectedId = 10;
+    //        const string expectedName = @"Dave";
+    //        const bool expectedActive = true;
+    //        //NormalStoredProcedureResultSet resultSet;
 
-            // ACT
-            //resultSet = Context.NormalStoredProcedure2.Execute(parameters);
-            var resultList = Context.NormalStoredProcedure2.ExecuteFor(parameters);
-            //var results = resultSet.RecordSet1;
-            //var result = results.First();
-            var result = resultList.First();
+    //        var parameters = new NormalStoredProcedureParameters
+    //        {
+    //            Id = expectedId
+    //        };
 
-            // ASSERT
-            Assert.AreEqual(expectedId, result.Id);
-            Assert.AreEqual(expectedName, result.Name);
-            Assert.AreEqual(expectedActive, result.Active);
-        }
-    }
+    //        // ACT
+    //        //resultSet = Context.NormalStoredProcedure2.Execute(parameters);
+    //        var resultList = Context.NormalStoredProcedure2.ExecuteFor(parameters);
+    //        //var results = resultSet.RecordSet1;
+    //        //var result = results.First();
+    //        var result = resultList.First();
+
+    //        // ASSERT
+    //        Assert.AreEqual(expectedId, result.Id);
+    //        Assert.AreEqual(expectedName, result.Name);
+    //        Assert.AreEqual(expectedActive, result.Active);
+    //    }
+    //}
 }

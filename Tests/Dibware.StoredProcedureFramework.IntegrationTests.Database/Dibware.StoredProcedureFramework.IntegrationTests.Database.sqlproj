@@ -89,5 +89,15 @@
     <Build Include="dbo\Stored Procedures\NullValueParameterAndResult.sql" />
     <Build Include="dbo\Stored Procedures\MultipleRecordSetStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\AllCommonDataTypesStoredProcedure.sql" />
+    <Build Include="dbo\Tables\VolumnAndPerformance.sql" />
+    <Build Include="dbo\Stored Procedures\VolumeAndPerformanceGetAllStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\SizeAttributeStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\ReturnNoResultStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\NormalStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\MostBasicStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\LessColumnsInProcedureResultSetThanReturnStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\DecimalWrongReturnTestStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\DecimalPrecisionAndScaleStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\CountCharsInOutputParameterStoredProcedure.sql" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Diagnostics;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformanceTests
 {
@@ -83,7 +80,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
         //        connection.Close();
         //    }
         //    var elapsed = stopwatch.Elapsed;
-            
+
         //    // ASSERT
         //    Assert.AreEqual(expectedNumberOfRecords, results.Count);
         //    Assert.Inconclusive("Return Duration: " + elapsed);
@@ -159,7 +156,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
         //        connection.Close();
         //    }
         //    var elapsed = stopwatch.Elapsed;
-            
+
         //    // ASSERT
         //    Assert.AreEqual(expectedNumberOfRecords, results.Count);
         //    Assert.Inconclusive("Return Duration: " + elapsed);

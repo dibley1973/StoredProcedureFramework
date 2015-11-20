@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFrameworkForEF;
+﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Dibware.StoredProcedureFrameworkForEF;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -67,9 +68,9 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Conte
 
         #region Stored Procedures
 
-        //public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
-        //public NormalStoredProcedureForEf NormalStoredProcedure { get; private set; }
-        //public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
+        public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
+        public NormalStoredProcedureForEf NormalStoredProcedure { get; private set; }
+        public AnonParamNormalStoredProcedureForEf AnonymousParameterStoredProcedure { get; private set; }
 
         //[Name("NormalStoredProcedure")]
         //public StoredProcedure<List<NormalStoredProcedureRecordSet1ReturnType>> NormalStoredProcedure2 { get; private set; }

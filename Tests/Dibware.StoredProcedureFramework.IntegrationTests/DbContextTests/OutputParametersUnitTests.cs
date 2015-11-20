@@ -1,12 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class OutputParametersUnitTests : BaseSqlConnectionIntegrationTest
+    public class OutputParametersUnitTests : BaseDbContextIntegrationTest
     {
         [TestMethod]
         public void CountCharsInOutputParameterStoredProcedure_WithOutputParamatersAndNoReturnType_ReturnsOutputParamtersCorrectly()
@@ -23,10 +23,8 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new CountCharsInOutputParameterStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
-
+            Context.ExecuteStoredProcedure(procedure);
+            
             // ASSERT
             Assert.AreEqual(expectedvalue2, parameters.Value2);
         }

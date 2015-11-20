@@ -7,20 +7,24 @@ using Dibware.StoredProcedureFrameworkForEF.Extensions;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
 {
-    [TestClass]
-    public class LessColumnsInResultSetThanReturnObjectTestsWithDbContext : BaseIntegrationTestWithDbContext
-    {
-        [TestMethod]
-        [ExpectedException(typeof(MissingFieldException))]
-        public void LessColumnsInProcedureResultSetThanReturnObject_ThrowsMissingFieldException()
-        {
-            var procedure = new DecimalTestStoredProcedure();
+    // Moved to:
 
-            // ACT
-            Context.ExecuteStoredProcedure(procedure);
+    // Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.LessColumnsInResultSetThanReturnObjectTest
 
-            // ASSERT
-            Assert.Fail();
-        }
-    }
+    //[TestClass]
+    //public class LessColumnsInResultSetThanReturnObjectTestsWithDbContext : BaseIntegrationTestWithDbContext
+    //{
+    //    [TestMethod]
+    //    [ExpectedException(typeof(MissingFieldException))]
+    //    public void LessColumnsInProcedureResultSetThanReturnObject_ThrowsMissingFieldException()
+    //    {
+    //        var procedure = new DecimalTestStoredProcedure();
+
+    //        // ACT
+    //        Context.ExecuteStoredProcedure(procedure);
+
+    //        // ASSERT
+    //        Assert.Fail();
+    //    }
+    //}
 }

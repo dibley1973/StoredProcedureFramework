@@ -2,7 +2,8 @@
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.SqlConnectionTests
 {
     // Moved to:
-    // ibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.TableValueParameterTests
+    // Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.TableValueParameterTests
+
     //[TestClass]
     //public class TableValueParameterTests : BaseIntegrationTest
     //{
