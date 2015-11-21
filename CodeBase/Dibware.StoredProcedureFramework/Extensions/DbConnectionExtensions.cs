@@ -60,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
             this DbConnection connection,
             IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
-            int? commandTimeout = null,
+            int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
             where TResultSetType : class, new()
@@ -85,7 +85,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 connection,
                 procedureName,
                 procedureParameters,
-                commandTimeout,
+                commandTimeoutOverride,
                 commandBehavior,
                 transaction);
 
@@ -101,7 +101,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             this DbConnection connection,
             string procedureName,
             IEnumerable<SqlParameter> procedureParameters = null,
-            int? commandTimeout = null,
+            int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
             where TResultSetType : class, new()
@@ -123,7 +123,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 using (DbCommand command = connection.CreateStoredProcedureCommand(
                     procedureName,
                     procedureParameters,
-                    commandTimeout,
+                    commandTimeoutOverride,
                     transaction))
                 {
                     // ...execute the command to get results

@@ -20,7 +20,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
                this DbContext context,
                IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
-               int? commandTimeout = null,
+               int? commandTimeoutOverride = null,
                CommandBehavior commandBehavior = CommandBehavior.Default,
                SqlTransaction transaction = null)
             where TResultSetType : class, new()
@@ -38,7 +38,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             // ... then return results from DbConnection's extention method.
             return connection.ExecuteStoredProcedure(
                 storedProcedure,
-                commandTimeout,
+                commandTimeoutOverride,
                 commandBehavior,
                 transaction);
         }

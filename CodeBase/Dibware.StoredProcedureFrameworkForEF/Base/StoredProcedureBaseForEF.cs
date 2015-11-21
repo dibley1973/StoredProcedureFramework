@@ -1,10 +1,9 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework;
-using Dibware.StoredProcedureFrameworkForEF.Extensions;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Base
 {
@@ -20,12 +19,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         where TReturn : class, new()
         where TParameters : class, new()
     {
-        #region Fields
-
-        private readonly DbContext _context;
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -33,13 +26,14 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         /// class without parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">
+        /// The DBContext in which this insatcne will be executed in.
+        /// </param>
         /// <exception cref="System.ArgumentNullException">context</exception>
         protected StoredProcedureBaseForEf(DbContext context)
-            : base()
         {
             if (context == null) throw new ArgumentNullException("context");
-            
+
             _context = context;
         }
 
@@ -47,9 +41,11 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         /// Initializes a new instance of the <see cref="StoredProcedureBaseForEf{TReturn, TParameters}"/>
         /// class with parameters.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">The DBContext in which this insatcne will be executed in.</param>
         /// <param name="parameters">The parameters or null if no paremeters are required.</param>
-        /// <exception cref="System.ArgumentNullException">context</exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// The DBContext in which this insatcne will eb executed in.
+        /// </exception>
         protected StoredProcedureBaseForEf(DbContext context, TParameters parameters)
             : base(parameters)
         {
@@ -59,12 +55,10 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see>
-        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
-        ///     </see>
-        ///     class with parameters and procedure name.
+        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEf{TReturn, TParameters}"/>
+        /// class with parameters and procedure name.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">The DBContext in which this insatcne will be executed in.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
         /// <exception cref="System.ArgumentNullException">context</exception>
@@ -79,12 +73,10 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see>
-        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
-        ///     </see>
-        ///     class with parameters, schema name and procedure name.
+        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEf{TReturn, TParameters}"/>
+        /// class with parameters, schema name and procedure name.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">The DBContext in which this insatcne will be executed in.</param>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
@@ -95,7 +87,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
             TParameters parameters)
             : base(schemaName, procedureName, parameters)
         {
-            // Validate arguments
             if (context == null) throw new ArgumentNullException("context");
 
             _context = context;
@@ -114,13 +105,20 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         /// <param name="commandBehavior">The command behavior. [optional]</param>
         /// <param name="transaction">The transaction. [optional]</param>
         /// <returns></returns>
+        /// <remarks>
+        /// TODO: Consider breaking this method out into the following:
+        ///     ExecuteFor(TParameters parameters)
+        ///     ExecuteForWithCommandBehavior(TParameters parameters, CommandBehavior commandBehavior)
+        ///     ExecuteForWithTimeoutOverride(TParameters parameters, int? commandTimeoutOverride)
+        ///     ExecuteForWithTransaction(TParameters parameters, SqlTransaction transaction)
+        /// ...etc.
+        /// </remarks>
         public TReturn ExecuteFor(
             TParameters parameters,
             int? commandTimeout = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
-            // Validate arguments
             if (parameters == null) throw new ArgumentNullException("parameters");
 
             SetParameters(parameters);
@@ -133,30 +131,39 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         /// Executes this instance against the DbContext which this instance was
         /// constructred with.
         /// </summary>
-        /// <param name="commandTimeout">The command timeout. [optional]</param>
+        /// <param name="commandTimeoutOverride">The command timeout. [optional]</param>
         /// <param name="commandBehavior">The command behavior. [optional]</param>
         /// <param name="transaction">The transaction. [optional]</param>
         /// <returns></returns>
+        /// <remarks>
+        /// TODO: Consider breaking this method out into the following:
+        ///     Execute()
+        ///     ExecuteWithCommandBehavior(CommandBehavior commandBehavior)
+        ///     ExecuteWithTimeoutOverride(int? commandTimeoutOverride)
+        ///     ExecuteWithTransaction(SqlTransaction transaction)
+        /// ...etc.
+        /// </remarks>
         public TReturn Execute(
-            int? commandTimeout = null,
+            int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
         {
-            //return ExecuteFor(new TParameters());
-
             IStoredProcedure<TReturn, TParameters> storedProcedure = this;
 
-            if(storedProcedure.Parameters == null) SetParameters(new TParameters());
-            
-            TReturn result = _context.ExecuteStoredProcedure(
+            if (storedProcedure.Parameters == null) SetParameters(new TParameters());
+
+            return _context.ExecuteStoredProcedure(
                 storedProcedure,
-                commandTimeout,
+                commandTimeoutOverride,
                 commandBehavior,
                 transaction);
-
-            return result;
         }
 
+        #endregion
+
+        #region Fields
+
+        private readonly DbContext _context;
 
         #endregion
     }
