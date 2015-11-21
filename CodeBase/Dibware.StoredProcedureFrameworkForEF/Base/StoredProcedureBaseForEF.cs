@@ -29,18 +29,30 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see>
-        ///         <cref>StoredProcedureBaseForEff{TReturn,TParameters}</cref>
-        ///     </see>
-        ///     class with parameters. This is the minimum requirement for constructing
+        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEf{TReturn, TParameters}"/>
+        /// class without parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <exception cref="System.ArgumentNullException">context</exception>
+        protected StoredProcedureBaseForEf(DbContext context)
+            : base()
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            
+            _context = context;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoredProcedureBaseForEf{TReturn, TParameters}"/>
+        /// class with parameters.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="parameters">The parameters or null if no paremeters are required.</param>
+        /// <exception cref="System.ArgumentNullException">context</exception>
         protected StoredProcedureBaseForEf(DbContext context, TParameters parameters)
             : base(parameters)
         {
-            // Validate arguments
             if (context == null) throw new ArgumentNullException("context");
 
             _context = context;
@@ -61,7 +73,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
             TParameters parameters)
             : base(procedureName, parameters)
         {
-            // Validate arguments
             if (context == null) throw new ArgumentNullException("context");
 
             _context = context;

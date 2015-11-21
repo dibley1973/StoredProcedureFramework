@@ -8,17 +8,17 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         where TReturn : class, new()
     {
         protected AnonymousParameterProcedureBase(DbContext context)
-            : base(context, null)
+            : base(context)
         {
 
         }
     }
 
     public abstract class AnonymousParameterProcedureBase
-        : StoredProcedureBaseForEf<NullStoredProcedureResult,object>
+        : StoredProcedureBaseForEf<NullStoredProcedureResult, object>
     {
         protected AnonymousParameterProcedureBase(DbContext context)
-            : base(context, null)
+            : base(context)
         {
 
         }

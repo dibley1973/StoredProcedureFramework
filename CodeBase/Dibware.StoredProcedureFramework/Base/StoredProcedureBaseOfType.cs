@@ -1,4 +1,5 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
 using System;
@@ -9,35 +10,42 @@ namespace Dibware.StoredProcedureFramework.Base
     /// Represents the base class that all Stored proedures that have parameters
     /// should inherit from. Contains common stored procedure functionality.
     /// </summary>
-    /// <typeparam name="TReturn">The type of the return.</typeparam>
-    /// <typeparam name="TParameters">The type of the parameters.</typeparam>
+    /// <typeparam name="TReturn">
+    /// The type that will be returned by the stored procedure. For a stored 
+    /// procedure which returns a single recordset this will generally be a List 
+    /// of a type. for stored procedures which return multiple recordsets this will 
+    /// be a class which contains one or more lists of objects.
+    /// </typeparam>
+    /// <typeparam name="TParameters">
+    /// The type that represents the parameters for the stored procedure. This 
+    /// can also be set as a <see cref="System.Object"/>.
+    /// </typeparam>
     public abstract class StoredProcedureBase<TReturn, TParameters>
         : StoredProcedureBase, IStoredProcedure<TReturn, TParameters>
         where TReturn : class, new()
         where TParameters : class, new()
     {
-        #region Fields
-
-        /// <summary>
-        /// The object that represents the procedure parameters
-        /// </summary>
-        private TParameters _parameters;
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
-        /// class with parameters. This is the minimum requirement for constructing
+        /// class without parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
+        protected StoredProcedureBase()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoredProcedureBase{TReturn, TParameters}"/> 
+        /// class with parameters.
+        /// </summary>
+        /// <param name="parameters">
+        /// The parameters for the stored procedure or null if no paremeters are needed.
+        /// </param>
         protected StoredProcedureBase(TParameters parameters)
         {
-            // Validate arguments
-            //if (parameters == null) throw new ArgumentNullException("parameters");
-
             string procedureName = GetType().Name;
             InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName,
                 procedureName, parameters);
@@ -48,14 +56,14 @@ namespace Dibware.StoredProcedureFramework.Base
         /// class with parameters and procedure name.
         /// </summary>
         /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="parameters">
+        /// The parameters for the stored procedure or null if no paremeters are needed.
+        /// </param>
         protected StoredProcedureBase(string procedureName,
             TParameters parameters)
         {
-            // Validate argument
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             InitializeFromParameters(StoredProcedureDefaults.DefaultSchemaName,
                 procedureName, parameters);
@@ -67,16 +75,16 @@ namespace Dibware.StoredProcedureFramework.Base
         /// </summary>
         /// <param name="schemaName">Name of the schema.</param>
         /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="parameters">The parameters.</param>
+        /// <param name="parameters">
+        /// The parameters for the stored procedure or null if no paremeters are needed.
+        /// </param>
         protected StoredProcedureBase(string schemaName,
             string procedureName, TParameters parameters)
         {
-            // Validate arguments
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             InitializeFromParameters(schemaName, procedureName, parameters);
         }
@@ -87,17 +95,14 @@ namespace Dibware.StoredProcedureFramework.Base
         private void InitializeFromParameters(string schemaName,
             string procedureName, TParameters parameters)
         {
-            // Validate arguments
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
-            //if (parameters == null) throw new ArgumentNullException("parameters");
 
             SetSchemaName(schemaName);
             SetProcedureName(procedureName);
             SetParameters(parameters);
-
             TryInitializeFromAttributesInternal();
         }
 
@@ -106,20 +111,17 @@ namespace Dibware.StoredProcedureFramework.Base
         #region IStoredProcedure<TReturn,TParameter> Members
 
         /// <summary>
-        /// Ensurefullies the construcuted.
+        /// Ensures this instance is fully construcuted.
         /// </summary>
-        /// <exception cref="System.Exception">
+        /// <exception cref="StoredProcedureConstructionException">
         /// this instance is not fully constrcuted
         /// </exception>
         public void EnsureFullyConstructed()
         {
-            if (!IsFullyConstructed())
-            {
-                string message = ExceptionMessages.StoredProcedureIsNotFullyConstructed;
+            if (IsFullyConstructed()) return;
 
-                throw ExceptionHelper.CreateStoredProcedureConstructionException(
-                    message);
-            }
+            string message = ExceptionMessages.StoredProcedureIsNotFullyConstructed;
+            throw ExceptionHelper.CreateStoredProcedureConstructionException(message);
         }
 
         /// <summary>
@@ -134,13 +136,19 @@ namespace Dibware.StoredProcedureFramework.Base
 
         #region Properties
 
+        /// <summary>
+        /// Gets the type of the parameters.
+        /// </summary>
+        /// <value>
+        /// The type of the parameters.
+        /// </value>
         public Type ParametersType
         {
             get { return typeof(TParameters); }
         }
 
         /// <summary>
-        /// Gets the type of the result.
+        /// Gets the type of object to be returned as the result.
         /// </summary>
         /// <value>
         /// The type of the result.
@@ -154,20 +162,19 @@ namespace Dibware.StoredProcedureFramework.Base
 
         #region Methods : Public
 
-
         /// <summary>
-        /// Initializes from attributes.
+        /// [Obsolete] Initializes this instance from attributes.
         /// </summary>
         [ObsoleteAttribute("This method is obsolete. The code it ran is now called " +
                            "internally from this class's constructors. Please remove " +
                            "references to this method call as it will be removed in a" +
-                           "later release. ", false)]
+                           "later release. ", true)]
         public void InitializeFromAttributes()
         {
             //TryInitializeFromAttributesInternal();
         }
 
-         /// <summary>
+        /// <summary>
         /// Determines if the procedure is fully constructed and in a valid 
         /// state which can be called and executed
         /// </summary>
@@ -175,30 +182,27 @@ namespace Dibware.StoredProcedureFramework.Base
         public bool IsFullyConstructed()
         {
             return HasProcedureName() && HasReturnType();
-        }      
+        }
 
         #endregion
 
-        #region Methods : Private
+        #region Methods : Private and protected
 
-        /// <summary>
-        /// Determines whether this instance has a return type.
-        /// </summary>
-        /// <returns></returns>
         private bool HasReturnType()
         {
             return (ReturnType != null);
         }
-
 
         protected void SetParameters(TParameters parameters)
         {
             _parameters = parameters;
         }
 
+        #endregion
 
+        #region Fields
 
-
+        private TParameters _parameters;
 
         #endregion
     }
