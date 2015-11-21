@@ -51,7 +51,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         public static void InitializeStoredProcedureProperties(this DbContext context)
         {
             Type contextType = context.GetType();
-            foreach (PropertyInfo propertyInfo in contextType.GetProperties())
+            foreach (PropertyInfo propertyInfo in contextType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 Type propertyType = propertyInfo.PropertyType;
                 bool typeInheritsFromStoredProcedureBase = StoredProcedureBase.DoesTypeInheritsFromThis(propertyType);

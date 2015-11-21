@@ -50,6 +50,29 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
         }
 
 
+        [TestMethod]
+        public void ExecuteFor_WhenInternallyScoped_GetsExpectedResults()
+        {
+            // ARRANGE
+            const int expectedId = 10;
+            const string expectedName = @"Dave";
+            const bool expectedActive = true;
+
+            var parameters = new NormalStoredProcedureForEf.Parameter
+            {
+                Id = expectedId
+            };
+
+            // ACT
+            var resultList = Context.InternalMostBasicStoredProcedure.ExecuteFor(parameters);
+            var result = resultList.First();
+
+            // ASSERT
+            Assert.AreEqual(expectedId, result.Id);
+            Assert.AreEqual(expectedName, result.Name);
+            Assert.AreEqual(expectedActive, result.Active);
+        }
+
         //[TestMethod]
         //[ExpectedException(typeof(ArgumentNullException))]
         //public void ExecuteFor_WhenPassedNullParameters_ThrowsArgumentNullException()
