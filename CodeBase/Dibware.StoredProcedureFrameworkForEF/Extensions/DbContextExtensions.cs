@@ -17,6 +17,18 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
     /// </summary>
     public static class DbContextExtensions
     {
+        /// <summary>
+        /// Executes the stored procedure.
+        /// </summary>
+        /// <typeparam name="TResultSetType">The type of the result set type.</typeparam>
+        /// <typeparam name="TParameterType">The type of the parameter type.</typeparam>
+        /// <param name="context">The DbContext to execute the stored procedure against.</param>
+        /// <param name="storedProcedure">The stored procedure.</param>
+        /// <param name="commandTimeoutOverride">The command timeout override.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
         public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
                this DbContext context,
                IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
@@ -26,16 +38,12 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             where TResultSetType : class, new()
             where TParameterType : class
         {
-            // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-            // Ensure the procedure is fully constructed before going any further
             storedProcedure.EnsureFullyConstructed();
 
-            // Get the context database connection...
             DbConnection connection = context.Database.Connection;
 
-            // ... then return results from DbConnection's extention method.
             return connection.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeoutOverride,
@@ -50,28 +58,33 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         /// <param name="context"></param>
         public static void InitializeStoredProcedureProperties(this DbContext context)
         {
-            Type contextType = context.GetType();
-            foreach (PropertyInfo propertyInfo in contextType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            var contextType = context.GetType();
+            var propertyInfos = contextType.GetProperties(
+                BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.Instance);
+
+            foreach (PropertyInfo propertyInfo in propertyInfos)
             {
-                Type propertyType = propertyInfo.PropertyType;
-                bool typeInheritsFromStoredProcedureBase = StoredProcedureBase.DoesTypeInheritsFromThis(propertyType);
-                if (typeInheritsFromStoredProcedureBase)
+                bool propertyTypeIsStoredProcedureType = StoredProcedureBase.DoesTypeInheritsFromThis(propertyInfo.PropertyType);
+                if (propertyTypeIsStoredProcedureType)
                 {
                     InitializeStoredProcedureProperty(context, contextType, propertyInfo);
                 }
             }
         }
 
+        #region Methods : Private or protected
+
         private static string GetStoredProcedureNameFromStoredProcedurePropertyName(Type contextType, PropertyInfo propertyInfo)
         {
             var propertyInfoName = propertyInfo.Name;
-            var name = contextType.GetPropertyName(propertyInfoName);
-            return name;
+            return contextType.GetPropertyName(propertyInfoName);
         }
 
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
         {
-            string name = null;
+            string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
             var nameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(NameAttribute));
             var nameAttribute = nameAttributes.FirstOrDefault() as NameAttribute;
             if (nameAttribute != null) name = nameAttribute.Value;
@@ -80,7 +93,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
         {
-            string name = null;
+            string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
             var propertyType = storedProcedurePropertyInfo.PropertyType;
             var attributes = propertyType.GetCustomAttributes<NameAttribute>();
             var attribute = attributes.FirstOrDefault();
@@ -90,7 +103,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
         {
-            string schemaName = null;
+            string schemaName = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
             var schemaNameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(SchemaAttribute));
             var schemaNameAttribute = schemaNameAttributes.FirstOrDefault() as SchemaAttribute;
             if (schemaNameAttribute != null) schemaName = schemaNameAttribute.Value;
@@ -99,7 +112,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
         {
-            string schemaName = null;
+            string schemaName = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
             var propertyType = storedProcedurePropertyInfo.PropertyType;
             var attributes = propertyType.GetCustomAttributes<SchemaAttribute>();
             var attribute = attributes.FirstOrDefault();
@@ -123,21 +136,13 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         private static void SetStoredProcedureName(Type contextType, PropertyInfo propertyInfo,
             PropertyInfo storedProcedurePropertyInfo, object procedure)
         {
-            var name = GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo);
-
-            if (name == null)
-            {
-                name = GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo);
-            }
-
-            if (name == null)
-            {
-                name = GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, propertyInfo);
-            }
+            var name = (GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo)
+                ?? GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo))
+                ?? GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, propertyInfo);
 
             if (name != null)
             {
-                ((StoredProcedureBase) procedure).SetProcedureName(name);
+                ((StoredProcedureBase)procedure).SetProcedureName(name);
             }
         }
 
@@ -151,5 +156,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
                 ((StoredProcedureBase)procedure).SetSchemaName(schemaName);
             }
         }
+
+        #endregion
     }
 }

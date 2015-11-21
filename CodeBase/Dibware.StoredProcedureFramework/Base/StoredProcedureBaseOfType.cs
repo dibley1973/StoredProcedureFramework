@@ -125,6 +125,17 @@ namespace Dibware.StoredProcedureFramework.Base
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance has null stored procedure parameters.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance has null stored procedure parameters; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasNullStoredProcedureParameters
+        {
+            get { return Parameters is NullStoredProcedureParameters; }
+        }
+
+        /// <summary>
         /// The object that represents the procedure parameters
         /// </summary>
         public TParameters Parameters
@@ -203,6 +214,13 @@ namespace Dibware.StoredProcedureFramework.Base
         #region Fields
 
         private TParameters _parameters;
+
+        #endregion
+
+        #region IStoredProcedure<TReturn,TParameters> Members
+
+
+       
 
         #endregion
     }

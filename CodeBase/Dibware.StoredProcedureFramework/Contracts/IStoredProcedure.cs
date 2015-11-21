@@ -58,12 +58,12 @@
         where TParameters : class
     {
         /// <summary>
-        /// Gets the parameters.
+        /// Gets a value indicating whether this instance has null stored procedure parameters.
         /// </summary>
         /// <value>
-        /// The parameters.
+        /// <c>true</c> if this instance has null stored procedure parameters; otherwise, <c>false</c>.
         /// </value>
-        TParameters Parameters { get; }
+        bool HasNullStoredProcedureParameters { get; }
 
         /// <summary>
         /// Ensurefullies the construcuted.
@@ -72,5 +72,12 @@
         /// this instance is not fully constrcuted
         /// </exception>
         void EnsureFullyConstructed();
+        /// <summary>
+        /// Gets the parameters.
+        /// </summary>
+        /// <value>
+        /// The parameters.
+        /// </value>
+        TParameters Parameters { get; }
     }
 }

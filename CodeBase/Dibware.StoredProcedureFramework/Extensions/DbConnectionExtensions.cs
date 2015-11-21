@@ -38,14 +38,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             SqlTransaction transaction = null)
         {
             DbCommand command = connection.CreateCommand();
-
-            // Command to execute is our stored storedProcedure
-            command.Transaction = transaction;
-            command.CommandText = procedureName;
-            command.CommandType = CommandType.StoredProcedure;
-
-            // Assign command timeout value, if one was provided
-            if (commandTimeout.HasValue) command.CommandTimeout = commandTimeout.Value;
+            PrepareCommand(procedureName, commandTimeout, transaction, command);
 
             // Transfer any parameters to the command
             if (procedureParameters != null)
@@ -66,33 +59,26 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TResultSetType : class, new()
             where TParameterType : class
         {
-            // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-            // Ensure the procedure is fully constructed
             storedProcedure.EnsureFullyConstructed();
-
             string procedureName = storedProcedure.GetTwoPartName();
 
             // Prepare the parameters if any exist
-            IEnumerable<SqlParameter> procedureParameters =
-                (storedProcedure.Parameters is NullStoredProcedureParameters) ?
-                null :
-                BuildProcedureParameters(storedProcedure);
+            IEnumerable<SqlParameter> procedureParameters = 
+                (storedProcedure.HasNullStoredProcedureParameters) 
+                    ? null 
+                    : BuildProcedureParameters(storedProcedure);
 
-            // Populate results using an overload
-            var results = ExecuteStoredProcedure<TResultSetType>(
+            TResultSetType results = ExecuteStoredProcedure<TResultSetType>(
                 connection,
                 procedureName,
                 procedureParameters,
                 commandTimeoutOverride,
                 commandBehavior,
                 transaction);
-
-            // Process any output parameters
             ProcessOutputParms(procedureParameters, storedProcedure);
 
-            // return the results
             return results;
         }
 
@@ -106,18 +92,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
             SqlTransaction transaction = null)
             where TResultSetType : class, new()
         {
-            // Validate arguments
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
 
-            // A flag to track whether we opened the connection or not
             bool connectionWasOpen = (connection.State == ConnectionState.Open);
 
             try
             {
-                TResultSetType results; // Create a result object
+                TResultSetType results; 
 
-                if (!connectionWasOpen) connection.Open(); // Open a closed connection
+                if (!connectionWasOpen) connection.Open();
 
                 // Create a command to execute the stored storedProcedure...
                 using (DbCommand command = connection.CreateStoredProcedureCommand(
@@ -126,11 +110,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     commandTimeoutOverride,
                     transaction))
                 {
-                    // ...execute the command to get results
                     results = ExecuteCommand<TResultSetType>(commandBehavior, command);
                 }
 
-                // Return the results
                 return results;
             }
             catch (Exception ex)
@@ -149,7 +131,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 if (fieldInfo != null) fieldInfo.SetValue(ex, message);
                 throw;
 
-                // Option 2: Create a new insatnce of the same type as the caught
+                // Option 2: Create a new instance of the same type as the caught
                 // exception with a new message, and throw that
                 //throw (Exception)Activator.CreateInstance(exceptionType, message, ex);
             }
@@ -159,6 +141,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
+        #region methods : private or protected
+        
         private static TResultSetType ExecuteCommand<TResultSetType>(
             CommandBehavior commandBehavior,
             DbCommand command)
@@ -194,14 +178,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     ReadRecordSet(reader, recordSetDtoList);
                     resultSet = (TResultSetType)recordSetDtoList;
                 }
-                else // Multiple recordsets
+                else
                 {
                     var recordSetIndex = 0;
 
-                    // Get properties to save for the current destination type
                     PropertyInfo[] resultSetTypePropertyInfos = resultSetType.GetMappedProperties();
 
-                    // Iterate through each result set and read records into DTO list
                     bool readerContainsAnotherResult;
                     do
                     {
@@ -215,8 +197,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     }
                     while (readerContainsAnotherResult);
                 }
-
-                // Close the reader
                 reader.Close();
             }
             return resultSet;
@@ -224,24 +204,20 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         private static bool ImplementsICollection(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
+            if (type == null) throw new ArgumentNullException("type");
+            
             foreach (Type @interface in type.GetInterfaces())
             {
                 if (@interface.IsGenericType)
                 {
                     if (@interface.GetGenericTypeDefinition() == typeof(ICollection<>))
                     {
-                        // if needed, you can also return the type used as generic argument
                         return true;
                     }
                 }
             }
             return false;
         }
-
 
         private static TResultSetType ExecuteCommandWithNoReturnType<TResultSetType>(DbCommand command)
             where TResultSetType : class, new()
@@ -252,11 +228,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         private static void ReadRecordSet(DbDataReader reader, IList recordSetDtoList)
         {
-            // Recordset row 
             Type dtoListItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
             PropertyInfo[] dtoListItemTypePropertyInfo = dtoListItemType.GetMappedProperties();
 
-            // Process the result set line by line
             while (reader.Read())
             {
                 AddRecordToResults(dtoListItemType, recordSetDtoList, reader, dtoListItemTypePropertyInfo);
@@ -291,23 +265,15 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        /// <summary>
-        /// Adds the record to results.
-        /// </summary>
-        /// <param name="outputType">Type of the output.</param>
-        /// <param name="results">The results.</param>
-        /// <param name="reader">The reader.</param>
-        /// <param name="dtoListItemTypePropertyInfos">The DTO ListItem Type Property Information.</param>
         private static void AddRecordToResults(
             Type outputType,
             IList results,
             DbDataReader reader,
             PropertyInfo[] dtoListItemTypePropertyInfos)
         {
-            // Providing we have a constructor...
             var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
-            if (constructorInfo == null) return;
-
+            bool noConstructorDefined = (constructorInfo == null);
+            if (noConstructorDefined) return;
 
             //TODO: Investigate FastActivator
             // Even at 2M records there is still neglidgable difference between
@@ -315,15 +281,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             //var item = FastActivator.CreateInstance(outputType);
             //var item = FastActivator2.CreateInstance(outputType);
 
-            // ...create an object to hold this result
             var item = Activator.CreateInstance(outputType);
-            //if (item == null) return;
-
-            // Providing we created an object
-            // Copy data elements by parameter name from result to destination object
             reader.ReadRecord(item, dtoListItemTypePropertyInfos);
-
-            // add newly populated item to our output list
             results.Add(item);
         }
 
@@ -332,68 +291,48 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TReturnType : class
             where TParameterType : class
         {
-            // create mapped properties
-            //var mappedProperties = typeof(TParameterType).GetMappedProperties();
             var mappedProperties = procedure.Parameters.GetType().GetMappedProperties();
-
-            // Create parameters from mapped properties
-            //var sqlParameters = mappedProperties.ToSqlParameters();
             var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
 
-            // TODO: Investigate if we can set VARCHAR size from the value of the parameters,
-            // and where is best to perform this... Refer to Issue #1
+            // TODO: Investigate if we can set VARCHAR size from the value of 
+            // the parameters, and where is best to perform this... 
+            // Refer to Issue #1
 
-            // Populate parameters from storedProcedure parameters
             PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);
 
-            // Return parameters
             return sqlParameters;
         }
 
-        private static void ProcessOutputParms<TReturnType, TParameterType>(IEnumerable<SqlParameter> procedureParameters,
+        private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
+        {
+            bool parametersRequireClearing = (command.Parameters.Count > 0);
+            if (parametersRequireClearing) command.Parameters.Clear();
+
+            foreach (SqlParameter parameter in sqlParameters)
+            {
+                command.Parameters.Add(parameter);
+            }
+        }
+
+        private static void ProcessOutputParms<TReturnType, TParameterType>(IEnumerable<SqlParameter> procedureSqlParameters,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure)
             where TReturnType : class
             where TParameterType : class
         {
-            // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-            // If the procdeure has no parameters then bug out of this method
-            if (storedProcedure.Parameters is NullStoredProcedureParameters ||
-                procedureParameters == null) return;
+            bool noParametersToProcess = (procedureSqlParameters == null || storedProcedure.HasNullStoredProcedureParameters);
+            if(noParametersToProcess) return;
 
-            // create mapped properties
             var mappedProperties = typeof(TParameterType).GetMappedProperties();
-
-            // we want to write data back to properties for every non-input only parameter
-            foreach (SqlParameter sqlParameter in procedureParameters
+            var outputParameters = procedureSqlParameters
                 .Where(p => p.Direction != ParameterDirection.Input)
-                .Select(p => p))
+                .Select(p => p);
+            TParameterType storedProcedureParameters = storedProcedure.Parameters;
+
+            foreach (SqlParameter outputParameter in outputParameters)
             {
-                // get the property name mapped to this parameter
-                //String propertyName = MappedParams.Where(p => p.Key == sqlParameter.ParameterName).Select(p => p.Value).First();
-                String propertyName = sqlParameter.ParameterName;
-
-                // extract the matchingproperty and set its value
-                PropertyInfo propertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
-                if (propertyInfo != null) propertyInfo.SetValue(storedProcedure.Parameters, sqlParameter.Value, null);
-            }
-        }
-
-        /// <summary>
-        /// Loads the command parameters.
-        /// </summary>
-        /// <param name="sqlParameters">The SQLParameters to load command with.</param>
-        /// <param name="command">The command.</param>
-        private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
-        {
-            // Clear any existing command parameters
-            if (command.Parameters.Count > 0) command.Parameters.Clear();
-
-            // add the specified parameters
-            foreach (SqlParameter p in sqlParameters)
-            {
-                command.Parameters.Add(p);
+                SetOutputParameterValue(outputParameter, mappedProperties, storedProcedureParameters);
             }
         }
 
@@ -409,33 +348,47 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 .Where(p => p.Direction == ParameterDirection.Input)
                 .Select(p => p))
             {
-                // Get the property name mapped to this parameter
                 String propertyName = sqlParameter.ParameterName;
-
-                // Extract the matching property...
-                PropertyInfo propertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
-                if (propertyInfo == null) throw new NullReferenceException("Mapped property not found");
+                PropertyInfo mappedPropertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
+                if (mappedPropertyInfo == null) throw new NullReferenceException("Mapped property not found");
 
                 // Use the PropertyInfo to get the value from the parameters,
                 // then validate the value and if validation passes, set it 
-                object value = propertyInfo.GetValue(procedure.Parameters);
+                object value = mappedPropertyInfo.GetValue(procedure.Parameters);
                 ValidateValueIsInRangeForSqlParameter(sqlParameter, value);
                 SetSqlParameterValue(value, sqlParameter);
             }
         }
 
-        /// <summary>
-        /// Sets the SQL parameter value.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="sqlParameter">The SQL parameter.</param>
+        private static void PrepareCommand(string procedureName, int? commandTimeout,
+            SqlTransaction transaction,
+            DbCommand command)
+        {
+            command.Transaction = transaction;
+            command.CommandText = procedureName;
+            command.CommandType = CommandType.StoredProcedure;
+            if (commandTimeout.HasValue) command.CommandTimeout = commandTimeout.Value;
+        }
+
+        private static void SetOutputParameterValue<TParameterType>(SqlParameter outputParameter,
+            PropertyInfo[] mappedProperties, TParameterType storedProcedureParameters) where TParameterType : class
+        {
+            String propertyName = outputParameter.ParameterName;
+            PropertyInfo matchedPropertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
+            if (matchedPropertyInfo != null)
+                matchedPropertyInfo.SetValue(storedProcedureParameters, outputParameter.Value, null);
+        }
+
         private static void SetSqlParameterValue(object value, SqlParameter sqlParameter)
         {
-            if (value == null) /* Handle null values */
+            bool parameterValueIsNull = (value == null);
+            bool parameterValueIsTableValuedParameter = (sqlParameter.SqlDbType == SqlDbType.Structured);
+
+            if (parameterValueIsNull)
             {
                 sqlParameter.Value = DBNull.Value;
             }
-            else if (sqlParameter.SqlDbType != SqlDbType.Structured)
+            else if (!parameterValueIsTableValuedParameter)
             {
                 sqlParameter.Value = value;
             }
@@ -445,23 +398,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        /// <summary>
-        /// Validates the value is in range for SQL parameter.
-        /// </summary>
-        /// <param name="sqlParameter">The SQL parameter.</param>
-        /// <param name="value">The value.</param>
         private static void ValidateValueIsInRangeForSqlParameter(SqlParameter sqlParameter, object value)
         {
-            // For parameters that have precision and scale we need to validate the value
-            if (sqlParameter.RequiresPrecisionAndScaleValidation())
-            {
-                ValidateDecimal(sqlParameter, value);
-            }
-
-            if (sqlParameter.RequiresLengthValidation())
-            {
-                ValidateString(sqlParameter, value);
-            }
+            if (sqlParameter.RequiresPrecisionAndScaleValidation()) ValidateDecimal(sqlParameter, value);
+            
+            if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
         }
 
         private static void ValidateDecimal(SqlParameter sqlParameter, object value)
@@ -481,10 +422,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
         private static void ValidateString(SqlParameter sqlParameter, object value)
         {
-            // Check if the value type is valid type... 
             if (value is string)
             {
-                // ... and validate it if it is
                 var validator = new SqlParameterStringValueValidator();
                 validator.Validate((string)value, sqlParameter);
             }
@@ -508,17 +447,15 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     "'{0}' parameter had a null value",
                     sqlParameter.ParameterName);
                 throw new SqlNullValueException(message);
-                //throw new SqlParameterInvalidDataTypeException(
-                //    sqlParameter.ParameterName,
-                //    typeof(string), typeof(string));
             }
             else
             {
-                // Throw a wobbler!
                 throw new SqlParameterInvalidDataTypeException(
                     sqlParameter.ParameterName,
                     typeof(string), value.GetType());
             }
         }
+
+        #endregion
     }
 }

@@ -4,8 +4,11 @@ using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.Examples.Tests;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
 using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures;
+using MostBasicStoredProcedure = Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.MostBasicStoredProcedure;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {
@@ -268,6 +271,37 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
             // ASSERT
             Assert.AreEqual(expectedTwoPartName, actualTwoPartName);
+        }
+
+        #endregion
+
+        #region HasNullStoredProcedureParameters
+
+        [TestMethod]
+        public void HasNullStoredProcedureParameters_WhenProcedureHasNullStoredProcedureParameters_ReturnsTrue()
+        {
+            // ARRANGE
+            var procedure = new MostBasicStoredProcedure();
+
+            // ACT
+            var actualresult = procedure.HasNullStoredProcedureParameters;
+
+            // ASSERT
+            Assert.IsTrue(actualresult);
+        }
+
+        [TestMethod]
+        public void HasNullStoredProcedureParameters_WhenProceduredDoesNotHaveNullStoredProcedureParameters_ReturnsFalse()
+        {
+            // ARRANGE
+            var parameters = new NormalStoredProcedureParameters { Id = 1};
+            var procedure = new NormalStoredProcedure(parameters);
+
+            // ACT
+            var actualresult = procedure.HasNullStoredProcedureParameters;
+
+            // ASSERT
+            Assert.IsFalse(actualresult);
         }
 
         #endregion
