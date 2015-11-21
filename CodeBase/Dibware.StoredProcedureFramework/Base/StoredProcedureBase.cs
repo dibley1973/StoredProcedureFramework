@@ -16,7 +16,10 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <value>
         /// The name of the procedure.
         /// </value>
-        public string ProcedureName { get; private set; }
+        public string ProcedureName
+        {
+            get { return _state.ProcedureName; }
+        }
 
         /// <summary>
         /// Gets the name of the schema.
@@ -24,7 +27,10 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <value>
         /// The name of the schema.
         /// </value>
-        public string SchemaName { get; private set; }
+        public string SchemaName
+        {
+            get { return _state.SchemaName; }
+        }
 
         #endregion
 
@@ -56,7 +62,7 @@ namespace Dibware.StoredProcedureFramework.Base
             if (procedureName == null) throw new ArgumentNullException("procedureName");
             if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
 
-            ProcedureName = procedureName;
+            _state.ProcedureName = procedureName;
         }
 
         /// <summary>
@@ -71,89 +77,53 @@ namespace Dibware.StoredProcedureFramework.Base
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
 
-            SchemaName = schemaName;
+            _state.SchemaName = schemaName;
         }
 
         /// <summary>
-        /// Setermines if teh specified type inherits from this object type.
+        /// Determines if the specified type inherits from this object type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
         public static bool DoesTypeInheritsFromThis(Type type)
         {
-            bool result = typeof(StoredProcedureBase).IsAssignableFrom(type);
-            return result;
+            return typeof(StoredProcedureBase).IsAssignableFrom(type);
         }
 
         #endregion
 
         #region Methods : Private / protected
-        /// <summary>
-        /// Ensures the procedure has a name.
-        /// </summary>
+
         private void EnsureProcedureHasName()
         {
-            if (!HasProcedureName())
-            {
-                string message = ExceptionMessages.StoredProcedureDoesNotHaveName;
-                throw ExceptionHelper.CreateStoredProcedureConstructionException(
-                    message);
-            }
+            if (HasProcedureName()) return;
+
+            string message = ExceptionMessages.StoredProcedureDoesNotHaveName;
+            throw ExceptionHelper.CreateStoredProcedureConstructionException(message);
         }
 
-        /// <summary>
-        /// Determines if this instance has a procedure name
-        /// </summary>
-        /// <returns></returns>
         protected bool HasProcedureName()
         {
             return !String.IsNullOrEmpty(ProcedureName);
         }
 
-        ///// <summary>
-        ///// Determines whether this instance has a return type.
-        ///// </summary>
-        ///// <returns></returns>
-        //protected abstract bool HasReturnType();
-
-        /// <summary>
-        /// Tries to initializes properties from attributes.
-        /// </summary>
         protected void TryInitializeFromAttributesInternal()
         {
             Type type = GetType();
 
             TrySetProcedureNameFromNameAttribute(type);
-            //TrySetReturnTypeFromAttribute(type);
             TrySetSchemaNameFromSchemaAttribute(type);
         }
 
-        /// <summary>
-        /// Tries the set procedure name from Name attribute.
-        /// </summary>
-        /// <param name="type">The type.</param>
         private void TrySetProcedureNameFromNameAttribute(Type type)
         {
-            var attribute = Attribute.GetCustomAttribute(type, typeof(NameAttribute)) as NameAttribute;
+            NameAttribute attribute = Attribute.GetCustomAttribute(type, typeof(NameAttribute)) as NameAttribute;
             if (attribute != null)
             {
                 SetProcedureName(attribute.Value);
             }
         }
 
-        //private void TrySetReturnTypeFromAttribute(Type type)
-        //{
-        //    ReturnTypeAttribute attribute = Attribute.GetCustomAttribute(type, typeof(ReturnTypeAttribute)) as ReturnTypeAttribute;
-        //    if (attribute != null)
-        //    {
-        //        SetReturnType(attribute.Returns);
-        //    }
-        //}
-
-        /// <summary>
-        /// Tries the set schema name from schema attribute.
-        /// </summary>
-        /// <param name="type">The type.</param>
         private void TrySetSchemaNameFromSchemaAttribute(Type type)
         {
             SchemaAttribute attribute = Attribute.GetCustomAttribute(type, typeof(SchemaAttribute)) as SchemaAttribute;
@@ -162,6 +132,22 @@ namespace Dibware.StoredProcedureFramework.Base
                 SetSchemaName(attribute.Value);
             }
         }
+
+        #endregion
+
+        #region State Structure
+
+        protected struct StoredProcedureBaseState
+        {
+            public string ProcedureName;
+            public string SchemaName;
+        }
+
+        #endregion
+
+        #region Fields
+
+        private StoredProcedureBaseState _state;
 
         #endregion
     }
