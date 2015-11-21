@@ -27,18 +27,12 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TResultSetType : class, new()
             where TParameterType : class
         {
-            // Validate arguments
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-            // Ensure the procedure is fully constructed before going any further
             storedProcedure.EnsureFullyConstructed();
 
-            // Downcast the connection to it's base so we can call 
-            // through to it's extenstion method.
             DbConnection dbConnection = connection;
 
-            // Return the results of the call through to the 
-            // extension method on the Dbconnection
             return dbConnection.ExecuteStoredProcedure(
                 storedProcedure,
                 commandTimeout,

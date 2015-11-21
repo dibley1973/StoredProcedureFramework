@@ -21,6 +21,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var mappedProperties = allProperties
                 .Where(p => p.GetAttribute<NotMappedAttribute>() == null)
                 .Select(p => p);
+
             return mappedProperties.ToArray();
         }
     }

@@ -435,12 +435,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
             else if (value == null)
             {
-                bool parameterIsStringOrNullable = (
-                    sqlParameter.DbType == DbType.AnsiString ||
-                    sqlParameter.DbType == DbType.AnsiStringFixedLength ||
-                    sqlParameter.DbType == DbType.String ||
-                    sqlParameter.DbType == DbType.StringFixedLength ||
-                    sqlParameter.IsNullable);
+                bool parameterIsStringOrNullable = sqlParameter.IsStringOrIsNullable();
                 if (parameterIsStringOrNullable) return;
 
                 string message = string.Format(

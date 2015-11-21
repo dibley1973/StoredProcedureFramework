@@ -40,44 +40,29 @@ namespace Dibware.StoredProcedureFramework.Helpers
         public static ICollection<SqlParameter> CreateSqlParametersFromPropertyInfoArray(
             PropertyInfo[] propertyInfoArray)
         {
-            // Validate arguments
             if (propertyInfoArray == null) throw new ArgumentNullException("propertyInfoArray");
 
-            // Create a lsit of SqlParameters to return
             List<SqlParameter> results = new List<SqlParameter>();
 
             foreach (PropertyInfo propertyInfo in propertyInfoArray)
             {
-                // create parameter and store default name - property name
                 SqlParameter sqlParameter = new SqlParameter();
 
-                // Get the name of the parameter. Attributes override the name so try and get this first
                 NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
-                sqlParameter.ParameterName = (nameAttribute != null ? nameAttribute.Value : propertyInfo.Name);
+                sqlParameter.ParameterName = nameAttribute != null
+                    ? nameAttribute.Value
+                    : propertyInfo.Name;
 
-                // Set database type of parameter from attribute if available
                 var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-                if (typeAttribute != null)
-                {
-                    sqlParameter.SqlDbType = typeAttribute.Value;
-                }
-                else
-                {
-                    // or fall back on CLR type
-                    sqlParameter.SqlDbType = GetSqlDbType(propertyInfo.PropertyType);
-                }
+                sqlParameter.SqlDbType = typeAttribute != null 
+                    ? typeAttribute.Value 
+                    : GetSqlDbType(propertyInfo.PropertyType);
 
                 TrySetSqlParameterDirectionFromAttribute(propertyInfo, sqlParameter);
                 TrySetSqlParameterSizeFromAttribute(propertyInfo, sqlParameter);
                 TrySetSqlParameterPrecisionFromAttribute(propertyInfo, sqlParameter);
                 TrySetSqlParameterScaleFromAttribute(propertyInfo, sqlParameter);
 
-                //// save user-defined type name
-                //var typename = propertyInfo.GetAttribute<StoredProcAttributes.TypeName>();
-                //if (null != typename)
-                //    sqlParameter.TypeName = typename.Value;
-
-                // add the parameter
                 results.Add(sqlParameter);
             }
 
@@ -87,12 +72,11 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private static void TrySetSqlParameterDirectionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
         {
             var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
-            if (null != directionAttribute)
-                sqlParameter.Direction = directionAttribute.Value;
+            if (null != directionAttribute) sqlParameter.Direction = directionAttribute.Value;
 
             // TODO: investigate if default direction needs to be set.
             // default appears to be input any way
-            //sqlParameter.Direction = DefaultParameterDirection;
+            // sqlParameter.Direction = DefaultParameterDirection;
         }
 
         private static void TrySetSqlParameterPrecisionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
@@ -156,8 +140,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
             };
         }
 
-
-
         private static void CreateClrToSqlTypeMaps()
         {
             _clrToSqlTypeMaps = new Dictionary<Type, SqlDbType>
@@ -174,16 +156,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
             };
         }
 
-
-
-        internal static Type GetType(SqlDbType sqltype)
-        {
-            // Ref:
-            // http://stackoverflow.com/a/1058348/254215
-            Type result;
-            _sqlToClrTypeMaps.TryGetValue(sqltype, out result);
-            return result;
-        }
+        //internal static Type GetType(SqlDbType sqltype)
+        //{
+        //    // Ref:
+        //    // http://stackoverflow.com/a/1058348/254215
+        //    Type result;
+        //    _sqlToClrTypeMaps.TryGetValue(sqltype, out result);
+        //    return result;
+        //}
 
         internal static SqlDbType GetSqlDbType(Type clrType)
         {

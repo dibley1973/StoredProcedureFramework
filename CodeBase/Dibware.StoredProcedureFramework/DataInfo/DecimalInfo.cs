@@ -64,10 +64,9 @@ namespace Dibware.StoredProcedureFramework.DataInfo
         public static DecimalInfo FromDecimal(decimal value)
         {
             // Converting to a string seems a sledge hammer approach, but 
-            // referring to the StackOverflow thread below, it is one of the fastest!
-            //string stringRepresentation = value.ToString(CultureInfo.InvariantCulture);
+            // referring to the StackOverflow thread above, it is one of the fastest!
             string stringRepresentation = value.ToString(CultureInfo.CurrentCulture);
-            char decimalSepeartor = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            char decimalSeperator = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             const char negativeSymbol = '-';
             int precision = 0;
             int scale = 0;
@@ -99,7 +98,7 @@ namespace Dibware.StoredProcedureFramework.DataInfo
                 {
                     // We are not...
                     // Is the current character a decimal seperator
-                    if (currentCharacter == decimalSepeartor)
+                    if (currentCharacter == decimalSeperator)
                     {
                         // Then we have moved to the fraction portion
                         inFractionPortion = true;
