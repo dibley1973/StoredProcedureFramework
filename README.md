@@ -3,7 +3,7 @@
 The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF.
 
 **Please Note:**
-* This is an on-going project and will be continued
+* This is an on-going project and will be continued until a solid product has been created.
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
@@ -39,16 +39,25 @@ The aim of this project is to provide the following:
 * (Should) Contain a suite of Unit Tests that test all public accessors
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
 * (Should) Contain a suite of Integration Tests for both assemblies **WIP**
-* (Should) Ability to handle lesser used parameter types
-* (Should) Ability to handle lesser used return data types
-* (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type
+* (Should) Ability to handle lesser used parameter types **Not on roadmap**
+* (Should) Ability to handle lesser used return data types **Not on roadmap**
+* (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **Ongoing Investigation**
 * (Should) Implement David Doran's "FastActivator" for object instantiation **Investigated: no gain**
-* (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **WIP**
+* (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **Done**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
 
-## WIKI ##
+## WIKI
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)
+
+## Bugs, Enhancement or Feature Requests
+For any bugs, enhancements or for feature  requests please raise an Issues with the appropriate label; `bug` or `enhancement`. 
+
+### Bugs
+for a bug, please describe the bug and steps to reproduce. Please provide one or more unit or integration tests which prove the existence of the bug and will pass once the bug is fixed. This will greatly speed up bug detection and fixing. Where possible included the SQL code for a self contained stored procedure which can be used to test for the bug and the fix.
+
+### Enhancement or Feature Requests
+For enhancements or feature requests, please detail what the feature is. Please also include one or more integration tests which describe how the feature will be called and how teh results shoudl appear.
 
 ## Solution
 The solution is written in C# .Net v4.0. The decision to write in v4.0 and not a later version is to enable other projects with this framework version and above to be able to consume it.
