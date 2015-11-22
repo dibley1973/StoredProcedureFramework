@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class TableValueParameterTests : BaseSqlConnectionIntegrationTest
+    public class TableValueParameterTestsWithSqlConnection : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void TableValueParameterWithoutReturnTypeStoredProcedure_CallsCorrectly()
@@ -27,9 +27,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new TableValueParameterWithoutReturnTypeStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
 
             // ASSERT
         }
@@ -52,9 +50,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new TableValueParameterWithReturnTypeStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             var results = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
             var actualCount = results.Count;
 
             // ASSERT

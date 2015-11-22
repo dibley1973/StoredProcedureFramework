@@ -64,19 +64,20 @@
   <ItemGroup>
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="DbContextTests\Context\IntegrationTestDbContext.cs" />
-    <Compile Include="DbContextTests\AllCommonDataTypesTests.cs" />
+    <Compile Include="DbContextTests\AllCommonDataTypesTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\ExecuteForTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\ExecuteTestWithDbContext.cs" />
-    <Compile Include="DbContextTests\IncorrectParameterTypeTests.cs" />
-    <Compile Include="DbContextTests\IncorrectReturnType.cs" />
+    <Compile Include="DbContextTests\IncorrectParameterTypeTestsWithDbContext.cs" />
+    <Compile Include="DbContextTests\IncorrectReturnTypeWithDbContext.cs" />
     <Compile Include="DbContextTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
-    <Compile Include="DbContextTests\MultipleRecordSetTests.cs" />
-    <Compile Include="DbContextTests\NullParameterTests.cs" />
-    <Compile Include="DbContextTests\OutputParametersUnitTests.cs" />
+    <Compile Include="DbContextTests\MultipleRecordSetTestsWithDbContext.cs" />
+    <Compile Include="DbContextTests\NullParameterTestsWithDbContext.cs" />
+    <Compile Include="DbContextTests\OutputParametersUnitTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\PrecisionAndScaleTestsWithDbContext.cs" />
+    <Compile Include="DbContextTests\RecordSetNotInstantiatedTestsWithSqlConnection.cs" />
     <Compile Include="DbContextTests\ReturnNoResultTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\SizeAttributeTestsWithDbContext.cs" />
-    <Compile Include="DbContextTests\TableValueParameterTests.cs" />
+    <Compile Include="DbContextTests\TableValueParameterTestsWithDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,14 +85,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
-    <Compile Include="SqlConnectionTests\IncorrectReturnType.cs" />
-    <Compile Include="SqlConnectionTests\MultipleRecordSetTests.cs" />
-    <Compile Include="SqlConnectionTests\NullParameterTests.cs" />
-    <Compile Include="SqlConnectionTests\TableValueParameterTests.cs" />
-    <Compile Include="SqlConnectionTests\IncorrectParameterTypeTests.cs" />
-    <Compile Include="SqlConnectionTests\AllCommonDataTypesTests.cs" />
-    <Compile Include="SqlConnectionTests\OutputParametersUnitTests.cs" />
-    <Compile Include="SqlConnectionTests\RecordSetNotInstantiatedTests.cs" />
+    <Compile Include="SqlConnectionTests\IncorrectReturnTypeWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
+    <Compile Include="SqlConnectionTests\MultipleRecordSetTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\NullParameterTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\PrecisionAndScaleTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\ReturnNoResultTestsWithDbContext.cs" />
+    <Compile Include="SqlConnectionTests\SizeAttributeTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\TableValueParameterTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\IncorrectParameterTypeTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\AllCommonDataTypesTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\OutputParametersUnitTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\RecordSetNotInstantiatedTestsWithSqlConnection.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />

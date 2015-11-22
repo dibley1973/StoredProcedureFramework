@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class OutputParametersUnitTests : BaseDbContextIntegrationTest
+    public class OutputParametersUnitTestsWithDbContext : BaseDbContextIntegrationTest
     {
         [TestMethod]
         public void CountCharsInOutputParameterStoredProcedure_WithOutputParamatersAndNoReturnType_ReturnsOutputParamtersCorrectly()

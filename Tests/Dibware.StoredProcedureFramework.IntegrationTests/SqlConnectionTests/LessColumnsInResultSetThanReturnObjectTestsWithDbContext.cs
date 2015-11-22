@@ -1,24 +1,22 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class IncorrectReturnType : BaseSqlConnectionIntegrationTest
+    public class LessColumnsInResultSetThanReturnObjectTest : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
-        [ExpectedException(typeof(InvalidCastException))]
-        public void DifferentDataTypeInReturnTypeThanProcedureResultSet_ThrowsInvalidCastException()
+        [ExpectedException(typeof(MissingFieldException))]
+        public void LessColumnsInProcedureResultSetThanReturnObject_ThrowsMissingFieldException()
         {
-            var procedure = new DecimalWrongReturnTestStoredProcedure();
+            var procedure = new LessColumnsInProcedureResultSetThanReturnStoredProcedure();
 
             // ACT
-            Connection.Open();
             Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
 
             // ASSERT
             Assert.Fail();

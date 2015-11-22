@@ -35,11 +35,9 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
             TimeSpan elapsed;
 
             // ACT
-            Connection.Open();
             stopwatch.Start();
             var results = Connection.ExecuteStoredProcedure(getAllStoredProcedure);
             stopwatch.Stop();
-            Connection.Close();
             elapsed = stopwatch.Elapsed;
 
             // ASSERT

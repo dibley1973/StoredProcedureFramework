@@ -1,13 +1,13 @@
 ﻿using System;
-using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class RecordSetNotInstantiatedTests : BaseSqlConnectionIntegrationTest
+    public class RecordSetNotInstantiatedTestsWithDbContext : BaseDbContextIntegrationTest
     {
         [TestMethod]
         [Ignore] // Need to find out if there is a way to set this test up!
@@ -19,9 +19,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new NotInstantiatedRecordSetStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
-            Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
         }

@@ -1,17 +1,17 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Exceptions;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     /// <summary>
-    /// Summary description for NullParameterTests
+    /// Summary description for NullParameterTestsWithSqlConnection
     /// </summary>
     [TestClass]
-    public class NullParameterTests : BaseSqlConnectionIntegrationTest
+    public class NullParameterTestsWithSqlConnection : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void NullValueParameterProcedure_WithNullableParamatersAndReturnType_ReturnsCorrectValues()
@@ -26,9 +26,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new NullValueParameterAndNullableResultStoredProcedure(parameters);
 
             // ACT 
-            Connection.Open();
             var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
             var result = resultSet.First();
 
             // ASSERT
@@ -50,9 +48,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new NullValueParameterAndNonNullableResultStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
             var result = resultSet.First();
 
             // ASSERT
@@ -72,9 +68,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new StringParameterStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
             var result = resultSet.First();
 
             // ASSERT

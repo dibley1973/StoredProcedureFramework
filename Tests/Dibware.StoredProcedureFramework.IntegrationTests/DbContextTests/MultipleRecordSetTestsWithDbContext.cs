@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
-    public class MultipleRecordSetTests : BaseDbContextIntegrationTest
+    public class MultipleRecordSetTestsWithDbContext : BaseDbContextIntegrationTest
     {
         [TestMethod]
         public void MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()

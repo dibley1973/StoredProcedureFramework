@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class OutputParametersUnitTests : BaseSqlConnectionIntegrationTest
+    public class OutputParametersUnitTestsWithSqlConnection : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void CountCharsInOutputParameterStoredProcedure_WithOutputParamatersAndNoReturnType_ReturnsOutputParamtersCorrectly()
@@ -23,9 +23,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new CountCharsInOutputParameterStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
 
             // ASSERT
             Assert.AreEqual(expectedvalue2, parameters.Value2);

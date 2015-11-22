@@ -1,13 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
-using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class IncorrectReturnType : BaseDbContextIntegrationTest
+    public class IncorrectReturnTypeWithSqlConnection : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]
@@ -16,7 +16,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
             var procedure = new DecimalWrongReturnTestStoredProcedure();
 
             // ACT
-            Context.ExecuteStoredProcedure(procedure);
+            Connection.ExecuteStoredProcedure(procedure);
 
             // ASSERT
             Assert.Fail();

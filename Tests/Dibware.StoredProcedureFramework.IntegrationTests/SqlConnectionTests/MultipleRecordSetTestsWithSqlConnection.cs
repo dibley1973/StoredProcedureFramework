@@ -8,7 +8,7 @@ using System.Linq;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class MultipleRecordSetTests : BaseSqlConnectionIntegrationTest
+    public class MultipleRecordSetTestsWithSqlConnection : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         public void MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
@@ -32,9 +32,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var procedure = new MultipleRecordSetStoredProcedure(parameters);
 
             // ACT
-            Connection.Open();
             var resultSet = Connection.ExecuteStoredProcedure(procedure);
-            Connection.Close();
 
             var results1 = resultSet.RecordSet1;
             var result1 = results1.First();

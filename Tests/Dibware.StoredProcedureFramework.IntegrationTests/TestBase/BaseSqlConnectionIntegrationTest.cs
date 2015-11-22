@@ -34,6 +34,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
             _connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             _connection = new SqlConnection(_connectionString);
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
+            _connection.Open();
         }
 
         [TestCleanup]
