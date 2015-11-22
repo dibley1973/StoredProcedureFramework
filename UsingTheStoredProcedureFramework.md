@@ -1,8 +1,6 @@
 # Using the StoredProcedureFramework
 
-**PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED FOR THE API FOR USE WITH ENTITY FRAMEWORK**
-
-Please note a new API change is in progress and documentation may not be fully accurate for the current API! Please refer to the integration tests and example tests in the source code for an accurate example of using the framework.
+The purpose of this document is to describe how to use this framework. THIS DOCUMENT IS STILL BEING UPDATED, and may be in accurate due to a change in API an some functionality. Please refer to the unit tests and examples in the code for the true usage documentation.
 
 Please also note there is on-going work to split the current single TEST project into three specific projects:
 * Dibware.StoredProcedureFramework.UnitTests
@@ -13,9 +11,7 @@ There will then be two database projects
 * Dibware.StoredProcedureFramework.IntegrationTests.Database
 * Dibware.StoredProcedureFramework.Examples.Database
 
-
 ## TOC
-
 * [Representing Stored Procedures in Code] (#representing-stored-procedures-in-code)
   +  [General Rules] (#general-rules)
     -   Base Classes
@@ -44,7 +40,7 @@ There will then be two database projects
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
 
 ## Representing Stored Procedures in Code
-(All code examples can be found in the **Examples** folder of the **Dibware.StoredProcedureFramework.Tests** project
+(All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
 
 ### General Rules
 To represent a Stored Procedure when using the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for it. The stored procedure class must inherit from one of a predetermined number of base classes. These base classes all exists in the **Dibware.StoredProcedureFramework.Base** namespace of the framework. In most cases the class should inherit from the **StoredProcedureBase** base class, but three other base class *shortcuts* are also provided for convenience.

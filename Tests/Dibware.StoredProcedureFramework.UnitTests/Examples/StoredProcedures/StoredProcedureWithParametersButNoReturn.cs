@@ -14,19 +14,19 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     //    }
     //}
 
-    internal class StoredProcedureWithParametersButNoReturn
-        : NoReturnTypeStoredProcedureBase<StoredProcedureWithParametersButNoReturnParameters>
-    {
-        public StoredProcedureWithParametersButNoReturn(StoredProcedureWithParametersButNoReturnParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //internal class StoredProcedureWithParametersButNoReturn
+    //    : NoReturnTypeStoredProcedureBase<StoredProcedureWithParametersButNoReturnParameters>
+    //{
+    //    public StoredProcedureWithParametersButNoReturn(StoredProcedureWithParametersButNoReturnParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
 
-    internal class StoredProcedureWithParametersButNoReturnParameters
-    {
-        [ParameterDbType(SqlDbType.Int)]
-        public int Id { get; set; }
-    }
+    //internal class StoredProcedureWithParametersButNoReturnParameters
+    //{
+    //    [ParameterDbType(SqlDbType.Int)]
+    //    public int Id { get; set; }
+    //}
 }

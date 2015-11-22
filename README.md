@@ -1,17 +1,21 @@
 # StoredProcedureFramework #
-**A .Net framework for calling stored procedures.**
-This framework can be used with or without the presence of Entity Framework, but a seperate dll is required when using EF.
+**A .Net framework for SQL Server calling stored procedures.**
+The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF.
 
 **Please Note:**
-This is an on-going project and has been inspired by and some of the ocde will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
+* This is an on-going project and will be continued
+* This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-Please note this is a work in progress. Currently integration tests are being pulled out of teh Unittest project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
+Please note this is a work in progress. Currently integration tests are being pulled out of the Unit test project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
 
 ## Versions
 * 0.3 This version supports stored procedures with Table Value Parameters. This is the version that is currently in development.
-* 0.2 This version will suupport multiple recordsets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
-* 0.1 This was the initial version which did not support multiple recordsets. To enable multiple recordsets to be supported alongside single recordsets a break to the API is required. Development has stopped on this version but the code will remain available for use.
+* 0.2 This version will support multiple RecordSets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
+* 0.1 This was the initial version which did not support multiple RecordSets. To enable multiple RecordSets to be supported alongside single RecordSets a break to the API is required. Development has stopped on this version but the code will remain available for use.
+
+## Nuget Package
+The project is not currently available on NuGet but it is the intention to make this so once the version reaches 1.0 and is considered solid.
 
 ## Project Brief ##
 The aim of this project is to provide the following:
@@ -30,22 +34,21 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
 * (Must) Ability to support Table Value Parameters **Done**
-* (Must) Entity Framework specifc extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
-* (Should) Ability to handle multiple recordsets returned from a stored procedure **Done**
+* (Must) Entity Framework specific extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
+* (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
 * (Should) Contain a suite of Unit Tests that test all public accessors
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
 * (Should) Contain a suite of Integration Tests for both assemblies **WIP**
 * (Should) Ability to handle lesser used parameter types
 * (Should) Ability to handle lesser used return data types
-* (Should) Warn calling code if parameter value data may be truncated due to smaller pameter type
-* (Should) Implement David Doran's "FastActivator" for object intanciation **Investigated: no gain**
+* (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type
+* (Should) Implement David Doran's "FastActivator" for object instantiation **Investigated: no gain**
 * (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **WIP**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
 
 ## WIKI ##
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)
-
 
 ## Solution
 The solution is written in C# .Net v4.0. The decision to write in v4.0 and not a later version is to enable other projects with this framework version and above to be able to consume it.
@@ -67,3 +70,19 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
     - Dibware.StoredProcedureFramework.IntegrationTests.csproj
     - Dibware.StoredProcedureFramework.IntegrationTests.Database.sqlproj
     - Dibware.StoredProcedureFramework.UnitTests.csproj
+    - ~~Dibware.StoredProcedureFramework.UnitTests.Database.sqlproj~~
+
+#### Binaries
+This folder contains the compiled DLLs in folders with the respective version numbers.
+
+#### CodeBase
+This folder contains the physical code which is compiled in to the binaries folder, above.
+
+#### Documents
+This folder contains the documentation for this project. It includes this document.
+
+#### Examples
+This folder contains two projects. The first is a unit test project which contains examples describing how to use the framework. The second project is the database project for the examples in the first project.
+
+#### Tests
+This project contains three projects. The first is the Integration Test project which contains test which interact with a test database. The second project is the database project for the Integration Test project. The third project is a Unit Test project. No database project is needed for this. (There is a fourth project which is a database project but that is soon to be removed.)

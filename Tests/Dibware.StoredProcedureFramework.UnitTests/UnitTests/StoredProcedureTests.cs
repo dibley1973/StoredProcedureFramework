@@ -1,13 +1,12 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
+using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
-using Dibware.StoredProcedureFramework.Tests.Examples.Tests;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures;
 using MostBasicStoredProcedure = Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.MostBasicStoredProcedure;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
@@ -294,7 +293,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
         public void HasNullStoredProcedureParameters_WhenProceduredDoesNotHaveNullStoredProcedureParameters_ReturnsFalse()
         {
             // ARRANGE
-            var parameters = new NormalStoredProcedureParameters { Id = 1};
+            var parameters = new NormalStoredProcedureParameters { Id = 1 };
             var procedure = new NormalStoredProcedure(parameters);
 
             // ACT
