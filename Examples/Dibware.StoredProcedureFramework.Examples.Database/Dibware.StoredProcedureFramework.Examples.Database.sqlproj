@@ -96,6 +96,7 @@
     <Build Include="app\Stored Procedures\CompanyDeleteForTenantId.sql" />
     <Build Include="app\Stored Procedures\CompaniesAdd.sql" />
     <Build Include="app\User Defined Types\CompanyTableType.sql" />
+    <Build Include="app\Stored Procedures\TenantCompanyAccountGetForTenantId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="_Post Deployment Scripts\Script.PostDeployment.sql" />
