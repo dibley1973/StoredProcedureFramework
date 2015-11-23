@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
@@ -24,7 +25,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             const int expectedCompanyCount = 2;
 
             // ACT
-            var companies = Connection.ExecuteStoredProcedure(procedure);
+            List<CompanyDto> companies = Connection.ExecuteStoredProcedure(procedure);
             CompanyDto company1 = companies.FirstOrDefault();
 
             // ASSERT

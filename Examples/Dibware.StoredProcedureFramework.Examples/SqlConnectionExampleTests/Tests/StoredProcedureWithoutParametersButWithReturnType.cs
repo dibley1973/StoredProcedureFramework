@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Examples.Dtos;
+﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
@@ -12,6 +12,9 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
     public class StoredProcedureWithoutParametersButWithReturnType
         : SqlConnectionExampleTestBase
     {
+        // TODO: Investigate if stored procs can be called using the simplified API like DbContext has
+        // For example: var tenants = Connection.TenantGetAll.Execute();
+
         [TestMethod]
         public void TenantGetAll()
         {
@@ -20,8 +23,6 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             const int expectedTenantCount = 2;
 
             // ACT
-            // TODO: Investigate if stored procs can be called using the simplified API like DbContext has
-            //var tenants = Connection.TenantGetAll.Execute();
             List<TenantDto> tenants = Connection.ExecuteStoredProcedure(procedure);
             TenantDto tenant1 = tenants.FirstOrDefault();
 
