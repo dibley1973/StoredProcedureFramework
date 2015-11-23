@@ -7,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
 {
     [Schema("app")]
     [Name("Company_GetAllForTenantID")]
-    [ReturnType(typeof(CompanyResultRow))]
+    //[ReturnType(typeof(CompanyResultRow))]
     internal class GetAllForTenantID
     {
         [Name("TenantID")]

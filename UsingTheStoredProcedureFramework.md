@@ -1,6 +1,7 @@
 # Using the StoredProcedureFramework
+The purpose of this document is to describe how to use the Stored Procedure Framework for .Net. 
 
-The purpose of this document is to describe how to use this framework. THIS DOCUMENT IS STILL BEING UPDATED, and may be in accurate due to a change in API an some functionality. Please refer to the unit tests and examples in the code for the true usage documentation.
+PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED, and may be in accurate due to a change in API an some functionality. Please refer to the unit tests and examples in the code for the true usage documentation.
 
 Please also note there is on-going work to split the current single TEST project into three specific projects:
 * Dibware.StoredProcedureFramework.UnitTests
@@ -29,6 +30,7 @@ There will then be two database projects
       * ctor(TParameters parameters)
       * ctor(string procedureName, TParameters parameters)
       * ctor(string schemaName, string procedureName, TParameters parameters)
+     - [Stored Procedure Attributes] (#stored-procedure-attributes)
 * [Examples] (#examples)
   + The most basic type of stored procedure
   + A Stored Procedure without Parameters
@@ -40,26 +42,26 @@ There will then be two database projects
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
 
 ## Representing Stored Procedures in Code
-(All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
+The aim of this framewor is to allow representing of stored procedures, their parameters and return types, as .Net POCO objects. These objects can then be executed against the target dataabse using either the SqlConnection, dbConnection or DbContext objects. (All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
 
 ### General Rules
-To represent a Stored Procedure when using the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for it. The stored procedure class must inherit from one of a predetermined number of base classes. These base classes all exists in the **Dibware.StoredProcedureFramework.Base** namespace of the framework. In most cases the class should inherit from the **StoredProcedureBase** base class, but three other base class *shortcuts* are also provided for convenience.
+To represent a Stored Procedure when using the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for it. The stored procedure class must inherit from one of a predetermined number of base classes. These base classes all exists in the **Dibware.StoredProcedureFramework.Base** *namespace* of the framework. In most cases the class should inherit from the **StoredProcedureBase** base class, but three other *shortcut* base class are also provided for added convenience.
 
 #### Base Classes
-There are four base classes from which a stored procedure must be defined to inherit from.
+There are four base classes from which a stored procedure object class must inherit from.
 * StoredProcedureBase - for Stored Procedures with parameters and return types
 * NoParametersStoredProcedureBase - for Stored Procedures with return types but no parameters
 * NoReturnTypeStoredProcedureBase - for Stored procedures with parameters but no return types
 * NoParametersNoReturnTypeStoredProcedureBase - for Stored Procedures without parameters or returns types
 
 ##### StoredProcedureBase
-The **StoredProcedureBase** base class is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a result. The result can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This will be used for your *GetProductForId* type of stored procedures and when inherited from this class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
+The **StoredProcedureBase** base class which exists in the `Dibware.StoredProcedureFramework.Base` namespace is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a result. The result can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This base class will typically be used for your the object which represents your *GetProductForId* type of stored procedures. When in herited from this base class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
 
 ##### NoParametersStoredProcedureBase
-The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a result. Again this result can be either a  *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This will be used for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
+The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a result. Again this result can be either a  *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This base class will typically be inherited from for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
 
 ##### NoReturnTypeStoredProcedureBase
-The **NoReturnTypeStoredProcedureBase** base class is used for a stored procedure which does have one or more parameters but does not return any results. This will be used for your *DeleteProductById* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TParameters**.
+The **NoReturnTypeStoredProcedureBase** base class is used for a stored procedure which does have one or more parameters but does not return any results. This will typically be inherited from for  your *DeleteProductById* type of stored procedures, and when inherited from this class demands one *Type Parameter* to be defined; **TParameters**.
 
 #####NoParametersNoReturnTypeStoredProcedureBase
 The **NoParametersNoReturnTypeStoredProcedureBase** base class is used for a stored procedure which do not have any parameters and also do not return any results. This will be used for your *RunHouseKeepingBatch* type of stored procedures and when inherited from does not demand any *Type Parameters* to be defined.
@@ -70,13 +72,17 @@ Typically when defining the stored procedure POCO class there will be a requirem
 * TParameters
 
 ##### TReturn
-The **TReturn** type parameter defines the type that represents the result returned from a stored procedure. this can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. The *ResultSet* must contain one or more properties which are in effect *RecordSets* or lists of return types.
+The `TReturn` type parameter defines the type that represents the result returned from a stored procedure. This can be either a list of objects where each object defines the signature of the *row* that is returned in the case of a single RecordSet, or a *ResultSet* object for a SQL stored procedure which returns *Multiple RecordSets*. The *ResultSet* must contain one or more properties which are lists of return types, where each represents one of the *RecordSets*. Each list contains an object whhich represents the signature of the row being returned. The order which each property representing the *RecordSets* is defined in the class must match the order the SQL Stored procedure returns the RecordSets. 
+
+For simplicilty the classes that define the row signature has a matching name and data type of the column which is returned from the SQL stored procedure *RecordSet*. If this cannot be acheived due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the field. Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
 
 ##### TParameters
-The **TParameters** type parameter defines the type that represents the collection of parameters which the stored procedure requires.
+The `TParameters` type parameter defines the type that represents the collection of parameters which the stored procedure requires. The order in which the parameters exist in the SQL stored procedure is the order which they must be defined in the POCO class.
+
+For simplicilty the classes that define the parameter signature has a matching name and data type of the paremeter which the SQL stored procedure *RecordSet* requires. If this cannot be acheived due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the parameter. Direction, Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
 
 #### Constructors
-The stored procedure POCO class will also require one of three constructor signatures:
+The stored procedure POCO class will also require one of six constructor signatures, depending upon the type of procedure:
 
 ##### ctor()
 The default constructor is only available for stored procedures which do not have parameters. This is the bare minimum needed to construct a stored procedure and can be used if the stored procedure has the same name as the class which represents it and if the stored procedure is owned by the **dbo** schema and custom attributes are not being used to set the schema and procedure names.
@@ -95,6 +101,38 @@ This constructor is is only available for stored procedures which do have parame
 
 ##### ctor(string schemaName, string procedureName, TParameters parameters) : base(schemaName, procedureName, parameters) {}
 This constructor is is only available for stored procedures which do have parameters. This constructor can be used to set the schema name and the procedure name. It takes an argument of the type that is defined by the **TParameters** type parameter. It also takes a the schema name and procedure name as string as well as the object that represents the parameters.  
+
+#### Stored Procedure Attributes
+There are a number of attributes which the stored procedure framework provids which can be used to override the conventions which the framework uses.
+
+* DirectionAttribute
+* NameAttribute
+* ParameterDbTypeAttribute
+* PrecisionAttribute
+* ScaleAttribute
+* SchemaAttribute
+* SizeAttribute
+
+##### DirectionAttribute
+This attribute can be applied to a property which defines a SQL stored procedure parameter and used to overrride the default *Input Only* behaviour of the parameters. The attribute is constructed with a `System.data.ParameterDirection` enumeration.
+
+##### NameAttribute
+This attribute can be applied to a class, struct, or property to override the name which the framework will use by convention fot the object. This attribute can be used to override the name of a stored procedure, a parameter or a return type field. The attribute is constructed with the overriding name.
+
+##### ParameterDbTypeAttribute
+This attribute can be applied to a property to override the SqlDbType of a parameter or a retutn type field. The attribute is constructed with a `System.Data.SqlDbType`.
+
+##### PrecisionAttribute
+This attribute can be applied to a property to overdide the default precision of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
+
+##### ScaleAttribute
+This attribute can be applied to a property to overide the default scale of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
+
+##### SchemaAttribute
+This attribute can be applied to a class, struct, or property to override the default schema of *dbo* which the framework will assume for a stored procedure. The attribute is constructed with the overriding schema name.
+
+##### SizeAttribute
+This attribute can be applied to a property to overdide the default size of a text or binary types of parameter or field. The attribute is constructed with a `System.Int32`.
 
 ## Examples
 (Once complete) all of the code in the examples listed below will exist in the following projects:

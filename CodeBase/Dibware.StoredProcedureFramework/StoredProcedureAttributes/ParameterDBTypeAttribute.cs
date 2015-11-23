@@ -6,6 +6,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
     /// <summary>
     /// Define the SqlDbType for the parameter corresponding to this property.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class ParameterDbTypeAttribute : Attribute
     {
         public SqlDbType Value { get; set; }
