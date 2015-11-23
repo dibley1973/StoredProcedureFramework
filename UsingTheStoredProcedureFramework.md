@@ -134,13 +134,13 @@ This attribute can be applied to a class, struct, or property to override the de
 ##### SizeAttribute
 This attribute can be applied to a property to overdide the default size of a text or binary types of parameter or field. The attribute is constructed with a `System.Int32`.
 
-## Examples
+## Example Usage
 (Once complete) all of the code in the examples listed below will exist in the following projects:
 * Dibware.StoredProcedureFramework.Examples.csproj
 * Dibware.StoredProcedureFramework.Examples.Database.sqlproj
 
 ### The most basic type of stored procedure
-The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like resetting a field value, but does not take any parameters, and does not return any results. For example the procedure below which resets the *LastUpdatedDateTime* field on the *Account* table.
+The most basic type of stored procedure is one that has no parameters and returns no result. For example a stored procedure that just performs an action like resetting a field value, but does not take any parameters and does not return any results, it uses maybe a configuration table or function in the database. For example the procedure below which resets the *LastUpdatedDateTime* field on the *Account* table.
 
     CREATE PROCEDURE [dbo].[AccountLastUpdatedDateTimeReset] 
     AS
@@ -151,22 +151,15 @@ The most basic type of stored procedure is one that has no parameters and return
             [LastUpdatedDateTime] = GETDATE();
     END
 
-So we need a class to represent this stored procedure. The **StoredProcedureBase** abstract class which the framework expects all stored procedure class to inherit from expects two type parameters. 
+So to call this stored procedure using teh framework we need a class to represent this stored procedure, `AccountLastUpdatedDateTimeReset`. so teh framework knows how to use this class it must inherit from the `StoredProcedureBase` abstract class. This is the base class which the framework expects **all** stored procedure POCO classes to inherit from. The `StoredProcedureBase` base class expects two type parameters to be defined for it). 
 
     public abstract class StoredProcedureBase<TReturn, TParameters> {...}
 
-One *TReturn* defines the type of the which the stored procedure is to return and the other *TParameters* defines a class for the stored procedure parameters. If we wish to inherit from this class (which we must for the framework to function correctly) then we would have to provide a class for each. As our procedure neither returns any values or takes any parameters we need to explicitly state this. The framework already provides us with concrete classes that can be used when there is no return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are:
-
-#### NullStoredProcedureParameters
-    /// <summary>
-    /// An object that represents the absence of parameters
-    /// for a stored procedure
-    /// </summary>
-    public class NullStoredProcedureParameters
-    {
-    }
+If we wish to inherit from this class, *which we must for the framework to function correctly*, then we must provide a class for each type parameter. The *TReturn* type parameter defines the type of the which the stored procedure is to return and the *TParameters* type parameter defines a class for the stored procedure parameters.  As our procedure neither returns any values or takes any parameters we need to explicitly state this. The framework already provides us with concrete classes that can be used when there is no return type and or no parameter type. These both exist in the **Dibware.StoredProcedureFramework** namespace and are the `NullStoredProcedureResult` and `NullStoredProcedureParameters` classes:
 
 #### NullStoredProcedureResult
+This class is used when the procedure will not return any kind of result.
+
     /// <summary>
     /// An object that represents the absence of an 
     /// expected result from a stored procedure
@@ -175,25 +168,36 @@ One *TReturn* defines the type of the which the stored procedure is to return an
     {
     }
 
-So we could define the class that represents this stored procedure as follows:
+#### NullStoredProcedureParameters
+This class is used when the stored procedure does not require any parameters.
+
+    /// <summary>
+    /// An object that represents the absence of parameters
+    /// for a stored procedure
+    /// </summary>
+    public class NullStoredProcedureParameters
+    {
+    }
+
+So we could define the class that represents this stored procedure as follows...
 
     internal class AccountLastUpdatedDateTimeReset
         : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
     {
-        public MostBasicStoredProcedure2()
+        public AccountLastUpdatedDateTimeReset()
             : base(new NullStoredProcedureParameters())
         {
         }
     }
 
-But this is a bit cumbersome for such a basic stored procedure, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from making our code more succinct.
+...but this is a bit cumbersome for such a basic stored procedure. Having to define the "Null" return type and "Null" parameters is a bit clumsey, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from which does this for us and makes our code a little more succinct. Now we can define the class like below:
 
     internal class AccountLastUpdatedDateTimeReset
         : NoParametersNoReturnTypeStoredProcedureBase
     {
     }
 
-We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor. We can call the procedure using the code given below.
+We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor. We can call the procedure using the code given in teh test below. Please note the `SqlConnectionExampleTestBase` base class just sets up the SqlConnection for teh test and handles opening and closing of the SqlConnection for us.
 
     [TestClass]
     public class StoredProcedureWithoutParametersOrReturnType
@@ -213,7 +217,7 @@ We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredP
         }
     }
 
-First we create an instance of the stored procedure object, and then we pass that to the `ExecuteStoredProcedure` extension method of the `SqlConnection` object. No results are expected so none are gathered.
+So to call the procedure we first create a new instance of the stored procedure POCO object, and then we pass that to the `ExecuteStoredProcedure` extension method of the `SqlConnection` object. No results are expected so none are gathered.
 
 
 ### A Stored Procedure without Parameters
@@ -243,7 +247,7 @@ For this example we will assume we have already created the table `app.Tenant`..
     INSERT INTO [app].[Tenant] ( [IsActive], [TenantName] ) VALUES ( 1, 'Acme Tenant' )
     INSERT INTO [app].[Tenant] ( [IsActive], [TenantName] ) VALUES ( 1, 'Universal Tenant')    
 
-As this procedure returns data we need to define a class that will represent a row of data in our result *RecordSet*. For each field in the *RecordSet* we need a property in this class to represent it. The property must match the *Name* and *DataType* of the field it represents in the *RecordSet* row returned. So in the example case of the `TenantGetAll` stored procedure we are looking at a class which contains properties of the names and types we want to return, as below.
+As this procedure returns data we need to define a class that will represent a row of data in our result *RecordSet*. For each field in the *RecordSet* we need a property in this class to represent it. The property *should* match the *Name* and *DataType* of the field it represents in the *RecordSet* row returned. Remember that StoredProcedureAttributes can be used to override bothe the name and DataType if required, but in this case we will ensure they match. So in the example case of the `TenantGetAll` stored procedure we are looking at a class which contains properties of the names and types we want to return, as below.
 
     /// <summary>
     /// Encapsulates tenant data
@@ -256,7 +260,7 @@ As this procedure returns data we need to define a class that will represent a r
         public DateTime RecordCreatedDateTime { get; set; }
     }
 
-We will use a DTO as this is likely to be the same object which transports our returned data up through the layers to the client, domain or business logic layer. Now we have a class which represents our return type we can build a class to represent our stored procedure.
+We will use a DTO as this is likely to be the same object which transports our returned data up through the layers to the client, domain or business logic layer. In our example the DTO is be defined in the Example project which is akin to a DataAccess layer, however in a real world scenario the DTO may be defined in your services layer. Now we have a class which represents our return type we can build a class to represent our stored procedure.
 
     [Schema("app")]
     internal class TenantGetAll
