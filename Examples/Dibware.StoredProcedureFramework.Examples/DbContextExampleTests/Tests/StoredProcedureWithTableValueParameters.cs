@@ -1,15 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
+﻿using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
-using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-
-namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
+namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
 {
     [TestClass]
-    public class StoredProcedureWithTableParameters
-        : SqlConnectionExampleTestBase
+    public class StoredProcedureWithTableValueParameters : DbContextExampleTestBase
     {
         [TestMethod]
         public void CompaniesAdd()
@@ -28,7 +26,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             var procedure = new CompaniesAdd(parameters);
 
             // ACT
-            Connection.ExecuteStoredProcedure(procedure);
+            Context.ExecuteStoredProcedure(procedure);
 
             // ASSERT
         }

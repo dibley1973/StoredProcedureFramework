@@ -4,7 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
 {
     [TestClass]
-    public class StoredProcedureWithParametersButWithoutReturnType : DbContextExampleTestBase
+    public class StoredProcedureWithParametersButWithoutReturnType
+        : DbContextExampleTestBase
     {
         /// <summary>
         /// Tenants the delete identifier.
@@ -14,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
         public void TenantDeleteId()
         {
             // ACT
-            Context.TenantDeleteForId.ExecuteFor(new { Id = 100 });
+            Context.TenantDeleteForId.ExecuteFor(new { TenantId = 100 });
         }
     }
 }

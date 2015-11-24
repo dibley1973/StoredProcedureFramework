@@ -36,13 +36,13 @@ There will then be two database projects
   + A Stored Procedure without Parameters
   + A Stored Procedure with Parameters but without a Return Type
   + A "Normal" Stored procedure
-  + A Stored Procedure With Multiple RecordSets
+  + [A Stored Procedure With Multiple RecordSets]  (###a-stored-procedure-with-multiple-recordsets)
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
 * [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
 
 ## Representing Stored Procedures in Code
-The aim of this framewor is to allow representing of stored procedures, their parameters and return types, as .Net POCO objects. These objects can then be executed against the target dataabse using either the SqlConnection, dbConnection or DbContext objects. (All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
+The aim of this framework is to allow representing of stored procedures, their parameters and return types, as .Net POCO objects. These objects can then be executed against the target database using either the SqlConnection, dbConnection or DbContext objects. (All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
 
 ### General Rules
 To represent a Stored Procedure when using the StoredProcedureFramework we need to create a **P**lain **O**ld **C**LR **O**bject class for it. The stored procedure class must inherit from one of a predetermined number of base classes. These base classes all exists in the **Dibware.StoredProcedureFramework.Base** *namespace* of the framework. In most cases the class should inherit from the **StoredProcedureBase** base class, but three other *shortcut* base class are also provided for added convenience.
@@ -55,7 +55,7 @@ There are four base classes from which a stored procedure object class must inhe
 * NoParametersNoReturnTypeStoredProcedureBase - for Stored Procedures without parameters or returns types
 
 ##### StoredProcedureBase
-The **StoredProcedureBase** base class which exists in the `Dibware.StoredProcedureFramework.Base` namespace is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a result. The result can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This base class will typically be used for your the object which represents your *GetProductForId* type of stored procedures. When in herited from this base class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
+The **StoredProcedureBase** base class which exists in the `Dibware.StoredProcedureFramework.Base` namespace is probably the most frequently used base class as it is for a stored procedure which takes parameters and also returns a result. The result can be either a *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This base class will typically be used for your the object which represents your *GetProductForId* type of stored procedures. When inherited from this base class demands two *Type Parameters* to be defined; **TReturn** and **TParameters**.
 
 ##### NoParametersStoredProcedureBase
 The **NoParametersStoredProcedureBase** base class is used for a stored procedure which does not have parameters but does return a result. Again this result can be either a  *ResultSet* for multiple RecordSets or a list of return types for a single RecordSet. This base class will typically be inherited from for your *GetAllProducts* type of stored procedures and when inherited from this class demands one *Type Parameter* to be defined; **TReturn**.
@@ -72,14 +72,14 @@ Typically when defining the stored procedure POCO class there will be a requirem
 * TParameters
 
 ##### TReturn
-The `TReturn` type parameter defines the type that represents the result returned from a stored procedure. This can be either a list of objects where each object defines the signature of the *row* that is returned in the case of a single RecordSet, or a *ResultSet* object for a SQL stored procedure which returns *Multiple RecordSets*. The *ResultSet* must contain one or more properties which are lists of return types, where each represents one of the *RecordSets*. Each list contains an object whhich represents the signature of the row being returned. The order which each property representing the *RecordSets* is defined in the class must match the order the SQL Stored procedure returns the RecordSets. 
+The `TReturn` type parameter defines the type that represents the result returned from a stored procedure. This can be either a list of objects where each object defines the signature of the *row* that is returned in the case of a single RecordSet, or a *ResultSet* object for a SQL stored procedure which returns *Multiple RecordSets*. The *ResultSet* must contain one or more properties which are lists of return types, where each represents one of the *RecordSets*. Each list contains an object which represents the signature of the row being returned. The order which each property representing the *RecordSets* is defined in the class must match the order the SQL Stored procedure returns the RecordSets. 
 
-For simplicilty the classes that define the row signature has a matching name and data type of the column which is returned from the SQL stored procedure *RecordSet*. If this cannot be acheived due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the field. Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
+For simplicity the classes that define the row signature has a matching name and data type of the column which is returned from the SQL stored procedure *RecordSet*. If this cannot be achieved due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the field. Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
 
 ##### TParameters
 The `TParameters` type parameter defines the type that represents the collection of parameters which the stored procedure requires. The order in which the parameters exist in the SQL stored procedure is the order which they must be defined in the POCO class.
 
-For simplicilty the classes that define the parameter signature has a matching name and data type of the paremeter which the SQL stored procedure *RecordSet* requires. If this cannot be acheived due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the parameter. Direction, Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
+For simplicilty the classes that define the parameter signature has a matching name and data type of the parameter which the SQL stored procedure *RecordSet* requires. If this cannot be acheived due to a reserved word for instance that the framework provides attributes which can be used to override the *Name* or *DataType* of the parameter. Direction, Size, Scale and Precision can also be set using the attributes the framework provides. See the section for [Stored Procedure Attributes] (#stored-procedure-attributes) for further details.
 
 #### Constructors
 The stored procedure POCO class will also require one of six constructor signatures, depending upon the type of procedure:
@@ -103,7 +103,7 @@ This constructor is is only available for stored procedures which do have parame
 This constructor is is only available for stored procedures which do have parameters. This constructor can be used to set the schema name and the procedure name. It takes an argument of the type that is defined by the **TParameters** type parameter. It also takes a the schema name and procedure name as string as well as the object that represents the parameters.  
 
 #### Stored Procedure Attributes
-There are a number of attributes which the stored procedure framework provids which can be used to override the conventions which the framework uses.
+There are a number of attributes which the stored procedure framework provides which can be used to override the conventions which the framework uses.
 
 * DirectionAttribute
 * NameAttribute
@@ -114,25 +114,25 @@ There are a number of attributes which the stored procedure framework provids wh
 * SizeAttribute
 
 ##### DirectionAttribute
-This attribute can be applied to a property which defines a SQL stored procedure parameter and used to overrride the default *Input Only* behaviour of the parameters. The attribute is constructed with a `System.data.ParameterDirection` enumeration.
+This attribute can be applied to a property which defines a SQL stored procedure parameter and used to override the default *Input Only* behaviour of the parameters. The attribute is constructed with a `System.data.ParameterDirection` enumeration.
 
 ##### NameAttribute
-This attribute can be applied to a class, struct, or property to override the name which the framework will use by convention fot the object. This attribute can be used to override the name of a stored procedure, a parameter or a return type field. The attribute is constructed with the overriding name.
+This attribute can be applied to a class, struct, or property to override the name which the framework will use by convention for the object. This attribute can be used to override the name of a stored procedure, a parameter or a return type field. The attribute is constructed with the overriding name.
 
 ##### ParameterDbTypeAttribute
 This attribute can be applied to a property to override the SqlDbType of a parameter or a retutn type field. The attribute is constructed with a `System.Data.SqlDbType`.
 
 ##### PrecisionAttribute
-This attribute can be applied to a property to overdide the default precision of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
+This attribute can be applied to a property to override the default precision of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
 
 ##### ScaleAttribute
-This attribute can be applied to a property to overide the default scale of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
+This attribute can be applied to a property to override the default scale of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.
 
 ##### SchemaAttribute
 This attribute can be applied to a class, struct, or property to override the default schema of *dbo* which the framework will assume for a stored procedure. The attribute is constructed with the overriding schema name.
 
 ##### SizeAttribute
-This attribute can be applied to a property to overdide the default size of a text or binary types of parameter or field. The attribute is constructed with a `System.Int32`.
+This attribute can be applied to a property to override the default size of a text or binary types of parameter or field. The attribute is constructed with a `System.Int32`.
 
 ## Example Usage
 (Once complete) all of the code in the examples listed below will exist in the following projects:
@@ -151,7 +151,7 @@ The most basic type of stored procedure is one that has no parameters and return
             [LastUpdatedDateTime] = GETDATE();
     END
 
-So to call this stored procedure using teh framework we need a class to represent this stored procedure, `AccountLastUpdatedDateTimeReset`. so teh framework knows how to use this class it must inherit from the `StoredProcedureBase` abstract class. This is the base class which the framework expects **all** stored procedure POCO classes to inherit from. The `StoredProcedureBase` base class expects two type parameters to be defined for it). 
+So to call this stored procedure using the framework we need a class to represent this stored procedure, `AccountLastUpdatedDateTimeReset`. So the framework knows how to use this class it must inherit from the `StoredProcedureBase` abstract class. This is the base class which the framework expects **all** stored procedure POCO classes to inherit from. The `StoredProcedureBase` base class expects two type parameters to be defined for it). 
 
     public abstract class StoredProcedureBase<TReturn, TParameters> {...}
 
@@ -190,14 +190,14 @@ So we could define the class that represents this stored procedure as follows...
         }
     }
 
-...but this is a bit cumbersome for such a basic stored procedure. Having to define the "Null" return type and "Null" parameters is a bit clumsey, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from which does this for us and makes our code a little more succinct. Now we can define the class like below:
+...but this is a bit cumbersome for such a basic stored procedure. Having to define the "Null" return type and "Null" parameters is a bit clumsy, so the framework provides another abstract base class **NoParametersNoReturnTypeStoredProcedureBase** which our stored procedure class can inherit from which does this for us and makes our code a little more succinct. Now we can define the class like below:
 
     internal class AccountLastUpdatedDateTimeReset
         : NoParametersNoReturnTypeStoredProcedureBase
     {
     }
 
-We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor. We can call the procedure using the code given in teh test below. Please note the `SqlConnectionExampleTestBase` base class just sets up the SqlConnection for teh test and handles opening and closing of the SqlConnection for us.
+We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredProcedureBase** already handles this for us in its default constructor. We can call the procedure using the code given in the test below. Please note the `SqlConnectionExampleTestBase` base class just sets up the SqlConnection for the test and handles opening and closing of the SqlConnection for us.
 
     [TestClass]
     public class StoredProcedureWithoutParametersOrReturnType
@@ -268,7 +268,7 @@ We will use a DTO as this is likely to be the same object which transports our r
     {
     }
 
-The first thing you may notice is the `Schema` attribute which this class has been decorated with. That informs the framework that the stored procedure exists in the *app* schema not the *dbo* schema. By default the the framework anticipates all stored procedures are in the *dbo* schema, by using the `SchemaAttribuute` to override teh default the stored procedures can acccessed in any schema. The next point you may observe is the class inherits from `NoParametersStoredProcedureBase<TReturn>`. It could just as easily inherit from `StoredProcedureBase<TReturn, NullStoredProcedureParameters>` but the `NoParametersStoredProcedureBase` base class is a *short-cut* base class to save defining an extra type parameter. As this stored procedure requires no parameters and we are using the `NoParametersStoredProcedureBase` base class we do not need to provide an explicit constructor with no parameters as the base class will handle this for us. The `TReturn` type parameter is needed and in this case is our list of `TenantDto`.
+The first thing you may notice is the `Schema` attribute which this class has been decorated with. That informs the framework that the stored procedure exists in the *app* schema not the *dbo* schema. By default the the framework anticipates all stored procedures are in the *dbo* schema, by using the `SchemaAttribuute` to override the default the stored procedures can accessed in any schema. The next point you may observe is the class inherits from `NoParametersStoredProcedureBase<TReturn>`. It could just as easily inherit from `StoredProcedureBase<TReturn, NullStoredProcedureParameters>` but the `NoParametersStoredProcedureBase` base class is a *short-cut* base class to save defining an extra type parameter. As this stored procedure requires no parameters and we are using the `NoParametersStoredProcedureBase` base class we do not need to provide an explicit constructor with no parameters as the base class will handle this for us. The `TReturn` type parameter is needed and in this case is our list of `TenantDto`.
 
 We can call the stored procedure using the extensions on SqlConnection object like so:    
     
@@ -313,7 +313,7 @@ First we need a class that represents the stored procedure parameters, `TenantId
         public int Id { get; set; }
     }
 
-The default parameter data type is a *string* / *VarChar* combination. By convention because the paraemeter type is an `int` the framework will deteremine that the parameter type is an integer **SqlDBType**. Our procedure only has a single parameter, but if the Stored procedure had multiple parameters then there would be multiple properties representing each one, defined in teh same order in the class as they are in teh SQL stored procedure.
+The default parameter data type is a *string* / *VarChar* combination. By convention because the parameter type is an `int` the framework will determine that the parameter type is an integer **SqlDBType**. Our procedure only has a single parameter, but if the Stored procedure had multiple parameters then there would be multiple properties representing each one, defined in the same order in the class as they are in the SQL stored procedure.
     
 Now we can define the class which will represent the stored procedure and will use the parameters type define above as the **TParameters** type parameter. We also now need a constructor which takes a parameters argument of `TenantIdParameters`. This just passes straight through to the base class which handles construction tasks.
 
@@ -367,7 +367,7 @@ This represents what I consider to be the bread-and-butter of stored procedures;
             TenantId = @TenantId;
     END
 
-So again we need a class which represents all of our parameters, and for this stored procedure we can reuse the `TenantIdParameters` from earlier which has teh correctly set up *TenantId* parameter.
+So again we need a class which represents all of our parameters, and for this stored procedure we can reuse the `TenantIdParameters` from earlier which has the correctly set up *TenantId* parameter.
 
     public class TenantIdParameters
     {
@@ -377,7 +377,7 @@ So again we need a class which represents all of our parameters, and for this st
 Once the parameters class is defined we need to create a class that represents the row from our the first and only RecordSet that we will return. We will use the `CompanyDto` so it can be passed to another layer as a data transfer object if need be.
 
     /// <summary>
-    /// Encapsulates compnay data
+    /// Encapsulates company data
     /// </summary>
     internal class CompanyDto
     {
@@ -388,7 +388,7 @@ Once the parameters class is defined we need to create a class that represents t
         public DateTime RecordCreatedDateTime { get; set; }
     }
     
-Once we have those two classes defined we can define a class that represents the stored procedure which pulls them altogether, `CompanyGetAllForTenantID`. This class inherits from the *StoredProcedureBase* and take the *List<CompanyDto>* as the *TReturn* type parameter, and the *TenantIdParameters* as the TParameters* Type pararmeter. We also need to provide a "pass-through" constructor with a argument which is of the same type as "NormalStoredProcedureParameters" class. 
+Once we have those two classes defined we can define a class that represents the stored procedure which pulls them altogether, `CompanyGetAllForTenantID`. This class inherits from the *StoredProcedureBase* and take the *List<CompanyDto>* as the *TReturn* type parameter, and the *TenantIdParameters* as the TParameters* Type parameter. We also need to provide a "pass-through" constructor with a argument which is of the same type as "NormalStoredProcedureParameters" class. 
 
     [Schema("app")]
     internal class CompanyGetAllForTenantID
@@ -421,134 +421,183 @@ Once we have those two classes defined we can define a class that represents the
             Assert.AreEqual(expectedCompanyCount, companies.Count);
             Assert.IsNotNull(company1);
         }   
-
-    
-### WORK IN PROGRESS BELOW 
-### WORK IN PROGRESS BELOW
-### WORK IN PROGRESS BELOW
-
-
-    
+   
 Now we will look at a variation on this stored procedure, by looking at a stored procedure that returns multiple RecordSets.
 
 ### A Stored Procedure With Multiple RecordSets 
 
-So for our *Multiple RecordSet* stored procedure example we will use the following stored procedure:
+So for our *Multiple RecordSet* stored procedure example we will use the following stored procedure which has three recordSets:
 
-    CREATE PROCEDURE [dbo].[MultipleRecordSetStoredProcedure]
-        @Id                 INT
-    ,   @Name               VARCHAR(20)
-    ,   @Active             BIT
-    ,   @Price              DECIMAL(10, 4)
-    ,   @UniqueIdentifier   UNIQUEIDENTIFIER
-    ,   @Count              TINYINT
+    CREATE PROCEDURE app.TenantCompanyAccountGetForTenantId
+        @TenantId int
     AS
     BEGIN
-        /* First Record Set */
-        SELECT 
-            @Id     AS Id
-        ,   @Name   AS Name
-        UNION
         SELECT
-            17      AS Id
-        ,   'Bill'  AS Name;
+            [TenantId]
+        ,   [IsActive]
+        ,   [TenantName]
+        ,   [RecordCreatedDateTime]
+        FROM
+            [app].[Tenant]
+        WHERE
+            [TenantId] = @TenantId;
 
-        /* Second Record Set */
         SELECT 
-            @Active as Active
-        ,   @Price  AS Price;
+            [CompanyId]
+        ,   [TenantId]
+        ,   [IsActive]
+        ,   [CompanyName]
+        ,   [RecordCreatedDateTime]
+        FROM
+            [app].[Company]
+        WHERE
+            [TenantId] = @TenantId;
 
-        /* Third Record Set */
-        SELECT
-            @UniqueIdentifier   AS [UniqueIdentifier]
-        ,   @Count              AS [Count];
-        
+        SELECT 
+            [account].[AccountId]
+        ,   [account].[CompanyId]
+        ,   [account].[IsActive]
+        ,   [account].[AccountName]
+        ,   [account].[RecordCreatedDateTime]
+        ,   [account].[LastUpdatedDateTime]
+        FROM
+            [app].[Account] [account]
+        INNER JOIN
+            [app].[Company] [company]
+        ON 
+            [company].[CompanyId] = [account].[CompanyId]
+        AND
+            [company].[TenantId] = @TenantId;
+
     END
 
-You can see that each *RecordSet* has a different signature. The first returns a column called *Id* of type *INT* and a column called *Name* of type *VARCHAR(20)*. The second returns a column called *Active* of type *BIT* and a column called *Price* of type *DECIMAL(10, 4)* and the last returns a column called *UniqueIdentifier* of type *UNIQUEIDENTIFIER* together with a column called *Count* of type *TINYINT*. we will need an object to represent each of these return row signatures, and these you an see below.
+You can see that each *RecordSet* has a different signature. The first returns all columns from the `app.Tenant` table, the second returns all columns from the `app.Company` table, and the last returns all column From the `app.Account` table. So when we create our class that represents the results from this stored procedure it must be capable of handling all three RecordSets. So first we will need an object to represent each of these return row signatures, and these you can see below as DTOs, `TenantDto`, `CompanyDto`, and  `AccountDto`. 
 
-    internal class MultipleRecordSetStoredProcedureReturnType1
+    /// <summary>
+    /// Encapsulates tenant data
+    /// </summary>
+    internal class TenantDto
     {
-        [ParameterDbType(SqlDbType.Int)]
-        public int Id { get; set; }
-
-        public string Name { get; set; }
+        public int TenantId { get; set; }
+        public bool IsActive { get; set; }
+        public string TenantName { get; set; }
+        public DateTime RecordCreatedDateTime { get; set; }
     }
 
-    internal class MultipleRecordSetStoredProcedureReturnType2
+    /// <summary>
+    /// Encapsulates Company data
+    /// </summary>
+    internal class CompanyDto
     {
-        [ParameterDbType(SqlDbType.Bit)]
-        public bool Active { get; set; }
-
-        [ParameterDbType(SqlDbType.Decimal)]
-        public decimal Price { get; set; }
+        public int CompanyID { get; set; }
+        public int TenantID { get; set; }
+        public bool IsActive { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime RecordCreatedDateTime { get; set; }
     }
 
-    internal class MultipleRecordSetStoredProcedureReturnType3
+    /// <summary>
+    /// Encapsulates Account data
+    /// </summary>
+    internal class AccountDto
     {
-        [ParameterDbType(SqlDbType.UniqueIdentifier)]
-        public Guid UniqueIdentifier { get; set; }
-
-        [ParameterDbType(SqlDbType.TinyInt)]
-        public byte Count { get; set; }
+        public int AccountId { get; set; }
+        public int CompanyId { get; set; }
+        public bool IsActive { get; set; }
+        public string AccountName { get; set; }
+        public DateTime RecordCreatedDateTime { get; set; }
+        public DateTime LastUpdatedDateTime { get; set; }
     }
-
-We will need a *ResultSet* object to hold each *RecordSet* list. We must remember to instantiate each *RecordSet* in the constructor
     
-    internal class MultipleRecordSetStoredProcedureResultSet
-    {
-        public List<MultipleRecordSetStoredProcedureReturnType1> RecordSet1 { get; set; }
-        public List<MultipleRecordSetStoredProcedureReturnType2> RecordSet2 { get; set; }
-        public List<MultipleRecordSetStoredProcedureReturnType3> RecordSet3 { get; set; }
-
-        public MultipleRecordSetStoredProcedureResultSet()
+Now will need a *ResultSet* object to hold each *RecordSet* list of DTOs. The class will contain three properties, each will be a list of DTOs which match the column definitions for each RecordSet the stored procedure is going to return. The order of the properties must match the order which the stored procedure returns the RecordSets; this is a convention which the framework demands. We must also remember to instantiate each *RecordSet* which in this case we will do in the constructor of this object.
+    
+        internal class TenantCompanyAccountGetForTenantIdResultSet
         {
-            RecordSet1 = new List<MultipleRecordSetStoredProcedureReturnType1>();
-            RecordSet2 = new List<MultipleRecordSetStoredProcedureReturnType2>();
-            RecordSet3 = new List<MultipleRecordSetStoredProcedureReturnType3>();
+            public List<TenantDto> Tenants { get; set; }
+            public List<CompanyDto> Companies { get; set; }
+            public List<AccountDto> Accounts { get; set; }
+
+            public TenantCompanyAccountGetForTenantIdResultSet()
+            {
+                Tenants = new List<TenantDto>();
+                Companies = new List<CompanyDto>();
+                Accounts = new List<AccountDto>();
+            }
         }
-    }
 
-**PLEASE NOTE:** We do not need to name the *RecordSet* properties *RecordSet1*, *RecordSet2* etc. We could just as easily use a more meaningful name like *Account* and *Orders*, or what ever the data in each RecordSet represents.
 
-We will need a parameters object to represent the six parameters which the stored procedure demands.
 
-    internal class MultipleRecordSetStoredProcedureParameters
+We will need a parameters object for the stored procedure.
+
+    public class TenantIdParameters
     {
-        [ParameterDbType(SqlDbType.Int)]
-        public int Id { get; set; }
-
-        [Size(20)]
-        public string Name { get; set; }
-
-        [ParameterDbType(SqlDbType.Bit)]
-        public bool Active { get; set; }
-
-        [ParameterDbType(SqlDbType.Decimal)]
-        [Precision(10)]
-        [Scale(4)]
-        public decimal Price { get; set; }
-
-        [ParameterDbType(SqlDbType.UniqueIdentifier)]
-        public Guid UniqueIdentifier { get; set; }
-
-        [ParameterDbType(SqlDbType.TinyInt)]
-        public byte Count { get; set; }
+        public int TenantId { get; set; }
     }
 
 And finally we need a class to represent the complete Stored Procedure:
 
-    internal class MultipleRecordSetStoredProcedure
-        : StoredProcedureBase<MultipleRecordSetStoredProcedureResultSet, MultipleRecordSetStoredProcedureParameters>
+    [Schema("app")]
+    internal class TenantCompanyAccountGetForTenantId
+        : StoredProcedureBase<
+            TenantCompanyAccountGetForTenantId.TenantCompanyAccountGetForTenantIdResultSet, 
+            TenantIdParameters>
     {
-        public MultipleRecordSetStoredProcedure(MultipleRecordSetStoredProcedureParameters parameters)
+
+        public TenantCompanyAccountGetForTenantId(TenantIdParameters parameters)
             : base(parameters)
+        {}
+
+        internal class TenantCompanyAccountGetForTenantIdResultSet
         {
+            public List<TenantDto> Tenants { get; set; }
+            public List<CompanyDto> Companies { get; set; }
+            public List<AccountDto> Accounts { get; set; }
+
+            public TenantCompanyAccountGetForTenantIdResultSet()
+            {
+                Tenants = new List<TenantDto>();
+                Companies = new List<CompanyDto>();
+                Accounts = new List<AccountDto>();
+            }
         }
-    } 
+    }
+
+The stored procedure inherits from `StoredProcedureBase<TenantCompanyAccountGetForTenantIdResultSet, TenantIdParameters>` defining the `TReturn` and `TParameters` *Type Parameters* accordingly. We need a constructor which takes a parameter of type `TenantIdParameters`, which passes through the constructor call to the base class. You may notice I have also nested the `TenantCompanyAccountGetForTenantIdResultSet` class within the stored procedure class as it is very strongly tied to and unlikely to be needed outside of the context of **this** stored procedure. We can call this procedure and access the data in the three *RecordSets* as follows.
+
+    [TestMethod]
+    public void TenantCompanyAccountGetForTenantId_ReturnsAllThreeRecordSets()
+    {
+        // ARRANGE
+        var parameters = new TenantIdParameters
+        {
+            TenantId = 1
+        };
+        var procedure = new TenantCompanyAccountGetForTenantId(parameters);
+        TenantCompanyAccountGetForTenantId.TenantCompanyAccountGetForTenantIdResultSet resultSet;
+        const int expectedTenantCount = 1;
+        const int expectedCompanyCount = 2;
+        const int expectedAccountCount = 3000000;
+
+        // ACT
+        resultSet = Connection.ExecuteStoredProcedure(procedure);
+        List<TenantDto> tenants = resultSet.Tenants;
+        List<CompanyDto> companies = resultSet.Companies;
+        List<AccountDto> accounts = resultSet.Accounts;
+
+        // ASSERT
+        Assert.IsNotNull(tenants);
+        Assert.IsNotNull(companies);
+        Assert.IsNotNull(accounts);
+        Assert.AreEqual(expectedTenantCount, tenants.Count);
+        Assert.AreEqual(expectedCompanyCount, companies.Count);
+        Assert.AreEqual(expectedAccountCount, accounts.Count);
+    }
+
+So again the first task is to instantiate and populate the parameters object, then create an instance of the procedure, constructing it with the parameters. We then execute the stored procedure on the connection, capturing the ResultSet into a variable. From the ResultSet we can retrieve the individual lists of DTOs.
+
 
 ### A Stored Procedure with Table Value Parameters
-Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This framework can call stored procedures with table value parameters with only a small amount of extra code. so lets look at the stored procedure below...
+Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This framework can call stored procedures with table value parameters with only a small amount of extra code. So lets look at the stored procedure below which takes a parameter which is a user defined table type `[app].[CompanyTableType]`.
 
     CREATE PROCEDURE [app].[CompaniesAdd]
     (
@@ -571,7 +620,7 @@ Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This 
         );
     END
 
-... which uses the table User Defined Type...
+... which uses the following table User Defined Type...
 
     CREATE TYPE [app].[CompanyTableType] AS TABLE (
         [TenantId]    INT            NOT NULL,
@@ -602,7 +651,7 @@ Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This 
         }
     }
 
-The two internal classes represent the the parameters and the table type. We do not need to make these two classes internal, but by doing this it helps identify their purpose. The `CompanyTableType` represents the *User Defined Type* and `CompaniesAddParameters` class, the parameters. Note that the parameters class has a property which is a list of our table type. The stored procedure can be called using the framework like below:
+The two internal classes represent the the parameters and the table type. We **do not need to make these two classes internal**, but by doing this it helps identify their purpose. The `CompanyTableType` represents the *User Defined Type* and `CompaniesAddParameters` class, the parameters. Note that the parameters class has a property which is a list of our table type. The stored procedure can be called using the framework like below:
 
     [TestMethod]
     public void CompaniesAdd()
@@ -626,9 +675,16 @@ The two internal classes represent the the parameters and the table type. We do 
         // ASSERT
     }
 
-first we create a new list of the table type and populate this list with the values we want to pass to the stored procedure. We then create the parameters object setting the companies property to be our list. Next we construct the stored procedure using the parameters, and finally execute the procedure against the current SqlConnection (Or DbContext).
+First we create a new list of the table type object and populate this list with the values we want to pass to the stored procedure. We then create the parameters object setting the companies property to be our list. After that we construct the stored procedure using the parameters, and finally execute the procedure against the current SqlConnection (Or DbContext).
 
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
+
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 
 ## Calling the Stored Procedures from Code using SqlConnection
 

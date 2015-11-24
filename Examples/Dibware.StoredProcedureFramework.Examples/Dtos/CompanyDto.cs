@@ -3,7 +3,7 @@
 namespace Dibware.StoredProcedureFramework.Examples.Dtos
 {
     /// <summary>
-    /// Encapsulates compnay data
+    /// Encapsulates Company data
     /// </summary>
     internal class CompanyDto
     {

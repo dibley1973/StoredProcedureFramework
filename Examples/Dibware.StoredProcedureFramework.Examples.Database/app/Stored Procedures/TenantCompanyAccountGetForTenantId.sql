@@ -1,7 +1,4 @@
-﻿
---DROP PROCEDURE app.TenantCompanyAccountGetForTenantId
---go
-CREATE PROCEDURE app.TenantCompanyAccountGetForTenantId
+﻿CREATE PROCEDURE app.TenantCompanyAccountGetForTenantId
     @TenantId int
 AS
 BEGIN

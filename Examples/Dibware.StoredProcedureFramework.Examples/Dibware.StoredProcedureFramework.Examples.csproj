@@ -68,7 +68,9 @@
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithParametersButWithoutReturnType.cs" />
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithoutParametersButWithReturnType.cs" />
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithParametersAndReturnType.cs" />
-    <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithTableParameters.cs" />
+    <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithParametrsAndMultipleRecordSets.cs" />
+    <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithTableValueParameters.cs" />
+    <Compile Include="Dtos\AccountDto.cs" />
     <Compile Include="Dtos\CompanyDto.cs" />
     <Compile Include="Dtos\TenantDto.cs" />
     <Compile Include="SqlConnectionExampleTests\Base\SqlConnectionExampleTestBase.cs" />
@@ -84,13 +86,15 @@
     </Compile>
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersButWithoutReturnType.cs" />
-    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTableParameters.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTableValueParameters.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametrsAndMultipleRecordSets.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
     <Compile Include="StoredProcedures\CompaniesAdd.cs" />
     <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />
     <Compile Include="StoredProcedures\Parameters\TenantIdParameters.cs" />
+    <Compile Include="StoredProcedures\TenantCompanyAccountGetForTenantId.cs" />
     <Compile Include="StoredProcedures\TenantGetAll.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithoutParametersButWithReturnType.cs" />
   </ItemGroup>
