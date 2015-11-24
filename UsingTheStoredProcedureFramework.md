@@ -683,264 +683,40 @@ Now we have created classes to represent the most common types of stored procedu
 ### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
-
-## Calling the Stored Procedures from Code using SqlConnection
-
 The framework provides extension methods which can be used to call the stored procedures on three key .Net data access objects. **SqlConnection**, **DbConnection** and also **DbContext**.  The extension methods for **SqlConnection**, **DbConnection** can be found in the main **Dibware.StoredProcedureFramework** assembly, but for the **DbContext** extensions there is a separate assembly, **Dibware.StoredProcedureFrameworkForEF**. This is to prevent the need for a dependency on **Entity Framework** in the main assembly and hence extra bloat. If your project does not have **Entity Framework** or you are not using the **DbContext** extensions then you don't need a reference to **Dibware.StoredProcedureFrameworkForEF** to call the procedures. 
 
 Regardless of whether you are using *this* stored procedure framework alongside **Entity Framework** or not you will *always* need a reference to the main **Dibware.StoredProcedureFramework** assembly. 
 
-So for the purpose of the examples we will call the extension method on the **SqlConnection** object, but the code is basically the same when called on the **DbConnection** or the **DbContext** objects. So lets use the *MostBasicStoredProcedure* which we defined earlier in this document and call it using the extension method on the SqlConnection Object. Remember this procedure has no parameters and returns no results. For convenience we will use a the MSTest harness, but it's not really a valid integration test, just example code. 
+## Calling the Stored Procedures from Code using SqlConnection
+
+So for the purpose of the examples we will call the extension method on the **SqlConnection** object, but the code is basically the same when called on the **DbConnection** or the **DbContext** objects. So lets use the *CompanyGetAllForTenantID* which we defined earlier in this document and call it using the extension method on the SqlConnection Object. 
 
     [TestMethod]
-    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnSqlConnection)
+    public void CompanyGetAllForTenantId()
     {
         // ARRANGE
-        var procedure = new MostBasicStoredProcedure();
-        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        const int expectedCompanyCount = 2;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var parameters = new TenantIdParameters { TenantId = 1 };
+        var procedure = new CompanyGetAllForTenantID(parameters);
+        List<CompanyDto> companies;
+        CompanyDto company1;
 
         // ACT
-        using (DbConnection connection = new SqlConnection(connectionString))
+        using (SqlConnection connection = new SqlConnection(connectionName))
         {
-            connection.Open();
-            connection.ExecuteStoredProcedure(procedure);
+            companies = connection.ExecuteStoredProcedure(procedure);
+            company1 = companies.FirstOrDefault();
         }
 
         // ASSERT
-        // Should get here as Exception should not have been thrown
+        Assert.AreEqual(expectedCompanyCount, companies.Count);
+        Assert.IsNotNull(company1);
     }
 
-So reading down through the test we can see first in the *ARRANGE* section that we are instantiating our stored procedure POCO class and a connection string. Then in the  *ACT*, once the *SqlConnection* object is created and the connection opened we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *SqlConnection* object. We we do not expect a *ResultSet* from this stored procedure we have no need to capture it.
+So reading down through the test we can see first in the *ARRANGE* section that we are instantiating a connection name, the stored procedure parameters and our stored procedure POCO class.
 
-Now lets look at calling a stored procedure which does return results, but still does not have parameters. We will call the *StoredProcedureWithoutParameters* defined earlier in this document. See below to recap on how the objects for this stored procedure are defined.
-
-    internal class StoredProcedureWithoutParameters
-        : NoParametersStoredProcedureBase<StoredProcedureWithoutParametersResultSet>
-    {
-    }
-
-    internal class StoredProcedureWithoutParametersResultSet
-    {
-        public List<StoredProcedureWithoutParametersReturnType> RecordSet { get; set; }
-
-        public StoredProcedureWithoutParametersResultSet()
-        {
-            RecordSet = new List<StoredProcedureWithoutParametersReturnType>();
-        }
-    }
-
-    internal class StoredProcedureWithoutParametersReturnType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-So assuming the values that will be returned have remained the same as when we defined the earlier we should get a value of *1* for the first row's *Id* field and a value of *Sid* for the *Name* field. We will use the example code below to call the procedure.
-
-    [TestMethod]
-    public void EXAMPLE_ExecuteStoredProcedureWithoutParametersOnSqlConnection()
-    {
-        // NOTE:
-        // You need a record in the [dbo].[Blah] table with the following values for this test to pass!
-        // |--------------------|
-        // |    Id  |   Name    |
-        // |====================|
-        // |    1   |   Sid     |
-        // |--------------------|
-
-        // ARRANGE
-        var procedure = new StoredProcedureWithoutParameters();
-        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-        StoredProcedureWithoutParametersResultSet resultSet;
-        List<StoredProcedureWithoutParametersReturnType> resultList;
-        StoredProcedureWithoutParametersReturnType firstResult;
-
-        // ACT
-        using (DbConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            resultSet = connection.ExecuteStoredProcedure(procedure);
-        }
-        resultList = resultSet.RecordSet;
-        firstResult = resultList.First();
-
-        // ASSERT
-        Assert.AreEqual(1, firstResult.Id);
-        Assert.AreEqual("Sid", firstResult.Name);
-    }
-
-Set up is similar to what we did for the *MostBasicStoredProcedure*, but we need need a variable to hold the stored procedure's *ResultSet* and also a list to hold the *RecordSet*. For the sake of this example we will also create a variable to hold the first result, so we can make a couple of assertions against it. To access the results of the stored procedure we need to capture the return value of the *ExecuteStoredProcedure* extension method into the *resultSet* variable. This value is strongly typed and in this case will be of the type *StoredProcedureWithoutParametersResultSet*. from this we can drill in to the *RecordSet* and the individual records within the *RecordSet*.
-
-Next up is a a stored procedure with parameters but no *ResultSet*, so we will use the *StoredProcedureWithParametersButNoReturn* from earlier in the document along with it's *StoredProcedureWithParametersButNoReturnParameters* class.
-
-    internal class StoredProcedureWithParametersButNoReturn
-        : NoReturnTypeStoredProcedureBase<StoredProcedureWithParametersButNoReturnParameters>
-    {
-        public StoredProcedureWithParametersButNoReturn(StoredProcedureWithParametersButNoReturnParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
-
-    internal class StoredProcedureWithParametersButNoReturnParameters
-    {
-        [ParameterDbType(SqlDbType.Int)]
-        public int Id { get; set; }
-    }
-
-Looking at the example calling code below we can see that once we have instantiated and set up the parameters and then constructed the stored procedure with those parameters, we can then call the procedure.
-
-    [TestMethod]
-    public void EXAMPLE_ExecuteStoredProcedureWithParametersButNoReturnOnSqlConnection()
-    {
-        // ARRANGE
-        var parameters = new StoredProcedureWithParametersButNoReturnParameters
-        {
-            Id = 1
-        };
-        var procedure = new StoredProcedureWithParametersButNoReturn(parameters);
-        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-
-        // ACT
-        using (DbConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            connection.ExecuteStoredProcedure(procedure);
-        }
-    }
-
-We do not need to concern our selves with a *ReturnType* or *ResultSet* as the procedure returns no results.
-
-So now to move on to a stored procedure which takes parameters and returns results. For this we will use the *NormalStoredProcedure* class and associated parameters object, *ReturnType* and *ResultSet* which we [defined earlier in the document](#a-normal-stored-procedure)...
-
-    /// <summary>
-    /// Represents a "normal" stored procedure which has parameters and returns
-    /// a single result set
-    /// </summary>
-    internal class NormalStoredProcedure
-        : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
-    {
-        public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
-
-    internal class NormalStoredProcedureResultSet
-    {
-        public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
-
-        public NormalStoredProcedureResultSet()
-        {
-            RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
-        }
-    }
-
-    internal class NormalStoredProcedureParameters
-    {
-        [ParameterDbType(SqlDbType.Int)]
-        public int Id { get; set; }
-    }
-
-    internal class NormalStoredProcedureRecordSet1ReturnType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool Active { get; set; }
-    }
-
-We can see in the example test below that the first task is to instantiate the parameters, which we then use to instantiate the stored procedure POCO. When we execute the procedure against the *SqlConnection* we get the *ResultSet* back which we can drill into to get the collection of records from the *RecordSet*. as we know our procedure returns canned results we can assert our expected values.
-
-    [TestMethod]
-    public void EXAMPLE_NormalStoredProcedure_WhenCalledOnSqlConnection_ReturnsCorrectValues()
-    {
-        // ARRANGE  
-        const int expectedId = 10;
-        const string expectedName = @"Dave";
-        const bool expectedActive = true;
-
-        var parameters = new NormalStoredProcedureParameters
-        {
-            Id = expectedId
-        };
-        NormalStoredProcedureResultSet resultSet;
-        var procedure = new NormalStoredProcedure(parameters);
-        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-
-        // ACT
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            resultSet = connection.ExecuteStoredProcedure(procedure);
-        }
-        var results = resultSet.RecordSet1;
-        var result = results.First();
-
-        // ASSERT
-        Assert.AreEqual(expectedId, result.Id);
-        Assert.AreEqual(expectedName, result.Name);
-        Assert.AreEqual(expectedActive, result.Active);
-    }
-
-### Multiple RecordSet Stored Procedure
-    
-Next up we will look at the calling code for a stored procedure which returns *Multiple RecordSets*. This is basically the same as the example above except when interrogating the *ResultSet* there are more RecordSets to drill into. We will stick with the example defined [earlier in the document](#a-stored-procedure-with-multiple-recordsets)
-
-    [TestClass]
-    public class MultipleRecordSetTests
-    {
-        [TestMethod]
-        public void EXAMPLE_MultipleRecordSetStoredProcedure_WithThreeSelects_ReturnsThreeRecordSets()
-        {
-            // ARRANGE
-            const int expectedId = 10;
-            const string expectedName = "Sid";
-            const bool expectedActive = true;
-            const decimal expectedPrice = 10.99M;
-            Guid expectedUniqueIdentifier = Guid.NewGuid();
-            const byte expectedCount = 17;
-            var parameters = new MultipleRecordSetStoredProcedureParameters
-            {
-                Id = expectedId,
-                Name = expectedName,
-                Active = expectedActive,
-                Price = expectedPrice,
-                UniqueIdentifier = expectedUniqueIdentifier,
-                Count = expectedCount
-            };
-            MultipleRecordSetStoredProcedureResultSet resultSet;
-            var procedure = new MultipleRecordSetStoredProcedure(parameters);
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-
-            // ACT
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                resultSet = connection.ExecuteStoredProcedure(procedure);
-            }
-            var results1 = resultSet.RecordSet1;
-            var result1 = results1.First();
-
-            var results2 = resultSet.RecordSet2;
-            var result2 = results2.First();
-
-            var results3 = resultSet.RecordSet3;
-            var result3 = results3.First();
-
-            // ASSERT
-            Assert.AreEqual(expectedId, result1.Id);
-            Assert.AreEqual(expectedName, result1.Name);
-
-            Assert.AreEqual(expectedActive, result2.Active);
-            Assert.AreEqual(expectedPrice, result2.Price);
-
-            Assert.AreEqual(expectedUniqueIdentifier, result3.UniqueIdentifier);
-            Assert.AreEqual(expectedCount, result3.Count);
-        }
-    }
-    
-We can see from this test we have access to each *RecordSet* and the records within them.
+Then in the  *ACT*, once the *SqlConnection* object is created we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *SqlConnection* object. The framework will open and close a valid connection if the connection is closed, or will keep it open it it is already open.
   
 ### Using Transactions with SqlConnection
 The stored procedure framework will work with transactions and allow transaction batches to be committed or rolled back.
@@ -1059,32 +835,54 @@ The example test proves that the intermediate row count went up by three after t
 WIP
 ##### Rolling back transaction
 WIP
-##### commiting transaction
+##### Commiting transaction
 WIP
+ 
+ 
+ 
+ 
  
  
  
 ## Calling the Stored Procedures from Code using DbContext
 If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
-    [TestMethod]
-    public void EXAMPLE_ExecuteMostBasicStoredProcedureOnDbConext()
+    [TestClass]
+    public class StoredProcedureFromDbContext
     {
-        // ARRANGE
-        var procedure = new MostBasicStoredProcedure();
-        var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        [TestMethod]
+        public void CompanyGetAllForTenantId()
+        {
+            // ARRANGE
+            const int expectedCompanyCount = 2;
+            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            var parameters = new TenantIdParameters { TenantId = 1 };
+            var procedure = new CompanyGetAllForTenantID(parameters);
+            List<CompanyDto> companies;
+            CompanyDto company1;
 
-        // ACT
-        Context.ExecuteStoredProcedure(procedure);
-        
-        // ASSERT
-        // Should get here as Exception should not have been thrown
+            // ACT
+            using (DbContext context = new ApplicationDbContext(connectionName))
+            {
+                companies = context.ExecuteStoredProcedure(procedure);
+                company1 = companies.FirstOrDefault();
+            }
+
+            // ASSERT
+            Assert.AreEqual(expectedCompanyCount, companies.Count);
+            Assert.IsNotNull(company1);
+        }
     }
-        
-The *Context* in this test inherits from an entity Framework **DbContext** so I can execute the stored procedure by calling **Context.ExecuteStoredProcedure(...)** passing in the instantiated stored procedure object. 
 
+So reading down through the test we can see first in the *ARRANGE* section that we are instantiating a connection name, the stored procedure parameters and our stored procedure POCO class.
+
+Then in the  *ACT*, once the *DBContext* object is created we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *DBContext* object. 
+
+This is the verbose method for DbContext. The framework also provides a more succinct "EF-friendly"  method. 
 
 ## Please note... The code below for calling Stored Procedures in a more "EF-friendly"  way is still experimental and may be subject to change as the framework matures. Please be aware of that if you choose this method of calling stored procedures.
+
+WIP
 
 Alternatively if you can also call the stored procedure in a more *entity framework code first kind of approach*, so they appear more like DBSet properties on your custom DbContext object, like so:
 
