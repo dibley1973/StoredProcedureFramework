@@ -36,7 +36,7 @@ There will then be two database projects
   + A Stored Procedure without Parameters
   + A Stored Procedure with Parameters but without a Return Type
   + A "Normal" Stored procedure
-  + [A Stored Procedure With Multiple RecordSets]  (###a-stored-procedure-with-multiple-recordsets)
+  + [A Stored Procedure With Multiple RecordSets]  (#a-stored-procedure-with-multiple-recordsets)
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
 * [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
 * [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
@@ -135,7 +135,7 @@ This attribute can be applied to a class, struct, or property to override the de
 This attribute can be applied to a property to override the default size of a text or binary types of parameter or field. The attribute is constructed with a `System.Int32`.
 
 ## Example Usage
-(Once complete) all of the code in the examples listed below will exist in the following projects:
+All of the code in the examples listed below will exist in the following projects:
 * Dibware.StoredProcedureFramework.Examples.csproj
 * Dibware.StoredProcedureFramework.Examples.Database.sqlproj
 
@@ -595,7 +595,6 @@ The stored procedure inherits from `StoredProcedureBase<TenantCompanyAccountGetF
 
 So again the first task is to instantiate and populate the parameters object, then create an instance of the procedure, constructing it with the parameters. We then execute the stored procedure on the connection, capturing the ResultSet into a variable. From the ResultSet we can retrieve the individual lists of DTOs.
 
-
 ### A Stored Procedure with Table Value Parameters
 Table Value Parameters was introduced in to SQL Server in SQL Server 2008. This framework can call stored procedures with table value parameters with only a small amount of extra code. So lets look at the stored procedure below which takes a parameter which is a user defined table type `[app].[CompanyTableType]`.
 
@@ -679,9 +678,9 @@ First we create a new list of the table type object and populate this list with 
 
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
 
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -942,7 +941,129 @@ Next up we will look at the calling code for a stored procedure which returns *M
     }
     
 We can see from this test we have access to each *RecordSet* and the records within them.
-   
+  
+### Using Transactions with SqlConnection
+The stored procedure framework will work with transactions and allow transaction batches to be committed or rolled back.
+
+#### Using TransactionScope
+The `TransactionScope` object which can be found in the `System.Transactions.TransactionScope` namespace can be used to control the transaction, and two examples of how to use `TransactionScope` with this framework are shown below.
+
+##### Rolling Back a Transaction
+Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
+
+    [TestMethod]
+    public void StoredProcedure_WithTransactionScopeNotCommited_DoesNotWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var parameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(parameters);
+        var companyCountProcedure = new CompanyCountAll();
+
+        // ACT
+        using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+        {
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                originalCount  = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure);
+                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            }
+        }
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.Close();
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+
+The example test proves that the initial row count is the same as the final row count after the transaction is rolled back, even though in the middle of the transaction it was increased by three rows.
+    
+##### Committing A Transaction
+Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
+
+    [TestMethod]
+    public void StoredProcedure_WithTransactionScopeCompleted_DoesWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+        var companyCountProcedure = new CompanyCountAll();
+        var companyDeleteParameters = new TenantIdParameters
+        {
+            TenantId = 2
+        };
+        var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+
+        // ACT
+        using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+        {
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure);
+                transactionScope.Complete();
+            }
+        }
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.ExecuteStoredProcedure(companyDeleteProcedure);
+            finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.Close();
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+    
+The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
+
+#### SqlTransaction
+WIP
+##### Rolling back transaction
+WIP
+##### commiting transaction
+WIP
+ 
+ 
+ 
 ## Calling the Stored Procedures from Code using DbContext
 If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
@@ -1130,5 +1251,8 @@ and call it just the same as the rest like so:
         
 **PLEASE NOTE** I have only just started *flirting* with the API for using anonymous parameters. I do not have yet any complex tests to validate the code is fully bug free. Other tests continue to pass so I don't anticipate that the new API option has broken the exiting API.
     
-### Using Transactions
-W.I.P.
+
+
+
+
+

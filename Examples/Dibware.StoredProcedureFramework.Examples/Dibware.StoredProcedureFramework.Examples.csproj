@@ -70,6 +70,7 @@
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithParametrsAndMultipleRecordSets.cs" />
     <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithTableValueParameters.cs" />
+    <Compile Include="DbContextExampleTests\Tests\StoredProcedureWithTransactions.cs" />
     <Compile Include="Dtos\AccountDto.cs" />
     <Compile Include="Dtos\CompanyDto.cs" />
     <Compile Include="Dtos\TenantDto.cs" />
@@ -88,8 +89,10 @@
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametersButWithoutReturnType.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTableValueParameters.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametrsAndMultipleRecordSets.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTransactions.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
     <Compile Include="StoredProcedures\CompaniesAdd.cs" />
+    <Compile Include="StoredProcedures\CompanyCountAll.cs" />
     <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />
