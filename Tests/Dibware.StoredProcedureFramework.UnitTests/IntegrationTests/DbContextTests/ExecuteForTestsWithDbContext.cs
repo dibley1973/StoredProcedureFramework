@@ -10,35 +10,35 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
     // Moved to:
     // Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.ExecuteForTestsWithDbContext
 
-    //[TestClass]
-    //public class ExecuteForTestsWithDbContext : BaseIntegrationTestWithDbContext
-    //{
-    //    [TestMethod]
-    //    public void ExecuteFor_WhenPassedConstructedParameters_GetsExpectedResults()
-    //    {
-    //        // ARRANGE
-    //        const int expectedId = 10;
-    //        const string expectedName = @"Dave";
-    //        const bool expectedActive = true;
-    //        //NormalStoredProcedureResultSet resultSet;
+    [TestClass]
+    public class ExecuteForTestsWithDbContext : BaseIntegrationTestWithDbContext
+    {
+        [TestMethod]
+        public void ExecuteFor_WhenPassedConstructedParameters_GetsExpectedResults()
+        {
+            // ARRANGE
+            const int expectedId = 10;
+            const string expectedName = @"Dave";
+            const bool expectedActive = true;
+            //NormalStoredProcedureResultSet resultSet;
 
-    //        var parameters = new NormalStoredProcedureParameters
-    //        {
-    //            Id = expectedId
-    //        };
+            var parameters = new NormalStoredProcedureParameters
+            {
+                Id = expectedId
+            };
 
-    //        // ACT
-    //        //resultSet = Context.NormalStoredProcedure.Execute(parameters);
-    //        var resultList = Context.NormalStoredProcedure.ExecuteFor(parameters);
-    //        //var results = resultSet.RecordSet1;
-    //        //var result = results.First();
-    //        var result = resultList.First();
+            // ACT
+            //resultSet = Context.NormalStoredProcedure.Execute(parameters);
+            var resultList = Context.NormalStoredProcedure.ExecuteFor(parameters);
+            //var results = resultSet.RecordSet1;
+            //var result = results.First();
+            var result = resultList.First();
 
-    //        // ASSERT
-    //        Assert.AreEqual(expectedId, result.Id);
-    //        Assert.AreEqual(expectedName, result.Name);
-    //        Assert.AreEqual(expectedActive, result.Active);
-    //    }
+            // ASSERT
+            Assert.AreEqual(expectedId, result.Id);
+            Assert.AreEqual(expectedName, result.Name);
+            Assert.AreEqual(expectedActive, result.Active);
+        }
 
     //    [TestMethod]
     //    public void ExecuteFor_WhenPassedAnonymousParameterObject_GetsExpectedResults()
@@ -75,5 +75,5 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.DbContextTests
     //    //    // ASSERT
     //    //    // Should have thrown exception by here!
     //    //}
-    //}
+    }
 }

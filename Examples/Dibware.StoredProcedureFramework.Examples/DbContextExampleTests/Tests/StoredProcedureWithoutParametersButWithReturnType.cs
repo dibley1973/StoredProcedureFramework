@@ -11,10 +11,6 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
     public class StoredProcedureWithoutParametersButWithReturnType
         : DbContextExampleTestBase
     {
-        /// <summary>
-        /// Tenants the get all.
-        /// </summary>
-        /// <remarks>Takes no parameters but returns results</remarks>
         [TestMethod]
         public void TenantGetAll()
         {
@@ -22,7 +18,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             const int expectedTenantCount = 2;
 
             // ACT
-            var tenants = Context.TenantGetAll.Execute();
+            var tenants = Context.TenantGetAll.Execute(); 
             TenantDto tenant1 = tenants.FirstOrDefault();
 
             // ASSERT

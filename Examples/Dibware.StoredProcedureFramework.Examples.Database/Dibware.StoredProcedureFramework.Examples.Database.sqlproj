@@ -97,8 +97,15 @@
     <Build Include="app\Stored Procedures\CompaniesAdd.sql" />
     <Build Include="app\User Defined Types\CompanyTableType.sql" />
     <Build Include="app\Stored Procedures\TenantCompanyAccountGetForTenantId.sql" />
+    <Build Include="app\Stored Procedures\CompanyCountAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="_Post Deployment Scripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

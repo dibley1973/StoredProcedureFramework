@@ -1,18 +1,18 @@
 # Using the StoredProcedureFramework
 The purpose of this document is to describe how to use the Stored Procedure Framework for .Net. 
 
-PLEASE NOTE: THIS DOCUMENT IS STILL BEING UPDATED, and may be in accurate due to a change in API an some functionality. Please refer to the unit tests and examples in the code for the true usage documentation.
+PLEASE NOTE: 
+* THIS DOCUMENT IS STILL BEING UPDATED. Every care has been taken to ensure this documentation accurately reflects the true API, but if any discrepancies are discovered between the API and what this document states, please refer to the unit tests and examples in the code for the true compilable usage documentation.
+* There is on-going work to :
+  + Split the current single TEST project into three specific projects:
+    - Dibware.StoredProcedureFramework.UnitTests
+    - Dibware.StoredProcedureFramework.IntegrationTests
+    - Dibware.StoredProcedureFramework.Examples
+  + There will then be two database projects
+    - Dibware.StoredProcedureFramework.IntegrationTests.Database
+    - Dibware.StoredProcedureFramework.Examples.Database
 
-Please also note there is on-going work to split the current single TEST project into three specific projects:
-* Dibware.StoredProcedureFramework.UnitTests
-* Dibware.StoredProcedureFramework.IntegrationTests
-* Dibware.StoredProcedureFramework.Examples
-
-There will then be two database projects
-* Dibware.StoredProcedureFramework.IntegrationTests.Database
-* Dibware.StoredProcedureFramework.Examples.Database
-
-## TOC
+## Table of Contents
 * [Representing Stored Procedures in Code] (#representing-stored-procedures-in-code)
   +  [General Rules] (#general-rules)
     -   [Base Classes] (#base-classes)
@@ -38,8 +38,14 @@ There will then be two database projects
   + A "Normal" Stored procedure
   + [A Stored Procedure With Multiple RecordSets]  (#a-stored-procedure-with-multiple-recordsets)
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
-* [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
-* [Calling the Stored Procedures from Code using DbContext](#calling-the-stored-procedures-from-code-using-dbcontext)
+* [Calling the Stored Procedures from Code] (#calling-the-stored-procedures-from-code)
+  + [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
+    - [Using Transactions with SqlConnection] (#using-transactions-with-sqlConnection)
+  + [Calling the Stored Procedures from Code using DbContext] (#calling-the-stored-procedures-from-code-using-dbcontext)
+    - [Calling the Stored Procedures from Code using DbContext in traditional way] (#calling-the-stored-procedures-from-code-using-dbcontext-in-traditional-way)
+    - [Calling the Stored Procedures from Code using DbContext in Simplified API way](#calling-the-stored-procedures-from-code-using-dbcontext-in-simplified-api-way)
+    - [Calling the Stored Procedures from Code using DbContext in Simplified API with In-Line Declaration] (#calling-the-stored-procedures-from-code-using-dbcontext-in-simplified-api-with-in-line-declaration)
+    - [Using Transactions with DbContext] (#using-transactions-with-dbcontext)
 
 ## Representing Stored Procedures in Code
 The aim of this framework is to allow representing of stored procedures, their parameters and return types, as .Net POCO objects. These objects can then be executed against the target database using either the SqlConnection, dbConnection or DbContext objects. (All code examples can be found in the **Dibware.StoredProcedureFramework.Examples** project.
@@ -218,7 +224,6 @@ We do not need to provide a constructor as the **NoParametersNoReturnTypeStoredP
     }
 
 So to call the procedure we first create a new instance of the stored procedure POCO object, and then we pass that to the `ExecuteStoredProcedure` extension method of the `SqlConnection` object. No results are expected so none are gathered.
-
 
 ### A Stored Procedure without Parameters
 The next stored procedure to look at is one which returns a result but does not have any parameters. This would typically be used for your *MyTable_GetAll* type of stored procedure, so for this example we will use a stored procedure which returns all tenants from the `Tenant` table in the `app` schema:
@@ -511,21 +516,19 @@ You can see that each *RecordSet* has a different signature. The first returns a
     
 Now will need a *ResultSet* object to hold each *RecordSet* list of DTOs. The class will contain three properties, each will be a list of DTOs which match the column definitions for each RecordSet the stored procedure is going to return. The order of the properties must match the order which the stored procedure returns the RecordSets; this is a convention which the framework demands. We must also remember to instantiate each *RecordSet* which in this case we will do in the constructor of this object.
     
-        internal class TenantCompanyAccountGetForTenantIdResultSet
+    internal class TenantCompanyAccountGetForTenantIdResultSet
+    {
+        public List<TenantDto> Tenants { get; set; }
+        public List<CompanyDto> Companies { get; set; }
+        public List<AccountDto> Accounts { get; set; }
+
+        public TenantCompanyAccountGetForTenantIdResultSet()
         {
-            public List<TenantDto> Tenants { get; set; }
-            public List<CompanyDto> Companies { get; set; }
-            public List<AccountDto> Accounts { get; set; }
-
-            public TenantCompanyAccountGetForTenantIdResultSet()
-            {
-                Tenants = new List<TenantDto>();
-                Companies = new List<CompanyDto>();
-                Accounts = new List<AccountDto>();
-            }
+            Tenants = new List<TenantDto>();
+            Companies = new List<CompanyDto>();
+            Accounts = new List<AccountDto>();
         }
-
-
+    }
 
 We will need a parameters object for the stored procedure.
 
@@ -676,18 +679,15 @@ The two internal classes represent the the parameters and the table type. We **d
 
 First we create a new list of the table type object and populate this list with the values we want to pass to the stored procedure. We then create the parameters object setting the companies property to be our list. After that we construct the stored procedure using the parameters, and finally execute the procedure against the current SqlConnection (Or DbContext).
 
+## Calling the Stored Procedures from Code
+
 Now we have created classes to represent the most common types of stored procedures lets now look at how we go about calling these procedures.
-
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-### WORK IN PROGRESS BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 The framework provides extension methods which can be used to call the stored procedures on three key .Net data access objects. **SqlConnection**, **DbConnection** and also **DbContext**.  The extension methods for **SqlConnection**, **DbConnection** can be found in the main **Dibware.StoredProcedureFramework** assembly, but for the **DbContext** extensions there is a separate assembly, **Dibware.StoredProcedureFrameworkForEF**. This is to prevent the need for a dependency on **Entity Framework** in the main assembly and hence extra bloat. If your project does not have **Entity Framework** or you are not using the **DbContext** extensions then you don't need a reference to **Dibware.StoredProcedureFrameworkForEF** to call the procedures. 
 
 Regardless of whether you are using *this* stored procedure framework alongside **Entity Framework** or not you will *always* need a reference to the main **Dibware.StoredProcedureFramework** assembly. 
 
-## Calling the Stored Procedures from Code using SqlConnection
+### Calling the Stored Procedures from Code using SqlConnection
 
 So for the purpose of the examples we will call the extension method on the **SqlConnection** object, but the code is basically the same when called on the **DbConnection** or the **DbContext** objects. So lets use the *CompanyGetAllForTenantID* which we defined earlier in this document and call it using the extension method on the SqlConnection Object. 
 
@@ -718,13 +718,13 @@ So reading down through the test we can see first in the *ARRANGE* section that 
 
 Then in the  *ACT*, once the *SqlConnection* object is created we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *SqlConnection* object. The framework will open and close a valid connection if the connection is closed, or will keep it open it it is already open.
   
-### Using Transactions with SqlConnection
+#### Using Transactions with SqlConnection
 The stored procedure framework will work with transactions and allow transaction batches to be committed or rolled back.
 
-#### Using TransactionScope
+##### Using TransactionScope
 The `TransactionScope` object which can be found in the `System.Transactions.TransactionScope` namespace can be used to control the transaction, and two examples of how to use `TransactionScope` with this framework are shown below.
 
-##### Rolling Back a Transaction
+###### Rolling Back a Transaction
 Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
 
     [TestMethod]
@@ -774,7 +774,7 @@ Below is an example of rolling back an insert using the stored procedure framewo
 
 The example test proves that the initial row count is the same as the final row count after the transaction is rolled back, even though in the middle of the transaction it was increased by three rows.
     
-##### Committing A Transaction
+###### Committing A Transaction
 Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
 
     [TestMethod]
@@ -831,21 +831,19 @@ Below is an example of committing an insert using the stored procedure framework
     
 The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
 
-#### SqlTransaction
-WIP
-##### Rolling back transaction
-WIP
-##### Commiting transaction
-WIP
+##### SqlTransaction
+T.B.C
+###### Rolling back a Transaction
+T.B.C
+###### Committing a Transaction
+T.B.C
  
  
- 
- 
- 
- 
- 
-## Calling the Stored Procedures from Code using DbContext
-If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
+### Calling the Stored Procedures from Code using DbContext
+
+#### Calling the Stored Procedures from Code using DbContext in traditional way
+
+If you are already using Entity Framework in your solution you may wish to call the stored procedure direct from the DbContext. Providing you import a reference to the *Dibware.StoredProcedureFrameworkForEF* DLL you can use the extension method that DLL provides directly on DbContext object. The example code below shows how we can use the extension method on the **DbContext** object (*or an object that inherits from it*) to execute the stored procedure. The code is basically the same when called on the **SqlConnection** or the **DbConnection**.
 
     [TestClass]
     public class StoredProcedureFromDbContext
@@ -862,7 +860,7 @@ If you are already using Entity Framework in your solution you may wish to call 
             CompanyDto company1;
 
             // ACT
-            using (DbContext context = new ApplicationDbContext(connectionName))
+            using (ApplicationDbContext context = new ApplicationDbContext(connectionName))
             {
                 companies = context.ExecuteStoredProcedure(procedure);
                 company1 = companies.FirstOrDefault();
@@ -876,181 +874,325 @@ If you are already using Entity Framework in your solution you may wish to call 
 
 So reading down through the test we can see first in the *ARRANGE* section that we are instantiating a connection name, the stored procedure parameters and our stored procedure POCO class.
 
-Then in the  *ACT*, once the *DBContext* object is created we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the *DBContext* object. 
+Then in the  *ACT*, once the `DBContext` object is created we can execute the stored procedure by passing our instantiated Stored Procedure object to the *ExecuteStoredProcedure* extension method on the `DBContext` object. 
 
-This is the verbose method for DbContext. The framework also provides a more succinct "EF-friendly"  method. 
-
-## Please note... The code below for calling Stored Procedures in a more "EF-friendly"  way is still experimental and may be subject to change as the framework matures. Please be aware of that if you choose this method of calling stored procedures.
-
-WIP
-
-Alternatively if you can also call the stored procedure in a more *entity framework code first kind of approach*, so they appear more like DBSet properties on your custom DbContext object, like so:
+The example above is the *normal* verbose method for using with a `DbContext`. The framework also provides a method to call the stored procedure in a more *entity framework code first kind of approach*, so they appear more like DBSet properties on your custom DbContext object, like so:
 
     MyContext.MyStoredProcedure.Execute();
 
-But to do this we have to change the base classes which the store procedures inherit from and use the base classes from the `Dibware.StoredProcedureFrameworkForEF` assembly rather than the ones in the `Dibware.StoredProcedureFramework`. The EF specific base classes are as follows:
+However both of these methods require the stored procedures to be defined in a slightly different way. The two methods are known as:
+* Simplified API
+* Simplified API with in-line declaration
+
+#### Calling the Stored Procedures from Code using DbContext in Simplified API way
+
+Before we can use this method we have to change the base classes which the store procedures inherit from and use the base classes from the `Dibware.StoredProcedureFrameworkForEF` assembly rather than the ones in the `Dibware.StoredProcedureFramework`. The EF specific base classes have teh same names but with a "ForEf" suffix and are as follows:
 
 * StoredProcedureBaseForEf
 * NoParametersNoReturnTypeStoredProcedureBaseForEf
 * NoParametersStoredProcedureBaseForEf
 * NoReturnTypeStoredProcedureBaseForEf
 
-So if we change our most basic stored procedure to inherit from `NoParametersNoReturnTypeStoredProcedureBaseForEf` like so...
+So lets look at calling the following stored procedure using this approach...
 
-    internal class MostBasicStoredProcedureForEf
-        : NoParametersNoReturnTypeStoredProcedureBaseForEf
+    CREATE PROCEDURE [app].[AccountGetAllForCompanyId]
+    (
+        @CompanyId INT
+    )
+    AS
+    BEGIN
+        SELECT 
+            AccountId
+        ,   CompanyId
+        ,   IsActive
+        ,   AccountName
+        ,   RecordCreatedDateTime
+        ,   LastUpdatedDateTime
+        FROM
+            app.Account
+        WHERE
+            CompanyId = CompanyId;
+    END
+
+
+So the class that will represent the stored procedure will be like so:
+
+    [Schema("app")]
+    internal class AccountGetAllForCompanyId
+        : StoredProcedureBaseForEf<List<AccountDto>, CompanyIdParameters>
     {
-        public MostBasicStoredProcedureForEf(DbContext context)
-            : base(context)
-        {}
-    }
-
-and our normal stored procedure to inherit from `StoredProcedureBaseForEf` like so..
-
-    internal class NormalStoredProcedureForEf
-        : StoredProcedureBaseForEf<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
-    {
-        public NormalStoredProcedureForEf(DbContext context)
+        public AccountGetAllForCompanyId(DbContext context)
             : base(context, null)
         {
         }
     }
     
-    
-Then if we create a properties for the procedures on our database context, and initialise any properties that are stored procedure in the context constructor using the call to `InitializeStoredProcedureProperties`, like so...
+ You will notice that we now inherit from `StoredProcedureBaseForEf` instead of `StoredProcedureBase` and the constructor only takes a `DbContext` object and passes through a `null` value to the base for the parameters. We now need to look at adding a property, which will be of type `AccountGetAllForCompanyId`, on to our `ApplicationDbContext` so it can be called like so `Context.AccountGetAllForCompanyId.ExecuteFor(...);`
+ 
+    // [Schema("app")] // We could have SchemaAttribute here instead of on class declaration
+    internal AccountGetAllForCompanyId AccountGetAllForCompanyId { get; set; }
 
-    internal class IntegrationTestContext : DbContext
+Note: you can place the `SchemaAttribute` on either the class definition or the property, the framework can work out the name of the procedure to call with either, but you do not need both. This is useful if you have two identical stored procedures in two different schemas, and have a property for each. You can decorate each property with it's own `SchemaAttribute` and leave it off of the class definition.
+
+when we use properties on the DbContext for our stored procedures we need to initialise the stored procedure  properties in the Context constructor using the call to `InitializeStoredProcedureProperties`, like so...
+
+    internal class ApplicationDbContext : DbContext
     {
-        #region Stored Procedures
+        #region Constructors
 
-        public MostBasicStoredProcedureForEf MostBasicStoredProcedure { get; private set; }
-        public MostBasicStoredProcedureForEf NormalStoredProcedure { get; private set; }
-
-        #endregion
-        
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntegrationTestContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+        /// </summary>
+        protected ApplicationDbContext() : base("ApplicationDbContext") { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="nameOrConnectionString">The name or connection string.</param>
-        public IntegrationTestContext(string nameOrConnectionString)
+        public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             // Set the chosen database initializer and initialize the database
-            IDatabaseInitializer<IntegrationTestContext> databaseInitializer = new CreateDatabaseIfNotExists<IntegrationTestContext>();
+            IDatabaseInitializer<ApplicationDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<ApplicationDbContext>();
             Database.SetInitializer(databaseInitializer);
 
             // Instantiate all of the Stored procedure properties
             this.InitializeStoredProcedureProperties();
-        }   
+        }
+
+        #endregion
     }
     
-Alternately you can make sure your application DbContext inherits from the stored procedure framework's `StoredProcedureDbContext` which is in the `Dibware.StoredProcedureFrameworkForEF` namespace and this will automatically call the `InitializeStoredProcedureProperties` extension method on `DbContext` from it's constructor so you don't have to.
+Alternatively you can make sure your application DbContext inherits from the stored procedure framework's `StoredProcedureDbContext` which is in the `Dibware.StoredProcedureFrameworkForEF` namespace and this will automatically call the `InitializeStoredProcedureProperties` extension method on `DbContext` from it's own constructor so you don't have to.
 
-    internal class ExampleTestDbContext : StoredProcedureDbContext
+    internal class ApplicationDbContext : StoredProcedureDbContext
     {
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExampleTestDbContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+        /// </summary>
+        protected ApplicationDbContext() : base("ApplicationDbContext") { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="nameOrConnectionString">The name or connection string.</param>
-        public ExampleTestDbContext(string nameOrConnectionString)
+        public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             // Set the chosen database initializer and initialize the database
-            IDatabaseInitializer<ExampleTestDbContext> databaseInitializer =
-                new CreateDatabaseIfNotExists<ExampleTestDbContext>();
+            IDatabaseInitializer<ApplicationDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<ApplicationDbContext>();
             Database.SetInitializer(databaseInitializer);
 
             // We do not need to explicitly instantiate all of the Stored 
             // procedures properties using "this.InitializeStoredProcedureProperties();"
-            // as this os carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
+            // as this is carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
             // class constructors
         }
+
+        #endregion
     }    
-    
+
 ... we can then execute the stored procedures via the new properties like this for stored procedures without parameters...
 
-    var context = new IntegrationTestContext("MyDatabaseConnectionName");
-    context.MostBasicStoredProcedure.Execute();
-    
-or like this for stored procedures with parameters...
-
-    var context = new IntegrationTestContext("MyDatabaseConnectionName");
-    var parameters = new NormalStoredProcedureParameters
-    {
-        Id = 1
-    };
-    context.NormalStoredProcedure.ExecuteFor( parameters)
-    
-or if you would prefer you can *inline* the parameters like this...
-
-    var context = new IntegrationTestContext("MyDatabaseConnectionName");
-    context.NormalStoredProcedure.ExecuteFor( new NormalStoredProcedureParameters { Id = 1 })
-
-or you can call the procedure with *inline* anonymous parameter like so.
-
-    [TestMethod]
-    public void ExecuteFor_WhenPassedAnonymousParameterObject_GetsExpectedResults()
-    {
-        // ARRANGE
-        const int expectedId = 10;
-        const string expectedName = @"Dave";
-        const bool expectedActive = true;
-        NormalStoredProcedureResultSet resultSet;
-
-        // ACT
-        resultSet = Context.AnonymousParameterStoredProcedure.ExecuteFor(new { Id = expectedId });
-        var results = resultSet.RecordSet1;
-        var result = results.First();
-
-        // ASSERT
-        Assert.AreEqual(expectedId, result.Id);
-        Assert.AreEqual(expectedName, result.Name);
-        Assert.AreEqual(expectedActive, result.Active);
-    }
-
-If you would prefer to uses a more generic API and would like to have your stored procedure properties look more like your DbSet properties, then you can declare them on your custom DbContext like so:
-
-    public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure { get; private set; }
-
-The stored procedure framework will understand that the stored procedure to be called will match the name of the property. Using the example above the stored procedure will call a stored procedure called "NormalStoredProcedure" in the "dbo" schema. If you wish to override the name you can use the `NameAttribute` like so...
-
-    [Name("NormalStoredProcedure")]
-    public StoredProcedure<NormalStoredProcedureResultSet> NormalStoredProcedure2 { get; private set; }
-
-That is also the process used to override the schema using the `SchemaAttribute`. 
-    
-and call it just the same as the rest like so:
-
-    [TestMethod]
-    public void ExecuteForWithGenericstoredProce_WhenPassedConstructedParameters_GetsExpectedResults()
-    {
-        // ARRANGE
-        const int expectedId = 10;
-        const string expectedName = @"Dave";
-        const bool expectedActive = true;
-        NormalStoredProcedureResultSet resultSet;
-
-        var parameters = new NormalStoredProcedureParameters
+        [TestMethod]
+        // This method of calling uses the simplified method
+        public void AccountGetAllForCompanyId_SIMPLIFIED()
         {
-            Id = expectedId
-        };
+            // ARRANGE
+            const int expectedAccountCount = 3000000;
+            var parameters = new CompanyIdParameters
+            {
+                CompanyId = 1
+            };
+
+            // ACT
+            var accounts = Context.AccountGetAllForCompanyId.ExecuteFor(parameters);
+            var actualAccountcount = accounts.Count;
+
+            // ASSERT
+            Assert.AreEqual(expectedAccountCount, actualAccountcount);
+        }
+        
+However if you would prefer you can *inline* the parameters with an anonymous object using the method below...
+
+#### Calling the Stored Procedures from Code using DbContext in Simplified API with In-Line Declaration          
+        
+There is another set of predefined classes available in the box of tools and these are the `StoredProcedure` family of classes and they reside in the `Dibware.StoredProcedureFrameworkForEF.Generic` namespace. These can be used to use anonymous objects to in-line the parameters right into the procedure call, like so...
+
+    Context.TenantGetForId.ExecuteFor(new { TenantId = 1 });
+
+There are three classes in the family:
+* `StoredProcedure`
+* `StoredProcedure<TReturn>`
+* `StoredProcedure<TReturn, TParameters>`
+
+These are used as Types for stored procedure defined as properties on the application's DbContext, giving you with a more generic API so your stored procedure properties look more like your `DbSet` properties on your application's `DbContext`. An example of is shown below:
+    
+    [Schema("app")]
+    internal StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
+    
+    [Schema("app")]
+    internal StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
+    
+    [Schema("app")]
+    internal StoredProcedure TenantDeleteForId { get; set; }
+
+When calling these procedures there is little change for a stored procedure with no parameters...
+
+    [TestMethod]
+    public void TenantGetAll()
+    {
+        // ARRANGE
+        const int expectedTenantCount = 2;
 
         // ACT
-        resultSet = Context.NormalStoredProcedure2.ExecuteFor(parameters);
-        var results = resultSet.RecordSet1;
-        var result = results.First();
+        var tenants = Context.TenantGetAll.Execute(); 
+        TenantDto tenant1 = tenants.FirstOrDefault();
 
         // ASSERT
-        Assert.AreEqual(expectedId, result.Id);
-        Assert.AreEqual(expectedName, result.Name);
-        Assert.AreEqual(expectedActive, result.Active);
+        Assert.AreEqual(expectedTenantCount, tenants.Count);
+        Assert.IsNotNull(tenant1);
     }
-  
-        
-**PLEASE NOTE** I have only just started *flirting* with the API for using anonymous parameters. I do not have yet any complex tests to validate the code is fully bug free. Other tests continue to pass so I don't anticipate that the new API option has broken the exiting API.
+
+... however for procedures with parameters a new anonymous object can be instantiated and passed in-line in the call...
+
+    [TestMethod]
+    // This method of calling uses the simplified in-line method
+    public void TenantGetForId_SIMPLIFIED_INLINE()
+    {
+        // ACT
+        var tenant = Context.TenantGetForId.ExecuteFor(new { TenantId = 1 });
+
+        // ASSERT
+        Assert.IsNotNull(tenant);
+    }
+
+... or ...
+
+    [TestMethod]
+    public void TenantDeleteId()
+    {
+        // ACT
+        Context.TenantDeleteForId.ExecuteFor(new { TenantId = 100 });
+    }
     
+So when using a DbContext you have a few different approaches you can choose from, to best match your own preferred style of coding.
 
+#### Using Transactions with DbContext
+The stored procedure framework will work with transactions and allow transaction batches to be committed or rolled back.
 
+##### Using TransactionScope
+The `TransactionScope` object which can be found in the `System.Transactions.TransactionScope` namespace can be used to control the transaction, and two examples of how to use `TransactionScope` with this framework are shown below.
 
+###### Rolling Back a Transaction
+Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
 
+    [TestMethod]
+    public void StoredProcedure_WithTransactionScopeNotCommited_DoesNotWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var parameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(parameters);
+        var companyCountProcedure = new CompanyCountAll();
+
+        // ACT
+        using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+        {
+            using (var context = new ApplicationDbContext(connectionName))
+            {
+                originalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                context.ExecuteStoredProcedure(companyAddProcedure);
+                intermediateCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            }
+        }
+        using (var context = new ApplicationDbContext(connectionName))
+        {
+            finalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+
+The example test proves that the initial row count is the same as the final row count after the transaction is rolled back, even though in the middle of the transaction it was increased by three rows.
+    
+###### Committing A Transaction
+Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `TransactionScope` object.
+
+    [TestMethod]
+    public void StoredProcedure_WithTransactionScopeCompleted_DoesWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+        var companyCountProcedure = new CompanyCountAll();
+        var companyDeleteParameters = new TenantIdParameters
+        {
+            TenantId = 2
+        };
+        var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+
+        // ACT
+        using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+        {
+            using (var context = new ApplicationDbContext(connectionName))
+            {
+                originalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                context.ExecuteStoredProcedure(companyAddProcedure);
+                transactionScope.Complete();
+            }
+        }
+        using (var context = new ApplicationDbContext(connectionName))
+        {
+            intermediateCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            context.ExecuteStoredProcedure(companyDeleteProcedure);
+            finalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+    
+The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
+
+##### SqlTransaction
+T.B.C
+###### Rolling back transaction
+T.B.C
+###### Commiting transaction
+T.B.C
 

@@ -110,4 +110,10 @@
     <Build Include="Security\app.sql" />
     <Build Include="Security\TestUserLogin.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
 </Project>

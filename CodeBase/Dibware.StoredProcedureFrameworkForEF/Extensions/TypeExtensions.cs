@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 {
@@ -10,7 +11,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
     {
         public static string GetPropertyName(this Type instance, string propertyInfoName)
         {
-            var memberInfos = instance.GetMember(propertyInfoName);
+            var memberInfos = instance.GetMember(propertyInfoName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             var memberInfo = memberInfos.FirstOrDefault();
             return memberInfo == null ? null : memberInfo.Name;
         }

@@ -5,7 +5,6 @@ using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
@@ -25,7 +24,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             CompanyDto company1;
 
             // ACT
-            using (DbContext context = new ApplicationDbContext(connectionName))
+            using (ApplicationDbContext context = new ApplicationDbContext(connectionName))
             {
                 companies = context.ExecuteStoredProcedure(procedure);
                 company1 = companies.FirstOrDefault();

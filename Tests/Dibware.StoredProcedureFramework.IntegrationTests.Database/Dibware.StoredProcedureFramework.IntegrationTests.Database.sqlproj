@@ -104,4 +104,10 @@
     <Build Include="dbo\Views\RANDOM.sql" />
     <Build Include="dbo\Functions\RandomTextGenerator.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using Dibware.StoredProcedureFrameworkForEF.Generic;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Dibware.StoredProcedureFramework.Examples.StoredProcedures.EfSpecific;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context
 {
@@ -31,22 +32,32 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Contex
 
             // We do not need to explicitly instantiate all of the Stored 
             // procedures properties using "this.InitializeStoredProcedureProperties();"
-            // as this os carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
+            // as this is carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
             // class constructors
         }
 
         #endregion
 
-        #region Stored Procedures
+        #region Stored Procedures (SIMPLIFIED)
 
         [Schema("app")]
-        public StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
+        internal AccountGetAllForCompanyId AccountGetAllForCompanyId { get; set; }
+
+        #endregion
+
+        #region Stored Procedures (SIMPLIFIED INLINE)
+
         [Schema("app")]
-        public StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
+        internal StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
+        
         [Schema("app")]
-        public StoredProcedure TenantDeleteForId { get; set; }
+        internal StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
+        
         [Schema("app")]
-        public StoredProcedure TenantMarkAllInactive { get; set; }
+        internal StoredProcedure TenantDeleteForId { get; set; }
+        
+        [Schema("app")]
+        internal StoredProcedure TenantMarkAllInactive { get; set; }
 
         #endregion
 

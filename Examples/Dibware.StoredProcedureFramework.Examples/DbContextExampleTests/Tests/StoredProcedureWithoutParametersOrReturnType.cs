@@ -8,15 +8,16 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
     [TestClass]
     public class StoredProcedureWithoutParametersOrReturnType : DbContextExampleTestBase
     {
-        /// <summary>
-        /// Tenants the delete identifier.
-        /// </summary>
-        /// <remarks>Takes no parameters and returns no results</remarks>
         [TestMethod]
         public void TenantMarkAllinactive()
         {
+            // ARRANGE
+
             // ACT
             Context.TenantMarkAllInactive.Execute();
+
+            // ASSERT
+            // Nothing to assert
         }
 
         [TestMethod]

@@ -98,10 +98,13 @@
     <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />
+    <Compile Include="StoredProcedures\EfSpecific\AccountGetAllForCompanyId.cs" />
+    <Compile Include="StoredProcedures\Parameters\CompanyIdParameters.cs" />
     <Compile Include="StoredProcedures\Parameters\TenantIdParameters.cs" />
     <Compile Include="StoredProcedures\TenantCompanyAccountGetForTenantId.cs" />
     <Compile Include="StoredProcedures\TenantGetAll.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithoutParametersButWithReturnType.cs" />
+    <Compile Include="StoredProcedures\TenantMarkAllInactive.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

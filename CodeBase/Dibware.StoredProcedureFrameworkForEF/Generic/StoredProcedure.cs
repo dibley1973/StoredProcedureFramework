@@ -10,13 +10,8 @@ namespace Dibware.StoredProcedureFrameworkForEF.Generic
     {
         public StoredProcedure(DbContext context)
             : base(context)
-        {
-
-        }
-
-
+        { }
     }
-
 
     public class StoredProcedure<TReturn>
         : AnonymousParameterProcedureBase<TReturn>
