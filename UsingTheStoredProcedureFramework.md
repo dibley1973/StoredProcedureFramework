@@ -832,13 +832,114 @@ Below is an example of committing an insert using the stored procedure framework
 The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
 
 ##### SqlTransaction
-T.B.C
+The `TransactionScope` object which can be found in the `System.Data.SqlClient` namespace can be used to control the transaction, and two examples of how to use `SqlTransaction` with this framework are shown below.
+
 ###### Rolling back a Transaction
-T.B.C
+Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
+
+    [TestMethod]
+    public void StoredProcedure_WithSqlTransactionrolledBack_DoesNotWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var parameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(parameters);
+        var companyCountProcedure = new CompanyCountAll();
+        SqlTransaction transaction;
+
+        // ACT
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            transaction = connection.BeginTransaction();
+            originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+            connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+            intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+            transaction.Rollback();
+        }
+
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.Close();
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+
 ###### Committing a Transaction
-T.B.C
+Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
  
- 
+     [TestMethod]
+        public void StoredProcedure_WithSqlTransactionCommitted_DoesWriteRecords()
+        {
+            // ARRANGE
+            const int expectedIntermediateCount = 5;
+            int originalCount;
+            int intermediateCount;
+            int finalCount;
+            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+            {
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+            };
+            var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+            {
+                Companies = companiesToAdd
+            };
+            var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+            var companyCountProcedure = new CompanyCountAll();
+            var companyDeleteParameters = new TenantIdParameters
+            {
+                TenantId = 2
+            };
+            var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+            SqlTransaction transaction;
+
+            // ACT
+
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                transaction = connection.BeginTransaction();
+                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                transaction.Commit();
+            }
+
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyDeleteProcedure);
+                finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.Close();
+            }
+
+            // ASSERT
+            Assert.AreEqual(originalCount, finalCount);
+            Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+        }
+
+        
 ### Calling the Stored Procedures from Code using DbContext
 
 #### Calling the Stored Procedures from Code using DbContext in traditional way

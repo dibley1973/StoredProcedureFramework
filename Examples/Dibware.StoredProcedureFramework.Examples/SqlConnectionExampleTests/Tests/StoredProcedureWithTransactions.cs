@@ -108,5 +108,104 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             Assert.AreEqual(originalCount, finalCount);
             Assert.AreEqual(expectedIntermediateCount, intermediateCount);
         }
+
+        [TestMethod]
+        public void StoredProcedure_WithSqlTransactionrolledBack_DoesNotWriteRecords()
+        {
+            // ARRANGE
+            const int expectedIntermediateCount = 5;
+            int originalCount;
+            int intermediateCount;
+            int finalCount;
+            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+            {
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+            };
+            var parameters = new CompaniesAdd.CompaniesAddParameters
+            {
+                Companies = companiesToAdd
+            };
+            var companyAddProcedure = new CompaniesAdd(parameters);
+            var companyCountProcedure = new CompanyCountAll();
+            SqlTransaction transaction;
+
+            // ACT
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                transaction = connection.BeginTransaction();
+                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                transaction.Rollback();
+            }
+
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.Close();
+            }
+
+            // ASSERT
+            Assert.AreEqual(originalCount, finalCount);
+            Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+        }
+
+        [TestMethod]
+        public void StoredProcedure_WithSqlTransactionCommitted_DoesWriteRecords()
+        {
+            // ARRANGE
+            const int expectedIntermediateCount = 5;
+            int originalCount;
+            int intermediateCount;
+            int finalCount;
+            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+            {
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+                new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+            };
+            var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+            {
+                Companies = companiesToAdd
+            };
+            var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+            var companyCountProcedure = new CompanyCountAll();
+            var companyDeleteParameters = new TenantIdParameters
+            {
+                TenantId = 2
+            };
+            var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+            SqlTransaction transaction;
+
+            // ACT
+
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                transaction = connection.BeginTransaction();
+                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                transaction.Commit();
+            }
+
+            using (var connection = new SqlConnection(connectionName))
+            {
+                connection.Open();
+                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyDeleteProcedure);
+                finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                connection.Close();
+            }
+
+            // ASSERT
+            Assert.AreEqual(originalCount, finalCount);
+            Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+        }
     }
 }
