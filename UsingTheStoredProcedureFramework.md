@@ -40,7 +40,7 @@ PLEASE NOTE:
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
 * [Calling the Stored Procedures from Code] (#calling-the-stored-procedures-from-code)
   + [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
-    - [Using Transactions with SqlConnection] (#using-transactions-with-sqlConnection)
+    - [Using Transactions with SqlConnection] (#using-transactions-with-sqlconnection)
   + [Calling the Stored Procedures from Code using DbContext] (#calling-the-stored-procedures-from-code-using-dbcontext)
     - [Calling the Stored Procedures from Code using DbContext in traditional way] (#calling-the-stored-procedures-from-code-using-dbcontext-in-traditional-way)
     - [Calling the Stored Procedures from Code using DbContext in Simplified API way](#calling-the-stored-procedures-from-code-using-dbcontext-in-simplified-api-way)

@@ -360,7 +360,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        private static void PrepareCommand(string procedureName, int? commandTimeout,
+        private static void PrepareCommand(string procedureName, 
+            int? commandTimeout,
             SqlTransaction transaction,
             DbCommand command)
         {

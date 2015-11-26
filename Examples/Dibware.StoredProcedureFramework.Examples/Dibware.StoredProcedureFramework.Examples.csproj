@@ -92,6 +92,8 @@
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithParametrsAndMultipleRecordSets.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTransactions.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureFromSqlConnection.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTimeout.cs" />
+    <Compile Include="StoredProcedures\AccountGetAllForCompanyId.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
     <Compile Include="StoredProcedures\CompaniesAdd.cs" />
     <Compile Include="StoredProcedures\CompanyCountAll.cs" />
