@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Transactions;
-using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
+﻿using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
 {
@@ -40,7 +40,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                 using (var connection = new SqlConnection(connectionName))
                 {
                     connection.Open();
-                    originalCount  = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+                    originalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
                     connection.ExecuteStoredProcedure(companyAddProcedure);
                     intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
                 }
@@ -110,7 +110,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
         }
 
         [TestMethod]
-        public void StoredProcedure_WithSqlTransactionrolledBack_DoesNotWriteRecords()
+        public void StoredProcedure_WithSqlTransactionRolledBack_DoesNotWriteRecords()
         {
             // ARRANGE
             const int expectedIntermediateCount = 5;
@@ -136,11 +136,13 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
-                transaction = connection.BeginTransaction();
-                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
-                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
-                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
-                transaction.Rollback();
+                using (transaction = connection.BeginTransaction())
+                {
+                    originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                    intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    transaction.Rollback();
+                }
             }
 
             using (var connection = new SqlConnection(connectionName))
@@ -188,10 +190,12 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
-                transaction = connection.BeginTransaction();
-                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
-                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
-                transaction.Commit();
+                using (transaction = connection.BeginTransaction())
+                {
+                    originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                    transaction.Commit();
+                }
             }
 
             using (var connection = new SqlConnection(connectionName))

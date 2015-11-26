@@ -1,11 +1,12 @@
 ﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
+using Dibware.StoredProcedureFramework.Examples.StoredProcedures.EfSpecific;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFrameworkForEF;
 using Dibware.StoredProcedureFrameworkForEF.Generic;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Dibware.StoredProcedureFramework.Examples.StoredProcedures.EfSpecific;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context
 {
@@ -36,6 +37,29 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Contex
             // class constructors
         }
 
+        /// <summary>
+        /// Constructs a new <see cref="ApplicationDbContext" /> instance using the existing connection to connect to a database.
+        /// The connection will not be disposed when the context is disposed if <paramref name="contextOwnsConnection" />
+        /// is <c>false</c>.
+        /// </summary>
+        /// <param name="existingConnection"> An existing connection to use for the new context. </param>
+        /// <param name="contextOwnsConnection">
+        /// If set to <c>true</c> the connection is disposed when the context is disposed, otherwise the caller must dispose the connection.
+        /// </param>
+        public ApplicationDbContext(DbConnection existingConnection, bool contextOwnsConnection)
+            : base(existingConnection, contextOwnsConnection)
+        {
+            // Set the chosen database initializer and initialize the database
+            IDatabaseInitializer<ApplicationDbContext> databaseInitializer =
+                new CreateDatabaseIfNotExists<ApplicationDbContext>();
+            Database.SetInitializer(databaseInitializer);
+
+            // We do not need to explicitly instantiate all of the Stored 
+            // procedures properties using "this.InitializeStoredProcedureProperties();"
+            // as this is carried out for us by the "Dibware.StoredProcedureFrameworkForEF.StoredProcedureDbContext"
+            // class constructors
+        }
+
         #endregion
 
         #region Stored Procedures (SIMPLIFIED)
@@ -49,13 +73,13 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Contex
 
         [Schema("app")]
         internal StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
-        
+
         [Schema("app")]
         internal StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
-        
+
         [Schema("app")]
         internal StoredProcedure TenantDeleteForId { get; set; }
-        
+
         [Schema("app")]
         internal StoredProcedure TenantMarkAllInactive { get; set; }
 

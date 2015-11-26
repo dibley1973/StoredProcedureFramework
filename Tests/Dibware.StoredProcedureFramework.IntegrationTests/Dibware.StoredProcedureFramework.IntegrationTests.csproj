@@ -92,6 +92,7 @@
     <Compile Include="SqlConnectionTests\PrecisionAndScaleTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\ReturnNoResultTestsWithDbContext.cs" />
     <Compile Include="SqlConnectionTests\SizeAttributeTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\StoredProcedureWithTransactions.cs" />
     <Compile Include="SqlConnectionTests\TableValueParameterTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\IncorrectParameterTypeTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\AllCommonDataTypesTestsWithSqlConnection.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="StoredProcedures\TooLargeSizeAttributeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\TooLargeValueButNoSizeAttributeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\TooSmallSizeAttributeStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\TransactionTestAddStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\TransactionTestCountAllStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\TransactionTestDeleteAllStoredProcedure.cs" />
     <Compile Include="StoredProcedures\VolumeAndPerformanceGetAllStoredProcedure.cs" />
     <Compile Include="StoredProcedures\VolumeAndPerformanceInsertNRecordsStoredProcedure.cs" />
     <Compile Include="StoredProcedures\VolumeAndPerformanceTruncateStoredProcedure.cs" />

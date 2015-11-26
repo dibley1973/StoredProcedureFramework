@@ -103,6 +103,9 @@
     <Build Include="dbo\Stored Procedures\VolumeAndPerformanceInsertNRecords.sql" />
     <Build Include="dbo\Views\RANDOM.sql" />
     <Build Include="dbo\Functions\RandomTextGenerator.sql" />
+    <Build Include="dbo\Tables\TransactionTest.sql" />
+    <Build Include="dbo\Stored Procedures\TransactionTestStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\TransactionTestCountAllStoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

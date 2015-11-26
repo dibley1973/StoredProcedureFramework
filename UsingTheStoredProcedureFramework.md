@@ -832,13 +832,13 @@ Below is an example of committing an insert using the stored procedure framework
 The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
 
 ##### SqlTransaction
-The `TransactionScope` object which can be found in the `System.Data.SqlClient` namespace can be used to control the transaction, and two examples of how to use `SqlTransaction` with this framework are shown below.
+The `SqlTransaction` object which can be found in the `System.Data.SqlClient` namespace can be used to control the transaction, and two examples of how to use `SqlTransaction` with this framework are shown below.
 
 ###### Rolling back a Transaction
 Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
 
     [TestMethod]
-    public void StoredProcedure_WithSqlTransactionrolledBack_DoesNotWriteRecords()
+    public void StoredProcedure_WithSqlTransactionRolledBack_DoesNotWriteRecords()
     {
         // ARRANGE
         const int expectedIntermediateCount = 5;
@@ -864,11 +864,13 @@ Below is an example of rolling back an insert using the stored procedure framewo
         using (var connection = new SqlConnection(connectionName))
         {
             connection.Open();
-            transaction = connection.BeginTransaction();
-            originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
-            connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
-            intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
-            transaction.Rollback();
+            using(transaction = connection.BeginTransaction())
+            { 
+                originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                transaction.Rollback();
+            }
         }
 
         using (var connection = new SqlConnection(connectionName))
@@ -886,58 +888,60 @@ Below is an example of rolling back an insert using the stored procedure framewo
 ###### Committing a Transaction
 Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
  
-     [TestMethod]
-        public void StoredProcedure_WithSqlTransactionCommitted_DoesWriteRecords()
+    [TestMethod]
+    public void StoredProcedure_WithSqlTransactionCommitted_DoesWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
         {
-            // ARRANGE
-            const int expectedIntermediateCount = 5;
-            int originalCount;
-            int intermediateCount;
-            int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
-            var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
-            {
-                new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
-                new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
-                new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
-            };
-            var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
-            {
-                Companies = companiesToAdd
-            };
-            var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
-            var companyCountProcedure = new CompanyCountAll();
-            var companyDeleteParameters = new TenantIdParameters
-            {
-                TenantId = 2
-            };
-            var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
-            SqlTransaction transaction;
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+        var companyCountProcedure = new CompanyCountAll();
+        var companyDeleteParameters = new TenantIdParameters
+        {
+            TenantId = 2
+        };
+        var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+        SqlTransaction transaction;
 
-            // ACT
+        // ACT
 
-            using (var connection = new SqlConnection(connectionName))
-            {
-                connection.Open();
-                transaction = connection.BeginTransaction();
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            using(transaction = connection.BeginTransaction())
+            { 
                 originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
                 connection.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
                 transaction.Commit();
             }
-
-            using (var connection = new SqlConnection(connectionName))
-            {
-                connection.Open();
-                intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
-                connection.ExecuteStoredProcedure(companyDeleteProcedure);
-                finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
-                connection.Close();
-            }
-
-            // ASSERT
-            Assert.AreEqual(originalCount, finalCount);
-            Assert.AreEqual(expectedIntermediateCount, intermediateCount);
         }
+
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+            intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.ExecuteStoredProcedure(companyDeleteProcedure);
+            finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            connection.Close();
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
 
         
 ### Calling the Stored Procedures from Code using DbContext
@@ -1291,9 +1295,114 @@ Below is an example of committing an insert using the stored procedure framework
 The example test proves that the intermediate row count went up by three after the transaction was committed. Please note the test does delete the new rows after the test and outside of the transaction to reset the data.
 
 ##### SqlTransaction
-T.B.C
-###### Rolling back transaction
-T.B.C
-###### Commiting transaction
-T.B.C
+The `SqlTransaction` object which can be found in the `System.Data.SqlClient` namespace can be used to control the transaction, and two examples of how to use `SqlTransaction` with this framework are shown below.
 
+###### Rolling back a Transaction
+Below is an example of rolling back an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
+
+    [TestMethod]
+    public void StoredProcedure_WithSqlTransactionRolledBack_DoesNotWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var parameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(parameters);
+        var companyCountProcedure = new CompanyCountAll();
+
+        // ACT
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var context = new ApplicationDbContext(connection, false))
+                {
+                    originalCount = context.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    context.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                    intermediateCount = context.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        using (var context = new ApplicationDbContext(connectionName))
+        {
+            finalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
+
+###### Committing a Transaction
+Below is an example of committing an insert using the stored procedure framework while the transaction which is controlled by the `SqlTransaction` object. Note that you must ensure that the `transaction` is set when calling `ExecuteStoredProcedure`.
+ 
+    [TestMethod]
+    public void StoredProcedure_WithSqlTransactionCommitted_DoesWriteRecords()
+    {
+        // ARRANGE
+        const int expectedIntermediateCount = 5;
+        int originalCount;
+        int intermediateCount;
+        int finalCount;
+        string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+        var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
+        {
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 2", IsActive = false, TenantId = 2 },
+            new CompaniesAdd.CompanyTableType { CompanyName = "Company 3", IsActive = true, TenantId = 2 }
+        };
+        var companiesAddParameters = new CompaniesAdd.CompaniesAddParameters
+        {
+            Companies = companiesToAdd
+        };
+        var companyAddProcedure = new CompaniesAdd(companiesAddParameters);
+        var companyCountProcedure = new CompanyCountAll();
+        var companyDeleteParameters = new TenantIdParameters
+        {
+            TenantId = 2
+        };
+        var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
+        
+        // ACT
+        using (var connection = new SqlConnection(connectionName))
+        {
+            connection.Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                using (var context = new ApplicationDbContext(connection, false))
+                {
+                    originalCount = context.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
+                    context.ExecuteStoredProcedure(companyAddProcedure, transaction: transaction);
+                    transaction.Commit();
+                }
+            }
+        }
+
+        using (var context = new ApplicationDbContext(connectionName))
+        {
+            intermediateCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+            context.ExecuteStoredProcedure(companyDeleteProcedure);
+            finalCount = context.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
+        }
+
+        // ASSERT
+        Assert.AreEqual(originalCount, finalCount);
+        Assert.AreEqual(expectedIntermediateCount, intermediateCount);
+    }
