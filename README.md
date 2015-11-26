@@ -34,9 +34,10 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
 * (Must) Ability to support Table Value Parameters **Done**
+* (Must) Ability to support Transactions **Done**
 * (Must) Entity Framework specific extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
-* (Should) Contain a suite of Unit Tests that test all public accessors
+* (Should) Contain a suite of Unit Tests that test all public accessors **WIP**
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
 * (Should) Contain a suite of Integration Tests for both assemblies **WIP**
 * (Should) Ability to handle lesser used parameter types **Not on roadmap**
@@ -68,6 +69,7 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
 * Solution
   + Binaries
     - 0.3
+    - 0.4
   + CodeBase
     - Dibware.StoredProcedureFramework.csproj
     - Dibware.StoredProcedureFrameworkForEF.csproj
