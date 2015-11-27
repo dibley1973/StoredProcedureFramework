@@ -10,7 +10,9 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 Please note this is a work in progress. Currently integration tests are being pulled out of the Unit test project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
 
 ## Versions
-* 0.3 This version supports stored procedures with Table Value Parameters. This is the version that is currently in development.
+* 0.5 This version supports transactions. This is the version that is currently in development.
+* 0.4   
+* 0.3 This version supports stored procedures with Table Value Parameters. 
 * 0.2 This version will support multiple RecordSets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
 * 0.1 This was the initial version which did not support multiple RecordSets. To enable multiple RecordSets to be supported alongside single RecordSets a break to the API is required. Development has stopped on this version but the code will remain available for use.
 
@@ -34,9 +36,10 @@ The aim of this project is to provide the following:
 * (Must) Ability to handle parameters with NULL value **Done**
 * (Must) Ability to handle return types with NULL values **Done**
 * (Must) Ability to support Table Value Parameters **Done**
+* (Must) Ability to support Transactions **Done**
 * (Must) Entity Framework specific extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
-* (Should) Contain a suite of Unit Tests that test all public accessors
+* (Should) Contain a suite of Unit Tests that test all public accessors **WIP**
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
 * (Should) Contain a suite of Integration Tests for both assemblies **WIP**
 * (Should) Ability to handle lesser used parameter types **Not on roadmap**
@@ -68,6 +71,7 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
 * Solution
   + Binaries
     - 0.3
+    - 0.4
   + CodeBase
     - Dibware.StoredProcedureFramework.csproj
     - Dibware.StoredProcedureFrameworkForEF.csproj

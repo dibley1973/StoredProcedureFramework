@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Transactions;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
@@ -23,11 +23,11 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int intermediateCount;
             int finalCount;
             string connectionName = Properties.Settings.Default.IntegrationTestConnection;
-            var itemsToAdd = new List<SimpleParameterTableType>
+            var itemsToAdd = new List<TransactionTestParameterTableType>
             {
-                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+                new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
+                new TransactionTestParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new TransactionTestParameterTableType { Name = "Company 3", IsActive = true, Id = 3 }
             };
             var transactionAddParameters = new TransactionTestAddStoredProcedure.Parameter
             {
@@ -68,11 +68,11 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int intermediateCount;
             int finalCount;
             string connectionName = Properties.Settings.Default.IntegrationTestConnection;
-            var itemsToAdd = new List<SimpleParameterTableType>
+            var itemsToAdd = new List<TransactionTestParameterTableType>
             {
-                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+                new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
+                new TransactionTestParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new TransactionTestParameterTableType { Name = "Company 3", IsActive = true, Id = 3 }
             };
             var transactionAddParameters = new TransactionTestAddStoredProcedure.Parameter
             {
@@ -116,11 +116,11 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int intermediateCount;
             int finalCount;
             string connectionName = Properties.Settings.Default.IntegrationTestConnection;
-            var itemsToAdd = new List<SimpleParameterTableType>
+            var itemsToAdd = new List<TransactionTestParameterTableType>
             {
-                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+                new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
+                new TransactionTestParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new TransactionTestParameterTableType { Name = "Company 3", IsActive = true, Id = 3 }
             };
             var transactionAddParameters = new TransactionTestAddStoredProcedure.Parameter
             {
@@ -164,11 +164,11 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int intermediateCount;
             int finalCount;
             string connectionName = Properties.Settings.Default.IntegrationTestConnection;
-            var itemsToAdd = new List<SimpleParameterTableType>
+            var itemsToAdd = new List<TransactionTestParameterTableType>
             {
-                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
-                new SimpleParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+                new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
+                new TransactionTestParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new TransactionTestParameterTableType { Name = "Company 3", IsActive = true, Id = 3 }
             };
             var transactionAddParameters = new TransactionTestAddStoredProcedure.Parameter
             {

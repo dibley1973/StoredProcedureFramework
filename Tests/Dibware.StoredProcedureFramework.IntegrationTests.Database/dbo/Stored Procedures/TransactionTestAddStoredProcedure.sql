@@ -1,15 +1,16 @@
-﻿CREATE PROCEDURE [dbo].[TransactionTestStoredProcedure]
+﻿
+CREATE PROCEDURE [dbo].[TransactionTestAddStoredProcedure]
 (
-    @TvpParameters [dbo].[SimpleTableValueParameterTableType] READONLY
+    @TvpParameters [dbo].[TransactionTestParameterTableType] READONLY
 )
 AS
 BEGIN
     MERGE INTO [dbo].[TransactionTest] AS [target]
     USING   @TvpParameters AS [source]
     ON      [target].[Id] = [source].[Id]
-    AND     [target].[Name] = [source].[Name]
     WHEN MATCHED THEN UPDATE SET 
-        [target].[IsActive] = [source].[IsActive]
+        [target].[Name] = [source].[Name]
+    ,   [target].[IsActive] = [source].[IsActive]
     WHEN NOT MATCHED THEN INSERT VALUES
     (
         [source].[Id]

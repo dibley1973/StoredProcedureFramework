@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 {
     internal class TransactionTestCountAllStoredProcedure
-        : StoredProcedureBase<List<TransactionTestCountAllStoredProcedure.Return>,
-            NullStoredProcedureParameters>
+        : NoParametersStoredProcedureBase<List<TransactionTestCountAllStoredProcedure.Return>>
     {
 
         internal class Return

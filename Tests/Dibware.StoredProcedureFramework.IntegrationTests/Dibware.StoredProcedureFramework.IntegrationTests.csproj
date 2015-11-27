@@ -129,6 +129,7 @@
     <Compile Include="TestBase\BaseDbContextIntegrationTest.cs" />
     <Compile Include="TestBase\BaseSqlConnectionIntegrationTest.cs" />
     <Compile Include="UserDefinedTypes\SimpleParameterTableType.cs" />
+    <Compile Include="UserDefinedTypes\TransactionTestParameterTableType.cs" />
     <Compile Include="VolumeAndPerformanceTests\PerformanceTest.cs" />
   </ItemGroup>
   <ItemGroup />
