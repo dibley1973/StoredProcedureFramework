@@ -1,17 +1,6 @@
 # Using the StoredProcedureFramework
 The purpose of this document is to describe how to use the Stored Procedure Framework for .Net. 
 
-PLEASE NOTE: 
-* THIS DOCUMENT IS STILL BEING UPDATED. Every care has been taken to ensure this documentation accurately reflects the true API, but if any discrepancies are discovered between the API and what this document states, please refer to the unit tests and examples in the code for the true compilable usage documentation.
-* There is on-going work to :
-  + Split the current single TEST project into three specific projects:
-    - Dibware.StoredProcedureFramework.UnitTests
-    - Dibware.StoredProcedureFramework.IntegrationTests
-    - Dibware.StoredProcedureFramework.Examples
-  + There will then be two database projects
-    - Dibware.StoredProcedureFramework.IntegrationTests.Database
-    - Dibware.StoredProcedureFramework.Examples.Database
-
 ## Table of Contents
 * [Representing Stored Procedures in Code] (#representing-stored-procedures-in-code)
   +  [General Rules] (#general-rules)
@@ -31,11 +20,11 @@ PLEASE NOTE:
       * ctor(string procedureName, TParameters parameters)
       * ctor(string schemaName, string procedureName, TParameters parameters)
      - [Stored Procedure Attributes] (#stored-procedure-attributes)
-* [Example Usage] (#examples-usage)
-  + The most basic type of stored procedure
-  + A Stored Procedure without Parameters
-  + A Stored Procedure with Parameters but without a Return Type
-  + A "Normal" Stored procedure
+* [Example Usage] (#example-usage)
+  + [The most basic type of stored procedure] (#the-most-basic-type-of-stored-procedure)
+  + [A Stored Procedure without Parameters] (#a-stored-procedure-without-parameters)
+  + [A Stored Procedure with Parameters but without a Return Type] (#a-stored-procedure-with-parameters-but-without-a-return-type)
+  + [A "Normal" Stored procedure](#a-normal-stored-procedure)
   + [A Stored Procedure With Multiple RecordSets]  (#a-stored-procedure-with-multiple-recordsets)
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
 * [Calling the Stored Procedures from Code] (#calling-the-stored-procedures-from-code)
