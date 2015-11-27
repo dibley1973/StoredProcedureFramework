@@ -42,9 +42,9 @@ The aim of this project is to provide the following:
 * (Should) Contain a suite of Unit Tests that test all public accessors **WIP**
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **WIP**
 * (Should) Contain a suite of Integration Tests for both assemblies **WIP**
-* (Should) Ability to handle lesser used parameter types **Not on roadmap**
-* (Should) Ability to handle lesser used return data types **Not on roadmap**
-* (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **Ongoing Investigation**
+* (Should) Ability to handle lesser used parameter types **Not currently on roadmap**
+* (Should) Ability to handle lesser used return data types **Not currently on roadmap**
+* (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **On-going Investigation**
 * (Should) Implement David Doran's "FastActivator" for object instantiation **Investigated: no gain**
 * (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **Done**
 * (Could) Not have any "Resharper" warnings **WIP**

@@ -1,17 +1,32 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
-using Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Transactions;
+using Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {
     [TestClass]
     public class StoredProcedureWithTransactions
     {
+        private string _connectionName;
+
+        #region Test Pre and Clear down
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            _connectionName = Properties.Settings.Default.IntegrationTestConnection;            
+        }
+
+        #endregion
+
+
         [TestMethod]
         public void StoredProcedure_WithTransactionScopeNotCommited_DoesNotWriteRecords()
         {
@@ -20,7 +35,6 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -35,21 +49,18 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
 
             // ACT
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+            using (new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var context = new IntegrationTestDbContext(_connectionName))
                 {
-                    connection.Open();
-                    originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                    connection.ExecuteStoredProcedure(transactionTestAddProcedure);
-                    intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                    originalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                    context.ExecuteStoredProcedure(transactionTestAddProcedure);
+                    intermediateCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var context = new IntegrationTestDbContext(_connectionName))
             {
-                connection.Open();
-                finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.Close();
+                finalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
             }
 
             // ASSERT
@@ -65,7 +76,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -83,21 +94,20 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             // ACT
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var context = new IntegrationTestDbContext(_connectionName))
                 {
-                    connection.Open();
-                    originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                    connection.ExecuteStoredProcedure(transactionTestAddProcedure);
+                    originalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                    context.ExecuteStoredProcedure(transactionTestAddProcedure);
                     transactionScope.Complete();
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var context = new IntegrationTestDbContext(_connectionName))
             {
-                connection.Open();
-                intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.ExecuteStoredProcedure(transactionDeleteProcedure);
-                finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.Close();
+                
+                intermediateCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                context.ExecuteStoredProcedure(transactionDeleteProcedure);
+                finalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                
             }
 
             // ASSERT
@@ -113,7 +123,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -126,26 +136,26 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             };
             var transactionTestAddProcedure = new TransactionTestAddStoredProcedure(transactionAddParameters);
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
-            SqlTransaction transaction;
 
             // ACT
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(_connectionName))
             {
                 connection.Open();
-                using (transaction = connection.BeginTransaction())
+
+                using (var transaction = connection.BeginTransaction())
                 {
-                    originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
-                    connection.ExecuteStoredProcedure(transactionTestAddProcedure, transaction: transaction);
-                    intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
-                    transaction.Rollback();
+                    using (var context = new IntegrationTestDbContext(connection, false))
+                    {
+                        originalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
+                        context.ExecuteStoredProcedure(transactionTestAddProcedure, transaction: transaction);
+                        intermediateCount = context.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
+                        transaction.Rollback();
+                    }
                 }
             }
-
-            using (var connection = new SqlConnection(connectionName))
+            using (var context = new IntegrationTestDbContext(_connectionName))
             {
-                connection.Open();
-                finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.Close();
+                finalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
             }
 
             // ASSERT
@@ -161,7 +171,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -175,28 +185,28 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var transactionTestAddProcedure = new TransactionTestAddStoredProcedure(transactionAddParameters);
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
             var transactionDeleteProcedure = new TransactionTestDeleteAllStoredProcedure();
-            SqlTransaction transaction;
-
+            
             // ACT
-
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(_connectionName))
             {
                 connection.Open();
-                using (transaction = connection.BeginTransaction())
+
+                using (var transaction = connection.BeginTransaction())
                 {
-                    originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
-                    connection.ExecuteStoredProcedure(transactionTestAddProcedure, transaction: transaction);
-                    transaction.Commit();
+                    using (var context = new IntegrationTestDbContext(connection, false))
+                    {
+                        originalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
+                        context.ExecuteStoredProcedure(transactionTestAddProcedure, transaction: transaction);
+                        transaction.Commit();
+                    }
                 }
             }
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var context = new IntegrationTestDbContext(_connectionName))
             {
-                connection.Open();
-                intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.ExecuteStoredProcedure(transactionDeleteProcedure);
-                finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
-                connection.Close();
+                intermediateCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
+                context.ExecuteStoredProcedure(transactionDeleteProcedure);
+                finalCount = context.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
             }
 
             // ASSERT
