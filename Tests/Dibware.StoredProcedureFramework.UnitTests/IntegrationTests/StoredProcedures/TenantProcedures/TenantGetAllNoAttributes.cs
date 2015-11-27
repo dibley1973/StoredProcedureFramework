@@ -37,15 +37,4 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
 
         #endregion
     }
-
-    //internal class TenantGetAllNoAttributesResultSet
-    //{
-    //    public List<TenantResultRow> RecordSet1 { get; set; }
-
-    //    public TenantGetAllNoAttributesResultSet()
-    //    {
-    //        RecordSet1 = new List<TenantResultRow>();
-    //    }
-    //}
-
 }

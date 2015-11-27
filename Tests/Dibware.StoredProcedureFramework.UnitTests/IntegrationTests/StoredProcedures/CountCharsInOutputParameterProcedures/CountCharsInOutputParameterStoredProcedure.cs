@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.NullValueParameter;
+﻿//using System.Collections.Generic;
+//using Dibware.StoredProcedureFramework.Base;
+//using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+//using Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.NullValueParameter;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.CountCharsInOutputParameterProcedures
 {

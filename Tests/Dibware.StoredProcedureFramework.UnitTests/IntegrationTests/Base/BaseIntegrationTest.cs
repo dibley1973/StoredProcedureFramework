@@ -6,53 +6,53 @@ using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.Base
 {
-    [TestClass]
-    public abstract class BaseIntegrationTest
-    {
-        #region Fields
+    //[TestClass]
+    //public abstract class BaseIntegrationTest
+    //{
+    //    #region Fields
 
-        private string _connectionString;
-        private SqlConnection _connection;
-        private TransactionScope _transaction;
+    //    private string _connectionString;
+    //    private SqlConnection _connection;
+    //    private TransactionScope _transaction;
 
-        #endregion
+    //    #endregion
 
-        #region Properties
+    //    #region Properties
 
-        protected SqlConnection Connection
-        {
-            get { return _connection; }
-        }
+    //    protected SqlConnection Connection
+    //    {
+    //        get { return _connection; }
+    //    }
 
-        #endregion
+    //    #endregion
 
-        #region Test Pre and Clear down
+    //    #region Test Pre and Clear down
 
-        [TestInitialize]
-        public void TestSetup()
-        {
-            _connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            _connection = new SqlConnection(_connectionString);
-            _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
-        }
+    //    [TestInitialize]
+    //    public void TestSetup()
+    //    {
+    //        _connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+    //        _connection = new SqlConnection(_connectionString);
+    //        _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
+    //    }
 
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            if (_connection != null)
-            {
-                if (_connection.State != ConnectionState.Closed)
-                {
-                    _connection.Close();
-                }
-                _connection.Dispose();
-            }
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-            }
-        }
+    //    [TestCleanup]
+    //    public void TestCleanup()
+    //    {
+    //        if (_connection != null)
+    //        {
+    //            if (_connection.State != ConnectionState.Closed)
+    //            {
+    //                _connection.Close();
+    //            }
+    //            _connection.Dispose();
+    //        }
+    //        if (_transaction != null)
+    //        {
+    //            _transaction.Dispose();
+    //        }
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 }

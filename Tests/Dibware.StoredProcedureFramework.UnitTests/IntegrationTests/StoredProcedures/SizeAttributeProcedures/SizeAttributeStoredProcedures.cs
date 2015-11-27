@@ -4,16 +4,16 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.SizeAttributeProcedures
 {
-    [Schema("app")]
-    [Name("SizeAttributeTest")]
-    internal class CorrectSizeAttributeStoredProcedure
-        : StoredProcedureBase<List<CorrectSizeAttributeReturnType>, CorrectSizeAttributeParameters>
-    {
-        public CorrectSizeAttributeStoredProcedure(CorrectSizeAttributeParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class CorrectSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<List<CorrectSizeAttributeReturnType>, CorrectSizeAttributeParameters>
+    //{
+    //    public CorrectSizeAttributeStoredProcedure(CorrectSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
     //[Schema("app")]
     //[Name("SizeAttributeTest")]
@@ -40,16 +40,16 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
 
 
 
-    [Schema("app")]
-    [Name("SizeAttributeTest")]
-    internal class TooSmallSizeAttributeStoredProcedure
-        : StoredProcedureBase<List<TooSmallSizeAttributeReturnType>, TooSmallSizeAttributeParameters>
-    {
-        public TooSmallSizeAttributeStoredProcedure(TooSmallSizeAttributeParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class TooSmallSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<List<TooSmallSizeAttributeReturnType>, TooSmallSizeAttributeParameters>
+    //{
+    //    public TooSmallSizeAttributeStoredProcedure(TooSmallSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
     //[Schema("app")]
     //[Name("SizeAttributeTest")]
@@ -73,28 +73,28 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     //}
 
 
-    [Schema("app")]
-    [Name("SizeAttributeTest")]
-    internal class TooLargeSizeAttributeStoredProcedure
-        : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeSizeAttributeParameters>
-    {
-        public TooLargeSizeAttributeStoredProcedure(TooLargeSizeAttributeParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class TooLargeSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeSizeAttributeParameters>
+    //{
+    //    public TooLargeSizeAttributeStoredProcedure(TooLargeSizeAttributeParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
 
-    [Schema("app")]
-    [Name("SizeAttributeTest")]
-    internal class TooLargeValueButNoSizeAttributeStoredProcedure
-        : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeValueButNoSizeAttribute>
-    {
-        public TooLargeValueButNoSizeAttributeStoredProcedure(TooLargeValueButNoSizeAttribute parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("SizeAttributeTest")]
+    //internal class TooLargeValueButNoSizeAttributeStoredProcedure
+    //    : StoredProcedureBase<List<TooLargeSizeAttributeReturnType>, TooLargeValueButNoSizeAttribute>
+    //{
+    //    public TooLargeValueButNoSizeAttributeStoredProcedure(TooLargeValueButNoSizeAttribute parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
 
     //[Schema("app")]

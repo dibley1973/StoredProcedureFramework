@@ -6,15 +6,15 @@ using Dibware.StoredProcedureFramework.Tests.IntegrationTests.ResultSets.TenantR
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures
 {
-    [Schema("app")]
-    [Name("Tenant_GetForTenantName")]
-    //[ReturnType(typeof(TenantResultRow))]
-    internal class GetTenantForTenantName
-    {
-        [Name("TenantName")]
-        [ParameterDbType(SqlDbType.VarChar)]
-        public string TenantName { get; set; }
-    }
+    //[Schema("app")]
+    //[Name("Tenant_GetForTenantName")]
+    ////[ReturnType(typeof(TenantResultRow))]
+    //internal class GetTenantForTenantName
+    //{
+    //    [Name("TenantName")]
+    //    [ParameterDbType(SqlDbType.VarChar)]
+    //    public string TenantName { get; set; }
+    //}
 
     //internal class GetTenantForTenantNameProcedureResultSet
     //{
@@ -38,23 +38,23 @@ namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedur
     //    }
     //}
 
-    [Schema("app")]
-    [Name("Tenant_GetForTenantName")]
-    internal class GetTenantForTenantNameProcedure
-        : StoredProcedureBase<List<TenantResultRow>, GetTenantForTenantNameParameters>
-    {
-        public GetTenantForTenantNameProcedure(
-            GetTenantForTenantNameParameters parameters)
-            : base(parameters)
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("Tenant_GetForTenantName")]
+    //internal class GetTenantForTenantNameProcedure
+    //    : StoredProcedureBase<List<TenantResultRow>, GetTenantForTenantNameParameters>
+    //{
+    //    public GetTenantForTenantNameProcedure(
+    //        GetTenantForTenantNameParameters parameters)
+    //        : base(parameters)
+    //    {
+    //    }
+    //}
 
-    internal class GetTenantForTenantNameParameters
-    {
-        [Name("TenantName")]
-        [Size(100)]
-        [ParameterDbType(SqlDbType.VarChar)]
-        public string TenantName { get; set; }
-    }
+    //internal class GetTenantForTenantNameParameters
+    //{
+    //    [Name("TenantName")]
+    //    [Size(100)]
+    //    [ParameterDbType(SqlDbType.VarChar)]
+    //    public string TenantName { get; set; }
+    //}
 }
