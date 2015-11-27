@@ -1,6 +1,4 @@
-﻿
-using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureParameters;
+﻿using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
@@ -9,7 +7,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
     /// does not return any result, it just performs an action.
     /// </summary>
     internal class StoredProcedureWithParameters
-        : NoReturnTypeStoredProcedureBase<BasicParameters>
+        : NoReturnTypeStoredProcedureBase<StoredProcedureWithParameters.BasicParameters>
     {
         #region Constructors
 
@@ -29,7 +27,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
         /// </summary>
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
-        public StoredProcedureWithParameters(string procedureName, 
+        public StoredProcedureWithParameters(string procedureName,
             BasicParameters parameters)
             : base(procedureName, parameters)
         {
@@ -43,12 +41,17 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
         /// <param name="procedureName">Name of the procedure.</param>
         /// <param name="parameters">The parameters.</param>
         public StoredProcedureWithParameters(string schemaName,
-            string procedureName, 
+            string procedureName,
             BasicParameters parameters)
             : base(schemaName, procedureName, parameters)
         {
         }
 
         #endregion
+
+        internal class BasicParameters
+        {
+            public int Id { get; set; }
+        }
     }
 }

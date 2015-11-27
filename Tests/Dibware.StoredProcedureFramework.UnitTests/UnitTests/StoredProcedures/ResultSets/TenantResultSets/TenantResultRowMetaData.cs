@@ -1,7 +1,7 @@
 ﻿using System;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.ResultSets.TenantResultSets
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.ResultSets.TenantResultSets
 {
     /// <summary>
     /// Defines meta data for the TenantResultRow

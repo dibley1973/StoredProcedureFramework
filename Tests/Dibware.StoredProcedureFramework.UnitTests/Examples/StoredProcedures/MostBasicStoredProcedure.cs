@@ -2,17 +2,8 @@
 
 namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 {
-    //internal class MostBasicStoredProcedure2
-    //    : StoredProcedureBase<NullStoredProcedureResult, NullStoredProcedureParameters>
+    //internal class MostBasicStoredProcedure
+    //    : NoParametersNoReturnTypeStoredProcedureBase
     //{
-    //    public MostBasicStoredProcedure2()
-    //        : base(new NullStoredProcedureParameters())
-    //    {
-    //    }
     //}
-
-    internal class MostBasicStoredProcedure
-        : NoParametersNoReturnTypeStoredProcedureBase
-    {
-    }
 }

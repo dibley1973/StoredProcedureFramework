@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.ResultSets.TenantResultSets
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.ResultSets.TenantResultSets
 {
     [MetadataType(typeof(TenantResultRowMetaData))]
     public class TenantResultRow

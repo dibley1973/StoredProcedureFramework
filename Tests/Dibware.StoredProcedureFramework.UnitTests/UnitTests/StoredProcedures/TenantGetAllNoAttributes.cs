@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.Tests.IntegrationTests.ResultSets.TenantResultSets;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.ResultSets.TenantResultSets;
 
-namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.TenantProcedures
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
     internal class TenantGetAllNoAttributes
             : NoParametersStoredProcedureBase<List<TenantResultRow>>

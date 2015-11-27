@@ -18,28 +18,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         }
     }
 
-    ///// <summary>
-    ///// Represents a "normal" stored procedure which has parameters and returns
-    ///// a single result set
-    ///// </summary>
-    //internal class NormalStoredProcedure
-    //    : StoredProcedureBase<NormalStoredProcedureResultSet, NormalStoredProcedureParameters>
-    //{
-    //    public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
-    //        : base(parameters)
-    //    {
-    //    }
-    //}
-
-    //internal class NormalStoredProcedureResultSet
-    //{
-    //    public List<NormalStoredProcedureRecordSet1ReturnType> RecordSet1 { get; set; }
-
-    //    public NormalStoredProcedureResultSet()
-    //    {
-    //        RecordSet1 = new List<NormalStoredProcedureRecordSet1ReturnType>();
-    //    }
-    //}
+    
 
     internal class NormalStoredProcedureParameters
     {

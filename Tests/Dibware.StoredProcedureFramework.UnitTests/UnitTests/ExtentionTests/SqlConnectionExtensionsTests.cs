@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
@@ -23,7 +24,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                var resultSet = connection.ExecuteStoredProcedure(procedure);
+                connection.ExecuteStoredProcedure(procedure);
             }
 
             // ASSERT
