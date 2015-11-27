@@ -99,6 +99,8 @@
     <Compile Include="SqlConnectionTests\AllCommonDataTypesTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\OutputParametersUnitTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\RecordSetNotInstantiatedTestsWithSqlConnection.cs" />
+    <Compile Include="SqlConnectionTests\DbConnectionExtensionsTests.cs" />
+    <Compile Include="SqlConnectionTests\SqlConnectionExtensionsTests.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="StoredProcedures\DecimalWrongReturnTestStoredProcedure.cs" />
     <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\LessColumnsInProcedureResultSetThanReturnStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MostBasicStoredProcedureForEF.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="StoredProcedures\NormalStoredProcedureForEf.cs" />

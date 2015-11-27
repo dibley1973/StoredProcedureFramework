@@ -3,12 +3,11 @@ using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Contracts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
-using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
     public class DbConnectionExtensionsTests
@@ -20,7 +19,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
             // ARRANGE
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
             IStoredProcedure<NullStoredProcedureResult, NullStoredProcedureParameters> procedure1 = null;
-            //MostBasicStoredProcedure procedure = null;
 
             // ACT
             using (DbConnection connection = new SqlConnection(connectionString))
@@ -45,7 +43,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
             using (DbConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                connection.ExecuteStoredProcedure < MostBasicStoredProcedure>(procedureName);
+                connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(procedureName);
             }
 
             // ASSERT
@@ -79,7 +77,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
             const string procedureName = "GetAll";
             DbCommand actualCommand;
             var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
-            
+
             // ACT
             using (DbConnection connection = new SqlConnection(connectionString))
             {

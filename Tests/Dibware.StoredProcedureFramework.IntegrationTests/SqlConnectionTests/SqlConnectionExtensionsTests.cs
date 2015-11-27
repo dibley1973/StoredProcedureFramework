@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
-using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-namespace Dibware.StoredProcedureFramework.Tests.UnitTests.ExtentionTests
+namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
     public class SqlConnectionExtensionsTests
