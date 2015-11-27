@@ -3,11 +3,10 @@
 The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF.
 
 **Please Note:**
-* This is an on-going project, v0.5 is currently being considers as a Release Candidate.
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-Please note this is a work in progress. Currently integration tests are being pulled out of the Unit test project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
+This is an on-going project, but v0.5 is currently being considers as a Release Candidate as it is stable.
 
 ## Versions
 * 0.5 (Release Candidate) This version supports transactions.
