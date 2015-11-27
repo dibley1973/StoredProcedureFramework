@@ -10,7 +10,7 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 Please note this is a work in progress. Currently integration tests are being pulled out of the Unit test project to be placed in an IntegrationTest project. The usage documentation may be out of date during this period.
 
 ## Versions
-* 0.5 This version supports transactions. This is the version that is currently in development.
+* 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
 * 0.3 This version supports stored procedures with Table Value Parameters. 
 * 0.2 This version will support multiple RecordSets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
