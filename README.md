@@ -42,7 +42,7 @@ The aim of this project is to provide the following:
 * (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **Done*
 * (Should) Contain a suite of Integration Tests for both assemblies **Done**
-* (Should) Contain a suite of Unit Tests that test all public accessors **WIP**
+* (Should) Contain a suite of Unit Tests that test all public accessors **Done**
 * (Should) Ability to handle lesser used parameter types **Not currently on roadmap**
 * (Should) Ability to handle lesser used return data types **Not currently on roadmap**
 * (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **On-going Investigation**
@@ -73,6 +73,7 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
   + Binaries
     - 0.3
     - 0.4
+    - 0.5
   + CodeBase
     - Dibware.StoredProcedureFramework.csproj
     - Dibware.StoredProcedureFrameworkForEF.csproj
