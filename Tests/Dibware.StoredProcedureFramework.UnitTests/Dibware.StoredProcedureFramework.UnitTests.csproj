@@ -65,16 +65,8 @@
     <Compile Include="AssertExtensions\ByteArray.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBaseTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedureForEf.cs" />
-    <Compile Include="Examples\StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\NormalStoredProcedureForEf.cs" />
-    <Compile Include="Examples\Tests\StoredProcedureWithParametersButNoReturnTests.cs" />
-    <Compile Include="Examples\Tests\MostBasicStoredProcedureTests.cs" />
-    <Compile Include="Examples\Tests\StoredProcedureWithoutParametersTests.cs" />
     <Compile Include="Fakes\StoredProcedures\StoredProcedureWithNoParametersAndNoReturnType.cs" />
-    <Compile Include="IntegrationTests\Base\BaseIntegrationTest.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\InvalidParameterType\IncorrectParameterTypeStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\TableValueParameter\SimpleTableValueParameterStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\TableValueParameter\TableValueParameterStoredProcedureWithReturn.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -82,45 +74,23 @@
     </Compile>
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
-    <Compile Include="Examples\StoredProcedures\StoredProcedureWithoutParameters.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
-    <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersButNoReturn.cs" />
-    <Compile Include="Examples\Tests\NormalStoredProcedureTestsWithDbContext.cs" />
-    <Compile Include="Examples\Tests\MultipleRecordSetTests.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="Fakes\StoredProcedureParameters\ParametersWithoutNameMapping.cs" />
     <Compile Include="Context\IntegrationTestContext.cs" />
     <Compile Include="DBInitializers\TestDbInitializer.cs" />
-    <Compile Include="IntegrationTests\Base\BaseIntegrationTestWithDbContext.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestReturnType.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalWrongReturnTestStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\MultipleRecordSets\MultipleRecordSetStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\NotInstantiatedRecordSetStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeParameters.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeReturnTypes.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\SizeAttributeProcedures\SizeAttributeStoredProcedures.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\VolumnAndPerformance\VolumeAndPerformanceTruncateStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRow.cs" />
-    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyForTenantResultRowMetaData.cs" />
-    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRow.cs" />
-    <Compile Include="IntegrationTests\ResultSets\CompanyResultSets\CompanyResultRowMetaData.cs" />
     <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRow.cs" />
     <Compile Include="IntegrationTests\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\CompanyForTenantProcedures\GetForTenantID.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\CompanyForTenantProcedures\GetForTenantIDParameters.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\CompanyProcedures\GetAll.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\CompanyProcedures\GetAllForTenantID.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterParameters.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\CountCharsInOutputParameterProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalTestStoredProcedure.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\DecimalTests\DecimalTestExtendedReturnType.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleReturnType.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleStoredProcedure.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\PrecisionAndScale\DecimalPrecisionAndScaleParameters.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\ReturnNoResultStoredProcedure.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\TenantGetAllWithAttributes.cs" />
-    <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\GetTenantForTenantName.cs" />
     <Compile Include="IntegrationTests\StoredProcedures\TenantProcedures\TenantGetAllNoAttributes.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
     <Compile Include="Resources\SqlStatements.cs" />
@@ -138,10 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VolumeAndPerformance\PerformanceTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataInfo\" />
-    <Folder Include="IntegrationTests\StoredProcedures\Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

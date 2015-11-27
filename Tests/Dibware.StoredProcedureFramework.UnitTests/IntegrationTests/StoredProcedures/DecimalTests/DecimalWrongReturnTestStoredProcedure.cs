@@ -4,16 +4,16 @@ using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.IntegrationTests.StoredProcedures.DecimalTests
 {
-    [Schema("app")]
-    [Name("DecimalTest")]
-    internal class DecimalWrongReturnTestStoredProcedure
-        : StoredProcedureBase<List<DecimalWrongReturnTestReturnType>, NullStoredProcedureParameters>
-    {
-        public DecimalWrongReturnTestStoredProcedure()
-            : base(new NullStoredProcedureParameters())
-        {
-        }
-    }
+    //[Schema("app")]
+    //[Name("DecimalTest")]
+    //internal class DecimalWrongReturnTestStoredProcedure
+    //    : StoredProcedureBase<List<DecimalWrongReturnTestReturnType>, NullStoredProcedureParameters>
+    //{
+    //    public DecimalWrongReturnTestStoredProcedure()
+    //        : base(new NullStoredProcedureParameters())
+    //    {
+    //    }
+    //}
 
     //[Schema("app")]
     //[Name("DecimalTest")]
