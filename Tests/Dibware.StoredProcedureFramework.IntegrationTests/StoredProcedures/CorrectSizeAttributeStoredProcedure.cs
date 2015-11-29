@@ -15,14 +15,12 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
         internal class Parameter
         {
             [Size(20)]
-            //[ParameterDbType(SqlDbType.VarChar)]
             public string Value1 { get; set; }
         }
 
         internal class Return
         {
             [Size(255)]
-            //[ParameterDbType(SqlDbType.VarChar)]
             public string Value1 { get; set; }
         }
     }

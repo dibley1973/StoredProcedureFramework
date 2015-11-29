@@ -46,6 +46,8 @@ The aim of this project is to provide the following:
 * (Should) Ability to handle lesser used return data types **Not currently on roadmap**
 * (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **On-going Investigation**
 * (Should) Implement David Doran's "FastActivator" for object instantiation **Investigated: no gain**
+* (Could) Ability to return results from Sql User Defined Scalar Function **Under investigation**
+* (Could) Ability to return results from Sql User Defined Table Function **Under investigation**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
 * (Could) Ability to support Transactions
