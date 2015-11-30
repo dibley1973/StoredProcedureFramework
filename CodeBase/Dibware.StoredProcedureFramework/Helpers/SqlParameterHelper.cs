@@ -54,8 +54,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
                     : propertyInfo.Name;
 
                 var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-                sqlParameter.SqlDbType = typeAttribute != null 
-                    ? typeAttribute.Value 
+                sqlParameter.SqlDbType = typeAttribute != null
+                    ? typeAttribute.Value
                     : GetSqlDbType(propertyInfo.PropertyType);
 
                 TrySetSqlParameterDirectionFromAttribute(propertyInfo, sqlParameter);
@@ -145,14 +145,19 @@ namespace Dibware.StoredProcedureFramework.Helpers
             _clrToSqlTypeMaps = new Dictionary<Type, SqlDbType>
             {
                 {typeof (Boolean), SqlDbType.Bit},
+                {typeof (Byte), SqlDbType.TinyInt},
                 {typeof (String), SqlDbType.NVarChar},
                 {typeof (DateTime), SqlDbType.DateTime},
-                {typeof (Int16), SqlDbType.Int},
+                {typeof (Int16), SqlDbType.SmallInt},
                 {typeof (Int32), SqlDbType.Int},
-                {typeof (Int64), SqlDbType.Int},
-                {typeof (Decimal), SqlDbType.Float},
+                {typeof (Int64), SqlDbType.BigInt},
+                {typeof (Decimal), SqlDbType.Decimal},
                 {typeof (Double), SqlDbType.Float},
-                {typeof (char[]), SqlDbType.NVarChar}
+                {typeof (Single), SqlDbType.Real},
+                {typeof (TimeSpan), SqlDbType.Time},
+                {typeof (Guid), SqlDbType.UniqueIdentifier},
+                {typeof (Byte[]), SqlDbType.Binary},
+                {typeof (char[]), SqlDbType.Char}
             };
         }
 

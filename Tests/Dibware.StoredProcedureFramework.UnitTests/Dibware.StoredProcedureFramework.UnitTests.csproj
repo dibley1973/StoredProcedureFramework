@@ -75,6 +75,9 @@
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
+    <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
+    <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
+    <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\ResultSets\TenantResultSets\TenantResultRow.cs" />
     <Compile Include="UnitTests\StoredProcedures\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
     <Compile Include="UnitTests\StoredProcedures\DecimalTestStoredProcedure.cs" />

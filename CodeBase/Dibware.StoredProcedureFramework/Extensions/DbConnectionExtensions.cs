@@ -65,10 +65,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
             string procedureName = storedProcedure.GetTwoPartName();
 
             // Prepare the parameters if any exist
-            IEnumerable<SqlParameter> procedureParameters = 
-                (storedProcedure.HasNullStoredProcedureParameters) 
-                    ? null 
-                    : BuildProcedureParameters(storedProcedure);
+            //IEnumerable<SqlParameter> procedureParameters =
+            //    (storedProcedure.HasNullStoredProcedureParameters)
+            //        ? null
+            //        : BuildProcedureParameters(storedProcedure);
+
+            var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure);
+            sqlParameterBuilder.BuildSqlParameters();
+            IEnumerable<SqlParameter> procedureParameters = sqlParameterBuilder.Parameters;
+                
+
 
             TResultSetType results = ExecuteStoredProcedure<TResultSetType>(
                 connection,
@@ -286,22 +292,22 @@ namespace Dibware.StoredProcedureFramework.Extensions
             results.Add(item);
         }
 
-        private static ICollection<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
-            IStoredProcedure<TReturnType, TParameterType> procedure)
-            where TReturnType : class
-            where TParameterType : class
-        {
-            var mappedProperties = procedure.Parameters.GetType().GetMappedProperties();
-            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
+        //private static ICollection<SqlParameter> BuildProcedureParameters<TReturnType, TParameterType>(
+        //    IStoredProcedure<TReturnType, TParameterType> procedure)
+        //    where TReturnType : class
+        //    where TParameterType : class
+        //{
+        //    var mappedProperties = procedure.Parameters.GetType().GetMappedProperties();
+        //    var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
 
-            // TODO: Investigate if we can set VARCHAR size from the value of 
-            // the parameters, and where is best to perform this... 
-            // Refer to Issue #1
+        //    // TODO: Investigate if we can set VARCHAR size from the value of 
+        //    // the parameters, and where is best to perform this... 
+        //    // Refer to Issue #1
 
-            PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);
+        //    PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, procedure);
 
-            return sqlParameters;
-        }
+        //    return sqlParameters;
+        //}
 
         private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
         {
@@ -336,29 +342,29 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
         }
 
-        private static void PopulateSqlParametersFromProperties<TReturnType, TParameterType>(
-            ICollection<SqlParameter> sqlParameters,
-            PropertyInfo[] mappedProperties,
-            IStoredProcedure<TReturnType, TParameterType> procedure)
-            where TReturnType : class
-            where TParameterType : class
-        {
-            // Get all input type parameters
-            foreach (SqlParameter sqlParameter in sqlParameters
-                .Where(p => p.Direction == ParameterDirection.Input)
-                .Select(p => p))
-            {
-                String propertyName = sqlParameter.ParameterName;
-                PropertyInfo mappedPropertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
-                if (mappedPropertyInfo == null) throw new NullReferenceException("Mapped property not found");
+        //private static void PopulateSqlParametersFromProperties<TReturnType, TParameterType>(
+        //    ICollection<SqlParameter> sqlParameters,
+        //    PropertyInfo[] mappedProperties,
+        //    IStoredProcedure<TReturnType, TParameterType> procedure)
+        //    where TReturnType : class
+        //    where TParameterType : class
+        //{
+        //    // Get all input type parameters
+        //    foreach (SqlParameter sqlParameter in sqlParameters
+        //        .Where(p => p.Direction == ParameterDirection.Input)
+        //        .Select(p => p))
+        //    {
+        //        String propertyName = sqlParameter.ParameterName;
+        //        PropertyInfo mappedPropertyInfo = mappedProperties.FirstOrDefault(p => p.Name == propertyName);
+        //        if (mappedPropertyInfo == null) throw new NullReferenceException("Mapped property not found");
 
-                // Use the PropertyInfo to get the value from the parameters,
-                // then validate the value and if validation passes, set it 
-                object value = mappedPropertyInfo.GetValue(procedure.Parameters);
-                ValidateValueIsInRangeForSqlParameter(sqlParameter, value);
-                SetSqlParameterValue(value, sqlParameter);
-            }
-        }
+        //        // Use the PropertyInfo to get the value from the parameters,
+        //        // then validate the value and if validation passes, set it 
+        //        object value = mappedPropertyInfo.GetValue(procedure.Parameters);
+        //        ValidateValueIsInRangeForSqlParameter(sqlParameter, value);
+        //        SetSqlParameterValue(value, sqlParameter);
+        //    }
+        //}
 
         private static void PrepareCommand(string procedureName, 
             int? commandTimeout,
@@ -380,77 +386,77 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 matchedPropertyInfo.SetValue(storedProcedureParameters, outputParameter.Value, null);
         }
 
-        private static void SetSqlParameterValue(object value, SqlParameter sqlParameter)
-        {
-            bool parameterValueIsNull = (value == null);
-            bool parameterValueIsTableValuedParameter = (sqlParameter.SqlDbType == SqlDbType.Structured);
+        //private static void SetSqlParameterValue(object value, SqlParameter sqlParameter)
+        //{
+        //    bool parameterValueIsNull = (value == null);
+        //    bool parameterValueIsTableValuedParameter = (sqlParameter.SqlDbType == SqlDbType.Structured);
 
-            if (parameterValueIsNull)
-            {
-                sqlParameter.Value = DBNull.Value;
-            }
-            else if (!parameterValueIsTableValuedParameter)
-            {
-                sqlParameter.Value = value;
-            }
-            else
-            {
-                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
-            }
-        }
+        //    if (parameterValueIsNull)
+        //    {
+        //        sqlParameter.Value = DBNull.Value;
+        //    }
+        //    else if (!parameterValueIsTableValuedParameter)
+        //    {
+        //        sqlParameter.Value = value;
+        //    }
+        //    else
+        //    {
+        //        sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
+        //    }
+        //}
 
-        private static void ValidateValueIsInRangeForSqlParameter(SqlParameter sqlParameter, object value)
-        {
-            if (sqlParameter.RequiresPrecisionAndScaleValidation()) ValidateDecimal(sqlParameter, value);
+        //private static void ValidateValueIsInRangeForSqlParameter(SqlParameter sqlParameter, object value)
+        //{
+        //    if (sqlParameter.RequiresPrecisionAndScaleValidation()) ValidateDecimal(sqlParameter, value);
             
-            if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
-        }
+        //    if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
+        //}
 
-        private static void ValidateDecimal(SqlParameter sqlParameter, object value)
-        {
-            if (value is decimal)
-            {
-                var validator = new SqlParameterDecimalValueValidator();
-                validator.Validate((decimal)value, sqlParameter);
-            }
-            else
-            {
-                throw new SqlParameterInvalidDataTypeException(
-                    sqlParameter.ParameterName,
-                    typeof(decimal), value.GetType());
-            }
-        }
+        //private static void ValidateDecimal(SqlParameter sqlParameter, object value)
+        //{
+        //    if (value is decimal)
+        //    {
+        //        var validator = new SqlParameterDecimalValueValidator();
+        //        validator.Validate((decimal)value, sqlParameter);
+        //    }
+        //    else
+        //    {
+        //        throw new SqlParameterInvalidDataTypeException(
+        //            sqlParameter.ParameterName,
+        //            typeof(decimal), value.GetType());
+        //    }
+        //}
 
-        private static void ValidateString(SqlParameter sqlParameter, object value)
-        {
-            if (value is string)
-            {
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate((string)value, sqlParameter);
-            }
-            else if (value is char[])
-            {
-                // ... and validate it if it is
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate(new string((char[])value), sqlParameter);
-            }
-            else if (value == null)
-            {
-                bool parameterIsStringOrNullable = sqlParameter.IsStringOrIsNullable();
-                if (parameterIsStringOrNullable) return;
+        //private static void ValidateString(SqlParameter sqlParameter, object value)
+        //{
+        //    if (value is string)
+        //    {
+        //        var validator = new SqlParameterStringValueValidator();
+        //        validator.Validate((string)value, sqlParameter);
+        //    }
+        //    else if (value is char[])
+        //    {
+        //        // ... and validate it if it is
+        //        var validator = new SqlParameterStringValueValidator();
+        //        validator.Validate(new string((char[])value), sqlParameter);
+        //    }
+        //    else if (value == null)
+        //    {
+        //        bool parameterIsStringOrNullable = sqlParameter.IsStringOrIsNullable();
+        //        if (parameterIsStringOrNullable) return;
 
-                string message = string.Format(
-                    "'{0}' parameter had a null value",
-                    sqlParameter.ParameterName);
-                throw new SqlNullValueException(message);
-            }
-            else
-            {
-                throw new SqlParameterInvalidDataTypeException(
-                    sqlParameter.ParameterName,
-                    typeof(string), value.GetType());
-            }
-        }
+        //        string message = string.Format(
+        //            "'{0}' parameter had a null value",
+        //            sqlParameter.ParameterName);
+        //        throw new SqlNullValueException(message);
+        //    }
+        //    else
+        //    {
+        //        throw new SqlParameterInvalidDataTypeException(
+        //            sqlParameter.ParameterName,
+        //            typeof(string), value.GetType());
+        //    }
+        //}
 
         #endregion
     }

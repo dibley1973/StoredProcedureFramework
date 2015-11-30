@@ -68,6 +68,7 @@
     <Compile Include="StoredProcedureAttributes\SizeAttribute.cs" />
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="Base\NoParametersStoredProcedureBase.cs" />
+    <Compile Include="Helpers\StoredProcedureSqlParameterBuilder.cs" />
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="Z_LegacyCode\ResultList.cs" />

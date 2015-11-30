@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
+    [Ignore]
     public class FunctionTests : BaseSqlConnectionIntegrationTest
     {
         // This is a a little investigation into what it maight take to
