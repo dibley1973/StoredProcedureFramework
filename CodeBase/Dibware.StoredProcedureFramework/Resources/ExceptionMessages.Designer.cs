@@ -97,6 +97,15 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No mapped property found for parameter {0}..
+        /// </summary>
+        public static string NoMappedPropertyFoundForName {
+            get {
+                return ResourceManager.GetString("NoMappedPropertyFoundForName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;{0}&apos; had an expected type of &apos;{1}&apos;, but actual type was &apos;{2}&apos;. .
         /// </summary>
         public static string ParameterInvalidTypeFormat {
