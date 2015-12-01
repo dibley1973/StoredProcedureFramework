@@ -180,7 +180,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         #endregion
 
-        #region EnsureFullyConstructed
+        #region EnsureIsFullyConstructed
 
         [TestMethod]
         //[ExpectedException(typeof(StoredProcedureConstructionException))]
@@ -191,7 +191,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var procedure = new StoredProcedureWithParameters(parameters);
 
             // ACT
-            procedure.EnsureFullyConstructed();
+            procedure.EnsureIsFullyConstructed();
 
             // ASSERT
 
@@ -206,7 +206,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
             var procedure = new NotFullyConstructedStoredProcedure();
 
             // ACT
-            procedure.EnsureFullyConstructed();
+            procedure.EnsureIsFullyConstructed();
 
             // ASSERT
         }

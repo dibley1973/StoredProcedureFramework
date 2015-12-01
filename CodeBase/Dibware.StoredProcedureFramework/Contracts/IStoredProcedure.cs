@@ -71,7 +71,7 @@
         /// <exception cref="System.Exception">
         /// this instance is not fully constrcuted
         /// </exception>
-        void EnsureFullyConstructed();
+        void EnsureIsFullyConstructed();
         /// <summary>
         /// Gets the parameters.
         /// </summary>

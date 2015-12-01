@@ -116,7 +116,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <exception cref="StoredProcedureConstructionException">
         /// this instance is not fully constrcuted
         /// </exception>
-        public void EnsureFullyConstructed()
+        public void EnsureIsFullyConstructed()
         {
             if (IsFullyConstructed()) return;
 

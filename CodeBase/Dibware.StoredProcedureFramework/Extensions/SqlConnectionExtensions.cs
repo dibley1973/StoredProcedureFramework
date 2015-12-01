@@ -29,7 +29,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         {
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
 
-            storedProcedure.EnsureFullyConstructed();
+            storedProcedure.EnsureIsFullyConstructed();
 
             DbConnection dbConnection = connection;
 

@@ -60,20 +60,10 @@ namespace Dibware.StoredProcedureFramework.Extensions
             where TParameterType : class
         {
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
-
-            storedProcedure.EnsureFullyConstructed();
+            storedProcedure.EnsureIsFullyConstructed();
+            
             string procedureName = storedProcedure.GetTwoPartName();
-
-            // Prepare the parameters if any exist
-            //IEnumerable<SqlParameter> procedureParameters =
-            //    (storedProcedure.HasNullStoredProcedureParameters)
-            //        ? null
-            //        : BuildProcedureParameters(storedProcedure);
-
-            var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure);
-            sqlParameterBuilder.BuildSqlParameters();
-            IEnumerable<SqlParameter> procedureParameters = sqlParameterBuilder.Parameters;
-                
+            var procedureParameters = BuildProcedureParametersIfTheyExist(storedProcedure);
 
 
             TResultSetType results = ExecuteStoredProcedure<TResultSetType>(
@@ -148,7 +138,20 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         #region methods : private or protected
-        
+
+        private static ICollection<SqlParameter> BuildProcedureParametersIfTheyExist<TResultSetType, TParameterType>(
+            IStoredProcedure<TResultSetType, TParameterType> storedProcedure)
+            where TResultSetType : class, new()
+            where TParameterType : class
+        {
+            var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure);
+            
+            sqlParameterBuilder.BuildSqlParameters();
+            var result = sqlParameterBuilder.Parameters;
+
+            return result;
+        }
+
         private static TResultSetType ExecuteCommand<TResultSetType>(
             CommandBehavior commandBehavior,
             DbCommand command)

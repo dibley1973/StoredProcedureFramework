@@ -122,7 +122,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
             if (parameters == null) throw new ArgumentNullException("parameters");
 
             SetParameters(parameters);
-            EnsureFullyConstructed();
+            EnsureIsFullyConstructed();
 
             return Execute(commandTimeout, commandBehavior, transaction);
         }

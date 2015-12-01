@@ -54,6 +54,7 @@
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\SqlParameterHelper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
+    <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
     <Compile Include="Helpers\TableValuedParameterHelper.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
@@ -71,16 +72,12 @@
     <Compile Include="Helpers\StoredProcedureSqlParameterBuilder.cs" />
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
-    <Compile Include="Z_LegacyCode\ResultList.cs" />
-    <Compile Include="Z_LegacyCode\ResultListOfT.cs" />
     <Compile Include="StoredProcedureAttributes\NameAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ParameterDbTypeAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ReturnTypeAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SchemaAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\StreamOutputAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\StreamToFileAttribute.cs" />
-    <Compile Include="Z_LegacyCode\DbConnectionExtensions_Legacy.cs" />
-    <Compile Include="Z_LegacyCode\DbContextExtensions_Legacy.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
@@ -90,11 +87,9 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="StoredProcedureAttributes\StreamToMemoryAttribute.cs" />
-    <Compile Include="Z_LegacyCode\StoredProcedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\StoredProcedureBase.cs" />
     <Compile Include="StoredProcedureDefaults.cs" />
-    <Compile Include="Z_LegacyCode\StoredProcedureOfT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

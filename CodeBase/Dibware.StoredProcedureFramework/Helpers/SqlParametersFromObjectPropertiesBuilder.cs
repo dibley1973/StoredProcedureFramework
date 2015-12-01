@@ -1,8 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.Validators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,28 +8,39 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
+    /* ***** WORK IN PROGRESS ***** */
+
     /// <summary>
-    /// Responsible for building Sql Parameters from a stored procedure
+    /// Responsible for building SqlParameters from the properties of an object
     /// </summary>
-    public class StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>
-        where TResultSetType : class, new()
-        where TParameterType : class
+    /// <typeparam name="TSourceType">
+    /// The type of the source object to build parameters from
+    /// </typeparam>
+    /// <remarks>
+    /// This class is NOT threadsafe
+    /// </remarks>
+    public class SqlParametersFromObjectPropertiesBuilder<TSourceType>
+        where TSourceType : class
     {
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureSqlParameterBuilder{TResultSetType, TParameterType}"/> 
-        /// class with an object that implements <see cref="IStoredProcedure{TResultSetType, TParameterType} "/>.
+        /// Initializes a new instance of the <see cref="SqlParametersFromObjectPropertiesBuilder{TSourceType}"/> class.
         /// </summary>
-        /// <param name="storedProcedure">The stored procedure.</param>
-        public StoredProcedureSqlParameterBuilder(IStoredProcedure<TResultSetType, TParameterType> storedProcedure)
+        /// <param name="source">The source object to create parameters from.</param>
+        /// <exception cref="System.ArgumentNullException">source</exception>
+        public SqlParametersFromObjectPropertiesBuilder(TSourceType source)
         {
-            if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
+            if (source == null) throw new ArgumentNullException("source");
 
-            _storedProcedure = storedProcedure;
+            _source = source;
+            BuildMappedPropertiesFromSource();
+            
         }
 
         #endregion
@@ -44,12 +52,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         public void BuildSqlParameters()
         {
-            if (_storedProcedure.HasNullStoredProcedureParameters) return;
+            if (_source == null) return;
 
-            var mappedProperties = _storedProcedure.Parameters.GetType().GetMappedProperties();
-            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
-
-            PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, _storedProcedure.Parameters);
+            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(_mappedProperties);
+            PopulateSqlParametersFromProperties(sqlParameters);
 
             Parameters = sqlParameters;
         }
@@ -66,29 +72,31 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Private Members
 
-        private static object GetPropertyValueFromParameters(TParameterType parameters, PropertyInfo matchedProperty)
+        private void BuildMappedPropertiesFromSource()
         {
-            return matchedProperty.GetValue(parameters);
+            _mappedProperties = _source.GetType().GetMappedProperties();
+        }
+
+        private static object GetPropertyValueFromParameters(TSourceType source, PropertyInfo matchedProperty)
+        {
+            return matchedProperty.GetValue(source);
         }
 
         private void PopulateSqlParametersFromProperties(
-            ICollection<SqlParameter> sqlParameters,
-            PropertyInfo[] properties,
-            TParameterType parameters)
+            ICollection<SqlParameter> sqlParameters)
         {
-            // Get all input type parameters
-            var parametersOfInputDirectionOnly = sqlParameters
+            var allInputDirectionParameters = sqlParameters
                 .Where(parameter => parameter.Direction == ParameterDirection.Input)
                 .Select(parameter => parameter);
 
-            foreach (SqlParameter sqlParameter in parametersOfInputDirectionOnly)
+            foreach (SqlParameter sqlParameter in allInputDirectionParameters)
             {
-                PopulateSqlParameterValueFromProperty(properties, parameters, sqlParameter);
+                PopulateSqlParameterValueFromProperty(_mappedProperties, _source, sqlParameter);
             }
         }
 
         private void PopulateSqlParameterValueFromProperty(PropertyInfo[] properties,
-            TParameterType parameters,
+            TSourceType parameters,
             SqlParameter sqlParameter)
         {
             String slqParameterName = sqlParameter.ParameterName;
@@ -175,7 +183,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
         }
 
-        private readonly IStoredProcedure<TResultSetType, TParameterType> _storedProcedure;
+        private readonly TSourceType _source;
+        private PropertyInfo[] _mappedProperties;
 
         #endregion
     }
