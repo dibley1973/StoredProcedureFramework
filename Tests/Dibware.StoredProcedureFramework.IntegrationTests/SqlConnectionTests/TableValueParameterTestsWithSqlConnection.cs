@@ -57,5 +57,26 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             Assert.IsNotNull(results);
             Assert.AreEqual(expectedCount, actualCount);
         }
+
+        [TestMethod]
+        public void TableValueParameterStoredProcedureWithReturnAndEmptyList_DoesNotThrowException()
+        {
+            // ARRANGE
+            var itemsToAdd = new List<SimpleParameterTableType>();
+            int expectedCount = itemsToAdd.Count;
+            var parameters = new TableValueParameterWithReturnTypeStoredProcedure.Parameter
+            {
+                TvpParameters = itemsToAdd
+            };
+            var procedure = new TableValueParameterWithReturnTypeStoredProcedure(parameters);
+
+            // ACT
+            var results = Connection.ExecuteStoredProcedure(procedure);
+            var actualCount = results.Count;
+
+            // ASSERT
+            Assert.IsNotNull(results);
+            Assert.AreEqual(expectedCount, actualCount);
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// </summary>
     internal static class TableValuedParameterHelper
     {
+        private const List<SqlDataRecord> DefaultValueForEmptyList = null;
+
         /// <summary>
         /// Do the work of converting a source data object to SqlDataRecords
         /// using the parameter attributes to create the itemList valued parameter definition
@@ -35,6 +37,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 mapping.Add(name, propertyInfo.Name);
                 CreateAndAddSqlMetaDataColumn(propertyInfo, name, columnList);
             }
+
+            if (itemList.Count == 0) return DefaultValueForEmptyList;
 
             foreach (object item in itemList)
             {
