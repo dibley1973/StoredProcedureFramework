@@ -1,5 +1,5 @@
 ﻿
-namespace Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.UserDefinedTypes
 {
     /// <summary>
     /// Represenst a simple table type

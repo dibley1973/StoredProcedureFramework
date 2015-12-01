@@ -11,7 +11,7 @@ using System.Reflection;
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     /// <summary>
-    /// Contains functions to help when using Sql Server Table Value Parameters
+    /// Contains functions to help when using Sql Server Table Value SqlParameters
     /// </summary>
     internal static class TableValuedParameterHelper
     {

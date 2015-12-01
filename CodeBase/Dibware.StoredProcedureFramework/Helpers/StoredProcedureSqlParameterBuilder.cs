@@ -15,7 +15,7 @@ using System.Reflection;
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     /// <summary>
-    /// Responsible for building Sql Parameters from a stored procedure
+    /// Responsible for building Sql SqlParameters from a stored procedure
     /// </summary>
     public class StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>
         where TResultSetType : class, new()
@@ -66,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Private Members
 
-        private static object GetPropertyValueFromParameters(TParameterType parameters, PropertyInfo matchedProperty)
+        private object GetPropertyValueFromParameters(TParameterType parameters, PropertyInfo matchedProperty)
         {
             return matchedProperty.GetValue(parameters);
         }
@@ -122,7 +122,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
         }
 
-        private static void ValidateDecimal(SqlParameter sqlParameter, object value)
+        private void ValidateDecimal(SqlParameter sqlParameter, object value)
         {
             if (value is decimal)
             {
@@ -137,7 +137,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
         }
 
-        private static void ValidateString(SqlParameter sqlParameter, object value)
+        private void ValidateString(SqlParameter sqlParameter, object value)
         {
             if (value is string)
             {

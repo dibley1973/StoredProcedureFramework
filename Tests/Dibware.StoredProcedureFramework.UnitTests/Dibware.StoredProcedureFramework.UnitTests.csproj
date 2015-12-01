@@ -76,11 +76,20 @@
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />
+    <Compile Include="UnitTests\StoredProcedures\Parameters\DecimalPrecisionAndScaleStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\OutputParameterStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\Parameters\NullableIntegerParameters.cs" />
+    <Compile Include="UnitTests\StoredProcedures\Parameters\StringTypeParameters.cs" />
+    <Compile Include="UnitTests\StoredProcedures\Parameters\WrongDataTypeDecimalParameter.cs" />
+    <Compile Include="UnitTests\StoredProcedures\Parameters\WrongDataTypeStringParameter.cs" />
     <Compile Include="UnitTests\StoredProcedures\ResultSets\TenantResultSets\TenantResultRow.cs" />
     <Compile Include="UnitTests\StoredProcedures\ResultSets\TenantResultSets\TenantResultRowMetaData.cs" />
     <Compile Include="UnitTests\StoredProcedures\DecimalTestStoredProcedure.cs" />
+    <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithNullableParameters.cs" />
+    <Compile Include="UnitTests\StoredProcedures\TableValueParameterWithoutReturnTypeStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\TenantGetAllWithAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\TenantGetAllNoAttributes.cs" />
     <Compile Include="Resources\SchemaNames.cs" />
@@ -94,6 +103,7 @@
     <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\UserDefinedTypes\SimpleParameterTableType.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

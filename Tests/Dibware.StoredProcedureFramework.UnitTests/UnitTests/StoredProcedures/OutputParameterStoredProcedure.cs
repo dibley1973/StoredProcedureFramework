@@ -2,12 +2,12 @@
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System.Data;
 
-namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
-    public class CountCharsInOutputParameterStoredProcedure
-        : NoReturnTypeStoredProcedureBase<CountCharsInOutputParameterStoredProcedure.Parameter>
+    internal class OutputParameterStoredProcedure
+        : NoReturnTypeStoredProcedureBase<OutputParameterStoredProcedure.Parameter>
     {
-        public CountCharsInOutputParameterStoredProcedure(CountCharsInOutputParameterStoredProcedure.Parameter parameters)
+        public OutputParameterStoredProcedure(OutputParameterStoredProcedure.Parameter parameters)
             : base(parameters)
         {
         }

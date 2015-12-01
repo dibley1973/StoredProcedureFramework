@@ -1,5 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Dibware.StoredProcedureFramework.Validators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +11,6 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -39,10 +40,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (source == null) throw new ArgumentNullException("source");
 
             _source = source;
-            BuildMappedPropertiesFromSource();
-            
+            InstantiateParameters();
         }
-
         #endregion
 
         #region Public Members
@@ -52,12 +51,11 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         public void BuildSqlParameters()
         {
-            if (_source == null) return;
+            if (Source == null) return;
 
-            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(_mappedProperties);
-            PopulateSqlParametersFromProperties(sqlParameters);
-
-            Parameters = sqlParameters;
+            BuildMappedPropertiesFromSource();
+            CreateSqlParametersFromMappedProperties();
+            PopulateSqlParametersFromProperties();
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <value>
         /// The parameters.
         /// </value>
-        public ICollection<SqlParameter> Parameters { get; private set; }
+        public ICollection<SqlParameter> SqlParameters { get; private set; }
 
         #endregion
 
@@ -74,39 +72,76 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void BuildMappedPropertiesFromSource()
         {
-            _mappedProperties = _source.GetType().GetMappedProperties();
+            _mappedProperties = Source.GetType().GetMappedProperties();
         }
 
-        private static object GetPropertyValueFromParameters(TSourceType source, PropertyInfo matchedProperty)
+        private void ClearSqlParameters()
         {
-            return matchedProperty.GetValue(source);
+            SqlParameters.Clear();
         }
 
-        private void PopulateSqlParametersFromProperties(
-            ICollection<SqlParameter> sqlParameters)
+        private void CreateSqlParametersFromMappedProperties()
         {
-            var allInputDirectionParameters = sqlParameters
+            ClearSqlParameters();
+
+            foreach (PropertyInfo propertyInfo in _mappedProperties)
+            {
+                SqlParameter sqlParameter = new SqlParameter();
+
+                NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
+                sqlParameter.ParameterName = nameAttribute != null
+                    ? nameAttribute.Value
+                    : propertyInfo.Name;
+
+                var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
+                sqlParameter.SqlDbType = typeAttribute != null
+                    ? typeAttribute.Value
+                    : SqlParameterHelper.GetSqlDbType(propertyInfo.PropertyType);
+
+                TrySetSqlParameterDirectionFromAttribute(propertyInfo, sqlParameter);
+                TrySetSqlParameterSizeFromAttribute(propertyInfo, sqlParameter);
+                TrySetSqlParameterPrecisionFromAttribute(propertyInfo, sqlParameter);
+                TrySetSqlParameterScaleFromAttribute(propertyInfo, sqlParameter);
+
+                SqlParameters.Add(sqlParameter);
+            }
+        }
+
+        private object GetPropertyValueFromParameters(PropertyInfo matchedProperty)
+        {
+            return matchedProperty.GetValue(Source);
+        }
+
+        private void InstantiateParameters()
+        {
+            SqlParameters = new List<SqlParameter>();
+        }
+
+
+        private void PopulateSqlParametersFromProperties()
+        {
+            var allInputDirectionParameters = SqlParameters
                 .Where(parameter => parameter.Direction == ParameterDirection.Input)
                 .Select(parameter => parameter);
 
             foreach (SqlParameter sqlParameter in allInputDirectionParameters)
             {
-                PopulateSqlParameterValueFromProperty(_mappedProperties, _source, sqlParameter);
+                PopulateSqlParameterValueFromProperty(sqlParameter);
             }
         }
 
-        private void PopulateSqlParameterValueFromProperty(PropertyInfo[] properties,
-            TSourceType parameters,
-            SqlParameter sqlParameter)
+        private void PopulateSqlParameterValueFromProperty(SqlParameter sqlParameter)
         {
             String slqParameterName = sqlParameter.ParameterName;
-            PropertyInfo matchedProperty = properties.FirstOrDefault(property => property.Name == slqParameterName);
-            if (matchedProperty == null) throw new NullReferenceException(
-                string.Format(
-                    ExceptionMessages.NoMappedPropertyFoundForName,
-                    slqParameterName));
+            PropertyInfo matchedProperty = _mappedProperties.FirstOrDefault(property => property.Name == slqParameterName);
 
-            object propertyValue = GetPropertyValueFromParameters(parameters, matchedProperty);
+            // TODO: investigate if this can ever actually happen!
+            //if (matchedProperty == null) throw new NullReferenceException(
+            //    string.Format(
+            //        ExceptionMessages.NoMappedPropertyFoundForName,
+            //        slqParameterName));
+
+            object propertyValue = GetPropertyValueFromParameters(matchedProperty);
             ValidateValueIsInRangeForSqlParameter(sqlParameter, propertyValue);
             SetSqlParameterValue(propertyValue, sqlParameter);
         }
@@ -130,7 +165,41 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
         }
 
-        private static void ValidateDecimal(SqlParameter sqlParameter, object value)
+        private static void TrySetSqlParameterDirectionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
+            if (null != directionAttribute) sqlParameter.Direction = directionAttribute.Value;
+
+            // TODO: investigate if default direction needs to be set.
+            // default appears to be input any way
+            // sqlParameter.Direction = DefaultParameterDirection;
+        }
+
+        private void TrySetSqlParameterPrecisionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            var precisionAttribute = propertyInfo.GetAttribute<PrecisionAttribute>();
+            if (null != precisionAttribute) sqlParameter.Precision = precisionAttribute.Value;
+        }
+
+        private void TrySetSqlParameterScaleFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            var scaleAttribute = propertyInfo.GetAttribute<ScaleAttribute>();
+            if (null != scaleAttribute) sqlParameter.Scale = scaleAttribute.Value;
+        }
+
+        private void TrySetSqlParameterSizeFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            // TODO: DW-2015-11-18 - Investigate a better solution than the default 
+            // size for string parameters when no SizeAttribute has been set. 
+            // Previously the framework used to default to ZERO, but this is not 
+            // very useful to most callers.
+            var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
+            sqlParameter.Size = sizeAttribute != null
+                ? sizeAttribute.Value
+                : DefaultStringSize;
+        }
+
+        private void ValidateDecimal(SqlParameter sqlParameter, object value)
         {
             if (value is decimal)
             {
@@ -145,7 +214,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
         }
 
-        private static void ValidateString(SqlParameter sqlParameter, object value)
+        private void ValidateString(SqlParameter sqlParameter, object value)
         {
             if (value is string)
             {
@@ -183,8 +252,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
         }
 
-        private readonly TSourceType _source;
+        public TSourceType Source { get { return _source; } }
         private PropertyInfo[] _mappedProperties;
+        private readonly TSourceType _source;
+        private const int DefaultStringSize = 8000;
 
         #endregion
     }
