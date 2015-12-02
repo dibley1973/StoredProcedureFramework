@@ -135,9 +135,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             // The default type is the property CLR type, but override if ParameterDbTypeAttribute if available     
             ParameterDbTypeAttribute dbTypeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-            var columnType = (dbTypeAttribute != null)
+            SqlDbType columnType = (dbTypeAttribute != null)
                 ? dbTypeAttribute.Value
-                : SqlParameterHelper.GetSqlDbType(propertyInfo.PropertyType);
+                : ClrTypeToSqlDbTypeMapper.GetSqlDbTypeFromClrType(propertyInfo.PropertyType);
+            
             return columnType;
         }
 

@@ -1,6 +1,5 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Resources;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFramework.Validators;
 using System;
@@ -14,8 +13,6 @@ using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    /* ***** WORK IN PROGRESS ***** */
-
     /// <summary>
     /// Responsible for building SqlParameters from the properties of an object
     /// </summary>
@@ -40,7 +37,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (source == null) throw new ArgumentNullException("source");
 
             _source = source;
-            InstantiateParameters();
+            InstantiateSqlParameters();
         }
         #endregion
 
@@ -51,15 +48,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         public void BuildSqlParameters()
         {
-            if (Source == null) return;
+            var noNeedToBuildSqlParamaters = (Source == null);
+            if (noNeedToBuildSqlParamaters) return;
 
-            BuildMappedPropertiesFromSource();
-            CreateSqlParametersFromMappedProperties();
-            PopulateSqlParametersFromProperties();
+            BuildSqlParametersInternal();
         }
 
         /// <summary>
-        /// Gets the collection of SqlParameters once the parameters have been built.
+        /// Gets the collection of SqlParameters once the parameters have been 
+        /// built, or null if the stored procedure has HasNullStoredProcedureParameters.
         /// </summary>
         /// <value>
         /// The parameters.
@@ -75,44 +72,50 @@ namespace Dibware.StoredProcedureFramework.Helpers
             _mappedProperties = Source.GetType().GetMappedProperties();
         }
 
-        private void ClearSqlParameters()
+        private void BuildSqlParametersInternal()
+        {
+            BuildMappedPropertiesFromSource();
+            ClearExistingSqlParameters();
+            AddSqlParametersFromMappedProperties();
+            PopulateSqlParametersFromProperties();
+        }
+
+        private void ClearExistingSqlParameters()
         {
             SqlParameters.Clear();
         }
 
-        private void CreateSqlParametersFromMappedProperties()
+        private void AddSqlParametersFromMappedProperties()
         {
-            ClearSqlParameters();
-
-            foreach (PropertyInfo propertyInfo in _mappedProperties)
+            foreach (PropertyInfo mappedProperty in _mappedProperties)
             {
-                SqlParameter sqlParameter = new SqlParameter();
-
-                NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
-                sqlParameter.ParameterName = nameAttribute != null
-                    ? nameAttribute.Value
-                    : propertyInfo.Name;
-
-                var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-                sqlParameter.SqlDbType = typeAttribute != null
-                    ? typeAttribute.Value
-                    : SqlParameterHelper.GetSqlDbType(propertyInfo.PropertyType);
-
-                TrySetSqlParameterDirectionFromAttribute(propertyInfo, sqlParameter);
-                TrySetSqlParameterSizeFromAttribute(propertyInfo, sqlParameter);
-                TrySetSqlParameterPrecisionFromAttribute(propertyInfo, sqlParameter);
-                TrySetSqlParameterScaleFromAttribute(propertyInfo, sqlParameter);
+                var sqlParameter = CreateSqlParameterFromMappedProperty(mappedProperty);
 
                 SqlParameters.Add(sqlParameter);
             }
         }
 
-        private object GetPropertyValueFromParameters(PropertyInfo matchedProperty)
+        private SqlParameter CreateSqlParameterFromMappedProperty(PropertyInfo mappedProperty)
+        {
+            SqlParameter sqlParameter = new SqlParameter();
+
+            SetParameterName(mappedProperty, sqlParameter);
+            SetParameterSqlDbType(mappedProperty, sqlParameter);
+
+            TrySetSqlParameterDirectionFromAttribute(mappedProperty, sqlParameter);
+            TrySetSqlParameterSizeFromAttribute(mappedProperty, sqlParameter);
+            TrySetSqlParameterPrecisionFromAttribute(mappedProperty, sqlParameter);
+            TrySetSqlParameterScaleFromAttribute(mappedProperty, sqlParameter);
+
+            return sqlParameter;
+        }
+
+        private object GetPropertyValueFromSource(PropertyInfo matchedProperty)
         {
             return matchedProperty.GetValue(Source);
         }
 
-        private void InstantiateParameters()
+        private void InstantiateSqlParameters()
         {
             SqlParameters = new List<SqlParameter>();
         }
@@ -126,11 +129,11 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
             foreach (SqlParameter sqlParameter in allInputDirectionParameters)
             {
-                PopulateSqlParameterValueFromProperty(sqlParameter);
+                PopulateSqlParameterValueUsingPropertyFromSource(sqlParameter);
             }
         }
 
-        private void PopulateSqlParameterValueFromProperty(SqlParameter sqlParameter)
+        private void PopulateSqlParameterValueUsingPropertyFromSource(SqlParameter sqlParameter)
         {
             String slqParameterName = sqlParameter.ParameterName;
             PropertyInfo matchedProperty = _mappedProperties.FirstOrDefault(property => property.Name == slqParameterName);
@@ -141,9 +144,35 @@ namespace Dibware.StoredProcedureFramework.Helpers
             //        ExceptionMessages.NoMappedPropertyFoundForName,
             //        slqParameterName));
 
-            object propertyValue = GetPropertyValueFromParameters(matchedProperty);
+            object propertyValue = GetPropertyValueFromSource(matchedProperty);
             ValidateValueIsInRangeForSqlParameter(sqlParameter, propertyValue);
             SetSqlParameterValue(propertyValue, sqlParameter);
+        }
+
+        private static void SetParameterSqlDbType(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
+            sqlParameter.SqlDbType = typeAttribute != null
+                ? typeAttribute.Value
+                : ClrTypeToSqlDbTypeMapper.GetSqlDbTypeFromClrType(propertyInfo.PropertyType);
+        }
+
+        private static void SetParameterName(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
+            sqlParameter.ParameterName = nameAttribute != null
+                ? nameAttribute.Value
+                : propertyInfo.Name;
+        }
+
+        private static void TrySetSqlParameterDirectionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
+        {
+            var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
+            if (null != directionAttribute) sqlParameter.Direction = directionAttribute.Value;
+
+            // TODO: investigate if default direction needs to be set.
+            // default appears to be input any way
+            // sqlParameter.Direction = DefaultParameterDirection;
         }
 
         private void SetSqlParameterValue(object value, SqlParameter sqlParameter)
@@ -163,16 +192,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
             {
                 sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
             }
-        }
-
-        private static void TrySetSqlParameterDirectionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
-        {
-            var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
-            if (null != directionAttribute) sqlParameter.Direction = directionAttribute.Value;
-
-            // TODO: investigate if default direction needs to be set.
-            // default appears to be input any way
-            // sqlParameter.Direction = DefaultParameterDirection;
         }
 
         private void TrySetSqlParameterPrecisionFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)

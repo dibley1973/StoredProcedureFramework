@@ -31,7 +31,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<NullStoredProcedureResult, NullStoredProcedureParameters>(procedure);
-            var parameters = sqlParameterBuilder.Parameters;
+            var parameters = sqlParameterBuilder.SqlParameters;
 
             //
             Assert.IsNull(parameters);
@@ -112,7 +112,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             sqlParameterBuilder.BuildSqlParameters();
-            var actual = sqlParameterBuilder.Parameters;
+            var actual = sqlParameterBuilder.SqlParameters;
 
             // ASSERT
             Assert.AreEqual(expectedParameterCount, actual.Count);
@@ -219,7 +219,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             sqlParameterBuilder.BuildSqlParameters();
-            var actual = sqlParameterBuilder.Parameters.ToList();
+            var actual = sqlParameterBuilder.SqlParameters.ToList();
 
             // ASSERT
             Assert.AreEqual(expectedBigIntType, actual[0].SqlDbType);
@@ -352,7 +352,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             sqlParameterBuilder.BuildSqlParameters();
-            var actual = sqlParameterBuilder.Parameters.ToList();
+            var actual = sqlParameterBuilder.SqlParameters.ToList();
 
             // ASSERT
             Assert.AreEqual(expectedBigIntType, actual[0].SqlDbType);

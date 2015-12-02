@@ -77,6 +77,7 @@
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
+    <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\Parameters\DecimalPrecisionAndScaleStoredProcedure.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="Resources\TableNames.cs" />
     <Compile Include="UnitTests\DataInfo\DecimalInfoTests.cs" />
     <Compile Include="UnitTests\Helpers\ExceptionHelperTests.cs" />
-    <Compile Include="UnitTests\Helpers\SqlParameterHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlDbTypeToClrTypeMapperTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\NotFullyConstructedStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />

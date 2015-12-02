@@ -147,7 +147,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure);
             
             sqlParameterBuilder.BuildSqlParameters();
-            var result = sqlParameterBuilder.Parameters;
+            var result = sqlParameterBuilder.SqlParameters;
 
             return result;
         }

@@ -1,16 +1,7 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Resources;
-using Dibware.StoredProcedureFramework.Validators;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -44,135 +35,30 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         public void BuildSqlParameters()
         {
-            if (_storedProcedure.HasNullStoredProcedureParameters) return;
+            var noNeedToBuildSqlParamaters = _storedProcedure.HasNullStoredProcedureParameters;
+            if (noNeedToBuildSqlParamaters) return;
 
-            var mappedProperties = _storedProcedure.Parameters.GetType().GetMappedProperties();
-            var sqlParameters = SqlParameterHelper.CreateSqlParametersFromPropertyInfoArray(mappedProperties);
-
-            PopulateSqlParametersFromProperties(sqlParameters, mappedProperties, _storedProcedure.Parameters);
-
-            Parameters = sqlParameters;
+            BuildSqlParametersInternal();
         }
 
         /// <summary>
-        /// Gets the collection of SqlParameters once the parameters have been built.
+        /// Gets the collection of SqlParameters once the parameters have been 
+        /// built, or null if the stored procedure has HasNullStoredProcedureParameters.
         /// </summary>
         /// <value>
         /// The parameters.
         /// </value>
-        public ICollection<SqlParameter> Parameters { get; private set; }
+        public ICollection<SqlParameter> SqlParameters { get; private set; }
 
         #endregion
 
         #region Private Members
 
-        private object GetPropertyValueFromParameters(TParameterType parameters, PropertyInfo matchedProperty)
+        private void BuildSqlParametersInternal()
         {
-            return matchedProperty.GetValue(parameters);
-        }
-
-        private void PopulateSqlParametersFromProperties(
-            ICollection<SqlParameter> sqlParameters,
-            PropertyInfo[] properties,
-            TParameterType parameters)
-        {
-            // Get all input type parameters
-            var parametersOfInputDirectionOnly = sqlParameters
-                .Where(parameter => parameter.Direction == ParameterDirection.Input)
-                .Select(parameter => parameter);
-
-            foreach (SqlParameter sqlParameter in parametersOfInputDirectionOnly)
-            {
-                PopulateSqlParameterValueFromProperty(properties, parameters, sqlParameter);
-            }
-        }
-
-        private void PopulateSqlParameterValueFromProperty(PropertyInfo[] properties,
-            TParameterType parameters,
-            SqlParameter sqlParameter)
-        {
-            String slqParameterName = sqlParameter.ParameterName;
-            PropertyInfo matchedProperty = properties.FirstOrDefault(property => property.Name == slqParameterName);
-            if (matchedProperty == null) throw new NullReferenceException(
-                string.Format(
-                    ExceptionMessages.NoMappedPropertyFoundForName,
-                    slqParameterName));
-
-            object propertyValue = GetPropertyValueFromParameters(parameters, matchedProperty);
-            ValidateValueIsInRangeForSqlParameter(sqlParameter, propertyValue);
-            SetSqlParameterValue(propertyValue, sqlParameter);
-        }
-
-        private void SetSqlParameterValue(object value, SqlParameter sqlParameter)
-        {
-            bool parameterValueIsNull = (value == null);
-            bool parameterValueIsTableValuedParameter = (sqlParameter.SqlDbType == SqlDbType.Structured);
-
-            if (parameterValueIsNull)
-            {
-                sqlParameter.Value = DBNull.Value;
-            }
-            else if (!parameterValueIsTableValuedParameter)
-            {
-                sqlParameter.Value = value;
-            }
-            else
-            {
-                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
-            }
-        }
-
-        private void ValidateDecimal(SqlParameter sqlParameter, object value)
-        {
-            if (value is decimal)
-            {
-                var validator = new SqlParameterDecimalValueValidator();
-                validator.Validate((decimal)value, sqlParameter);
-            }
-            else
-            {
-                throw new SqlParameterInvalidDataTypeException(
-                    sqlParameter.ParameterName,
-                    typeof(decimal), value.GetType());
-            }
-        }
-
-        private void ValidateString(SqlParameter sqlParameter, object value)
-        {
-            if (value is string)
-            {
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate((string)value, sqlParameter);
-            }
-            else if (value is char[])
-            {
-                // ... and validate it if it is
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate(new string((char[])value), sqlParameter);
-            }
-            else if (value == null)
-            {
-                bool parameterIsStringOrNullable = sqlParameter.IsStringOrIsNullable();
-                if (parameterIsStringOrNullable) return;
-
-                string message = string.Format(
-                    "'{0}' parameter had a null value",
-                    sqlParameter.ParameterName);
-                throw new SqlNullValueException(message);
-            }
-            else
-            {
-                throw new SqlParameterInvalidDataTypeException(
-                    sqlParameter.ParameterName,
-                    typeof(string), value.GetType());
-            }
-        }
-
-        private void ValidateValueIsInRangeForSqlParameter(SqlParameter sqlParameter, object value)
-        {
-            if (sqlParameter.RequiresPrecisionAndScaleValidation()) ValidateDecimal(sqlParameter, value);
-
-            if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
+            var builder = new SqlParametersFromObjectPropertiesBuilder<TParameterType>(_storedProcedure.Parameters);
+            builder.BuildSqlParameters();
+            SqlParameters = builder.SqlParameters;
         }
 
         private readonly IStoredProcedure<TResultSetType, TParameterType> _storedProcedure;
