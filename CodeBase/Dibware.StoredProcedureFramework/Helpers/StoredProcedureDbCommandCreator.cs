@@ -1,6 +1,9 @@
 ﻿using Dibware.StoredProcedureFramework.Helpers.Base;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -9,27 +12,31 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Constructor
 
-        protected StoredProcedureDbCommandCreator(DbConnection connection)
+        private StoredProcedureDbCommandCreator(DbConnection connection)
             : base(connection)
-        {
-
-        }
-
+        {}
 
         #endregion
 
         #region Public Members
 
-        public override void BuildCommand()
+        /// <summary>
+        /// Builds the command.
+        /// </summary>
+        /// <remarks>
+        /// Calls into base implementation before
+        /// </remarks>
+        public new void BuildCommand()
         {
-
+            base.BuildCommand();
+            LoadCommandParametersIfAnyExist();
         }
 
         #endregion
 
         #region Public Factory Methods
 
-        public static StoredProcedureDbCommandCreator CreateDbCommandCreator(
+        public static StoredProcedureDbCommandCreator CreateStoredProcedureDbCommandCreator(
             DbConnection connection,
             string procedureName)
         {
@@ -37,46 +44,46 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
 
             var builder = new StoredProcedureDbCommandCreator(connection)
-                .WithProcedureName(procedureName);
+                .WithCommandText(procedureName)
+                .WithCommandType(CommandType.StoredProcedure);
 
             return builder;
         }
-
-        public static StoredProcedureDbCommandCreator CreateDbCommandCreatorWithCommandTimeout(
-            DbConnection connection,
-            string procedureName,
-            int commandTimeout)
-        {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
-
-            var builder = new StoredProcedureDbCommandCreator(connection)
-                .WithProcedureName(procedureName)
-                .WithCommandTimeout(commandTimeout);
-
-            return builder;
-        }
-
 
         #endregion
 
         #region Private Members
 
-        private StoredProcedureDbCommandCreator WithProcedureName(string value)
+        private new StoredProcedureDbCommandCreator WithCommandText(string commandText)
         {
-            _procedureName = value;
+            base.WithCommandText(commandText);
             return this;
         }
 
-        private StoredProcedureDbCommandCreator WithCommandTimeout(int value)
+        public new StoredProcedureDbCommandCreator WithCommandTimeout(int value)
         {
-            _commandTimeout = value;
+            base.WithCommandTimeout(value);
             return this;
         }
 
+        private new StoredProcedureDbCommandCreator WithCommandType(CommandType commandType)
+        {
+            base.WithCommandType(commandType);
+            return this;
+        }
 
-        private string _procedureName;
+        public new StoredProcedureDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
+        {
+            base.WithParameters(parameters);
+            return this;
+        }
 
+        public new StoredProcedureDbCommandCreator WithTransaction(SqlTransaction transaction)
+        {
+            base.WithTransaction(transaction);
+            return this;
+        }
+        
         #endregion
     }
 }
