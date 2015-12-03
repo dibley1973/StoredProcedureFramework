@@ -21,21 +21,36 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Public Members
 
         /// <summary>
-        /// Builds the command.
+        /// Builds and sets up the command based upon the settings that have 
+        /// been previously passed to this builder.
         /// </summary>
         /// <remarks>
-        /// Calls into base implementation before
+        /// Should call into base implementation before executing any addtional code
         /// </remarks>
         public new void BuildCommand()
         {
             base.BuildCommand();
-            LoadCommandParametersIfAnyExist();
         }
 
         #endregion
 
         #region Public Factory Methods
 
+        /// <summary>
+        /// Creates the stored procedure database command creator.
+        /// </summary>
+        /// <param name="connection">
+        /// The connection to be passed to the command when it is constructed.
+        /// </param>
+        /// <param name="procedureName">
+        /// The name of the stored procedure for which the commmand is to call.
+        /// </param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// connection
+        /// or
+        /// procedureName
+        /// </exception>
         public static StoredProcedureDbCommandCreator CreateStoredProcedureDbCommandCreator(
             DbConnection connection,
             string procedureName)
@@ -50,6 +65,42 @@ namespace Dibware.StoredProcedureFramework.Helpers
             return builder;
         }
 
+        /// <summary>
+        /// Adds a command timeout to the builder which will be passed to the command
+        /// when it is construted.
+        /// </summary>
+        /// <param name="commandTimeout">The value of the command timeout.</param>
+        /// <returns></returns>
+        public new StoredProcedureDbCommandCreator WithCommandTimeout(int commandTimeout)
+        {
+            base.WithCommandTimeout(commandTimeout);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the specified parameters to the builder, and these will be added
+        /// to the command when it is built.
+        /// </summary>
+        /// <param name="parameters">The parameters to add to the command.</param>
+        /// <returns></returns>
+        public new StoredProcedureDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
+        {
+            base.WithParameters(parameters);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the specified transaction to the builder, and these will be added
+        /// to the command when it is built.
+        /// </summary>
+        /// <param name="transaction">The transaction to add to teh command.</param>
+        /// <returns></returns>
+        public new StoredProcedureDbCommandCreator WithTransaction(SqlTransaction transaction)
+        {
+            base.WithTransaction(transaction);
+            return this;
+        }
+        
         #endregion
 
         #region Private Members
@@ -60,30 +111,12 @@ namespace Dibware.StoredProcedureFramework.Helpers
             return this;
         }
 
-        public new StoredProcedureDbCommandCreator WithCommandTimeout(int value)
-        {
-            base.WithCommandTimeout(value);
-            return this;
-        }
-
         private new StoredProcedureDbCommandCreator WithCommandType(CommandType commandType)
         {
             base.WithCommandType(commandType);
             return this;
         }
 
-        public new StoredProcedureDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
-        {
-            base.WithParameters(parameters);
-            return this;
-        }
-
-        public new StoredProcedureDbCommandCreator WithTransaction(SqlTransaction transaction)
-        {
-            base.WithTransaction(transaction);
-            return this;
-        }
-        
         #endregion
     }
 }

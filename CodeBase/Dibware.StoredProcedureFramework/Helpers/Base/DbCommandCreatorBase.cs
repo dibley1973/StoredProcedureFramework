@@ -11,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         #region Fields
 
         private DbCommand _command;
-        private DbConnection _connection;
+        private readonly DbConnection _connection;
         private IEnumerable<SqlParameter> _parameters;
         private string _commandText;
         private int? _commandTimeout;
@@ -22,6 +22,13 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DbCommandCreatorBase"/> class.
+        /// </summary>
+        /// <param name="connection">
+        /// The DbConnection to run the command against.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">connection</exception>
         protected DbCommandCreatorBase(DbConnection connection)
         {
             if (connection == null) throw new ArgumentNullException("connection");
@@ -31,13 +38,18 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
         #endregion
 
-
         #region Public Members
 
+        /// <summary>
+        /// Builds and sets up the command based upon the settings that have 
+        /// been previously passed to this builder.
+        /// </summary>
         protected void BuildCommand()
         {
             CreateCommand();
+            LoadCommandParametersIfAnyExist();
             SetCommandText();
+            SetCommandType();
             SetCommandTimeoutIfExists();
             SetTransactionIfExists();
         }
@@ -98,6 +110,11 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _command.CommandText = _commandText;
         }
 
+        private void SetCommandType()
+        {
+            _command.CommandType = _commandType;
+        }
+
         private void SetCommandTimeoutIfExists()
         {
             bool hasCommandTimeout = _commandTimeout.HasValue;
@@ -116,31 +133,26 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         protected void WithCommandText(string commandText)
         {
             _commandText = commandText;
-            //return this;
         }
 
-        protected void WithCommandTimeout(int value)
+        protected void WithCommandTimeout(int commandTimeout)
         {
-            _commandTimeout = value;
-            //return this;
+            _commandTimeout = commandTimeout;
         }
 
         protected void WithCommandType(CommandType commandType)
         {
             _commandType = commandType;
-            //return this;
         }
 
         protected void WithParameters(IEnumerable<SqlParameter> parameters)
         {
             _parameters = parameters;
-            //return this;
         }
 
         protected void WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
-            //return this;
         }
 
         #endregion

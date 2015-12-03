@@ -1,7 +1,8 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Helpers;
+﻿using Dibware.StoredProcedureFramework.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
@@ -18,7 +19,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #region Properties
 
-        protected SqlConnection Connection
+        private SqlConnection Connection
         {
             get { return _connection; }
         }
@@ -49,7 +50,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #endregion
 
         #region Tests
-        
+
         #region Command
 
         [TestMethod]
@@ -57,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-            
+
             // ACT
             var actualCommand = builder.Command;
 
@@ -79,6 +80,22 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.IsNotNull(actualCommand);
         }
 
+        [TestMethod]
+        public void CommandProperty_WhenBuildCommmandTwice_ReturnsDistinctInstances()
+        {
+            // ARRANGE
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            builder.BuildCommand();
+            var actualCommand1 = builder.Command;
+            builder.BuildCommand();
+            var actualCommand2 = builder.Command;
+
+            // ASSERT
+            Assert.AreNotSame(actualCommand1, actualCommand2);
+        }
+
         #endregion
 
         #region CommandText
@@ -91,8 +108,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             builder.BuildCommand();
-            var command = builder.Command;
-            var actualCommandText = command.CommandText;
+            var actualCommand = builder.Command;
+            var actualCommandText = actualCommand.CommandText;
 
             // ASSERT
             Assert.AreEqual(StoredProcedureName, actualCommandText);
@@ -111,8 +128,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ACT
             builder.BuildCommand();
-            var command = builder.Command;
-            var actualCommandTimeout = command.CommandTimeout;
+            var actualCommand = builder.Command;
+            var actualCommandTimeout = actualCommand.CommandTimeout;
 
             // ASSERT
             Assert.AreEqual(defaultCommandTimeout, actualCommandTimeout);
@@ -129,11 +146,110 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             builder
                 .WithCommandTimeout(expectedCommandTimeout)
                 .BuildCommand();
-            var command = builder.Command;
-            var actualCommandText = command.CommandTimeout;
+            var actualCommand = builder.Command;
+            var actualCommandText = actualCommand.CommandTimeout;
 
             // ASSERT
             Assert.AreEqual(expectedCommandTimeout, actualCommandText);
+        }
+
+        #endregion
+
+        #region CommandType
+
+        [TestMethod]
+        public void CommandType_WhenBuildCommmandIsCalled_ReturnsStoredProcedureCommandType()
+        {
+            // ARRANGE
+            const CommandType expectedCommandType = CommandType.StoredProcedure;
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            builder.BuildCommand();
+            var actualCommand = builder.Command;
+            var actualCommandType = actualCommand.CommandType;
+
+            // ASSERT
+            Assert.AreEqual(expectedCommandType, actualCommandType);
+        }
+
+        #endregion
+
+        #region Parameters
+
+        [TestMethod]
+        public void Parameters_WhenBuildCommmandIsNotCalled_ReturnsEmptParameterCollection()
+        {
+            // ARRANGE
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            builder.BuildCommand();
+            var actualCommand = builder.Command;
+            var actualParameters = actualCommand.Parameters;
+
+            // ASSERT
+            Assert.AreEqual(0, actualParameters.Count);
+        }
+
+        [TestMethod]
+        public void Parameters_WhenBuildCommmandIsCalledAndParametersWasSupplied_ReturnsSameInstance()
+        {
+            // ARRANGE
+            var expectedParameters = new List<SqlParameter>
+            {
+                new SqlParameter("Id", SqlDbType.Int),
+                new SqlParameter("Name", SqlDbType.NVarChar),
+            };
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            builder
+                .WithParameters(expectedParameters)
+                .BuildCommand();
+            var actualCommand = builder.Command;
+            var actualParameters = actualCommand.Parameters;
+
+            // ASSERT
+            Assert.AreSame(expectedParameters[0], actualParameters[0]);
+            Assert.AreSame(expectedParameters[1], actualParameters[1]);
+        }
+
+        #endregion
+
+        #region Transaction
+
+        [TestMethod]
+        [Ignore] // Requires a valid connection first!
+        public void Transaction_WhenBuildCommmandIsNotCalled_ReturnsNull()
+        {
+            // ARRANGE
+            SqlTransaction expectedTransaction = Connection.BeginTransaction();
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            var actualCommand = builder.Command;
+            var actualCommandTransaction = actualCommand.Transaction;
+
+            // ASSERT
+            Assert.IsNull(actualCommandTransaction);
+        }
+
+        [TestMethod]
+        [Ignore] // Requires a valid connection first!
+        public void Transaction_WhenBuildCommmandIsCalled_ContainsSameInstanceAsSupplied()
+        {
+            // ARRANGE
+            SqlTransaction expectedTransaction = Connection.BeginTransaction();
+            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+
+            // ACT
+            builder.BuildCommand();
+            var actualCommand = builder.Command;
+            var actualCommandTransaction = actualCommand.Transaction;
+
+            // ASSERT
+            Assert.AreSame(expectedTransaction, actualCommandTransaction);
         }
 
         #endregion
