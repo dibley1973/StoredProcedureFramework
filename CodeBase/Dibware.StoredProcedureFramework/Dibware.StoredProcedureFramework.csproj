@@ -54,6 +54,7 @@
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
+    <Compile Include="Helpers\DbCommandFactory.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlDbTypeToClrTypeMapper.cs" />
     <Compile Include="Helpers\SqlParameterHelper.cs" />

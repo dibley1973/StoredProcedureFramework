@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Dibware.StoredProcedureFramework.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
     [TestClass]
-    public class StoredProcedureDbCommandCreatorTests
+    public class DbCommandFactoryTests
     {
         #region Fields
 
@@ -54,46 +54,13 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #region Command
 
         [TestMethod]
-        public void CommandProperty_WhenBuildCommmandNotCalled_ReturnsNull()
+        public void CommandProperty_WhenCreated_ReturnsInstance()
         {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
             // ACT
-            var actualCommand = builder.Command;
-
-            // ASSERT
-            Assert.IsNull(actualCommand);
-        }
-
-        [TestMethod]
-        public void CommandProperty_WhenBuildCommmandIsCalled_ReturnsInstance()
-        {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
-            // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
 
             // ASSERT
             Assert.IsNotNull(actualCommand);
-        }
-
-        [TestMethod]
-        public void CommandProperty_WhenBuildCommmandTwice_ReturnsDistinctInstances()
-        {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
-            // ACT
-            builder.BuildCommand();
-            var actualCommand1 = builder.Command;
-            builder.BuildCommand();
-            var actualCommand2 = builder.Command;
-
-            // ASSERT
-            Assert.AreNotSame(actualCommand1, actualCommand2);
         }
 
         #endregion
@@ -101,14 +68,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #region CommandText
 
         [TestMethod]
-        public void CommandText_WhenBuildCommmandIsCalled_ReturnsProcedureName()
+        public void CommandText_WhenCreated_ReturnsProcedureName()
         {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
             var actualCommandText = actualCommand.CommandText;
 
             // ASSERT
@@ -124,11 +87,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const int defaultCommandTimeout = 30;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
+            
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
             var actualCommandTimeout = actualCommand.CommandTimeout;
 
             // ASSERT
@@ -136,17 +97,13 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void CommandTimout_WhenWithCommandTimeoutIsCalled_ReturnsCorrectTimeout()
+        public void CommandTimout_WhenCreatedWithCommandTimeout_ReturnsCorrectTimeout()
         {
             // ARRANGE
             const int expectedCommandTimeout = 120;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
 
             // ACT
-            builder
-                .WithCommandTimeout(expectedCommandTimeout)
-                .BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommandWithCommandTimeout(Connection, StoredProcedureName, expectedCommandTimeout);
             var actualCommandText = actualCommand.CommandTimeout;
 
             // ASSERT
@@ -162,11 +119,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const CommandType expectedCommandType = CommandType.StoredProcedure;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
+            
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
             var actualCommandType = actualCommand.CommandType;
 
             // ASSERT
@@ -180,12 +135,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         [TestMethod]
         public void Parameters_WhenBuildCommmandIsNotCalled_ReturnsEmptParameterCollection()
         {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
             var actualParameters = actualCommand.Parameters;
 
             // ASSERT
@@ -201,13 +152,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
                 new SqlParameter("Id", SqlDbType.Int),
                 new SqlParameter("Name", SqlDbType.NVarChar),
             };
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
+            
             // ACT
-            builder
-                .WithParameters(expectedParameters)
-                .BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommandWithParameters(Connection, StoredProcedureName, expectedParameters);
             var actualParameters = actualCommand.Parameters;
 
             // ASSERT
@@ -220,14 +167,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #region Transaction
 
         [TestMethod]
-        public void Transaction_WhenBuildCommmandIsCalledAndNoTransactionSet_ReturnsNull()
+        public void Transaction_WhenBuildCommmandIsNotCalled_ReturnsNull()
         {
-            // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommand(Connection, StoredProcedureName);
             var actualCommandTransaction = actualCommand.Transaction;
 
             // ASSERT
@@ -240,11 +183,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             SqlTransaction expectedTransaction = Connection.BeginTransaction();
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
-
+            
             // ACT
-            builder.BuildCommand();
-            var actualCommand = builder.Command;
+            var actualCommand = DbCommandFactory.CreateStoredProcedureCommandWithTransaction(Connection, StoredProcedureName, expectedTransaction);
             var actualCommandTransaction = actualCommand.Transaction;
 
             // ASSERT

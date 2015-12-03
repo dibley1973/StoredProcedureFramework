@@ -79,6 +79,7 @@
     <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureDbCommandCreatorTests.cs" />
+    <Compile Include="UnitTests\Helpers\DbCommandFactoryTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\Parameters\DecimalPrecisionAndScaleStoredProcedure.cs" />
