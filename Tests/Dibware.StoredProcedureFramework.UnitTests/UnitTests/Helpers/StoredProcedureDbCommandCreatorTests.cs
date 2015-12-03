@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
@@ -224,7 +224,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Transaction_WhenBuildCommmandIsNotCalled_ReturnsNull()
         {
             // ARRANGE
-            SqlTransaction expectedTransaction = Connection.BeginTransaction();
             var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
 
             // ACT

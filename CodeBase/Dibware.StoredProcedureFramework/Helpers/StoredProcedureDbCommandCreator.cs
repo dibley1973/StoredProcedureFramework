@@ -27,9 +27,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <remarks>
         /// Should call into base implementation before executing any addtional code
         /// </remarks>
-        public new void BuildCommand()
+        public new StoredProcedureDbCommandCreator BuildCommand()
         {
             base.BuildCommand();
+            return this;
         }
 
         #endregion

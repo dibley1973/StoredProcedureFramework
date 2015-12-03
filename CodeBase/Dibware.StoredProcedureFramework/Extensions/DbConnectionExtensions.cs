@@ -37,16 +37,28 @@ namespace Dibware.StoredProcedureFramework.Extensions
             int? commandTimeout = null,
             SqlTransaction transaction = null)
         {
-            DbCommand command = connection.CreateCommand();
-            PrepareCommand(procedureName, commandTimeout, transaction, command);
+            var commandBuilder = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(connection, procedureName);
 
-            // Transfer any parameters to the command
-            if (procedureParameters != null)
-            {
-                LoadCommandParameters(procedureParameters, command);
-            }
+            // TODO: Investigate overloaded method rather than optional parameters
+            // as that would allow this to be much neater
+            if (procedureParameters != null) commandBuilder.WithParameters(procedureParameters);
+            if (commandTimeout.HasValue) commandBuilder.WithCommandTimeout(commandTimeout.Value);
+            if (transaction != null) commandBuilder.WithTransaction(transaction);
 
-            return command;
+            commandBuilder.BuildCommand();
+            return commandBuilder.Command;
+
+            //DbCommand command = connection.CreateCommand();
+            //PrepareCommand(procedureName, commandTimeout, transaction, command);
+
+            //// Transfer any parameters to the command
+            //if (procedureParameters != null)
+            //{
+            //    LoadCommandParameters(procedureParameters, command);
+            //}
+
+            //return command;
         }
 
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
@@ -312,16 +324,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
         //    return sqlParameters;
         //}
 
-        private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
-        {
-            bool parametersRequireClearing = (command.Parameters.Count > 0);
-            if (parametersRequireClearing) command.Parameters.Clear();
+        //private static void LoadCommandParameters(IEnumerable<SqlParameter> sqlParameters, DbCommand command)
+        //{
+        //    bool parametersRequireClearing = (command.Parameters.Count > 0);
+        //    if (parametersRequireClearing) command.Parameters.Clear();
 
-            foreach (SqlParameter parameter in sqlParameters)
-            {
-                command.Parameters.Add(parameter);
-            }
-        }
+        //    foreach (SqlParameter parameter in sqlParameters)
+        //    {
+        //        command.Parameters.Add(parameter);
+        //    }
+        //}
 
         private static void ProcessOutputParms<TReturnType, TParameterType>(IEnumerable<SqlParameter> procedureSqlParameters,
             IStoredProcedure<TReturnType, TParameterType> storedProcedure)
@@ -378,6 +390,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             command.CommandText = procedureName;
             command.CommandType = CommandType.StoredProcedure;
             if (commandTimeout.HasValue) command.CommandTimeout = commandTimeout.Value;
+
         }
 
         private static void SetOutputParameterValue<TParameterType>(SqlParameter outputParameter,
