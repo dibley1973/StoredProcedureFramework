@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Helpers;
@@ -50,6 +51,34 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #endregion
 
         #region Tests
+
+        #region Construction
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_WhenCalledWithNulllConnection_ThrowsException()
+        {
+            // ACT
+            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(null, StoredProcedureName);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_WhenCalledWithNulllProcedureName_ThrowsException()
+        {
+            // ACT
+            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_WhenCalledWithEmptyProcedureName_ThrowsException()
+        {
+            // ACT
+            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, string.Empty);
+        }
+
+        #endregion
 
         #region Command
 

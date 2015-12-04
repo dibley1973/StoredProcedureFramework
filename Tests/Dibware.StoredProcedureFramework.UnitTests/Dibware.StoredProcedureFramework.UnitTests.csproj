@@ -80,8 +80,11 @@
     <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\Helpers\DbCommandFactoryTests.cs" />
+    <Compile Include="UnitTests\Helpers\OutputParameterValueProcessorTests.cs" />
+    <Compile Include="UnitTests\Helpers\StoredProcedureExecuterTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />
+    <Compile Include="UnitTests\StoredProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\Parameters\DecimalPrecisionAndScaleStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\OutputParameterStoredProcedure.cs" />
     <Compile Include="UnitTests\StoredProcedures\Parameters\NullableIntegerParameters.cs" />

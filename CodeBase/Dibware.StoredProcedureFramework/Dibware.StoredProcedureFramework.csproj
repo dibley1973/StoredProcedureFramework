@@ -55,11 +55,13 @@
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
+    <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlDbTypeToClrTypeMapper.cs" />
     <Compile Include="Helpers\SqlParameterHelper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
+    <Compile Include="Helpers\StoredProcedureExecuter.cs" />
     <Compile Include="Helpers\TableValuedParameterHelper.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />

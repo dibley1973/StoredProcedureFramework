@@ -31,43 +31,47 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             // Exception should have been thrown
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ExecuteStoredProcedure_WithNullStoredProcedureName_ThrowsArgumentNullException()
-        {
-            // ARRANGE
-            const string procedureName = null;
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        // TODO: This test has been commented out as it directly accesses
+        // a member which has deemed to better be private
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void ExecuteStoredProcedure_WithNullStoredProcedureName_ThrowsArgumentNullException()
+        //{
+        //    // ARRANGE
+        //    const string procedureName = null;
+        //    var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
-            // ACT
-            using (DbConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(procedureName);
-            }
+        //    // ACT
+        //    using (DbConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(procedureName);
+        //    }
 
-            // ASSERT
-            // Exception should have been thrown
-        }
+        //    // ASSERT
+        //    // Exception should have been thrown
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ExecuteStoredProcedure_WithEmptyStoredProcedureName_ThrowsArgumentNullException()
-        {
-            // ARRANGE
-            const string procedureName = "";
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        // TODO: This test has been commented out as it directly accesses
+        // a member which has deemed to better be private
+        //[TestMethod]
+        //[ExpectedException(typeof(ArgumentOutOfRangeException))]
+        //public void ExecuteStoredProcedure_WithEmptyStoredProcedureName_ThrowsArgumentNullException()
+        //{
+        //    // ARRANGE
+        //    const string procedureName = "";
+        //    var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
-            // ACT
-            using (DbConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(procedureName);
-            }
+        //    // ACT
+        //    using (DbConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        connection.ExecuteStoredProcedure<MostBasicStoredProcedure>(procedureName);
+        //    }
 
-            // ASSERT
-            // Exception should have been thrown
-        }
+        //    // ASSERT
+        //    // Exception should have been thrown
+        //}
 
         [TestMethod]
         public void CreateStoredProcedureCommand_WhenCommandTimeoutIsSpecified_CommandTimeoutOfResultIsSet()

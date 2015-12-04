@@ -25,6 +25,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
     public class SqlParametersFromObjectPropertiesBuilder<TSourceType>
         where TSourceType : class
     {
+        #region Fields
+
+        private PropertyInfo[] _mappedProperties;
+        private readonly TSourceType _source;
+        private const int DefaultStringSize = 8000;
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -272,9 +280,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         }
 
         public TSourceType Source { get { return _source; } }
-        private PropertyInfo[] _mappedProperties;
-        private readonly TSourceType _source;
-        private const int DefaultStringSize = 8000;
+
 
         #endregion
     }

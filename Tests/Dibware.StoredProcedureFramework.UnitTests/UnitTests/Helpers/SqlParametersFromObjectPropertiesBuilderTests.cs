@@ -1,14 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
+﻿using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Parameters;
+using Dibware.StoredProcedureFramework.Tests.UnitTests.UserDefinedTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlTypes;
 using System.Linq;
-using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Parameters;
-using Dibware.StoredProcedureFramework.Tests.UnitTests.UserDefinedTypes;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
@@ -87,7 +86,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         //[TestMethod]
         //public void SqlParameters_WhenSuppliedDecimalPrecisionAndScaleParameterAndObject
 
-        
+
 
         [TestMethod]
         public void SqlParameters_WhenSuppliedTableValueParameters_HasCorrect()
@@ -104,7 +103,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             {
                 TvpParameters = itemsToAdd
             };
-            
+
             // ACT
             var sqlParameterBuilder = new SqlParametersFromObjectPropertiesBuilder<TableValueParameterWithoutReturnTypeStoredProcedure.Parameter>(parameters);
             sqlParameterBuilder.BuildSqlParameters();
@@ -148,7 +147,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ACT
             var sqlParameterBuilder = new SqlParametersFromObjectPropertiesBuilder<WrongDataTypeStringParameter>(parameters);
             sqlParameterBuilder.BuildSqlParameters();
-            
+
             // ASSERT
             // Exception should already be thrown
         }
