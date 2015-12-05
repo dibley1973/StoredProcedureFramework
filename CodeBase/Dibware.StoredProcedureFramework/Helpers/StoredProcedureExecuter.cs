@@ -84,7 +84,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 if (disposing)
                 {
                     // Dispose managed resources.
-
+                    if (_command != null)
+                    {
+                        _command.Dispose();
+                    }
                 }
 
                 // There are no unmanaged resources to release, but
@@ -218,7 +221,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void DisposeCommand()
         {
-            if(_command != null)
+            if (_command != null)
             {
                 _command.Dispose();
             }
