@@ -8,7 +8,6 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Extensions
@@ -73,9 +72,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             // TODO: complete implementation and remove static call above this!
             //StoredProcedureExecuter<TResultSetType>.CreateStoredProcedureExecuter().Execute();
-            
+
             new OutputParameterValueProcessor<TResultSetType, TParameterType>(
-                procedureSqlParameters, 
+                procedureSqlParameters,
                 storedProcedure).Processs();
 
             return results;

@@ -89,6 +89,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
+        #region Execute
+        
+        #endregion
 
         #endregion
 
