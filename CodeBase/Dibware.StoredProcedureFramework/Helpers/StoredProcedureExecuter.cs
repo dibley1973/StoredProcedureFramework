@@ -1,5 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Resources;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Resources;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -13,13 +15,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Fields
 
-        private DbConnection _connection;
-        private string _procedureName;
+        private readonly DbConnection _connection;
+        private readonly string _procedureName;
+        private readonly Type _resultSetType;
+        private bool _connectionAlreadyOpen;
         private IEnumerable<SqlParameter> _procedureParameters;
         private int? _commandTimeoutOverride;
         private CommandBehavior _commandBehavior;
         private SqlTransaction _transaction;
-        private bool _connectionWasOpen;
         private DbCommand _command;
 
         #endregion
@@ -36,7 +39,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// procedureName
         /// </exception>
-        private StoredProcedureExecuter(
+        public StoredProcedureExecuter(
             DbConnection connection,
             string procedureName)
         {
@@ -45,12 +48,20 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
             _connection = connection;
             _procedureName = procedureName;
+            _resultSetType = typeof(TResultSetType);
         }
 
         #endregion
 
         #region Dispose and Finalise
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="StoredProcedureExecuter{TResultSetType}"/> 
+        /// is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
         public bool Disposed { get; private set; }
 
         /// <summary>
@@ -62,7 +73,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Performs application-defined tasks associated with freeing, releasing, 
+        /// or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
@@ -77,17 +89,13 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <c>true</c> to release both managed and unmanaged resources; 
         /// <c>false</c> to release only unmanaged resources.
         /// </param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!Disposed)
             {
                 if (disposing)
                 {
-                    // Dispose managed resources.
-                    if (_command != null)
-                    {
-                        _command.Dispose();
-                    }
+                    DisposeCommand();
                 }
 
                 // There are no unmanaged resources to release, but
@@ -100,7 +108,13 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Public Members
 
-        public void Execute()
+        /// <summary>
+        /// Executes the stored procedure.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.ObjectDisposedException">
+        /// Cannot call Execute when this object is disposed</exception>
+        public StoredProcedureExecuter<TResultSetType> Execute()
         {
             if (Disposed) throw new ObjectDisposedException("Cannot call Execute when this object is disposed");
 
@@ -110,7 +124,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             {
                 OpenClosedConnection();
                 CreateCommand();
-                CreateAndExecuteCommand();
+                ExecuteCommand();
             }
             catch (Exception ex)
             {
@@ -122,9 +136,22 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 DisposeCommand();
                 RestoreOriginalConnectionState();
             }
+            return this;
         }
 
+        /// <summary>
+        /// Gets the results of the stored procedure call.
+        /// </summary>
+        /// <value>
+        /// The results of the stored procedure call.
+        /// </value>
         public TResultSetType Results { get; private set; }
+
+        public StoredProcedureExecuter<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
+        {
+            _commandBehavior = commandBehavior;
+            return this;
+        }
 
         public StoredProcedureExecuter<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
         {
@@ -148,7 +175,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
             return this;
         }
-
 
         #endregion
 
@@ -190,33 +216,127 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (fieldInfo != null) fieldInfo.SetValue(ex, detailedMessage);
         }
 
-        private void CreateAndExecuteCommand()
+        private void CacheOriginalConnectionState()
         {
-            //// Create a command to execute the stored storedProcedure...
-            //using (DbCommand command = _connection.CreateStoredProcedureCommand(
-            //    _procedureName,
-            //    _procedureParameters,
-            //    _commandTimeoutOverride,
-            //    _transaction))
-            //{
-            //    Results = ExecuteCommand<TResultSetType>(_commandBehavior, command);
-            //}
+            _connectionAlreadyOpen = (_connection.State == ConnectionState.Open);
         }
-
-
 
         private void CreateCommand()
         {
-            if (_command != null)
+            DisposeCommand();
+
+            if (!HasCommandTimeoutOverride && !HasParameters && !HasTransaction)
             {
-                DisposeCommand();
-                _command = null;
+                CreateCommandWithoutParametersOrCommandTimeoutOrTransaction();
             }
+            else if (HasCommandTimeoutOverride && !HasParameters && !HasTransaction)
+            {
+                CreateCommandWithoutParametersOrTransactionButWithCommandTimeout();
+            }
+            else if (!HasCommandTimeoutOverride && !HasParameters && HasTransaction)
+            {
+                CreateCommandWithoutParametersOrCommandTimeoutButWithTransaction();
+            }
+            else if (HasCommandTimeoutOverride && !HasParameters && HasTransaction)
+            {
+                CreateCommandWithoutParametersButWithCommandTimeoutAndTransaction();
+            }
+            else if (!HasCommandTimeoutOverride && HasParameters && !HasTransaction)
+            {
+                CreateCommandWithParametersButWithoutCommandTimeoutOrTransaction();
+            }
+            else if (HasCommandTimeoutOverride && HasParameters & !HasTransaction)
+            {
+                CreateCommandWithParametersAndCommandTimeoutButWithoutTransaction();
+            }
+            else if (!HasCommandTimeoutOverride && HasParameters & HasTransaction)
+            {
+                CreateCommandWithParametersAndTransactionButWithoutCommandTimeout();
+            }
+            else if (HasCommandTimeoutOverride && HasParameters && HasTransaction)
+            {
+                CreateCommandWithParametersCommandTimeoutAndTransaction();
+            }
+            else
+            {
+                throw new InvalidOperationException("An invalid combination of command attributes have been set!");
+            }
+        }
 
-            //_command = DbCommandFactory.CreateStoredProcedureCommand()
+        private void CreateCommandWithoutParametersOrCommandTimeoutOrTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .BuildCommand()
+                .Command;
+        }
 
+        private void CreateCommandWithoutParametersOrTransactionButWithCommandTimeout()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithCommandTimeout(_commandTimeoutOverride)
+                .BuildCommand()
+                .Command;
+        }
 
-            throw new NotImplementedException();
+        private void CreateCommandWithoutParametersOrCommandTimeoutButWithTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithTransaction(_transaction)
+                .BuildCommand()
+                .Command;
+        }
+
+        private void CreateCommandWithoutParametersButWithCommandTimeoutAndTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithCommandTimeout(_commandTimeoutOverride)
+                .WithTransaction(_transaction)
+                .BuildCommand()
+                .Command;
+        }
+
+        private void CreateCommandWithParametersButWithoutCommandTimeoutOrTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithParameters(_procedureParameters)
+                .BuildCommand()
+                .Command;
+        }
+
+        private void CreateCommandWithParametersAndCommandTimeoutButWithoutTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithParameters(_procedureParameters)
+                .WithCommandTimeout(_commandTimeoutOverride)
+                .BuildCommand()
+                .Command;
+        }
+
+        private void CreateCommandWithParametersAndTransactionButWithoutCommandTimeout()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithParameters(_procedureParameters)
+                .WithTransaction(_transaction)
+                .BuildCommand()
+                .Command;
+        }
+
+        private void CreateCommandWithParametersCommandTimeoutAndTransaction()
+        {
+            _command = StoredProcedureDbCommandCreator
+                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+                .WithParameters(_procedureParameters)
+                .WithCommandTimeout(_commandTimeoutOverride)
+                .WithTransaction(_transaction)
+                .BuildCommand()
+                .Command;
         }
 
         private void DisposeCommand()
@@ -224,47 +344,169 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (_command != null)
             {
                 _command.Dispose();
+                _command = null;
             }
-        }
-
-        private void CacheOriginalConnectionState()
-        {
-            _connectionWasOpen = (_connection.State == ConnectionState.Open);
         }
 
         private void ExecuteCommand()
         {
-            var procedureHasNoReturnType = (typeof(TResultSetType) == typeof(NullStoredProcedureResult));
+            if (HasNoReturnType)
+            {
+                ExecuteCommandWithNoReturnType();
+                return;
+            }
 
-            //var _Results = procedureHasNoReturnType
-            //    ? ExecuteCommandWithNoReturnType<TResultSetType>(_command)
-            //    : ExecuteCommandWithResultSet<TResultSetType>(_commandBehavior, _command);
+            ExecuteCommandWithResultSet();
+        }
+
+        private void ExecuteCommandWithNoReturnType()
+        {
+            _command.ExecuteNonQuery();
+        }
+
+        private void ExecuteCommandWithResultSet()
+        {
+            if (HasSingleRecordSetOnly)
+            {
+                ExecuteCommandForSingleRecordSet();
+            }
+            else
+            {
+                ExecuteCommandForMultipleRecordSets();
+            }
+        }
+
+        private void ExecuteCommandForMultipleRecordSets()
+        {
+            Results = new TResultSetType();
+            var recordSetIndex = 0;
+            var resultSetTypeProperties = _resultSetType.GetMappedProperties();
+
+            using (DbDataReader reader = _command.ExecuteReader(_commandBehavior))
+            {
+
+                bool readerContainsAnotherResult;
+                do
+                {
+                    var recordSetDtoList = GetRecordSetDtoList(resultSetTypeProperties, recordSetIndex);
+                    ReadRecordSetFromReader(reader, recordSetDtoList);
+
+                    recordSetIndex += 1;
+                    readerContainsAnotherResult = reader.NextResult();
+
+                } while (readerContainsAnotherResult);
+                reader.Close();
+            }
+        }
+
+        private IList GetRecordSetDtoList(PropertyInfo[] resultSetTypePropertyInfos, int recordSetIndex)
+        {
+            var recordSetPropertyName = resultSetTypePropertyInfos[recordSetIndex].Name;
+            var recordSetDtoList = GetRecordSetDtoList(recordSetPropertyName);
+            EnsureRecorsetListIsInstantiated(recordSetDtoList, recordSetPropertyName);
+
+            return recordSetDtoList;
+        }
+
+        private void ExecuteCommandForSingleRecordSet()
+        {
+            var recordSetDtoList = (IList)new TResultSetType();
+
+            using (DbDataReader reader = _command.ExecuteReader(_commandBehavior))
+            {
+                ReadRecordSetFromReader(reader, recordSetDtoList);
+                reader.Close();
+            }
+
+            Results = (TResultSetType)recordSetDtoList;
+        }
+
+        private void ReadRecordSetFromReader(DbDataReader reader, IList recordSetDtoList)
+        {
+            Type listItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
+            PropertyInfo[] listItemProperties = listItemType.GetMappedProperties();
+
+            while (reader.Read())
+            {
+                AddRecordToResults(listItemType, recordSetDtoList, reader, listItemProperties);
+            }
+        }
+
+        private IList GetRecordSetDtoList(string recordSetPropertyName)
+        {
+            PropertyInfo recordSetPropertyInfo = _resultSetType.GetProperty(recordSetPropertyName);
+            IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(Results);
+            return recordSetDtoList;
+        }
+
+        private void EnsureRecorsetListIsInstantiated(
+            IList dtoList,
+            string listPropertyName)
+        {
+            if (dtoList != null) return;
+
+            string errorMessage = string.Format(
+                ExceptionMessages.RecordSetListNotInstatiated,
+                _resultSetType.Name,
+                listPropertyName);
+            throw new NullReferenceException(errorMessage);
+        }
+
+        private void AddRecordToResults(
+            Type outputType,
+            IList results,
+            DbDataReader reader,
+            PropertyInfo[] dtoListItemTypePropertyInfos)
+        {
+            var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
+            bool noConstructorDefined = (constructorInfo == null);
+            if (noConstructorDefined) return;
+
+            var item = Activator.CreateInstance(outputType);
+            reader.ReadRecord(item, dtoListItemTypePropertyInfos);
+            results.Add(item);
         }
 
 
-        //private static TResultSetType ExecuteCommand(
-        //    CommandBehavior commandBehavior,
-        //    DbCommand command)
-        //{
-        //    var procedureHasNoReturnType =
-        //        (typeof(TResultSetType) == typeof(NullStoredProcedureResult));
 
-        //    var results = procedureHasNoReturnType
-        //        ? ExecuteCommandWithNoReturnType<TResultSetType>(command)
-        //        : ExecuteCommandWithResultSet<TResultSetType>(commandBehavior, command);
 
-        //    return results;
-        //}
+
+
 
 
         private void OpenClosedConnection()
         {
-            if (!_connectionWasOpen) _connection.Open();
+            if (!_connectionAlreadyOpen) _connection.Open();
         }
 
         private void RestoreOriginalConnectionState()
         {
-            if (!_connectionWasOpen) _connection.Close(); // Close connection if it arrived closed
+            if (!_connectionAlreadyOpen) _connection.Close();
+        }
+
+        private bool HasSingleRecordSetOnly
+        {
+            get { return _resultSetType.ImplementsICollectionInterface(); }
+        }
+
+        private bool HasCommandTimeoutOverride
+        {
+            get { return _commandTimeoutOverride.HasValue; }
+        }
+
+        private static bool HasNoReturnType
+        {
+            get { return (typeof(TResultSetType) == typeof(NullStoredProcedureResult)); }
+        }
+
+        private bool HasParameters
+        {
+            get { return _procedureParameters != null; }
+        }
+
+        private bool HasTransaction
+        {
+            get { return _transaction != null; }
         }
 
         #endregion

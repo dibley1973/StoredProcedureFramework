@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\NullableFieldTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +24,29 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 .Select(p => p);
 
             return mappedProperties.ToArray();
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the instance implementses the ICollection interface.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">instance</exception>
+        public static bool ImplementsICollectionInterface(this Type instance)
+        {
+            if (instance == null) throw new ArgumentNullException("instance");
+
+            foreach (Type @interface in instance.GetInterfaces())
+            {
+                if (@interface.IsGenericType)
+                {
+                    if (@interface.GetGenericTypeDefinition() == typeof(ICollection<>))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

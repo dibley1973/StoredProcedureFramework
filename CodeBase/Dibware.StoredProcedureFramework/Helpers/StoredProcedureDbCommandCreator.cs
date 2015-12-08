@@ -72,9 +72,11 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="commandTimeout">The value of the command timeout.</param>
         /// <returns></returns>
-        public new StoredProcedureDbCommandCreator WithCommandTimeout(int commandTimeout)
+        public StoredProcedureDbCommandCreator WithCommandTimeout(int? commandTimeout)
         {
-            base.WithCommandTimeout(commandTimeout);
+            if (!commandTimeout.HasValue) throw new ArgumentNullException("commandTimeout");
+
+            base.WithCommandTimeout(commandTimeout.Value);
             return this;
         }
 
