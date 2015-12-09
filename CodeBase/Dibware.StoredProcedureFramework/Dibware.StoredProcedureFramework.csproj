@@ -44,14 +44,12 @@
     <Compile Include="Base\StoredProcedureSqlConnection.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Contracts\IMultipleRecordSet.cs" />
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
     <Compile Include="DataInfo\StringInfo.cs" />
     <Compile Include="Exceptions\NullableFieldTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
-    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
@@ -59,7 +57,6 @@
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlDbTypeToClrTypeMapper.cs" />
-    <Compile Include="Helpers\SqlParameterHelper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
     <Compile Include="Helpers\StoredProcedureExecuter.cs" />

@@ -35,26 +35,23 @@ namespace Dibware.StoredProcedureFramework.Extensions
         {
             string fieldName = "";
 
-            // copy mapped properties
             foreach (PropertyInfo listItemPropertyInfo in dtoListItemTypePropertyInfos)
             {
                 try
                 {
-                    //TODO: Investigate if the look back to attribute is actuall needed for 
-                    // my version of this code! currently working without, but may be a good place
-                    // to investigate if issues start to happen.
                     fieldName = listItemPropertyInfo.Name;
 
                     // TODO: Placeholder for handling StreamOutputs, here
-
-                    var data = reader[fieldName];
-                    if (data is DBNull)
+                    // TODO: investigate breaking this out into a dedicated "RecordReader" class if complexity grows
+            
+                    var fieldData = reader[fieldName];
+                    if (fieldData is DBNull)
                     {
                         HandleDbNullValues(reader, targetObject, listItemPropertyInfo, fieldName);
                     }
                     else
                     {
-                        listItemPropertyInfo.SetValue(targetObject, data, null);
+                        listItemPropertyInfo.SetValue(targetObject, fieldData, null);
                     }
                 }
                 catch (Exception ex)

@@ -6,6 +6,12 @@ namespace Dibware.StoredProcedureFramework.Helpers
 {
     public static class ClrTypeToSqlDbTypeMapper
     {
+        #region Fields
+
+        private static Dictionary<Type, SqlDbType> _clrTypeToSqlTypeMaps;
+
+        #endregion
+        
         #region Constructors
 
         /// <summary>
@@ -78,8 +84,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 throw new ArgumentOutOfRangeException("clrType", @"No mapped type found for " + clrType);
             }
         }
-
-        private static Dictionary<Type, SqlDbType> _clrTypeToSqlTypeMaps; // = new 
 
         #endregion
     }

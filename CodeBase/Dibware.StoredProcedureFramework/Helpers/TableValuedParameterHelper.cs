@@ -15,7 +15,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// </summary>
     internal static class TableValuedParameterHelper
     {
+        #region Fields
+
+        private const int DefaultDecimalParameterPrecision = 10;
+        private const int DefaultDecimalParameterScale = 2;
+        private const int DefaultSizeAttribute = 50;
+
         private const List<SqlDataRecord> DefaultValueForEmptyList = null;
+
+        #endregion
 
         /// <summary>
         /// Do the work of converting a source data object to SqlDataRecords
@@ -23,8 +31,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns></returns>
-        internal static IEnumerable<SqlDataRecord> GetTableValuedParameterFromList(IList itemList) // TODO consider changing to IEnumerable
+        internal static IEnumerable<SqlDataRecord> GetTableValuedParameterFromList(IList itemList)
         {
+            // TODO: Consider breaking this method into a dedicated instance helper class
+
             List<SqlDataRecord> recordList = new List<SqlDataRecord>();
             List<SqlMetaData> columnList = new List<SqlMetaData>();
             Dictionary<String, String> mapping = new Dictionary<string, string>();
@@ -155,14 +165,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
             return underlyingType;
         }
-
-        #endregion
-
-        #region Fields
-
-        private const int DefaultDecimalParameterPrecision = 10;
-        private const int DefaultDecimalParameterScale = 2;
-        private const int DefaultSizeAttribute = 50;
 
         #endregion
     }

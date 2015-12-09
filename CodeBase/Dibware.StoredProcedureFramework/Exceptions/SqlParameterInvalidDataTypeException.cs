@@ -8,8 +8,7 @@ namespace Dibware.StoredProcedureFramework.Exceptions
         public SqlParameterInvalidDataTypeException(string parameterName,
             Type expectedType, Type actualType)
             : base(CreateMessage(parameterName, expectedType, actualType))
-        {
-        }
+        {}
 
         /// <summary>
         /// Creates the message.
@@ -24,6 +23,5 @@ namespace Dibware.StoredProcedureFramework.Exceptions
             string messageFormat = ExceptionMessages.ParameterInvalidTypeFormat;
             return string.Format(messageFormat, parameterName, expectedType, actualType);
         }
-
     }
 }

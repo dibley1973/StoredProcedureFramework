@@ -25,6 +25,12 @@ namespace Dibware.StoredProcedureFramework.Base
         where TReturn : class, new()
         where TParameters : class, new()
     {
+        #region Fields
+
+        private TParameters _parameters;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -174,18 +180,6 @@ namespace Dibware.StoredProcedureFramework.Base
         #region Methods : Public
 
         /// <summary>
-        /// [Obsolete] Initializes this instance from attributes.
-        /// </summary>
-        [ObsoleteAttribute("This method is obsolete. The code it ran is now called " +
-                           "internally from this class's constructors. Please remove " +
-                           "references to this method call as it will be removed in a" +
-                           "later release. ", true)]
-        public void InitializeFromAttributes()
-        {
-            //TryInitializeFromAttributesInternal();
-        }
-
-        /// <summary>
         /// Determines if the procedure is fully constructed and in a valid 
         /// state which can be called and executed
         /// </summary>
@@ -208,19 +202,6 @@ namespace Dibware.StoredProcedureFramework.Base
         {
             _parameters = parameters;
         }
-
-        #endregion
-
-        #region Fields
-
-        private TParameters _parameters;
-
-        #endregion
-
-        #region IStoredProcedure<TReturn,TParameters> Members
-
-
-       
 
         #endregion
     }

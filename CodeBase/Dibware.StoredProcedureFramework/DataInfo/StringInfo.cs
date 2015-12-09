@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Dibware.StoredProcedureFramework.DataInfo
 {
     /// <summary>
@@ -7,12 +6,6 @@ namespace Dibware.StoredProcedureFramework.DataInfo
     /// </summary>
     public class StringInfo
     {
-        #region Fields
-
-        private bool _isNull = false;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -21,13 +14,7 @@ namespace Dibware.StoredProcedureFramework.DataInfo
         /// <value>
         ///   <c>true</c> if this instance is null; otherwise, <c>false</c>.
         /// </value>
-        public bool IsNull
-        {
-            get { return _isNull; }
-            private set { _isNull = value; }
-        }
-
-        //public bool IsNull { get; private set; }
+        public bool IsNull { get; private set; }
 
         /// <summary>
         /// Gets the length.

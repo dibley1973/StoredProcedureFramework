@@ -75,9 +75,10 @@ namespace Dibware.StoredProcedureFramework.Base
         {
             if (IsDisposed) return;
 
-            IsDisposing = true;
             if (disposing)
             {
+                IsDisposing = true;
+
                 // free other managed objects that implement
                 // IDisposable only
                 if (_connection != null) _connection.Dispose();

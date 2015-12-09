@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.SqlClient;
-
+﻿
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     /// <summary>
