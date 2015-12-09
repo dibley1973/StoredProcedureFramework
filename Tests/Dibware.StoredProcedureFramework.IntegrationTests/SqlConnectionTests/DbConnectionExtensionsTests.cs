@@ -73,27 +73,29 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
         //    // Exception should have been thrown
         //}
 
-        [TestMethod]
-        public void CreateStoredProcedureCommand_WhenCommandTimeoutIsSpecified_CommandTimeoutOfResultIsSet()
-        {
-            // ARRANGE
-            const int expectedCommandTimeout = 37;
-            const string procedureName = "GetAll";
-            DbCommand actualCommand;
-            var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
+        //// superseeded by :
+        //// CommandTimout_WhenWithCommandTimeoutIsCalled_ReturnsCorrectTimeout
+        //[TestMethod]
+        //public void CreateStoredProcedureCommand_WhenCommandTimeoutIsSpecified_CommandTimeoutOfResultIsSet()
+        //{
+        //    // ARRANGE
+        //    const int expectedCommandTimeout = 37;
+        //    const string procedureName = "GetAll";
+        //    DbCommand actualCommand;
+        //    var connectionString = ConfigurationManager.ConnectionStrings["IntegrationTestConnection"].ConnectionString;
 
-            // ACT
-            using (DbConnection connection = new SqlConnection(connectionString))
-            {
-                actualCommand = connection.CreateStoredProcedureCommand(
-                    procedureName,
-                    null,
-                    expectedCommandTimeout
-                );
-            }
+        //    // ACT
+        //    using (DbConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        actualCommand = connection.CreateStoredProcedureCommand(
+        //            procedureName,
+        //            null,
+        //            expectedCommandTimeout
+        //        );
+        //    }
 
-            // ASSERT
-            Assert.AreEqual(expectedCommandTimeout, actualCommand.CommandTimeout);
-        }
+        //    // ASSERT
+        //    Assert.AreEqual(expectedCommandTimeout, actualCommand.CommandTimeout);
+        //}
     }
 }

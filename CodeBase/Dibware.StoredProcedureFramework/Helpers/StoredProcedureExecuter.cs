@@ -384,7 +384,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
             using (DbDataReader reader = _command.ExecuteReader(_commandBehavior))
             {
-
                 bool readerContainsAnotherResult;
                 do
                 {
@@ -466,13 +465,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
             reader.ReadRecord(item, dtoListItemTypePropertyInfos);
             results.Add(item);
         }
-
-
-
-
-
-
-
 
         private void OpenClosedConnection()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -37,6 +38,43 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.IsNull(parameters);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Parameters_WhenSuppliedProcedureHasNullStoredProcedureParametersAndUsingFluidApi_ThrowsException()
+        {
+            // ARRANGE
+            MostBasicStoredProcedure procedure = null;
+
+            // ACT
+            var parameters = new StoredProcedureSqlParameterBuilder<NullStoredProcedureResult, NullStoredProcedureParameters>(procedure)
+                .BuildSqlParameters()
+                .SqlParameters;
+
+            // ASSERT
+            // Exception should already be thrown
+        }
+
+        [TestMethod]
+        public void Parameters_WhenSuppliedProcedureHasParametersAndUsingFluidApi_ParametersAreNull()
+        {
+            // ARRANGE
+            const int expectedParameterCount = 1;
+            const int expectedValue = 1;
+            var parameters = new NormalStoredProcedureParameters
+            {
+                Id = 1
+            };
+            var procedure = new NormalStoredProcedure(parameters);
+
+            // ACT
+            var actualParameters = new StoredProcedureSqlParameterBuilder<List<NormalStoredProcedureRecordSetReturnType>, NormalStoredProcedureParameters>(procedure)
+                .BuildSqlParameters()
+                .SqlParameters;
+
+            // ASSERT
+            Assert.AreEqual(expectedParameterCount, actualParameters.Count);
+            Assert.AreEqual(expectedValue, actualParameters.First().Value);
+        }
 
         [TestMethod]
         public void BuildParameters_WhenSuppliedProcedureHasParameters_BuildsCorrectQuantity()

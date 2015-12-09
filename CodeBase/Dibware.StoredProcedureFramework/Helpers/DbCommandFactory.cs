@@ -13,15 +13,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// </remarks>
     public static class DbCommandFactory
     {
-        public static DbCommand CreateStoredProcedureCommand(
-            DbConnection connection,
-            string procedureName)
-        {
-            return StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(connection, procedureName)
-                .BuildCommand()
-                .Command;
-        }
+        //public static DbCommand CreateStoredProcedureCommand(
+        //    DbConnection connection,
+        //    string procedureName)
+        //{
+        //    return StoredProcedureDbCommandCreator
+        //        .CreateStoredProcedureDbCommandCreator(connection, procedureName)
+        //        .BuildCommand()
+        //        .Command;
+        //}
 
         //public static DbCommand CreateStoredProcedureCommandWithCommandTimeout(
         //    DbConnection connection,

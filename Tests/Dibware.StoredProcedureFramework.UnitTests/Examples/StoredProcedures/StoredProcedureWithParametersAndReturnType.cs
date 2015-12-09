@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
     /// a single result set
     /// </summary>
     internal class NormalStoredProcedure
-        : StoredProcedureBase<List<NormalStoredProcedureRecordSet1ReturnType>, NormalStoredProcedureParameters>
+        : StoredProcedureBase<List<NormalStoredProcedureRecordSetReturnType>, NormalStoredProcedureParameters>
     {
         public NormalStoredProcedure(NormalStoredProcedureParameters parameters)
             : base(parameters)
@@ -18,7 +18,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         }
     }
 
-    
+
 
     internal class NormalStoredProcedureParameters
     {
@@ -26,7 +26,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         public int Id { get; set; }
     }
 
-    internal class NormalStoredProcedureRecordSet1ReturnType
+    internal class NormalStoredProcedureRecordSetReturnType
     {
         public int Id { get; set; }
         public string Name { get; set; }

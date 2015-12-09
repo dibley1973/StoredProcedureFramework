@@ -33,12 +33,13 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <summary>
         /// Builds the SQL parameters.
         /// </summary>
-        public void BuildSqlParameters()
+        public StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType> BuildSqlParameters()
         {
             var noNeedToBuildSqlParamaters = _storedProcedure.HasNullStoredProcedureParameters;
-            if (noNeedToBuildSqlParamaters) return;
+            if (noNeedToBuildSqlParamaters) return this;
 
             BuildSqlParametersInternal();
+            return this;
         }
 
         /// <summary>

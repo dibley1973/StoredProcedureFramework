@@ -1,7 +1,6 @@
 ﻿using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -14,39 +13,9 @@ namespace Dibware.StoredProcedureFramework.Extensions
     /// </summary>
     public static class DbConnectionExtensions
     {
-        // TODO: Remove as only a test directly references this!
-        /// <summary>
-        /// Creates the stored procedure command.
-        /// </summary>
-        /// <param name="connection">The connection we are extending.</param>
-        /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="procedureParameters">The procedure parameters.</param>
-        /// <param name="commandTimeout">The command timeout.</param>
-        /// <param name="transaction">The transaction.</param>
-        /// <returns></returns>
-        public static DbCommand CreateStoredProcedureCommand(
-            this DbConnection connection,
-            string procedureName,
-            IEnumerable<SqlParameter> procedureParameters,
-            int? commandTimeout = null,
-            SqlTransaction transaction = null)
-        {
-            var commandBuilder = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(connection, procedureName);
-
-            // TODO: Investigate overloaded method rather than optional parameters
-            // as that would allow this to be much neater
-            if (procedureParameters != null) commandBuilder.WithParameters(procedureParameters);
-            if (commandTimeout.HasValue) commandBuilder.WithCommandTimeout(commandTimeout.Value);
-            if (transaction != null) commandBuilder.WithTransaction(transaction);
-
-            commandBuilder.BuildCommand();
-            return commandBuilder.Command;
-        }
-
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static TResultSetType ExecuteStoredProcedure<TResultSetType, TParameterType>(
-            this DbConnection connection,
+            this DbConnection instance,
             IStoredProcedure<TResultSetType, TParameterType> storedProcedure,
             int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
@@ -57,24 +26,21 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (storedProcedure == null) throw new ArgumentNullException("storedProcedure");
             storedProcedure.EnsureIsFullyConstructed();
 
-            string procedureName = storedProcedure.GetTwoPartName();
-            var procedureSqlParameters = BuildProcedureParametersIfTheyExist(storedProcedure);
-
-            //TResultSetType results = ExecuteStoredProcedure<TResultSetType>(
-            //    connection,
-            //    procedureName,
-            //    procedureSqlParameters,
-            //    commandTimeoutOverride,
-            //    commandBehavior,
-            //    transaction);
-
-            // TODO: complete implementation and remove static call above this!
+            var procedureSqlParameters =
+                new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure)
+                    .BuildSqlParameters()
+                    .SqlParameters;
+            string procedureFullName = storedProcedure.GetTwoPartName();
+            bool withParametersSupplied = (procedureSqlParameters != null);
+            bool withCommandTimoutSupplied = (commandTimeoutOverride.HasValue);
+            bool exeuteWithinTransaction = (transaction != null);
             TResultSetType results;
-            using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(connection, procedureName))
+
+            using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
             {
-                if (commandTimeoutOverride.HasValue) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
-                if (procedureSqlParameters != null) procedureExecuter.WithParameters(procedureSqlParameters);
-                if (transaction != null) procedureExecuter.WithTransaction(transaction);
+                if (withCommandTimoutSupplied) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
+                if (withParametersSupplied) procedureExecuter.WithParameters(procedureSqlParameters);
+                if (exeuteWithinTransaction) procedureExecuter.WithTransaction(transaction);
                 results = procedureExecuter
                     .WithCommandBehavior(commandBehavior)
                     .Execute()
@@ -89,220 +55,185 @@ namespace Dibware.StoredProcedureFramework.Extensions
         }
 
         //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        //private static TResultSetType ExecuteStoredProcedure<TResultSetType>(
-        //    this DbConnection connection,
-        //    string procedureName,
-        //    IEnumerable<SqlParameter> procedureParameters = null,
-        //    int? commandTimeoutOverride = null,
-        //    CommandBehavior commandBehavior = CommandBehavior.Default,
-        //    SqlTransaction transaction = null)
+        //private static TResultSetType ExecuteStoredProcedureWithParameters<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    ICollection<SqlParameter> procedureSqlParameters,
+        //    string procedureFullName)
         //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    if (procedureName == null) throw new ArgumentNullException("procedureName");
-        //    if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+        //    if(procedureSqlParameters == null) throw new ArgumentNullException("procedureSqlParameters");
 
-        //    bool connectionWasOpen = (connection.State == ConnectionState.Open);
-
-        //    try
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
         //    {
-        //        TResultSetType results;
-
-        //        if (!connectionWasOpen) connection.Open();
-
-
-
-        //        //// Create a command to execute the stored storedProcedure...
-        //        //using (DbCommand command = connection.CreateStoredProcedureCommand(
-        //        //    procedureName,
-        //        //    procedureParameters,
-        //        //    commandTimeoutOverride,
-        //        //    transaction))
-        //        //{
-        //        //    results = ExecuteCommand<TResultSetType>(commandBehavior, command);
-        //        //}
-
-
-        //        using (var executer = new StoredProcedureExecuter<TResultSetType>(connection, procedureName))
-        //        {
-        //            if (commandTimeoutOverride.HasValue) executer.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
-        //            if (procedureParameters != null) executer.WithParameters(procedureParameters);
-        //            if (transaction != null) executer.WithTransaction(transaction);
-        //            executer.Execute();
-        //            results = executer.Results;
-        //        }
-
-
-        //        return results;
+        //        results = procedureExecuter
+        //            .WithParameters(procedureSqlParameters)
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .Execute()
+        //            .Results;
         //    }
-        //    catch (Exception ex)
-        //    {
-        //        // We want to add a slightly more informative message to the
-        //        // exception before rethrowing it
-        //        var message = string.Format(
-        //            ExceptionMessages.ErrorReadingStoredProcedure,
-        //            procedureName,
-        //            ex.Message);
-
-        //        Type exceptionType = ex.GetType();
-
-        //        // Option 1: Edit the actual message field insode the exception and rethrow
-        //        var fieldInfo = exceptionType.GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic);
-        //        if (fieldInfo != null) fieldInfo.SetValue(ex, message);
-        //        throw;
-
-        //        // Option 2: Create a new instance of the same type as the caught
-        //        // exception with a new message, and throw that
-        //        //throw (Exception)Activator.CreateInstance(exceptionType, message, ex);
-        //    }
-        //    finally
-        //    {
-        //        if (!connectionWasOpen) connection.Close();  // Close connection if it arrived closed
-        //    }
+        //    return results;
         //}
 
-        #region methods : private or protected
-
-        private static ICollection<SqlParameter> BuildProcedureParametersIfTheyExist<TResultSetType, TParameterType>(
-            IStoredProcedure<TResultSetType, TParameterType> storedProcedure)
-            where TResultSetType : class, new()
-            where TParameterType : class
-        {
-            var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>(storedProcedure);
-
-            sqlParameterBuilder.BuildSqlParameters();
-            var result = sqlParameterBuilder.SqlParameters;
-
-            return result;
-        }
-
-        //private static TResultSetType ExecuteCommand<TResultSetType>(
-        //    CommandBehavior commandBehavior,
-        //    DbCommand command)
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithParametersAndCommandTimeout<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    ICollection<SqlParameter> procedureSqlParameters,
+        //    string procedureFullName,
+        //    int commandTimeoutOverride)
         //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    var procedureHasNoReturnType =
-        //        (typeof(TResultSetType) == typeof(NullStoredProcedureResult));
+        //    if (procedureSqlParameters == null) throw new ArgumentNullException("procedureSqlParameters");
 
-        //    var results = procedureHasNoReturnType
-        //        ? ExecuteCommandWithNoReturnType<TResultSetType>(command)
-        //        : ExecuteCommandWithResultSet<TResultSetType>(commandBehavior, command);
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
+        //    {
+        //        results = procedureExecuter
+        //            .WithParameters(procedureSqlParameters)
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithCommandTimeoutOverride(commandTimeoutOverride)
+        //            .Execute()
+        //            .Results;
+        //    }
 
         //    return results;
         //}
 
-        //private static TResultSetType ExecuteCommandWithResultSet<TResultSetType>(
-        //    CommandBehavior commandBehavior,
-        //    DbCommand command)
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithParametersAndTransaction<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    ICollection<SqlParameter> procedureSqlParameters,
+        //    string procedureFullName,
+        //    SqlTransaction transaction)
         //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    TResultSetType resultSet = new TResultSetType();
-        //    Type resultSetType = typeof(TResultSetType);
+        //    if (procedureSqlParameters == null) throw new ArgumentNullException("procedureSqlParameters");
 
-        //    string resultSetTypeName = resultSetType.Name;
-
-        //    // Populate a DataReder by calling the command
-        //    using (DbDataReader reader = command.ExecuteReader(commandBehavior))
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
         //    {
-        //        bool isSingleRecordSet = resultSetType.ImplementsICollectionInterface();
-        //        if (isSingleRecordSet)
-        //        {
-        //            IList recordSetDtoList = (IList)new TResultSetType();
-        //            ReadRecordSet(reader, recordSetDtoList);
-        //            resultSet = (TResultSetType)recordSetDtoList;
-        //        }
-        //        else
-        //        {
-        //            var recordSetIndex = 0;
-
-        //            PropertyInfo[] resultSetTypePropertyInfos = resultSetType.GetMappedProperties();
-
-        //            bool readerContainsAnotherResult;
-        //            do
-        //            {
-        //                var recordSetPropertyName = resultSetTypePropertyInfos[recordSetIndex].Name;
-        //                IList recordSetDtoList = GetRecordSetDtoList(resultSetType, recordSetPropertyName, resultSet);
-        //                EnsureRecorsetListIsInstantiated(recordSetDtoList, resultSetTypeName, recordSetPropertyName);
-        //                ReadRecordSet(reader, recordSetDtoList);
-
-        //                recordSetIndex++;
-        //                readerContainsAnotherResult = reader.NextResult();
-        //            }
-        //            while (readerContainsAnotherResult);
-        //        }
-        //        reader.Close();
+        //        results = procedureExecuter
+        //            .WithParameters(procedureSqlParameters)
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithTransaction(transaction)
+        //            .Execute()
+        //            .Results;
         //    }
-        //    return resultSet;
+
+        //    return results;
         //}
 
-
-
-        //private static TResultSetType ExecuteCommandWithNoReturnType<TResultSetType>(DbCommand command)
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithParametersCommandTimeoutAndTransaction<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    ICollection<SqlParameter> procedureSqlParameters,
+        //    string procedureFullName,
+        //    int commandTimeoutOverride,
+        //    SqlTransaction transaction)
         //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    command.ExecuteNonQuery();
-        //    return null;
-        //}
+        //    if (procedureSqlParameters == null) throw new ArgumentNullException("procedureSqlParameters");
 
-        //private static void ReadRecordSet(DbDataReader reader, IList recordSetDtoList)
-        //{
-        //    Type dtoListItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
-        //    PropertyInfo[] dtoListItemTypePropertyInfo = dtoListItemType.GetMappedProperties();
-
-        //    while (reader.Read())
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
         //    {
-        //        AddRecordToResults(dtoListItemType, recordSetDtoList, reader, dtoListItemTypePropertyInfo);
+        //        results = procedureExecuter
+        //            .WithParameters(procedureSqlParameters)
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithCommandTimeoutOverride(commandTimeoutOverride)
+        //            .WithTransaction(transaction)
+        //            .Execute()
+        //            .Results;
         //    }
+
+        //    return results;
         //}
 
-        //private static IList GetRecordSetDtoList<TResultSetType>(
-        //    Type resultSetType,
-        //    string recordSetPropertyName,
-        //    TResultSetType resultSet)
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithoutParameters<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    string procedureFullName)
         //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    PropertyInfo recordSetPropertyInfo = resultSetType.GetProperty(recordSetPropertyName);
-        //    IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(resultSet);
-        //    return recordSetDtoList;
-        //}
-
-        //private static void EnsureRecorsetListIsInstantiated(
-        //    IList dtoList,
-        //    string resultSetTypeName,
-        //    string listPropertyName)
-        //{
-
-        //    if (dtoList == null)
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
         //    {
-        //        string errorMessage = string.Format(
-        //           ExceptionMessages.RecordSetListNotInstatiated,
-        //           resultSetTypeName,
-        //           listPropertyName);
-
-        //        throw new NullReferenceException(errorMessage);
+        //        results = procedureExecuter
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .Execute()
+        //            .Results;
         //    }
+        //    return results;
         //}
 
-        //private static void AddRecordToResults(
-        //    Type outputType,
-        //    IList results,
-        //    DbDataReader reader,
-        //    PropertyInfo[] dtoListItemTypePropertyInfos)
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithoutParametersButWithCommandTimeout<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    string procedureFullName,
+        //    int commandTimeoutOverride)
+        //    where TResultSetType : class, new()
+        //    where TParameterType : class
         //{
-        //    var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
-        //    bool noConstructorDefined = (constructorInfo == null);
-        //    if (noConstructorDefined) return;
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
+        //    {
+        //        results = procedureExecuter
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithCommandTimeoutOverride(commandTimeoutOverride)
+        //            .Execute()
+        //            .Results;
+        //    }
 
-        //    //TODO: Investigate FastActivator
-        //    // Even at 2M records there is still neglidgable difference between
-        //    // standard Activator and FastActivator
-        //    //var item = FastActivator.CreateInstance(outputType);
-        //    //var item = FastActivator2.CreateInstance(outputType);
-
-        //    var item = Activator.CreateInstance(outputType);
-        //    reader.ReadRecord(item, dtoListItemTypePropertyInfos);
-        //    results.Add(item);
+        //    return results;
         //}
 
-        #endregion
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithoutParametersButWithTransaction<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    string procedureFullName,
+        //    SqlTransaction transaction)
+        //    where TResultSetType : class, new()
+        //    where TParameterType : class
+        //{
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
+        //    {
+        //        results = procedureExecuter
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithTransaction(transaction)
+        //            .Execute()
+        //            .Results;
+        //    }
+
+        //    return results;
+        //}
+
+        //[SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        //private static TResultSetType ExecuteStoredProcedureWithoutParametersButWithCommandTimeoutAndTransaction<TResultSetType, TParameterType>(
+        //    this DbConnection instance,
+        //    string procedureFullName,
+        //    int commandTimeoutOverride,
+        //    SqlTransaction transaction)
+        //    where TResultSetType : class, new()
+        //    where TParameterType : class
+        //{
+        //    TResultSetType results;
+        //    using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
+        //    {
+        //        results = procedureExecuter
+        //            .WithCommandBehavior(CommandBehavior.Default)
+        //            .WithCommandTimeoutOverride(commandTimeoutOverride)
+        //            .WithTransaction(transaction)
+        //            .Execute()
+        //            .Results;
+        //    }
+
+        //    return results;
+        //}
     }
 }
