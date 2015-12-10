@@ -9,6 +9,7 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 This is an on-going project, but v0.5 is currently being considers as a Release Candidate as it is stable.
 
 ## Versions
+* 0.6 WIP (bug fix and code cleaning)
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
 * 0.3 This version supports stored procedures with Table Value Parameters. 
