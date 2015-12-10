@@ -109,6 +109,7 @@
     <Build Include="dbo\Stored Procedures\TransactionTestAddStoredProcedure.sql" />
     <Build Include="dbo\User Defined Types\TransactionTestParameterTableType.sql" />
     <Build Include="dbo\Functions\ScalarValueFunctionWithParameterAndReturn.sql" />
+    <Build Include="dbo\Stored Procedures\IssueNumberFive.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
