@@ -69,7 +69,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (!(ex is ArgumentException)) return;
 
             string message = string.Format(
-                ExceptionMessages.FieldNotFoundForName, fieldName, returnTypeName);
+                ExceptionMessages.IncorrectReturnType, fieldName, returnTypeName);
 
             throw new InvalidCastException(message, ex);
         }
