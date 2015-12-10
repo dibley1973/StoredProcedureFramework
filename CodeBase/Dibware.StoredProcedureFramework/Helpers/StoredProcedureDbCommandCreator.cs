@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Constructor
 
-        private StoredProcedureDbCommandCreator(DbConnection connection)
+        private StoredProcedureDbCommandCreator(IDbConnection connection)
             : base(connection)
         {}
 
@@ -53,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// procedureName
         /// </exception>
         public static StoredProcedureDbCommandCreator CreateStoredProcedureDbCommandCreator(
-            DbConnection connection,
+            IDbConnection connection,
             string procedureName)
         {
             if (connection == null) throw new ArgumentNullException("connection");

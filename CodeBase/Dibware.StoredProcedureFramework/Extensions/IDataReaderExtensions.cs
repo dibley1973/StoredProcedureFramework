@@ -1,12 +1,12 @@
 ﻿using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Resources;
 using System;
-using System.Data.Common;
+using System.Data;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
-    internal static class DbDataReaderExtensions
+    internal static class IDataReaderExtensions
     {
         /// <summary>
         /// Gets the data type of the specified column by name.
@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="fieldName">Name of the field.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">fieldName</exception>
-        private static Type GetFieldType(this DbDataReader instance,
+        private static Type GetFieldType(this IDataReader instance,
             string fieldName)
         {
             if (string.IsNullOrEmpty(fieldName)) throw new ArgumentNullException("fieldName");
@@ -31,7 +31,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="reader">data reader holding return data</param>
         /// <param name="targetObject">object to populate</param>
         /// <param name="dtoListItemTypePropertyInfos">properties list to copy from result set row 'reader' to object 'targetObject'</param>
-        public static void ReadRecord(this DbDataReader reader, object targetObject, PropertyInfo[] dtoListItemTypePropertyInfos)
+        public static void ReadRecord(this IDataReader reader, object targetObject, PropertyInfo[] dtoListItemTypePropertyInfos)
         {
             string fieldName = "";
 
@@ -43,7 +43,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
                     // TODO: Placeholder for handling StreamOutputs, here
                     // TODO: investigate breaking this out into a dedicated "RecordReader" class if complexity grows
-            
+
                     var fieldData = reader[fieldName];
                     if (fieldData is DBNull)
                     {
@@ -74,8 +74,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
             throw new InvalidCastException(message, ex);
         }
 
-        private static void HandleDbNullValues(DbDataReader reader, 
-            object targetObject, 
+        private static void HandleDbNullValues(IDataReader reader,
+            object targetObject,
             PropertyInfo propertyInfo,
             string fieldName)
         {
@@ -107,7 +107,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             string message = string.Format(ExceptionMessages.FieldNotFoundForName,
                 fieldName, returnTypeName);
-            
+
             throw new MissingFieldException(message, ex);
         }
 
@@ -120,7 +120,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
         private static void HandleOtherExceptions(Exception ex, string fieldName, string returnTypeName)
         {
             string message = string.Format(
-                ExceptionMessages.ProcessingReturnColumnError,fieldName, returnTypeName);
+                ExceptionMessages.ProcessingReturnColumnError, fieldName, returnTypeName);
 
             throw (Exception)Activator.CreateInstance(ex.GetType(), message, ex);
         }

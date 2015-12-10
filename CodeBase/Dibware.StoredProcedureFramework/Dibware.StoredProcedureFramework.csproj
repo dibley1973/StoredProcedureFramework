@@ -53,6 +53,7 @@
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
+    <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
-    <Compile Include="Extensions\DbDataReaderExtensions.cs" />
+    <Compile Include="Extensions\IDataReaderExtensions.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="NullStoredProcedureResult.cs" />
     <Compile Include="Resources\FormatStrings.cs" />

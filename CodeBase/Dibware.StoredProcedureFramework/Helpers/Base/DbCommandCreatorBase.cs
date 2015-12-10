@@ -10,8 +10,8 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
     {
         #region Fields
 
-        private DbCommand _command;
-        private readonly DbConnection _connection;
+        private IDbCommand _command;
+        private readonly IDbConnection _connection;
         private IEnumerable<SqlParameter> _parameters;
         private string _commandText;
         private int? _commandTimeout;
@@ -29,7 +29,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// The DbConnection to run the command against.
         /// </param>
         /// <exception cref="System.ArgumentNullException">connection</exception>
-        protected DbCommandCreatorBase(DbConnection connection)
+        protected DbCommandCreatorBase(IDbConnection connection)
         {
             if (connection == null) throw new ArgumentNullException("connection");
 
@@ -60,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// <value>
         /// The command.
         /// </value>
-        public DbCommand Command
+        public IDbCommand Command
         {
             get { return _command; }
         }

@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Fields
 
-        private readonly DbConnection _connection;
+        private readonly IDbConnection _connection;
         private readonly string _procedureName;
         private readonly Type _resultSetType;
         private bool _connectionAlreadyOpen;
@@ -23,7 +23,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private int? _commandTimeoutOverride;
         private CommandBehavior _commandBehavior;
         private SqlTransaction _transaction;
-        private DbCommand _command;
+        private IDbCommand _command;
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// procedureName
         /// </exception>
         public StoredProcedureExecuter(
-            DbConnection connection,
+            IDbConnection connection,
             string procedureName)
         {
             if (connection == null) throw new ArgumentNullException("connection");
@@ -382,7 +382,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             var recordSetIndex = 0;
             var resultSetTypeProperties = _resultSetType.GetMappedProperties();
 
-            using (DbDataReader reader = _command.ExecuteReader(_commandBehavior))
+            using (IDataReader reader = _command.ExecuteReader(_commandBehavior))
             {
                 bool readerContainsAnotherResult;
                 do
@@ -411,7 +411,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             var recordSetDtoList = (IList)new TResultSetType();
 
-            using (DbDataReader reader = _command.ExecuteReader(_commandBehavior))
+            using (IDataReader reader = _command.ExecuteReader(_commandBehavior))
             {
                 ReadRecordSetFromReader(reader, recordSetDtoList);
                 reader.Close();
@@ -420,7 +420,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             Results = (TResultSetType)recordSetDtoList;
         }
 
-        private void ReadRecordSetFromReader(DbDataReader reader, IList recordSetDtoList)
+        private void ReadRecordSetFromReader(IDataReader reader, IList recordSetDtoList)
         {
             Type listItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
             PropertyInfo[] listItemProperties = listItemType.GetMappedProperties();
@@ -454,7 +454,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private void AddRecordToResults(
             Type outputType,
             IList results,
-            DbDataReader reader,
+            IDataReader reader,
             PropertyInfo[] dtoListItemTypePropertyInfos)
         {
             var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
