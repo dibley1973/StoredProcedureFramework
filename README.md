@@ -41,7 +41,7 @@ The aim of this project is to provide the following:
 * (Must) Entity Framework specific extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
 * (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **Done**
 * (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
-* (Should) Contain a suite of Example Tests that document usage of both assemblies **Done*
+* (Should) Contain a suite of Example Tests that document usage of both assemblies **Done**
 * (Should) Contain a suite of Integration Tests for both assemblies **Done**
 * (Should) Contain a suite of Unit Tests that test all public accessors **Done**
 * (Should) Ability to handle lesser used parameter types **Not currently on roadmap**
@@ -52,7 +52,7 @@ The aim of this project is to provide the following:
 * (Could) Ability to return results from Sql User Defined Table Function **Under investigation**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
-* (Could) Ability to support Transactions
+* (Could) Ability to support Transactions **Done**
 
 ## WIKI
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)
