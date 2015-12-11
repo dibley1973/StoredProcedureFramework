@@ -7,7 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class IncorrectParameterTypeTestsWithSqlConnection : BaseSqlConnectionIntegrationTest
+    public class IncorrectParameterTypeTestsWithSqlConnection
+        : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
         [ExpectedException(typeof(SqlParameterInvalidDataTypeException))]

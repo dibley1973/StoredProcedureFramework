@@ -10,6 +10,12 @@ using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TResultSetType">
+    /// The type of the result set type.
+    /// </typeparam>
     public class StoredProcedureExecuter<TResultSetType> : IDisposable
             where TResultSetType : class, new()
     {
@@ -420,14 +426,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
             Results = (TResultSetType)recordSetDtoList;
         }
 
-        private void ReadRecordSetFromReader(IDataReader reader, IList recordSetDtoList)
+        private void ReadRecordSetFromReader(IDataReader reader, IList records)
         {
-            Type listItemType = recordSetDtoList.GetType().GetGenericArguments()[0];
-            PropertyInfo[] listItemProperties = listItemType.GetMappedProperties();
-
+            Type recordType = records.GetType().GetGenericArguments()[0];
+            var mapper = new DateReaderRecordToObjectMapper(reader, recordType);
             while (reader.Read())
             {
-                AddRecordToResults(listItemType, recordSetDtoList, reader, listItemProperties);
+                mapper.PopulateMappedTargetFromReaderRecord();
+                records.Add(mapper.MappedTarget);
             }
         }
 
@@ -449,21 +455,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 _resultSetType.Name,
                 listPropertyName);
             throw new NullReferenceException(errorMessage);
-        }
-
-        private void AddRecordToResults(
-            Type outputType,
-            IList results,
-            IDataReader reader,
-            PropertyInfo[] dtoListItemTypePropertyInfos)
-        {
-            var constructorInfo = (outputType).GetConstructor(Type.EmptyTypes);
-            bool noConstructorDefined = (constructorInfo == null);
-            if (noConstructorDefined) return;
-
-            var item = Activator.CreateInstance(outputType);
-            reader.ReadRecord(item, dtoListItemTypePropertyInfos);
-            results.Add(item);
         }
 
         private void OpenClosedConnection()

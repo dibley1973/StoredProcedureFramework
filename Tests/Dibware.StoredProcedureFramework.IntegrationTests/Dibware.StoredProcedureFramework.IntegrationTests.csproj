@@ -104,12 +104,14 @@
     <Compile Include="SqlConnectionTests\SqlConnectionExtensionsTests.cs" />
     <Compile Include="SqlConnectionTests\FunctionTests.cs" />
     <Compile Include="SqlConnectionTests\IssueNumberFiveTests.cs" />
+    <Compile Include="SqlConnectionTests\DistinctRecordsTest.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DecimalPrecisionAndScaleStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DecimalWrongReturnTestStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\DistinctRecordsStoredProcedure.cs" />
     <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\IssueNumberFive.cs" />
     <Compile Include="StoredProcedures\LessColumnsInProcedureResultSetThanReturnStoredProcedure.cs" />
