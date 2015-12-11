@@ -6,10 +6,11 @@ The purpose of this framework is to allow stored procedures, their parameters an
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-This is an on-going project, but v0.5 is currently being considers as a Release Candidate as it is stable.
+This is an on-going project, 0.7 is WIP, but v0.6 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 0.6 WIP (bug fix and code cleaning)
+* 0.7 WIP 
+* 0.6 (Release Candidate) Cleaned code and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
 * 0.3 This version supports stored procedures with Table Value Parameters. 
@@ -75,7 +76,8 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
   + Binaries
     - 0.3
     - 0.4
-    - 0.5
+    - 0.5 RC
+    - 0.6 RC
   + CodeBase
     - Dibware.StoredProcedureFramework.csproj
     - Dibware.StoredProcedureFrameworkForEF.csproj

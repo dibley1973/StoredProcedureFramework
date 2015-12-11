@@ -110,6 +110,8 @@
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\UserDefinedTypes\SimpleParameterTableType.cs" />
+    <Compile Include="UnitTests\Validators\SqlParameterDecimalValueValidatorTests.cs" />
+    <Compile Include="UnitTests\Validators\SqlParameterStringValueValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

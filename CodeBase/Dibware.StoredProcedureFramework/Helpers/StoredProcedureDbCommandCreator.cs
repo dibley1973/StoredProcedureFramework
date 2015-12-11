@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers
@@ -14,7 +13,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private StoredProcedureDbCommandCreator(IDbConnection connection)
             : base(connection)
-        {}
+        { }
 
         #endregion
 
@@ -103,7 +102,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             base.WithTransaction(transaction);
             return this;
         }
-        
+
         #endregion
 
         #region Private Members

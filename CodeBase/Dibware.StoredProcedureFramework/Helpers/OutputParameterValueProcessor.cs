@@ -50,6 +50,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Public Members
 
+        /// <summary>
+        /// Providing there are output parameters to process, processses them.
+        /// </summary>
         public void Processs()
         {
             if (!HasParametersToProcess) return;

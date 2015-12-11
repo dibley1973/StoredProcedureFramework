@@ -230,8 +230,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             if (value is decimal)
             {
-                var validator = new SqlParameterDecimalValueValidator();
-                validator.Validate((decimal)value, sqlParameter);
+                var validator = new SqlParameterDecimalValueValidator(sqlParameter, (decimal)value);
+                validator.Validate();
             }
             else
             {
@@ -245,14 +245,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             if (value is string)
             {
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate((string)value, sqlParameter);
+                var validator = new SqlParameterStringValueValidator(sqlParameter, (string)value);
+                validator.Validate();
             }
             else if (value is char[])
             {
                 // ... and validate it if it is
-                var validator = new SqlParameterStringValueValidator();
-                validator.Validate(new string((char[])value), sqlParameter);
+                var validator = new SqlParameterStringValueValidator(sqlParameter, new string((char[])value));
+                validator.Validate();
             }
             else if (value == null)
             {

@@ -55,6 +55,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.5", "0.5", "{2850CCAA-623
 		Binaries\0.5\Dibware.StoredProcedureFrameworkForEF.dll = Binaries\0.5\Dibware.StoredProcedureFrameworkForEF.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.6", "0.6", "{A75DCE15-C08A-4A1C-A440-B504F1A23E3E}"
+	ProjectSection(SolutionItems) = preProject
+		Binaries\0.6\Dibware.StoredProcedureFramework.dll = Binaries\0.6\Dibware.StoredProcedureFramework.dll
+		Binaries\0.6\Dibware.StoredProcedureFramework.pdb = Binaries\0.6\Dibware.StoredProcedureFramework.pdb
+		Binaries\0.6\Dibware.StoredProcedureFrameworkForEF.dll = Binaries\0.6\Dibware.StoredProcedureFrameworkForEF.dll
+		Binaries\0.6\Dibware.StoredProcedureFrameworkForEF.pdb = Binaries\0.6\Dibware.StoredProcedureFrameworkForEF.pdb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +116,6 @@ Global
 		{842BCB72-A8F9-4944-A4DA-74574D8416B5} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 		{FB582654-89F3-43BE-BBA9-955BF7DC44C6} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 		{2850CCAA-6238-40AF-922C-A0D7BF232A78} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
+		{A75DCE15-C08A-4A1C-A440-B504F1A23E3E} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 	EndGlobalSection
 EndGlobal
