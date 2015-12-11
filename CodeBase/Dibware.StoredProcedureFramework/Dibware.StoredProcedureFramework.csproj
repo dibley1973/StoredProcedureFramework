@@ -62,6 +62,7 @@
     <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
     <Compile Include="Helpers\StoredProcedureExecuter.cs" />
     <Compile Include="Helpers\TableValuedParameterHelper.cs" />
+    <Compile Include="Helpers\UserDefinedFunctionDbCommandCreator.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />
