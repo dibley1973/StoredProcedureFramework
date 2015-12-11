@@ -10,11 +10,11 @@ This is an on-going project, 0.7 is WIP, but v0.6 is the most recent Release Can
 
 ## Versions
 * 0.7 WIP 
-* 0.6 (Release Candidate) Cleaned code and preparation for adding SQL UDF support
+* 0.6 (Release Candidate) Cleaned code, bug fix for Issue #5 and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
 * 0.3 This version supports stored procedures with Table Value Parameters. 
-* 0.2 This version will support multiple RecordSets and will have a different API to version 1.0. Development has stopped on this version but the code will remain available for use.
+* 0.2 This version will support multiple RecordSets and will have a different API to version 1.0.
 * 0.1 This was the initial version which did not support multiple RecordSets. To enable multiple RecordSets to be supported alongside single RecordSets a break to the API is required. Development has stopped on this version but the code will remain available for use.
 
 ## Nuget Package
