@@ -26,7 +26,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Validators
         public void Constructor_WhenConstructedWithNullValue_ThrowsException()
         {
             // ARRANGE
-            const string testValue = "12345678";
             var sqlParameter = new SqlParameter("TestParameter", SqlDbType.NVarChar)
             {
                 Size = 7

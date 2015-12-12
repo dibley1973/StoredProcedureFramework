@@ -26,8 +26,8 @@ namespace Dibware.StoredProcedureFramework.Examples.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDb)\\v11.0;Initial Catalog=StoredProcedueFrameworkExamples;Integ" +
-            "rated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDb)\\v11.0;Initial Catalog=StoredProcedueFrameworkExamples2;Inte" +
+            "grated Security=True")]
         public string ExampleDatabaseConnection {
             get {
                 return ((string)(this["ExampleDatabaseConnection"]));
