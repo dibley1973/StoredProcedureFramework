@@ -13,6 +13,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <summary>
     /// Responsible for executing Sql Functions
     /// </summary>
+    /// <remarks>
+    /// TODO: This will need to be adpated to use a base class alog with 
+    /// <see cref="Dibware.StoredProcedureFramework.Helpers.StoredProcedureExecuter{TResultSetType}"/>
+    /// </remarks>
     public class SqlFunctionExecuter<TResultSetType>
         : IDisposable
         where TResultSetType : class, new()

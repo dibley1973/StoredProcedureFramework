@@ -44,6 +44,7 @@
     <Compile Include="Base\StoredProcedureSqlConnection.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Contracts\ISqlFunction.cs" />
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
     <Compile Include="DataInfo\StringInfo.cs" />
@@ -55,8 +56,9 @@
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
-    <Compile Include="Helpers\SQlFunctionExecuter.cs" />
+    <Compile Include="Helpers\SqlFunctionExecuter.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
+    <Compile Include="Helpers\SqlFunctionParameterBuilder.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlDbTypeToClrTypeMapper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />

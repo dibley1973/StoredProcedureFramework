@@ -1,17 +1,14 @@
 ﻿namespace Dibware.StoredProcedureFramework.Contracts
 {
-    /// <summary>
-    /// Defines the expected members for a stored procedure
-    /// </summary>
-    public interface IStoredProcedure
+    public interface ISqlFunction
     {
         /// <summary>
-        /// Gets the name of the procedure.
+        /// Gets the name of the function.
         /// </summary>
         /// <value>
-        /// The name of the procedure.
+        /// The name of the function.
         /// </value>
-        string ProcedureName { get; }
+        string FunctionName { get; }
 
         /// <summary>
         /// Gets the name of the schema.
@@ -22,19 +19,19 @@
         string SchemaName { get; }
 
         /// <summary>
-        /// Gets the combined schema and procedure name.
+        /// Gets the combined schema and function name.
         /// </summary>
         /// <returns></returns>
         string GetTwoPartName();
 
         /// <summary>
-        /// Sets the procedure name.
+        /// Sets the function name.
         /// </summary>
-        /// <param name="procedureName">Name of the procedure.</param>
+        /// <param name="functionName">Name of the function.</param>
         /// <returns>
         /// This instance
         /// </returns>
-        void SetProcedureName(string procedureName);
+        void SetFunctionName(string functionName);
 
         /// <summary>
         /// Sets the schema name.
@@ -46,22 +43,26 @@
 
     /// <summary>
     /// Defines the expected members and type parameters of an object that
-    /// represents a Stored procedure
+    /// represents a Sql function
     /// </summary>
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     /// <typeparam name="TParameters">The type of the parameter.</typeparam>
-    public interface IStoredProcedure<in TReturn, out TParameters>
-        : IStoredProcedure
+    /// <remarks>
+    /// TODO: refactor as shares similarities with 
+    /// <see cref="Dibware.StoredProcedureFramework.Contracts.IStoredProcedure{in TReturn, out TParameters}"/>
+    /// </remarks>
+    public interface ISqlFunction<in TReturn, out TParameters>
+        : ISqlFunction
         where TReturn : class
         where TParameters : class
     {
         /// <summary>
-        /// Gets a value indicating whether this instance has null stored procedure parameters.
+        /// Gets a value indicating whether this instance has null sql function parameters.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance has null stored procedure parameters; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance has null sql function parameters; otherwise, <c>false</c>.
         /// </value>
-        bool HasNullStoredProcedureParameters { get; }
+        bool HasNullSqlFunctionParameters { get; }
 
         /// <summary>
         /// Ensurefullies the construcuted.

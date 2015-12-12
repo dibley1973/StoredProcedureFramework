@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    [Ignore]
+    //[Ignore]
     public class FunctionTests : BaseSqlConnectionIntegrationTest
     {
         // This is a a little investigation into what it maight take to
@@ -30,7 +30,8 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var results = Connection.ExecuteStoredProcedure(function);
 
             // ASSERT
-            Assert.IsNull(results);
+            Assert.IsNotNull(results);
+            Assert.Fail("Hmm... reulsts have zero count!");
         }
     }
 }

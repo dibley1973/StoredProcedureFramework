@@ -1,13 +1,46 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
     public static class SqlConnectionExtensions
     {
+        /// <summary>
+        /// Executes the SQL function procedure  and gets the results..
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="sqlFunction">The SQl function.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
+        public static TResultSetType ExecuteSqlFunction<TResultSetType, TParameterType>(
+            this SqlConnection connection,
+            ISqlFunction<TResultSetType, TParameterType> sqlFunction,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
+            where TResultSetType : class, new()
+            where TParameterType : class
+        {
+            if (sqlFunction == null) throw new ArgumentNullException("sqlFunction");
+
+            sqlFunction.EnsureIsFullyConstructed();
+
+            DbConnection dbConnection = connection;
+
+            return dbConnection.ExecuteSqlFunction(
+                sqlFunction,
+                commandTimeout,
+                commandBehavior,
+                transaction);
+        }
+
+
         /// <summary>
         /// Executes the stored procedure  and gets the results..
         /// </summary>

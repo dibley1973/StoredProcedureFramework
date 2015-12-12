@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     /// <summary>
-    /// Responsible for building Sql SqlParameters from a stored procedure
+    /// Responsible for building Sql Parameters from a stored procedure
     /// </summary>
     public class StoredProcedureSqlParameterBuilder<TResultSetType, TParameterType>
         where TResultSetType : class, new()
