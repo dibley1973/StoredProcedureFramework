@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.Functions
 {
     internal class ScalarValueFunctionWithParameterAndReturn
-        : StoredProcedureBase<
+        : SqlFunctionBase<
             List<ScalarValueFunctionWithParameterAndReturn.Return>,
             ScalarValueFunctionWithParameterAndReturn.Parameter>
     {

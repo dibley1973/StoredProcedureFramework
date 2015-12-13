@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\SqlFunctionBase.cs" />
+    <Compile Include="Base\SqlFunctionBaseOfType.cs" />
     <Compile Include="Base\StoredProcedureBaseOfType.cs" />
     <Compile Include="Base\StoredProcedureSqlConnection.cs">
       <SubType>Component</SubType>
@@ -49,6 +51,7 @@
     <Compile Include="DataInfo\DecimalInfo.cs" />
     <Compile Include="DataInfo\StringInfo.cs" />
     <Compile Include="Exceptions\NullableFieldTypeException.cs" />
+    <Compile Include="Exceptions\SqlFunctionConstructionException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
+    <Compile Include="Helpers\SqlFunctionDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlFunctionExecuter.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
     <Compile Include="Helpers\SqlFunctionParameterBuilder.cs" />

@@ -27,7 +27,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var function = new ScalarValueFunctionWithParameterAndReturn(parameters);
 
             // ACT
-            var results = Connection.ExecuteStoredProcedure(function);
+            var results = Connection.ExecuteSqlFunction(function);
 
             // ASSERT
             Assert.IsNotNull(results);

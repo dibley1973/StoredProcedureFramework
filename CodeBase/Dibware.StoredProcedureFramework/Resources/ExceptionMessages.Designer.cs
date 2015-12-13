@@ -151,7 +151,16 @@ namespace Dibware.StoredProcedureFramework.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stored procedure does not havea name set!.
+        ///   Looks up a localized string similar to Sql Function does not have a name set!.
+        /// </summary>
+        public static string SqlFunctionDoesNotHaveName {
+            get {
+                return ResourceManager.GetString("SqlFunctionDoesNotHaveName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stored procedure does not have a name set!.
         /// </summary>
         public static string StoredProcedureDoesNotHaveName {
             get {
