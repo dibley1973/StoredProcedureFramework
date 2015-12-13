@@ -273,16 +273,16 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutOrTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .BuildCommand()
                 .Command;
         }
 
         private void CreateCommandWithoutParametersOrTransactionButWithCommandTimeout()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .BuildCommand()
                 .Command;
@@ -290,8 +290,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutButWithTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithTransaction(_transaction)
                 .BuildCommand()
                 .Command;
@@ -299,8 +299,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersButWithCommandTimeoutAndTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .WithTransaction(_transaction)
                 .BuildCommand()
@@ -309,8 +309,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersButWithoutCommandTimeoutOrTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .BuildCommand()
                 .Command;
@@ -318,8 +318,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndCommandTimeoutButWithoutTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .BuildCommand()
@@ -328,8 +328,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndTransactionButWithoutCommandTimeout()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithTransaction(_transaction)
                 .BuildCommand()
@@ -338,8 +338,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersCommandTimeoutAndTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _functionName)
+            _command = SqlFunctionDbCommandCreator
+                .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .WithTransaction(_transaction)

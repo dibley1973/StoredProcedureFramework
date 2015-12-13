@@ -33,14 +33,14 @@ namespace Dibware.StoredProcedureFramework.Extensions
             string procedureFullName = sqlFunction.GetTwoPartName();
             bool withParametersSupplied = (sqlFunctionParameters != null);
             bool withCommandTimoutSupplied = (commandTimeoutOverride.HasValue);
-            bool exeuteWithinTransaction = (transaction != null);
+            bool executeWithinTransaction = (transaction != null);
             TResultSetType results;
 
             using (var procedureExecuter = new SqlFunctionExecuter<TResultSetType>(instance, procedureFullName))
             {
                 if (withCommandTimoutSupplied) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
                 if (withParametersSupplied) procedureExecuter.WithParameters(sqlFunctionParameters);
-                if (exeuteWithinTransaction) procedureExecuter.WithTransaction(transaction);
+                if (executeWithinTransaction) procedureExecuter.WithTransaction(transaction);
                 results = procedureExecuter
                     .WithCommandBehavior(commandBehavior)
                     .Execute()
@@ -75,14 +75,14 @@ namespace Dibware.StoredProcedureFramework.Extensions
             string procedureFullName = storedProcedure.GetTwoPartName();
             bool withParametersSupplied = (procedureSqlParameters != null);
             bool withCommandTimoutSupplied = (commandTimeoutOverride.HasValue);
-            bool exeuteWithinTransaction = (transaction != null);
+            bool executeWithinTransaction = (transaction != null);
             TResultSetType results;
 
             using (var procedureExecuter = new StoredProcedureExecuter<TResultSetType>(instance, procedureFullName))
             {
                 if (withCommandTimoutSupplied) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
                 if (withParametersSupplied) procedureExecuter.WithParameters(procedureSqlParameters);
-                if (exeuteWithinTransaction) procedureExecuter.WithTransaction(transaction);
+                if (executeWithinTransaction) procedureExecuter.WithTransaction(transaction);
                 results = procedureExecuter
                     .WithCommandBehavior(commandBehavior)
                     .Execute()
