@@ -1,17 +1,16 @@
-﻿using System.Linq;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.Functions;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    //[Ignore]
     public class FunctionTests : BaseSqlConnectionIntegrationTest
     {
         // This is a a little investigation into what it maight take to
-        // adapt framework to handle scalar value functions..
+        // adapt framework to handle scalar-value and table-value functions..
         // Note need to change:
         //  command.CommandType = CommandType.Text
         //  command.CommandText = "SELECT  " + command.CommandText + "(PARAMS)"

@@ -3,19 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     public class SqlScalarFunctionDbCommandCreator
-        : DbCommandCreatorBase
+        : SqlFunctionDbCommandCreatorBase 
     {
-        #region Fields
-
-        const string ScalerFunctionCommandFormat = "SELECT {0} ({1})";
-            
-        #endregion
-
         #region Constructor
 
         private SqlScalarFunctionDbCommandCreator(IDbConnection connection)
@@ -114,16 +107,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Private Members
 
-        protected override void SetCommandTextForCommand()
+        protected override string FunctionCommandTextFormat
         {
-            var parametersArray = Parameters.Select(parameter => @"@" + parameter.ParameterName).ToArray();
-            string parameters = string.Join(",", parametersArray);
-            string scalerFunctionCommandText = String.Format(
-                ScalerFunctionCommandFormat,
-                CommandText,
-                parameters);
-
-            Command.CommandText = scalerFunctionCommandText;
+            get { return "SELECT {0} ({1})"; }
         }
 
         private new SqlScalarFunctionDbCommandCreator WithCommandText(string commandText)

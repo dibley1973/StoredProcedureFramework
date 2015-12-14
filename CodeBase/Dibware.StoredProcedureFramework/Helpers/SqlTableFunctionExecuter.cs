@@ -19,7 +19,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// </remarks>
     public class SqlTableFunctionExecuter<TResultSetType>
         : IDisposable
-        where TResultSetType : new()
+        where TResultSetType : class, new()
     {
         #region Fields
 

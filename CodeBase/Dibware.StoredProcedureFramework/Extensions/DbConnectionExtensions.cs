@@ -62,7 +62,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
-            where TResultSetType : new()
+            where TResultSetType : class, new()
             where TParameterType : class
         {
             if (sqlFunction == null) throw new ArgumentNullException("sqlFunction");

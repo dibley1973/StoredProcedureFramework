@@ -72,7 +72,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 transaction);
         }
 
-
         /// <summary>
         /// Executes the stored procedure  and gets the results..
         /// </summary>

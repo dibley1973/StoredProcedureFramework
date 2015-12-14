@@ -46,6 +46,7 @@
     <Compile Include="Base\StoredProcedureSqlConnection.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Contracts\IDbCommandCreator.cs" />
     <Compile Include="Contracts\ISqlFunction.cs" />
     <Compile Include="Contracts\IStoredProcedure.cs" />
     <Compile Include="DataInfo\DecimalInfo.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
+    <Compile Include="Helpers\Base\SqlFunctionDbCommandCreatorBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
