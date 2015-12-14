@@ -1,20 +1,24 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Helpers.Base;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dibware.StoredProcedureFramework.Helpers.Base;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public class SqlFunctionDbCommandCreator
+    public class SqlTableFunctionDbCommandCreator
         : DbCommandCreatorBase
     {
+        #region Fields
+
+        const string ScalerFunctionCommandFormat = "SELECT * FROM {0} ({1})";
+            
+        #endregion
+
         #region Constructor
 
-        private SqlFunctionDbCommandCreator(IDbConnection connection)
+        private SqlTableFunctionDbCommandCreator(IDbConnection connection)
             : base(connection)
         { }
 
@@ -29,7 +33,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <remarks>
         /// Should call into base implementation before executing any addtional code
         /// </remarks>
-        public new SqlFunctionDbCommandCreator BuildCommand()
+        public new SqlTableFunctionDbCommandCreator BuildCommand()
         {
             base.BuildCommand();
             return this;
@@ -54,14 +58,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// procedureName
         /// </exception>
-        public static SqlFunctionDbCommandCreator CreateSqlFunctionDbCommandCreator(
+        public static SqlTableFunctionDbCommandCreator CreateSqlTableFunctionDbCommandCreator(
             IDbConnection connection,
             string procedureName)
         {
             if (connection == null) throw new ArgumentNullException("connection");
             if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
 
-            var builder = new SqlFunctionDbCommandCreator(connection)
+            var builder = new SqlTableFunctionDbCommandCreator(connection)
                 .WithCommandText(procedureName)
                 .WithCommandType(CommandType.Text);
 
@@ -74,7 +78,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="commandTimeout">The value of the command timeout.</param>
         /// <returns></returns>
-        public SqlFunctionDbCommandCreator WithCommandTimeout(int? commandTimeout)
+        public SqlTableFunctionDbCommandCreator WithCommandTimeout(int? commandTimeout)
         {
             if (!commandTimeout.HasValue) throw new ArgumentNullException("commandTimeout");
 
@@ -88,7 +92,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="parameters">The parameters to add to the command.</param>
         /// <returns></returns>
-        public new SqlFunctionDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
+        public new SqlTableFunctionDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
         {
             base.WithParameters(parameters);
             return this;
@@ -100,7 +104,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         /// <param name="transaction">The transaction to add to teh command.</param>
         /// <returns></returns>
-        public new SqlFunctionDbCommandCreator WithTransaction(SqlTransaction transaction)
+        public new SqlTableFunctionDbCommandCreator WithTransaction(SqlTransaction transaction)
         {
             base.WithTransaction(transaction);
             return this;
@@ -110,13 +114,25 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         #region Private Members
 
-        private new SqlFunctionDbCommandCreator WithCommandText(string commandText)
+        protected override void SetCommandTextForCommand()
+        {
+            var parametersArray = Parameters.Select(parameter => @"@" + parameter.ParameterName).ToArray();
+            string parameters = string.Join(",", parametersArray);
+            string scalerFunctionCommandText = String.Format(
+                ScalerFunctionCommandFormat,
+                CommandText,
+                parameters);
+
+            Command.CommandText = scalerFunctionCommandText;
+        }
+
+        private new SqlTableFunctionDbCommandCreator WithCommandText(string commandText)
         {
             base.WithCommandText(commandText);
             return this;
         }
 
-        private new SqlFunctionDbCommandCreator WithCommandType(CommandType commandType)
+        private new SqlTableFunctionDbCommandCreator WithCommandType(CommandType commandType)
         {
             base.WithCommandType(commandType);
             return this;

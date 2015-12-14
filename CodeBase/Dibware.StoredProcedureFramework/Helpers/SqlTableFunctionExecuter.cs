@@ -11,19 +11,20 @@ using System.Reflection;
 namespace Dibware.StoredProcedureFramework.Helpers
 {
     /// <summary>
-    /// Responsible for execetuting stored procedures
+    /// Responsible for executing Sql Functions
     /// </summary>
-    /// <typeparam name="TResultSetType">
-    /// The type of the result set type.
-    /// </typeparam>
-    public class StoredProcedureExecuter<TResultSetType> 
+    /// <remarks>
+    /// TODO: This will need to be adapted to use a base class along with 
+    /// <see cref="Dibware.StoredProcedureFramework.Helpers.StoredProcedureExecuter{TResultSetType}"/>
+    /// </remarks>
+    public class SqlTableFunctionExecuter<TResultSetType>
         : IDisposable
-        where TResultSetType : class, new()
+        where TResultSetType : new()
     {
         #region Fields
 
         private readonly IDbConnection _connection;
-        private readonly string _procedureName;
+        private readonly string _functionName;
         private readonly Type _resultSetType;
         private bool _connectionAlreadyOpen;
         private IEnumerable<SqlParameter> _procedureParameters;
@@ -37,24 +38,24 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StoredProcedureExecuter{TResultSetType}"/> class.
+        /// Initializes a new instance of the <see cref="SqlTableFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
-        /// <param name="connection">The databse connection to execute the procedure against.</param>
-        /// <param name="procedureName">Name of the procedure to execute.</param>
+        /// <param name="connection">The databse connection to execute the Dql function against.</param>
+        /// <param name="functionName">Name of the function to execute.</param>
         /// <exception cref="System.ArgumentNullException">
         /// connection
         /// or
-        /// procedureName
+        /// functionName
         /// </exception>
-        public StoredProcedureExecuter(
+        public SqlTableFunctionExecuter(
             IDbConnection connection,
-            string procedureName)
+            string functionName)
         {
             if (connection == null) throw new ArgumentNullException("connection");
-            if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
+            if (string.IsNullOrWhiteSpace(functionName)) throw new ArgumentNullException("functionName");
 
             _connection = connection;
-            _procedureName = procedureName;
+            _functionName = functionName;
             _resultSetType = typeof(TResultSetType);
         }
 
@@ -63,7 +64,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Dispose and Finalise
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="StoredProcedureExecuter{TResultSetType}"/> 
+        /// Gets a value indicating whether this <see cref="SqlTableFunctionExecuter{TResultSetType}"/> 
         /// is disposed.
         /// </summary>
         /// <value>
@@ -72,9 +73,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
         public bool Disposed { get; private set; }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="StoredProcedureExecuter{TResultSetType}"/> class.
+        /// Finalizes an instance of the <see cref="SqlTableFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
-        ~StoredProcedureExecuter()
+        ~SqlTableFunctionExecuter()
         {
             Dispose(false);
         }
@@ -121,7 +122,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <returns></returns>
         /// <exception cref="System.ObjectDisposedException">
         /// Cannot call Execute when this object is disposed</exception>
-        public StoredProcedureExecuter<TResultSetType> Execute()
+        public SqlTableFunctionExecuter<TResultSetType> Execute()
         {
             if (Disposed) throw new ObjectDisposedException("Cannot call Execute when this object is disposed");
 
@@ -154,13 +155,13 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </value>
         public TResultSetType Results { get; private set; }
 
-        public StoredProcedureExecuter<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
+        public SqlTableFunctionExecuter<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
         {
             _commandBehavior = commandBehavior;
             return this;
         }
 
-        public StoredProcedureExecuter<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
+        public SqlTableFunctionExecuter<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
         {
             if (procedureParameters == null) throw new ArgumentNullException("procedureParameters");
 
@@ -169,14 +170,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
             return this;
         }
 
-        public StoredProcedureExecuter<TResultSetType> WithCommandTimeoutOverride(int commandTimeoutOverride)
+        public SqlTableFunctionExecuter<TResultSetType> WithCommandTimeoutOverride(int commandTimeoutOverride)
         {
             _commandTimeoutOverride = commandTimeoutOverride;
 
             return this;
         }
 
-        public StoredProcedureExecuter<TResultSetType> WithTransaction(SqlTransaction transaction)
+        public SqlTableFunctionExecuter<TResultSetType> WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
 
@@ -188,7 +189,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Public Factory Methods
 
         /// <summary>
-        /// Creates a new instance of the <see cref="StoredProcedureExecuter{TResultSetType}"/> class.
+        /// Creates a new instance of the <see cref="SqlTableFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
         /// <param name="connection">The databse connection to execute the procedure against.</param>
         /// <param name="procedureName">Name of the procedure to execute.</param>
@@ -197,14 +198,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// procedureName
         /// </exception>
-        public static StoredProcedureExecuter<TResultSetType> CreateStoredProcedureExecuter(
+        public static SqlTableFunctionExecuter<TResultSetType> CreateSqTablelFunctionExecuter(
             DbConnection connection,
             string procedureName)
         {
             if (connection == null) throw new ArgumentNullException("connection");
             if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
 
-            return new StoredProcedureExecuter<TResultSetType>(connection, procedureName);
+            return new SqlTableFunctionExecuter<TResultSetType>(connection, procedureName);
         }
 
         #endregion
@@ -215,7 +216,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             var detailedMessage = string.Format(
                 ExceptionMessages.ErrorReadingStoredProcedure,
-                _procedureName,
+                _functionName,
                 ex.Message);
             Type exceptionType = ex.GetType();
             var fieldInfo = exceptionType.GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -272,16 +273,16 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutOrTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .BuildCommand()
                 .Command;
         }
 
         private void CreateCommandWithoutParametersOrTransactionButWithCommandTimeout()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .BuildCommand()
                 .Command;
@@ -289,8 +290,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutButWithTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithTransaction(_transaction)
                 .BuildCommand()
                 .Command;
@@ -298,8 +299,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersButWithCommandTimeoutAndTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .WithTransaction(_transaction)
                 .BuildCommand()
@@ -308,8 +309,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersButWithoutCommandTimeoutOrTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .BuildCommand()
                 .Command;
@@ -317,8 +318,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndCommandTimeoutButWithoutTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .BuildCommand()
@@ -327,8 +328,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndTransactionButWithoutCommandTimeout()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithTransaction(_transaction)
                 .BuildCommand()
@@ -337,8 +338,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersCommandTimeoutAndTransaction()
         {
-            _command = StoredProcedureDbCommandCreator
-                .CreateStoredProcedureDbCommandCreator(_connection, _procedureName)
+            _command = SqlTableFunctionDbCommandCreator
+                .CreateSqlTableFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .WithTransaction(_transaction)

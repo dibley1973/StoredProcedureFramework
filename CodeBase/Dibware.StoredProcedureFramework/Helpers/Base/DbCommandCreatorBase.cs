@@ -47,10 +47,10 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         {
             CreateCommand();
             LoadCommandParametersIfAnyExist();
-            SetCommandText();
-            SetCommandType();
-            SetCommandTimeoutIfExists();
-            SetTransactionIfExists();
+            SetCommandTextForCommand();
+            SetCommandTypeForCommand();
+            SetCommandTimeoutIfExistsForCommand();
+            SetTransactionIfExistsForCommand();
         }
 
         /// <summary>
@@ -62,6 +62,16 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         public IDbCommand Command
         {
             get { return _command; }
+        }
+
+        protected string CommandText
+        {
+            get { return _commandText; }
+        }
+
+        protected IEnumerable<SqlParameter> Parameters
+        {
+            get { return _parameters; }
         }
 
         #endregion
@@ -104,17 +114,17 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             }
         }
 
-        private void SetCommandText()
+        protected virtual void SetCommandTextForCommand()
         {
             _command.CommandText = _commandText;
         }
 
-        private void SetCommandType()
+        protected virtual void SetCommandTypeForCommand()
         {
             _command.CommandType = _commandType;
         }
 
-        private void SetCommandTimeoutIfExists()
+        protected virtual void SetCommandTimeoutIfExistsForCommand()
         {
             bool hasCommandTimeout = _commandTimeout.HasValue;
             if (hasCommandTimeout)
@@ -123,7 +133,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             }
         }
 
-        private void SetTransactionIfExists()
+        protected virtual void SetTransactionIfExistsForCommand()
         {
             bool hasTransaction = _transaction != null;
             if (hasTransaction) _command.Transaction = _transaction;

@@ -1,7 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Resources;
+﻿using Dibware.StoredProcedureFramework.Resources;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -17,9 +15,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// TODO: This will need to be adpated to use a base class alog with 
     /// <see cref="Dibware.StoredProcedureFramework.Helpers.StoredProcedureExecuter{TResultSetType}"/>
     /// </remarks>
-    public class SqlFunctionExecuter<TResultSetType>
+    public class SqlScalarFunctionExecuter<TResultSetType>
         : IDisposable
-        where TResultSetType : class, new()
+        where TResultSetType : new()
     {
         #region Fields
 
@@ -38,7 +36,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqlFunctionExecuter{TResultSetType}"/> class.
+        /// Initializes a new instance of the <see cref="SqlScalarFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
         /// <param name="connection">The databse connection to execute the Dql function against.</param>
         /// <param name="functionName">Name of the function to execute.</param>
@@ -47,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// functionName
         /// </exception>
-        public SqlFunctionExecuter(
+        public SqlScalarFunctionExecuter(
             IDbConnection connection,
             string functionName)
         {
@@ -64,7 +62,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Dispose and Finalise
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="SqlFunctionExecuter{TResultSetType}"/> 
+        /// Gets a value indicating whether this <see cref="SqlScalarFunctionExecuter{TResultSetType}"/> 
         /// is disposed.
         /// </summary>
         /// <value>
@@ -73,9 +71,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
         public bool Disposed { get; private set; }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="SqlFunctionExecuter{TResultSetType}"/> class.
+        /// Finalizes an instance of the <see cref="SqlScalarFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
-        ~SqlFunctionExecuter()
+        ~SqlScalarFunctionExecuter()
         {
             Dispose(false);
         }
@@ -122,7 +120,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <returns></returns>
         /// <exception cref="System.ObjectDisposedException">
         /// Cannot call Execute when this object is disposed</exception>
-        public SqlFunctionExecuter<TResultSetType> Execute()
+        public SqlScalarFunctionExecuter<TResultSetType> Execute()
         {
             if (Disposed) throw new ObjectDisposedException("Cannot call Execute when this object is disposed");
 
@@ -155,13 +153,13 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </value>
         public TResultSetType Results { get; private set; }
 
-        public SqlFunctionExecuter<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
+        public SqlScalarFunctionExecuter<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
         {
             _commandBehavior = commandBehavior;
             return this;
         }
 
-        public SqlFunctionExecuter<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
+        public SqlScalarFunctionExecuter<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
         {
             if (procedureParameters == null) throw new ArgumentNullException("procedureParameters");
 
@@ -170,14 +168,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
             return this;
         }
 
-        public SqlFunctionExecuter<TResultSetType> WithCommandTimeoutOverride(int commandTimeoutOverride)
+        public SqlScalarFunctionExecuter<TResultSetType> WithCommandTimeoutOverride(int commandTimeoutOverride)
         {
             _commandTimeoutOverride = commandTimeoutOverride;
 
             return this;
         }
 
-        public SqlFunctionExecuter<TResultSetType> WithTransaction(SqlTransaction transaction)
+        public SqlScalarFunctionExecuter<TResultSetType> WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
 
@@ -189,7 +187,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Public Factory Methods
 
         /// <summary>
-        /// Creates a new instance of the <see cref="SqlFunctionExecuter{TResultSetType}"/> class.
+        /// Creates a new instance of the <see cref="SqlScalarFunctionExecuter{TResultSetType}"/> class.
         /// </summary>
         /// <param name="connection">The databse connection to execute the procedure against.</param>
         /// <param name="procedureName">Name of the procedure to execute.</param>
@@ -198,14 +196,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// procedureName
         /// </exception>
-        public static SqlFunctionExecuter<TResultSetType> CreateSqlFunctionExecuter(
+        public static SqlScalarFunctionExecuter<TResultSetType> CreateSqlFunctionExecuter(
             DbConnection connection,
             string procedureName)
         {
             if (connection == null) throw new ArgumentNullException("connection");
             if (string.IsNullOrWhiteSpace(procedureName)) throw new ArgumentNullException("procedureName");
 
-            return new SqlFunctionExecuter<TResultSetType>(connection, procedureName);
+            return new SqlScalarFunctionExecuter<TResultSetType>(connection, procedureName);
         }
 
         #endregion
@@ -273,7 +271,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutOrTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .BuildCommand()
                 .Command;
@@ -281,7 +279,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrTransactionButWithCommandTimeout()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .BuildCommand()
@@ -290,7 +288,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersOrCommandTimeoutButWithTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithTransaction(_transaction)
                 .BuildCommand()
@@ -299,7 +297,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithoutParametersButWithCommandTimeoutAndTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithCommandTimeout(_commandTimeoutOverride)
                 .WithTransaction(_transaction)
@@ -309,7 +307,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersButWithoutCommandTimeoutOrTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .BuildCommand()
@@ -318,7 +316,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndCommandTimeoutButWithoutTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
@@ -328,7 +326,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersAndTransactionButWithoutCommandTimeout()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithTransaction(_transaction)
@@ -338,7 +336,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void CreateCommandWithParametersCommandTimeoutAndTransaction()
         {
-            _command = SqlFunctionDbCommandCreator
+            _command = SqlScalarFunctionDbCommandCreator
                 .CreateSqlFunctionDbCommandCreator(_connection, _functionName)
                 .WithParameters(_procedureParameters)
                 .WithCommandTimeout(_commandTimeoutOverride)
@@ -360,103 +358,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             if (HasNoReturnType)
             {
-                ExecuteCommandWithNoReturnType();
-                return;
+                throw new InvalidOperationException("Scalar function must have a return type! ");
             }
 
-            ExecuteCommandWithResultSet();
+            ExecuteScalarCommandForSingleRecordSet();
         }
 
-        private void ExecuteCommandWithNoReturnType()
+        private void ExecuteScalarCommandForSingleRecordSet()
         {
-            _command.ExecuteNonQuery();
-        }
-
-        private void ExecuteCommandWithResultSet()
-        {
-            if (HasSingleRecordSetOnly)
-            {
-                ExecuteCommandForSingleRecordSet();
-            }
-            else
-            {
-                ExecuteCommandForMultipleRecordSets();
-            }
-        }
-
-        private void ExecuteCommandForMultipleRecordSets()
-        {
-            Results = new TResultSetType();
-            var recordSetIndex = 0;
-            var resultSetTypeProperties = _resultSetType.GetMappedProperties();
-
-            using (IDataReader reader = _command.ExecuteReader(_commandBehavior))
-            {
-                bool readerContainsAnotherResult;
-                do
-                {
-                    var recordSetDtoList = GetRecordSetDtoList(resultSetTypeProperties, recordSetIndex);
-                    ReadRecordSetFromReader(reader, recordSetDtoList);
-
-                    recordSetIndex += 1;
-                    readerContainsAnotherResult = reader.NextResult();
-
-                } while (readerContainsAnotherResult);
-                reader.Close();
-            }
-        }
-
-        private IList GetRecordSetDtoList(PropertyInfo[] resultSetTypePropertyInfos, int recordSetIndex)
-        {
-            var recordSetPropertyName = resultSetTypePropertyInfos[recordSetIndex].Name;
-            var recordSetDtoList = GetRecordSetDtoList(recordSetPropertyName);
-            EnsureRecorsetListIsInstantiated(recordSetDtoList, recordSetPropertyName);
-
-            return recordSetDtoList;
-        }
-
-        private void ExecuteCommandForSingleRecordSet()
-        {
-            var recordSetDtoList = (IList)new TResultSetType();
-
-            using (IDataReader reader = _command.ExecuteReader(_commandBehavior))
-            {
-                ReadRecordSetFromReader(reader, recordSetDtoList);
-                reader.Close();
-            }
-
-            Results = (TResultSetType)recordSetDtoList;
-        }
-
-        private void ReadRecordSetFromReader(IDataReader reader, IList records)
-        {
-            Type recordType = records.GetType().GetGenericArguments()[0];
-            var mapper = new DateReaderRecordToObjectMapper(reader, recordType);
-            while (reader.Read())
-            {
-                mapper.PopulateMappedTargetFromReaderRecord();
-                records.Add(mapper.MappedTarget);
-            }
-        }
-
-        private IList GetRecordSetDtoList(string recordSetPropertyName)
-        {
-            PropertyInfo recordSetPropertyInfo = _resultSetType.GetProperty(recordSetPropertyName);
-            IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(Results);
-            return recordSetDtoList;
-        }
-
-        private void EnsureRecorsetListIsInstantiated(
-            IList dtoList,
-            string listPropertyName)
-        {
-            if (dtoList != null) return;
-
-            string errorMessage = string.Format(
-                ExceptionMessages.RecordSetListNotInstatiated,
-                _resultSetType.Name,
-                listPropertyName);
-            throw new NullReferenceException(errorMessage);
+            Results = (TResultSetType)_command.ExecuteScalar();
         }
 
         private void OpenClosedConnection()
@@ -467,11 +377,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private void RestoreOriginalConnectionState()
         {
             if (!_connectionAlreadyOpen) _connection.Close();
-        }
-
-        private bool HasSingleRecordSetOnly
-        {
-            get { return _resultSetType.ImplementsICollectionInterface(); }
         }
 
         private bool HasCommandTimeoutOverride

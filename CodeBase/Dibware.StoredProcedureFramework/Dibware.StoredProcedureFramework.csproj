@@ -59,10 +59,12 @@
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
-    <Compile Include="Helpers\SqlFunctionDbCommandCreator.cs" />
-    <Compile Include="Helpers\SqlFunctionExecuter.cs" />
+    <Compile Include="Helpers\SqlScalarFunctionDbCommandCreator.cs" />
+    <Compile Include="Helpers\SqlScalarFunctionExecuter.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
     <Compile Include="Helpers\SqlFunctionParameterBuilder.cs" />
+    <Compile Include="Helpers\SqlTableFunctionDbCommandCreator.cs" />
+    <Compile Include="Helpers\SqlTableFunctionExecuter.cs" />
     <Compile Include="Helpers\StoredProcedureDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlDbTypeToClrTypeMapper.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />

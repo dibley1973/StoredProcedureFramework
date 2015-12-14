@@ -53,7 +53,7 @@
     /// </remarks>
     public interface ISqlFunction<in TReturn, out TParameters>
         : ISqlFunction
-        where TReturn : class
+        
         where TParameters : class
     {
         /// <summary>

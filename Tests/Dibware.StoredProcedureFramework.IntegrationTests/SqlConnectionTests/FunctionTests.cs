@@ -1,4 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System.Linq;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.Functions;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,18 +21,42 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
         public void ScalarValueFunctionWithParameterAndReturn()
         {
             // ARRANGE
+            const int expectedValue = 100;
             var parameters = new ScalarValueFunctionWithParameterAndReturn.Parameter
             {
-                Value1 = 100
+                Value1 = expectedValue
             };
             var function = new ScalarValueFunctionWithParameterAndReturn(parameters);
 
             // ACT
-            var results = Connection.ExecuteSqlFunction(function);
+            var results = Connection.ExecuteSqlScalarFunction(function);
 
             // ASSERT
             Assert.IsNotNull(results);
-            Assert.Fail("Hmm... reulsts have zero count!");
+            Assert.AreEqual(expectedValue, results);
+        }
+
+        [TestMethod]
+        public void TableValueFunctionWithParameterAndReturn()
+        {
+            // ARRANGE
+            const int expectedCount = 3;
+            const int expectedLastValue1 = 300;
+            const string expectedLastValue2 = "Raymond Reddington";
+            var parameters = new TableValueFunctionWithParameterAndReturn.Parameter
+            {
+                Value1 = 100
+            };
+            var function = new TableValueFunctionWithParameterAndReturn(parameters);
+
+            // ACT
+            var results = Connection.ExecuteSqlTableFunction(function);
+
+            // ASSERT
+            Assert.IsNotNull(results);
+            Assert.AreEqual(expectedCount, results.Count);
+            Assert.AreEqual(expectedLastValue1, results.Last().Value1);
+            Assert.AreEqual(expectedLastValue2, results.Last().Value2);
         }
     }
 }

@@ -18,7 +18,39 @@ namespace Dibware.StoredProcedureFramework.Extensions
         /// <param name="transaction">The transaction.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
-        public static TResultSetType ExecuteSqlFunction<TResultSetType, TParameterType>(
+        public static TResultSetType ExecuteSqlScalarFunction<TResultSetType, TParameterType>(
+            this SqlConnection connection,
+            ISqlFunction<TResultSetType, TParameterType> sqlFunction,
+            int? commandTimeout = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
+            where TResultSetType : new()
+            where TParameterType : class
+        {
+            if (sqlFunction == null) throw new ArgumentNullException("sqlFunction");
+
+            sqlFunction.EnsureIsFullyConstructed();
+
+            DbConnection dbConnection = connection;
+
+            return dbConnection.ExecuteSqlScalarFunction(
+                sqlFunction,
+                commandTimeout,
+                commandBehavior,
+                transaction);
+        }
+
+        /// <summary>
+        /// Executes the SQL function procedure  and gets the results..
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        /// <param name="sqlFunction">The SQl function.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <param name="commandBehavior">The command behavior.</param>
+        /// <param name="transaction">The transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">storedProcedure</exception>
+        public static TResultSetType ExecuteSqlTableFunction<TResultSetType, TParameterType>(
             this SqlConnection connection,
             ISqlFunction<TResultSetType, TParameterType> sqlFunction,
             int? commandTimeout = null,
@@ -33,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
 
             DbConnection dbConnection = connection;
 
-            return dbConnection.ExecuteSqlFunction(
+            return dbConnection.ExecuteSqlTableFunction(
                 sqlFunction,
                 commandTimeout,
                 commandBehavior,

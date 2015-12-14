@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.Base
 {
     public abstract class SqlFunctionBase<TReturn, TParameters>
         : SqlFunctionBase, ISqlFunction<TReturn, TParameters>
-        where TReturn : class, new()
+        where TReturn : new()
         where TParameters : class, new()
     {
         #region Fields

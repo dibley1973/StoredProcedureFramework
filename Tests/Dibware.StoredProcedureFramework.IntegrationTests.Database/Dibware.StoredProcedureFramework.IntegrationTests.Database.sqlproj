@@ -111,6 +111,7 @@
     <Build Include="dbo\Functions\ScalarValueFunctionWithParameterAndReturn.sql" />
     <Build Include="dbo\Stored Procedures\IssueNumberFive.sql" />
     <Build Include="dbo\Stored Procedures\DistinctRecordsStoredProcedure.sql" />
+    <Build Include="dbo\Functions\TableValueFunctionWithParameterAndReturn.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

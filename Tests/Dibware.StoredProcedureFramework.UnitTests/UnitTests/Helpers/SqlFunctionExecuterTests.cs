@@ -58,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllConnection_ThrowsException()
         {
             // ACT
-            SqlFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(null, SqlFunctionName);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(null, SqlFunctionName);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllProcedureName_ThrowsException()
         {
             // ACT
-            SqlFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, null);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, null);
         }
 
         [TestMethod]
@@ -74,14 +74,14 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithEmptyProcedureName_ThrowsException()
         {
             // ACT
-            SqlFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, string.Empty);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, string.Empty);
         }
 
         [TestMethod]
         public void Constructor_WhenCalledWithValidconnectionAndProcedureName_ReturnsConstructedInstance()
         {
             // ACT
-            var actualSqlFunctionExecuter = SqlFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, SqlFunctionName);
+            var actualSqlFunctionExecuter = SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, SqlFunctionName);
 
             // ASSERT
             Assert.IsNotNull(actualSqlFunctionExecuter);

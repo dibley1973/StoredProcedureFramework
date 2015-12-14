@@ -14,13 +14,13 @@ namespace Dibware.StoredProcedureFramework.Extensions
     public static class DbConnectionExtensions
     {
         [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static TResultSetType ExecuteSqlFunction<TResultSetType, TParameterType>(
+        public static TResultSetType ExecuteSqlScalarFunction<TResultSetType, TParameterType>(
             this DbConnection instance,
             ISqlFunction<TResultSetType, TParameterType> sqlFunction,
             int? commandTimeoutOverride = null,
             CommandBehavior commandBehavior = CommandBehavior.Default,
             SqlTransaction transaction = null)
-            where TResultSetType : class, new()
+            where TResultSetType : new()
             where TParameterType : class
         {
             if (sqlFunction == null) throw new ArgumentNullException("sqlFunction");
@@ -36,7 +36,49 @@ namespace Dibware.StoredProcedureFramework.Extensions
             bool executeWithinTransaction = (transaction != null);
             TResultSetType results;
 
-            using (var procedureExecuter = new SqlFunctionExecuter<TResultSetType>(instance, procedureFullName))
+            using (var procedureExecuter = new SqlScalarFunctionExecuter<TResultSetType>(instance, procedureFullName))
+            {
+                if (withCommandTimoutSupplied) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
+                if (withParametersSupplied) procedureExecuter.WithParameters(sqlFunctionParameters);
+                if (executeWithinTransaction) procedureExecuter.WithTransaction(transaction);
+                results = procedureExecuter
+                    .WithCommandBehavior(commandBehavior)
+                    .Execute()
+                    .Results;
+            }
+
+            // TODO: Investigate if needed!
+            //new OutputParameterValueProcessor<TResultSetType, TParameterType>(
+            //    procedureSqlParameters,
+            //    sqlFunction).Processs();
+
+            return results;
+        }
+
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static TResultSetType ExecuteSqlTableFunction<TResultSetType, TParameterType>(
+            this DbConnection instance,
+            ISqlFunction<TResultSetType, TParameterType> sqlFunction,
+            int? commandTimeoutOverride = null,
+            CommandBehavior commandBehavior = CommandBehavior.Default,
+            SqlTransaction transaction = null)
+            where TResultSetType : new()
+            where TParameterType : class
+        {
+            if (sqlFunction == null) throw new ArgumentNullException("sqlFunction");
+            sqlFunction.EnsureIsFullyConstructed();
+
+            var sqlFunctionParameters =
+                new SqlFunctionSqlParameterBuilder<TResultSetType, TParameterType>(sqlFunction)
+                    .BuildSqlParameters()
+                    .SqlParameters;
+            string procedureFullName = sqlFunction.GetTwoPartName();
+            bool withParametersSupplied = (sqlFunctionParameters != null);
+            bool withCommandTimoutSupplied = (commandTimeoutOverride.HasValue);
+            bool executeWithinTransaction = (transaction != null);
+            TResultSetType results;
+
+            using (var procedureExecuter = new SqlTableFunctionExecuter<TResultSetType>(instance, procedureFullName))
             {
                 if (withCommandTimoutSupplied) procedureExecuter.WithCommandTimeoutOverride(commandTimeoutOverride.Value);
                 if (withParametersSupplied) procedureExecuter.WithParameters(sqlFunctionParameters);
