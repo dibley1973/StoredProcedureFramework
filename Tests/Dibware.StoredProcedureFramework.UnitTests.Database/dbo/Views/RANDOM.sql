@@ -1,3 +1,0 @@
-﻿CREATE VIEW RANDOM
-AS
-    SELECT RAND() AS RandomValue
