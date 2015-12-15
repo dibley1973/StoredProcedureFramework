@@ -34,3 +34,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.7.*")]
 [assembly: AssemblyFileVersion("0.7.0.0")]
+[assembly: InternalsVisibleTo("Dibware.StoredProcedureFramework.Tests")]

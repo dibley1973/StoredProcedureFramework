@@ -1,19 +1,22 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Helpers.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers.Base
 {
-    public abstract class DbCommandCreatorBase
+    internal abstract class DbCommandCreatorBase
+        : IDbCommandCreator
     {
         #region Fields
 
+        private const int DefaultCommandTimeout = 30;
         private IDbCommand _command;
         private readonly IDbConnection _connection;
         private IEnumerable<SqlParameter> _parameters;
         private string _commandText;
-        private int? _commandTimeout;
+        private int _commandTimeout = DefaultCommandTimeout;
         private SqlTransaction _transaction;
         private CommandType _commandType;
 
@@ -43,7 +46,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// Builds and sets up the command based upon the settings that have 
         /// been previously passed to this builder.
         /// </summary>
-        protected void BuildCommand()
+        public IDbCommandCreator BuildCommand()
         {
             CreateCommand();
             LoadCommandParametersIfAnyExist();
@@ -51,6 +54,8 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             SetCommandTypeForCommand();
             SetCommandTimeoutIfExistsForCommand();
             SetTransactionIfExistsForCommand();
+
+            return this;
         }
 
         /// <summary>
@@ -105,7 +110,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             get { return _parameters != null; }
         }
 
-        protected void LoadCommandParametersIfAnyExist()
+        private void LoadCommandParametersIfAnyExist()
         {
             if (HasParameters)
             {
@@ -126,11 +131,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
         protected virtual void SetCommandTimeoutIfExistsForCommand()
         {
-            bool hasCommandTimeout = _commandTimeout.HasValue;
-            if (hasCommandTimeout)
-            {
-                _command.CommandTimeout = _commandTimeout.Value;
-            }
+            _command.CommandTimeout = _commandTimeout;
         }
 
         protected virtual void SetTransactionIfExistsForCommand()
@@ -144,7 +145,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _commandText = commandText;
         }
 
-        protected void WithCommandTimeout(int commandTimeout)
+        public void WithCommandTimeout(int commandTimeout)
         {
             _commandTimeout = commandTimeout;
         }
@@ -154,12 +155,12 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _commandType = commandType;
         }
 
-        protected void WithParameters(IEnumerable<SqlParameter> parameters)
+        public void WithParameters(IEnumerable<SqlParameter> parameters)
         {
             _parameters = parameters;
         }
 
-        protected void WithTransaction(SqlTransaction transaction)
+        public void WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
         }

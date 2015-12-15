@@ -6,7 +6,10 @@ using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public class StoredProcedureDbCommandCreator
+    /// <summary>
+    /// Responsible for creating stored procedure commands
+    /// </summary>
+    internal class StoredProcedureDbCommandCreator
         : DbCommandCreatorBase
     {
         #region Constructor

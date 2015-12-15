@@ -1,13 +1,14 @@
 ﻿using Dibware.StoredProcedureFramework.Helpers.Base;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public class SqlScalarFunctionDbCommandCreator
-        : SqlFunctionDbCommandCreatorBase 
+    /// <summary>
+    /// Responsible for creating Scalar function commands
+    /// </summary>
+    internal class SqlScalarFunctionDbCommandCreator
+        : SqlFunctionDbCommandCreatorBase
     {
         #region Constructor
 
@@ -65,43 +66,43 @@ namespace Dibware.StoredProcedureFramework.Helpers
             return builder;
         }
 
-        /// <summary>
-        /// Adds a command timeout to the builder which will be passed to the command
-        /// when it is construted.
-        /// </summary>
-        /// <param name="commandTimeout">The value of the command timeout.</param>
-        /// <returns></returns>
-        public SqlScalarFunctionDbCommandCreator WithCommandTimeout(int? commandTimeout)
-        {
-            if (!commandTimeout.HasValue) throw new ArgumentNullException("commandTimeout");
+        ///// <summary>
+        ///// Adds a command timeout to the builder which will be passed to the command
+        ///// when it is construted.
+        ///// </summary>
+        ///// <param name="commandTimeout">The value of the command timeout.</param>
+        ///// <returns></returns>
+        //public SqlScalarFunctionDbCommandCreator WithCommandTimeout(int? commandTimeout)
+        //{
+        //    if (!commandTimeout.HasValue) throw new ArgumentNullException("commandTimeout");
 
-            base.WithCommandTimeout(commandTimeout.Value);
-            return this;
-        }
+        //    base.WithCommandTimeout(commandTimeout.Value);
+        //    return this;
+        //}
 
-        /// <summary>
-        /// Adds the specified parameters to the builder, and these will be added
-        /// to the command when it is built.
-        /// </summary>
-        /// <param name="parameters">The parameters to add to the command.</param>
-        /// <returns></returns>
-        public new SqlScalarFunctionDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
-        {
-            base.WithParameters(parameters);
-            return this;
-        }
+        ///// <summary>
+        ///// Adds the specified parameters to the builder, and these will be added
+        ///// to the command when it is built.
+        ///// </summary>
+        ///// <param name="parameters">The parameters to add to the command.</param>
+        ///// <returns></returns>
+        //public new SqlScalarFunctionDbCommandCreator WithParameters(IEnumerable<SqlParameter> parameters)
+        //{
+        //    base.WithParameters(parameters);
+        //    return this;
+        //}
 
-        /// <summary>
-        /// Adds the specified transaction to the builder, and these will be added
-        /// to the command when it is built.
-        /// </summary>
-        /// <param name="transaction">The transaction to add to teh command.</param>
-        /// <returns></returns>
-        public new SqlScalarFunctionDbCommandCreator WithTransaction(SqlTransaction transaction)
-        {
-            base.WithTransaction(transaction);
-            return this;
-        }
+        ///// <summary>
+        ///// Adds the specified transaction to the builder, and these will be added
+        ///// to the command when it is built.
+        ///// </summary>
+        ///// <param name="transaction">The transaction to add to teh command.</param>
+        ///// <returns></returns>
+        //public new SqlScalarFunctionDbCommandCreator WithTransaction(SqlTransaction transaction)
+        //{
+        //    base.WithTransaction(transaction);
+        //    return this;
+        //}
 
         #endregion
 

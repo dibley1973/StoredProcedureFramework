@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public class UserDefinedFunctionDbCommandCreator
+    internal class UserDefinedFunctionDbCommandCreator
         : DbCommandCreatorBase
     {
         #region Fields

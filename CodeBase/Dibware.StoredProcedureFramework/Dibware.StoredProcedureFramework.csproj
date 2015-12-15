@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dibware.Helpers, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Dibware.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -58,7 +62,9 @@
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\Base\SqlFunctionDbCommandCreatorBase.cs" />
+    <Compile Include="Helpers\Base\SqlProgrammabilityObjectExecuterBase.cs" />
     <Compile Include="Helpers\ClrTypeToSqlDbTypeMapper.cs" />
+    <Compile Include="Helpers\Contracts\IDbCommandCreator.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
     <Compile Include="Helpers\SqlScalarFunctionDbCommandCreator.cs" />
@@ -112,7 +118,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Libraries\Dibware.Helpers.dll" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ExceptionMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

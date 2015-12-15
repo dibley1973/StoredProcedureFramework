@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
     /// This is the base class which all DbCommand creators for all Sql Functions
     /// should inherit from.
     /// </summary>
-    public abstract class SqlFunctionDbCommandCreatorBase
+    internal abstract class SqlFunctionDbCommandCreatorBase
         : DbCommandCreatorBase
     {
         #region Constructor
