@@ -71,7 +71,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void GetTableValuedParameterFromList_FromNullList_Throws()
+        public void GetTableValuedParameterFromList_FromNullList_ThrowsArgumentNullException()
         {
             // ARRANGE
 
@@ -84,7 +84,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetTableValuedParameterFromList_FromListOfNulls_Throws()
+        public void GetTableValuedParameterFromList_FromListOfNulls_ThrowsNullReferenceException()
         {
             // ARRANGE
             var itemList = new List<SimpleParameterTableType>
@@ -99,6 +99,21 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ASSERT
             Assert.IsNotNull(actualSqlDataRecords);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void GetTableValuedParameterFromList_FromEmptyList_ReturnsDefault()
+        {
+            // ARRANGE
+            var itemList = new List<SimpleParameterTableType>();
+
+            // ACT
+            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList);
+
+            // ASSERT
+            Assert.IsNotNull(actualSqlDataRecords);
+            Assert.AreEqual(0, actualSqlDataRecords.Count());
         }
 
         /// <summary>
