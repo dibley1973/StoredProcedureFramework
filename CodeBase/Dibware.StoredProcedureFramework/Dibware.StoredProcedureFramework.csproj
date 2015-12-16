@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\NoParametersSqlFunctionBase.cs" />
     <Compile Include="Base\SqlFunctionBase.cs" />
     <Compile Include="Base\SqlFunctionBaseOfType.cs" />
     <Compile Include="Base\StoredProcedureBaseOfType.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Helpers\StoredProcedureExecuter.cs" />
     <Compile Include="Helpers\TableValuedParameterHelper.cs" />
     <Compile Include="Helpers\UserDefinedFunctionDbCommandCreator.cs" />
+    <Compile Include="NullSqlFunctionParameters.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
     <Compile Include="Extensions\DbConnectionExtensions.cs" />

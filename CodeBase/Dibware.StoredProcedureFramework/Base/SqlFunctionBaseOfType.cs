@@ -47,19 +47,32 @@ namespace Dibware.StoredProcedureFramework.Base
                 sqlFunctionName, parameters);
         }
 
+        public SqlFunctionBase(string schemaName,
+            string sqlFunctionName,
+            TParameters parameters)
+        {
+            if (schemaName == null) throw new ArgumentNullException("schemaName");
+            if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
+            if (sqlFunctionName == null) throw new ArgumentNullException("sqlFunctionName");
+            if (sqlFunctionName == string.Empty) throw new ArgumentOutOfRangeException("sqlFunctionName");
+
+            InitializeFromParameters(schemaName,
+                sqlFunctionName, parameters);
+        }
+
         /// <summary>
         /// Initializes this instance from paremeters. to be called from constructors
         /// </summary>
         private void InitializeFromParameters(string schemaName,
-            string procedureName, TParameters parameters)
+            string functionName, TParameters parameters)
         {
             if (schemaName == null) throw new ArgumentNullException("schemaName");
             if (schemaName == string.Empty) throw new ArgumentOutOfRangeException("schemaName");
-            if (procedureName == null) throw new ArgumentNullException("procedureName");
-            if (procedureName == string.Empty) throw new ArgumentOutOfRangeException("procedureName");
+            if (functionName == null) throw new ArgumentNullException("functionName");
+            if (functionName == string.Empty) throw new ArgumentOutOfRangeException("functionName");
 
             SetSchemaName(schemaName);
-            SetFunctionName(procedureName);
+            SetFunctionName(functionName);
             SetParameters(parameters);
             TryInitializeFromAttributesInternal();
         }
@@ -83,18 +96,18 @@ namespace Dibware.StoredProcedureFramework.Base
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance has null stored procedure parameters.
+        /// Gets a value indicating whether this instance has null Sql function parameters.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance has null stored procedure parameters; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance has null Sql function parameters; otherwise, <c>false</c>.
         /// </value>
         public bool HasNullSqlFunctionParameters
         {
-            get { return Parameters is NullStoredProcedureParameters; }
+            get { return Parameters is NullSqlFunctionParameters; }
         }
 
         /// <summary>
-        /// The object that represents the procedure parameters
+        /// The object that represents the Sql function parameters
         /// </summary>
         public TParameters Parameters
         {
@@ -132,7 +145,7 @@ namespace Dibware.StoredProcedureFramework.Base
         #region Methods : Public
 
         /// <summary>
-        /// Determines if the procedure is fully constructed and in a valid 
+        /// Determines if the function is fully constructed and in a valid 
         /// state which can be called and executed
         /// </summary>
         /// <returns></returns>

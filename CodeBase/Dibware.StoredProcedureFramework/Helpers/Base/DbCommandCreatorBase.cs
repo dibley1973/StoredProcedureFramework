@@ -105,7 +105,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _command = _connection.CreateCommand();
         }
 
-        private bool HasParameters
+        protected bool HasParameters
         {
             get { return _parameters != null; }
         }

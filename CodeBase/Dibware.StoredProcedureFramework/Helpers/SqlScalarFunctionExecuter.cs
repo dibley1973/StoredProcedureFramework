@@ -116,7 +116,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void ExecuteScalarCommandForSingleRecordSet()
         {
-            Results = (TResultSetType)Command.ExecuteScalar();
+            var result = Command.ExecuteScalar();
+            if (result == DBNull.Value)
+            {
+                Results = default(TResultSetType);
+            }
+            else
+            {
+                Results = (TResultSetType) result;
+            }
         }
 
         #endregion

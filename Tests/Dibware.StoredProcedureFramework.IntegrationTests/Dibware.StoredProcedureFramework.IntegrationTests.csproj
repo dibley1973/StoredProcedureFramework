@@ -79,7 +79,11 @@
     <Compile Include="DbContextTests\SizeAttributeTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\TableValueParameterTestsWithDbContext.cs" />
     <Compile Include="DbContextTests\StoredProcedureWithTransactions.cs" />
+    <Compile Include="Functions\ScalarValueFunctionWithNoParametersButReturn.cs" />
+    <Compile Include="Functions\ScalarValueFunctionWithParameterAndNullReturn.cs" />
     <Compile Include="Functions\ScalarValueFunctionWithParameterAndReturn.cs" />
+    <Compile Include="Functions\TableValueFunctionWithoutParameterButWithReturn.cs" />
+    <Compile Include="Functions\TableValueFunctionWithParameterAndNullableReturn.cs" />
     <Compile Include="Functions\TableValueFunctionWithParameterAndReturn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -96,6 +100,7 @@
     <Compile Include="SqlConnectionTests\ReturnNoResultTestsWithDbContext.cs" />
     <Compile Include="SqlConnectionTests\SizeAttributeTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\StoredProcedureWithTransactions.cs" />
+    <Compile Include="SqlConnectionTests\TableValueFunctionTests.cs" />
     <Compile Include="SqlConnectionTests\TableValueParameterTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\IncorrectParameterTypeTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\AllCommonDataTypesTestsWithSqlConnection.cs" />
@@ -103,7 +108,7 @@
     <Compile Include="SqlConnectionTests\RecordSetNotInstantiatedTestsWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\DbConnectionExtensionsTests.cs" />
     <Compile Include="SqlConnectionTests\SqlConnectionExtensionsTests.cs" />
-    <Compile Include="SqlConnectionTests\FunctionTests.cs" />
+    <Compile Include="SqlConnectionTests\ScalarValueFunctionTests.cs" />
     <Compile Include="SqlConnectionTests\IssueNumberFiveTests.cs" />
     <Compile Include="SqlConnectionTests\DistinctRecordsTest.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />

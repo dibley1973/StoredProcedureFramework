@@ -112,6 +112,10 @@
     <Build Include="dbo\Stored Procedures\IssueNumberFive.sql" />
     <Build Include="dbo\Stored Procedures\DistinctRecordsStoredProcedure.sql" />
     <Build Include="dbo\Functions\TableValueFunctionWithParameterAndReturn.sql" />
+    <Build Include="dbo\Functions\ScalarValueFunctionWithParameterAndNullReturn.sql" />
+    <Build Include="dbo\Functions\ScalarValueFunctionWithNoParametersButReturn.sql" />
+    <Build Include="dbo\Functions\TableValueFunctionWithParameterAndNullableReturn.sql" />
+    <Build Include="dbo\Functions\TableValueFunctionWithoutParameterButWithReturn.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

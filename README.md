@@ -9,7 +9,7 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 This is an on-going project, 0.7 is WIP, but v0.6 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 0.7 WIP 
+* 0.7 WIP (support for Scalar functions and Table value functions)
 * 0.6 (Release Candidate) Cleaned code, bug fix for Issue #5 and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
@@ -48,11 +48,10 @@ The aim of this project is to provide the following:
 * (Should) Ability to handle lesser used return data types **Not currently on roadmap**
 * (Should) Warn calling code if parameter value data may be truncated due to smaller parameter type **On-going Investigation**
 * (Should) Implement David Doran's "FastActivator" for object instantiation **Investigated: no gain**
-* (Could) Ability to return results from Sql User Defined Scalar Function **Under investigation**
-* (Could) Ability to return results from Sql User Defined Table Function **Under investigation**
+* (Could) Ability to return results from Sql User Defined Scalar Function **Done**
+* (Could) Ability to return results from Sql User Defined Table Function **Done**
 * (Could) Not have any "Resharper" warnings **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
-* (Could) Ability to support Transactions **Done**
 
 ## WIKI
 Please visit the wiki for examples how to define classes which represent a stored procedure and use them in code to call the stored procedures they represent [WIKI link](https://github.com/dibley1973/StoredProcedureFramework/wiki)

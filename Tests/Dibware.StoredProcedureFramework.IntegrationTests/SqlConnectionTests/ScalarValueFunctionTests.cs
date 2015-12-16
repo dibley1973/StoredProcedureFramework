@@ -2,12 +2,11 @@
 using Dibware.StoredProcedureFramework.IntegrationTests.Functions;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class FunctionTests : BaseSqlConnectionIntegrationTest
+    public class ScalarValueFunctionTests : BaseSqlConnectionIntegrationTest
     {
         // This is a a little investigation into what it maight take to
         // adapt framework to handle scalar-value and table-value functions..
@@ -17,7 +16,22 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
         //  cannot access field by name, but by ordinal
 
         [TestMethod]
-        public void ScalarValueFunctionWithParameterAndReturn()
+        public void ScalarValueFunctionWithNoParametersButReturn_ReturnsCorrectValue()
+        {
+            // ARRANGE
+            const int expectedValue = 202;
+            var function = new ScalarValueFunctionWithNoParametersButReturn();
+
+            // ACT
+            var results = Connection.ExecuteSqlScalarFunction(function);
+
+            // ASSERT
+            Assert.IsNotNull(results);
+            Assert.AreEqual(expectedValue, results);
+        }
+
+        [TestMethod]
+        public void ScalarValueFunctionWithParameterAndReturn_ReturnsCorrectValue()
         {
             // ARRANGE
             const int expectedValue = 100;
@@ -36,26 +50,21 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
         }
 
         [TestMethod]
-        public void TableValueFunctionWithParameterAndReturn()
+        public void ScalarValueFunctionWithParameterAndNullReturn_ReturnsNullValue()
         {
             // ARRANGE
-            const int expectedCount = 3;
-            const int expectedLastValue1 = 300;
-            const string expectedLastValue2 = "Raymond Reddington";
-            var parameters = new TableValueFunctionWithParameterAndReturn.Parameter
+            const int expectedValue = 100;
+            var parameters = new ScalarValueFunctionWithParameterAndNullReturn.Parameter
             {
-                Value1 = 100
+                Value1 = expectedValue
             };
-            var function = new TableValueFunctionWithParameterAndReturn(parameters);
+            var function = new ScalarValueFunctionWithParameterAndNullReturn(parameters);
 
             // ACT
-            var results = Connection.ExecuteSqlTableFunction(function);
+            var results = Connection.ExecuteSqlScalarFunction(function);
 
             // ASSERT
-            Assert.IsNotNull(results);
-            Assert.AreEqual(expectedCount, results.Count);
-            Assert.AreEqual(expectedLastValue1, results.Last().Value1);
-            Assert.AreEqual(expectedLastValue2, results.Last().Value2);
+            Assert.IsNull(results);
         }
     }
 }

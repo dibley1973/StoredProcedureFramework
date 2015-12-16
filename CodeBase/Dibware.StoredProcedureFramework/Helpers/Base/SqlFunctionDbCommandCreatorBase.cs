@@ -35,8 +35,16 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// </summary>
         protected override void SetCommandTextForCommand()
         {
-            var parametersArray = Parameters.Select(parameter => @"@" + parameter.ParameterName).ToArray();
-            string parameters = string.Join(",", parametersArray);
+            string parameters;
+            if (HasParameters)
+            {
+                var parametersArray = Parameters.Select(parameter => @"@" + parameter.ParameterName).ToArray();
+                parameters = string.Join(",", parametersArray);
+            }
+            else
+            {
+                parameters = string.Empty;
+            }
             string functionCommandText = String.Format(
                 FunctionCommandTextFormat,
                 CommandText,
