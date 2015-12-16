@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using Dibware.Helpers.Validation;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -33,6 +34,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <returns></returns>
         internal static IEnumerable<SqlDataRecord> GetTableValuedParameterFromList(IList itemList)
         {
+            if (itemList == null) throw new ArgumentNullException();
+
             // TODO: Consider breaking this method into a dedicated instance helper class
 
             List<SqlDataRecord> recordList = new List<SqlDataRecord>();
@@ -52,6 +55,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
             foreach (object item in itemList)
             {
+                Ensure<object>.IsNotNull(item, "item");
+
                 CreateAndAddSqlDataRecord(columnList, mappedProperties, mapping, item, recordList);
             }
 
@@ -72,6 +77,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
             PropertyInfo[] mappedProperties, Dictionary<string, string> mapping, object item,
             List<SqlDataRecord> recordList)
         {
+            if (item  == null) throw new  ArgumentNullException("item");
+
             SqlDataRecord record = new SqlDataRecord(columnList.ToArray());
             
             for (int index = 0; index < columnList.Count(); index += 1)

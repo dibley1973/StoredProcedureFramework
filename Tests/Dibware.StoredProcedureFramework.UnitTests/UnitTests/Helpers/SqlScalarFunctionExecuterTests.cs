@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
     [TestClass]
-    public class SqlFunctionExecuterTests
+    public class SqlScalarFunctionExecuterTests
     {
         #region Fields
 
@@ -58,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllConnection_ThrowsException()
         {
             // ACT
-            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(null, SqlFunctionName);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlScalarFunctionExecuter(null, SqlFunctionName);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllProcedureName_ThrowsException()
         {
             // ACT
-            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, null);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlScalarFunctionExecuter(Connection, null);
         }
 
         [TestMethod]
@@ -74,14 +74,14 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithEmptyProcedureName_ThrowsException()
         {
             // ACT
-            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, string.Empty);
+            SqlScalarFunctionExecuter<TestResultSet>.CreateSqlScalarFunctionExecuter(Connection, string.Empty);
         }
 
         [TestMethod]
         public void Constructor_WhenCalledWithValidconnectionAndProcedureName_ReturnsConstructedInstance()
         {
             // ACT
-            var actualSqlFunctionExecuter = SqlScalarFunctionExecuter<TestResultSet>.CreateSqlFunctionExecuter(Connection, SqlFunctionName);
+            var actualSqlFunctionExecuter = SqlScalarFunctionExecuter<TestResultSet>.CreateSqlScalarFunctionExecuter(Connection, SqlFunctionName);
 
             // ASSERT
             Assert.IsNotNull(actualSqlFunctionExecuter);

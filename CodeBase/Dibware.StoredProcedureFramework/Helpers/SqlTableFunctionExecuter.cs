@@ -35,7 +35,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </exception>
         public SqlTableFunctionExecuter(IDbConnection connection, string functionName)
             : base(
-                Ensure<IDbConnection>.ArgumentIsNotNull(connection, "connection"),
+                Ensure<IDbConnection>.IsNotNull(connection, "connection"),
                 Ensure.ArgumentIsNotNullOrWhiteSpace(functionName, "functionName"))
         { }
 

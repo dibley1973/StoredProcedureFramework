@@ -70,6 +70,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UnitTests\Base\SqlFunctionBaseTests.cs" />
     <Compile Include="UnitTests\DataInfo\StringInfoTests.cs" />
     <Compile Include="Examples\StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
@@ -82,7 +83,11 @@
     <Compile Include="UnitTests\Helpers\DbCommandFactoryTests.cs" />
     <Compile Include="UnitTests\Helpers\OutputParameterValueProcessorTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureExecuterTests.cs" />
-    <Compile Include="UnitTests\Helpers\SqlFunctionExecuterTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlScalarFunctionExecuterTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlScalarFunctionDbCommandCreatorTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlTableFunctionDbCommandCreatorTests.cs" />
+    <Compile Include="UnitTests\Helpers\SqlTableFunctionExecuterTests.cs" />
+    <Compile Include="UnitTests\Helpers\TableValuedParameterHelperTests.cs" />
     <Compile Include="UnitTests\Helpers\UserDefinedFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />

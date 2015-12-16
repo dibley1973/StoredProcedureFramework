@@ -8,11 +8,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
     [TestClass]
-    public class StoredProcedureDbCommandCreatorTests
+    public class SqlScalarFunctionDbCommandCreatorTests
     {
         #region Fields
 
-        const string StoredProcedureName = "DummyProcedure";
+        const string FunctionName = "DummyFunction";
         const string ConnectionString = "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;";
         SqlConnection _connection;
 
@@ -59,7 +59,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllConnection_ThrowsException()
         {
             // ACT
-            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(null, StoredProcedureName);
+            SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(null, FunctionName);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithNulllProcedureName_ThrowsException()
         {
             // ACT
-            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, null);
+            SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, null);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Constructor_WhenCalledWithEmptyProcedureName_ThrowsException()
         {
             // ACT
-            StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, string.Empty);
+            SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, string.Empty);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandProperty_WhenBuildCommmandNotCalled_ReturnsNull()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             var actualCommand = builder.Command;
@@ -99,7 +99,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandProperty_WhenBuildCommmandIsCalled_ReturnsInstance()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -113,7 +113,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandProperty_WhenBuildCommmandTwice_ReturnsDistinctInstances()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -133,7 +133,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandText_WhenBuildCommmandIsCalled_ReturnsProcedureName()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            string expectedCommandText = String.Format("SELECT {0} ()", FunctionName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -141,7 +142,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             var actualCommandText = actualCommand.CommandText;
 
             // ASSERT
-            Assert.AreEqual(StoredProcedureName, actualCommandText);
+            Assert.AreEqual(expectedCommandText, actualCommandText);
         }
 
         #endregion
@@ -153,7 +154,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const int defaultCommandTimeout = 30;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -169,7 +170,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const int expectedCommandTimeout = 120;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder
@@ -187,7 +188,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandTimout_WhenWithCommandTimeoutIsCalledWithNullValue_ExceptionIsThrown()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder
@@ -205,8 +206,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void CommandType_WhenBuildCommmandIsCalled_ReturnsStoredProcedureCommandType()
         {
             // ARRANGE
-            const CommandType expectedCommandType = CommandType.StoredProcedure;
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            const CommandType expectedCommandType = CommandType.Text;
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -225,7 +226,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Parameters_WhenBuildCommmandIsNotCalled_ReturnsEmptParameterCollection()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -245,7 +246,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
                 new SqlParameter("Id", SqlDbType.Int),
                 new SqlParameter("Name", SqlDbType.NVarChar),
             };
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder
@@ -267,7 +268,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Transaction_WhenBuildCommmandIsCalledAndNoTransactionSet_ReturnsNull()
         {
             // ARRANGE
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();
@@ -284,7 +285,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             SqlTransaction expectedTransaction = Connection.BeginTransaction();
-            var builder = StoredProcedureDbCommandCreator.CreateStoredProcedureDbCommandCreator(Connection, StoredProcedureName);
+            var builder = SqlScalarFunctionDbCommandCreator.CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
 
             // ACT
             builder.BuildCommand();

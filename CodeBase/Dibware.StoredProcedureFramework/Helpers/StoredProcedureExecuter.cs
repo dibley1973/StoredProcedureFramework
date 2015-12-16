@@ -33,7 +33,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </exception>
         public StoredProcedureExecuter(IDbConnection connection, string procedureName)
             : base(
-                Ensure<IDbConnection>.ArgumentIsNotNull(connection, "connection"),
+                Ensure<IDbConnection>.IsNotNull(connection, "connection"),
                 Ensure.ArgumentIsNotNullOrWhiteSpace(procedureName, "procedureName"))
         { }
 

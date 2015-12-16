@@ -34,7 +34,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </exception>
         public SqlScalarFunctionExecuter(IDbConnection connection, string functionName)
             : base(
-                Ensure<IDbConnection>.ArgumentIsNotNull(connection, "connection"),
+                Ensure<IDbConnection>.IsNotNull(connection, "connection"),
                 Ensure.ArgumentIsNotNullOrWhiteSpace(functionName, "functionName"))
         { }
 
@@ -82,7 +82,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// or
         /// procedureName
         /// </exception>
-        public static SqlScalarFunctionExecuter<TResultSetType> CreateSqlFunctionExecuter(
+        public static SqlScalarFunctionExecuter<TResultSetType> CreateSqlScalarFunctionExecuter(
             DbConnection connection,
             string procedureName)
         {
@@ -101,7 +101,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         protected override IDbCommandCreator CreateCommandCreator()
         {
             return SqlScalarFunctionDbCommandCreator
-                .CreateSqlFunctionDbCommandCreator(Connection, FunctionName);
+                .CreateSqlScalarFunctionDbCommandCreator(Connection, FunctionName);
         }
 
         protected override void ExecuteCommand()

@@ -19,9 +19,9 @@ namespace Dibware.StoredProcedureFramework.Base
 
         #region Constructors
 
-        public SqlFunctionBase()
-            : this(null)
-        { }
+        //protected SqlFunctionBase()
+        //    : this(null)
+        //{ }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlFunctionBase{TReturn, TParameters}"/> 
@@ -37,7 +37,7 @@ namespace Dibware.StoredProcedureFramework.Base
                 funtionName, parameters);
         }
 
-        public SqlFunctionBase(string sqlFunctionName,
+        protected SqlFunctionBase(string sqlFunctionName,
             TParameters parameters)
         {
             if (sqlFunctionName == null) throw new ArgumentNullException("sqlFunctionName");
@@ -47,7 +47,7 @@ namespace Dibware.StoredProcedureFramework.Base
                 sqlFunctionName, parameters);
         }
 
-        public SqlFunctionBase(string schemaName,
+        protected SqlFunctionBase(string schemaName,
             string sqlFunctionName,
             TParameters parameters)
         {
