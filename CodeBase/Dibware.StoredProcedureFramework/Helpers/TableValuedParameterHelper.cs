@@ -85,7 +85,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             {
                 var valueOfMatchedProperty = mappedProperties
                     .First(propertyInfo => propertyInfo.Name == mapping[columnList[index].Name])
-                    .GetValue(item, null);
+                    .GetValue(item);
 
                 record.SetValue(index, valueOfMatchedProperty);
             }

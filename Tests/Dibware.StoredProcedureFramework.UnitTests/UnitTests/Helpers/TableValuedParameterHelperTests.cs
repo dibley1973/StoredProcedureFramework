@@ -1,10 +1,11 @@
 ﻿using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Microsoft.SqlServer.Server;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Microsoft.SqlServer.Server;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
@@ -183,7 +184,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             var firstFieldOfFirstRecord = firstRecord.GetSqlDecimal(0);
             var secondFieldOfFirstRecord = firstRecord.GetSqlDecimal(1);
             var thirdFieldOfFirstRecord = firstRecord.GetSqlDecimal(2);
-            
+
             // ASSERT
             Assert.AreEqual(expectedFirstFieldPrecision, firstFieldOfFirstRecord.Precision);
             Assert.AreEqual(expectedSecondFieldPrecision, secondFieldOfFirstRecord.Precision);
@@ -208,7 +209,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             var firstFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(0);
             var secondFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(1);
             var thirdFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(2);
-            
+
             // ASSERT
             Assert.AreEqual(expectedFirstFieldPrecision, firstFieldOfFirstRecordMetaData.Precision);
             Assert.AreEqual(expectedSecondFieldPrecision, secondFieldOfFirstRecordMetaData.Precision);
@@ -316,6 +317,51 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.AreEqual(expectedThirdFieldSizeMaxLength, thirdFieldOfFirstRecordMetaData.MaxLength);
         }
 
+        [TestMethod]
+        public void GetTableValuedParameterFromList_UsingListWithoutDbTypeAttribute_ReturnsFieldsWithOriginalDataType()
+        {
+            // ARRANGE
+            const SqlDbType expectedField1SqlDbType = SqlDbType.Int;
+            const SqlDbType expectedField2SqlDbType = SqlDbType.Bit;
+            const SqlDbType expectedField3SqlDbType = SqlDbType.NVarChar;
+            var itemList = new List<SimpleParameterTableType>
+            {
+                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 1 }
+            };
+
+            // ACT
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            SqlDataRecord firstRecord = actualSqlDataRecords.First();
+            var firstRecordFirstMetaData = firstRecord.GetSqlMetaData(0);
+            var firstRecordSecondMetaData = firstRecord.GetSqlMetaData(1);
+            var firstRecordThirdMetaData = firstRecord.GetSqlMetaData(2);
+
+            // ASSERT
+            Assert.AreEqual(expectedField1SqlDbType, firstRecordFirstMetaData.SqlDbType);
+            Assert.AreEqual(expectedField2SqlDbType, firstRecordSecondMetaData.SqlDbType);
+            Assert.AreEqual(expectedField3SqlDbType, firstRecordThirdMetaData.SqlDbType);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCastException))]
+        public void GetTableValuedParameterFromList_UsingListWithDbTypeAttributeAndIncorrectType_ThrowsException()
+        {
+            // ARRANGE
+            SqlDbType expectedField1SqlDbType = SqlDbType.BigInt;
+            var itemList = new List<SimpleParameterWithDbTypeAttributeTableType>
+            {
+                new SimpleParameterWithDbTypeAttributeTableType { Id = 1}
+            };
+
+            // ACT
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            SqlDataRecord firstRecord = actualSqlDataRecords.First();
+            var firstRecordFirstMetaData = firstRecord.GetSqlMetaData(0);
+
+            // ASSERT
+            Assert.AreEqual(expectedField1SqlDbType, firstRecordFirstMetaData.SqlDbType);
+        }
+    
         /// <summary>
         /// Represents a simple table type
         /// </summary>
@@ -336,6 +382,21 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             [Name("Active")]
             public bool IsActive { get; set; }
             [Name("Fullname")]
+            public string Name { get; set; }
+        }
+
+        /// <summary>
+        /// Represents a simple table type with ParameterDbType Attribute 
+        /// </summary>
+        private class SimpleParameterWithDbTypeAttributeTableType
+        {
+            [ParameterDbType(SqlDbType.BigInt)]
+            public int Id { get; set; }
+
+            [ParameterDbType(SqlDbType.Decimal)]
+            public int Count { get; set; }
+
+            [ParameterDbType(SqlDbType.NChar)]
             public string Name { get; set; }
         }
 
@@ -361,7 +422,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Precision(8)]
             [Scale(5)]
             public decimal Value2 { get; set; }
-            
+
             [Precision(9)]
             [Scale(6)]
             public decimal Value3 { get; set; }
