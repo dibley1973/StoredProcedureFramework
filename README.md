@@ -39,6 +39,7 @@ The aim of this project is to provide the following:
 * (Must) Ability to support Table Value Parameters **Done**
 * (Must) Ability to support Transactions **Done**
 * (Must) Entity Framework specific extensions must be in own assembly to remove dependency on EF DLLs for main project assembly **Done**
+* (Must) Tighten scope of any classes not in the agreed public API
 * (Should) Implement ability to call stored procedures from DbContext like "MyContext.MyStoredProcedure.Execute()" **Done**
 * (Should) Ability to handle multiple RecordSets returned from a stored procedure **Done**
 * (Should) Contain a suite of Example Tests that document usage of both assemblies **Done**
@@ -51,6 +52,7 @@ The aim of this project is to provide the following:
 * (Could) Ability to return results from Sql User Defined Scalar Function **Done**
 * (Could) Ability to return results from Sql User Defined Table Function **Done**
 * (Could) Not have any "Resharper" warnings **WIP**
+* (Could) Investigate any TODOs in code and either implement or remove **WIP**
 * (Could) Not have any "Code Clones" in production code **WIP**
 
 ## WIKI
