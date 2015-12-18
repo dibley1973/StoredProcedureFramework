@@ -60,6 +60,7 @@
     <Compile Include="Exceptions\SqlFunctionConstructionException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\Base\SqlFunctionDbCommandCreatorBase.cs" />

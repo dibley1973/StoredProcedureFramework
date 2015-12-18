@@ -419,6 +419,30 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.AreEqual(expectedField1SqlDbType, firstRecordFirstMetaData.SqlDbType);
         }
 
+        [TestMethod]
+        public void TableValueParameters_WhenBuildCalledTwice_AreNotSameInstance()
+        {
+            // ARRANGE
+            var itemList = new List<SimpleParameterTableType>
+            {
+                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
+                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 }
+            };
+
+            // ACT
+            var builder = new TableValuedParameterBuilder(itemList);
+            var actualSqlDataRecords1 = builder
+                .BuildParameters()
+                .TableValueParameters;
+
+            var actualSqlDataRecords2 = builder
+                .BuildParameters()
+                .TableValueParameters;
+
+            // ASSERT
+            Assert.AreNotSame(actualSqlDataRecords1, actualSqlDataRecords2);
+        }
+
         #endregion
 
         #region Test Classes

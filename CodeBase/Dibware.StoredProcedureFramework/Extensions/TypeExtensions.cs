@@ -48,5 +48,20 @@ namespace Dibware.StoredProcedureFramework.Extensions
             }
             return false;
         }
+
+        // TODO consider moving to dedicated class
+        public static Type GetListTypeUnderlyingType(this Type listType)
+        {
+            Type underlyingType = null;
+            foreach (Type interfaceTypes in listType.GetInterfaces())
+            {
+                if (interfaceTypes.IsGenericType &&
+                    interfaceTypes.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    underlyingType = interfaceTypes.GetGenericArguments()[0];
+                }
+            }
+            return underlyingType;
+        }
     }
 }

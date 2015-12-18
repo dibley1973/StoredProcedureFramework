@@ -23,13 +23,12 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private const int DefaultDecimalParameterScale = 2;
         private const int DefaultSizeAttribute = 50;
         private const List<SqlDataRecord> DefaultValueForEmptyList = null;
-        private readonly IList _itemList;
-        private List<SqlDataRecord> _tableValueParameters;
-        private List<SqlMetaData> _columnList = new List<SqlMetaData>();
-        private Dictionary<String, String> _mapping = new Dictionary<string, string>();
+        private readonly IList _tableValueParameterList;
+        private readonly List<SqlMetaData> _columnList;
+        private readonly Dictionary<String, String> _mapping;
         private readonly Type _listTypeUnderlyingType;
+        private List<SqlDataRecord> _tableValueParameters;
         private PropertyInfo[] _mappedProperties;
-        private readonly bool _hasEmptyItemList;
 
         #endregion
 
@@ -39,14 +38,15 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// Initializes a new instance of the <see cref="TableValuedParameterBuilder"/> 
         /// class with a new list of .
         /// </summary>
-        /// <param name="itemList">The item list.</param>
-        public TableValuedParameterBuilder(IList itemList)
+        /// <param name="tableValueParameterList">The item list.</param>
+        public TableValuedParameterBuilder(IList tableValueParameterList)
         {
-            if (itemList == null) throw new ArgumentNullException("itemList");
+            if (tableValueParameterList == null) throw new ArgumentNullException("tableValueParameterList");
 
-            _itemList = itemList;
-            _listTypeUnderlyingType = GetListTypeUnderlyingType(itemList.GetType());
-            _hasEmptyItemList = _itemList.Count == 0;
+            _tableValueParameterList = tableValueParameterList;
+            _listTypeUnderlyingType = tableValueParameterList.GetUnderlyingType();
+            _columnList = new List<SqlMetaData>();
+            _mapping = new Dictionary<string, string>();
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// </summary>
         public TableValuedParameterBuilder BuildParameters()
         {
-            if (_hasEmptyItemList)
+            if (HasEmptyItemList)
             {
                 _tableValueParameters = DefaultValueForEmptyList;
             }
@@ -95,25 +95,25 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             ClearMappings();
             ClearColumnList();
+
             foreach (PropertyInfo propertyInfo in _mappedProperties)
             {
-                var name = GetNamefromAttributeOrPropertyName(propertyInfo);
-                _mapping.Add(name, propertyInfo.Name);
-                CreateAndAddSqlMetaDataColumn(propertyInfo, name);
+                AddPropertyNameMapping(propertyInfo);
+                CreateAndAddSqlMetaDataColumn(propertyInfo);
             }
+        }
+
+        private void AddPropertyNameMapping(PropertyInfo propertyInfo)
+        {
+            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
+            _mapping.Add(name, propertyInfo.Name);
         }
 
         private void BuildTableValueParameters()
         {
             ClearParametersIfNotNullAndNotEmpty();
             InstantiateParametersIfNull();
-
-            foreach (object item in _itemList)
-            {
-                Ensure<object>.IsNotNull(item, "item");
-
-                CreateAndAddSqlDataRecord(item);
-            }
+            CreateAndAddSqlDataRecords();
         }
 
         private void ClearColumnList()
@@ -134,12 +134,25 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
         }
 
-        private void CreateAndAddSqlMetaDataColumn(PropertyInfo propertyInfo,
-            string name)
+        private void CreateAndAddSqlDataRecords()
         {
-            var columnSqlDbType = GetColumnSqlDbTypefromAttributeOrClr(propertyInfo);
+            foreach (object item in _tableValueParameterList)
+            {
+                CreateAndAddSqlDataRecord(item);
+            }
+        }
 
+        private void CreateAndAddSqlMetaDataColumn(PropertyInfo propertyInfo)
+        {
+            var columnMetaData = CreateColumnMetaData(propertyInfo);
+            _columnList.Add(columnMetaData);
+        }
+
+        private static SqlMetaData CreateColumnMetaData(PropertyInfo propertyInfo)
+        {
             SqlMetaData columnMetaData;
+            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
+            var columnSqlDbType = propertyInfo.GetColumnSqlDbTypefromAttributeOrClr();
             switch (columnSqlDbType)
             {
                 case SqlDbType.Binary:
@@ -151,88 +164,101 @@ namespace Dibware.StoredProcedureFramework.Helpers
                 case SqlDbType.Text:
                 case SqlDbType.NText:
                 case SqlDbType.VarBinary:
-                    var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
-                    int size = (null == sizeAttribute) ? DefaultSizeAttribute : sizeAttribute.Value;
-                    columnMetaData = new SqlMetaData(name, columnSqlDbType, size);
+                    columnMetaData = CreateTextColumnMetaData(propertyInfo, columnSqlDbType);
                     break;
 
                 case SqlDbType.Decimal:
-                    var precisionAttribute = propertyInfo.GetAttribute<PrecisionAttribute>();
-                    Byte precision = (null == precisionAttribute)
-                        ? (byte)DefaultDecimalParameterPrecision
-                        : precisionAttribute.Value;
-
-                    var scaleAttribute = propertyInfo.GetAttribute<ScaleAttribute>();
-                    Byte scale = (null == scaleAttribute)
-                        ? (byte)DefaultDecimalParameterScale
-                        : scaleAttribute.Value;
-
-                    columnMetaData = new SqlMetaData(name, columnSqlDbType, precision, scale);
+                    columnMetaData = CreateDecimalColumnMetaData(propertyInfo, columnSqlDbType);
                     break;
 
                 default:
-                    columnMetaData = new SqlMetaData(name, columnSqlDbType);
+                    columnMetaData = CreateDefaultColumnMetaData(propertyInfo, columnSqlDbType);
                     break;
             }
+            return columnMetaData;
+        }
 
-            _columnList.Add(columnMetaData);
+        private static SqlMetaData CreateDecimalColumnMetaData(PropertyInfo propertyInfo, SqlDbType columnSqlDbType)
+        {
+            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
+            var precision = GetColumnPrecision(propertyInfo);
+            var scale = GetColumnScale(propertyInfo);
+
+            return new SqlMetaData(name, columnSqlDbType, precision, scale);
+        }
+
+        private static SqlMetaData CreateDefaultColumnMetaData(PropertyInfo propertyInfo, SqlDbType columnSqlDbType)
+        {
+            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
+
+            return new SqlMetaData(name, columnSqlDbType);
+        }
+
+        private static SqlMetaData CreateTextColumnMetaData(PropertyInfo propertyInfo, SqlDbType columnSqlDbType)
+        {
+            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
+            var size = GetColumnSize(propertyInfo);
+
+            return new SqlMetaData(name, columnSqlDbType, size);
         }
 
         private void CreateAndAddSqlDataRecord(object item)
         {
-            if (item == null) throw new ArgumentNullException("item");
+            Ensure<object>.IsNotNull(item, "item");
 
-            SqlDataRecord record = new SqlDataRecord(_columnList.ToArray());
-
-            for (int index = 0; index < _columnList.Count(); index += 1)
-            {
-                var valueOfMatchedProperty = _mappedProperties
-                    .First(propertyInfo => propertyInfo.Name == _mapping[_columnList[index].Name])
-                    .GetValue(item);
-
-                record.SetValue(index, valueOfMatchedProperty);
-            }
+            var record = GetSqlDataRecord(item);
 
             _tableValueParameters.Add(record);
         }
 
-        // TODO: Consider moving this to PropertyInfoExtensions
-        private static SqlDbType GetColumnSqlDbTypefromAttributeOrClr(PropertyInfo propertyInfo)
+        private object GetValueOfMappedProperty(object item, int index)
         {
-            // The default type is the property CLR type, but override if ParameterDbTypeAttribute if available     
-            ParameterDbTypeAttribute dbTypeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-            SqlDbType columnType = (dbTypeAttribute != null)
-                ? dbTypeAttribute.Value
-                : ClrTypeToSqlDbTypeMapper.GetSqlDbTypeFromClrType(propertyInfo.PropertyType);
-
-            return columnType;
+            var valueOfMatchedProperty = _mappedProperties
+                .First(propertyInfo => propertyInfo.Name == _mapping[_columnList[index].Name])
+                .GetValue(item);
+            return valueOfMatchedProperty;
         }
 
-        // TODO: Consider moving this to PropertyInfoExtensions
-        private static string GetNamefromAttributeOrPropertyName(PropertyInfo propertyInfo)
+        private static byte GetColumnScale(PropertyInfo propertyInfo)
         {
-            // Get the propery column name to property name mapping. The default 
-            // name is property name, override of parameter name by attribute if available
-            NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
-            var name = (nameAttribute == null)
-                ? propertyInfo.Name
-                : nameAttribute.Value;
-            return name;
+            var scaleAttribute = propertyInfo.GetAttribute<ScaleAttribute>();
+            Byte scale = (null == scaleAttribute)
+                ? (byte)DefaultDecimalParameterScale
+                : scaleAttribute.Value;
+            return scale;
         }
 
-        // TODO consider moving to TypeExtensions
-        private static Type GetListTypeUnderlyingType(Type listType)
+        private static byte GetColumnPrecision(PropertyInfo propertyInfo)
         {
-            Type underlyingType = null;
-            foreach (Type interfaceTypes in listType.GetInterfaces())
+            var precisionAttribute = propertyInfo.GetAttribute<PrecisionAttribute>();
+            Byte precision = (null == precisionAttribute)
+                ? (byte)DefaultDecimalParameterPrecision
+                : precisionAttribute.Value;
+            return precision;
+        }
+
+        private static int GetColumnSize(PropertyInfo propertyInfo)
+        {
+            var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
+            int size = (null == sizeAttribute) ? DefaultSizeAttribute : sizeAttribute.Value;
+            return size;
+        }
+
+        private SqlDataRecord GetSqlDataRecord(object item)
+        {
+            SqlDataRecord record = new SqlDataRecord(_columnList.ToArray());
+
+            for (int index = 0; index < _columnList.Count(); index += 1)
             {
-                if (interfaceTypes.IsGenericType &&
-                    interfaceTypes.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                {
-                    underlyingType = interfaceTypes.GetGenericArguments()[0];
-                }
+                var valueOfMappedProperty = GetValueOfMappedProperty(item, index);
+                record.SetValue(index, valueOfMappedProperty);
             }
-            return underlyingType;
+            return record;
+        }
+
+        private bool HasEmptyItemList
+        {
+            get { return _tableValueParameterList.Count == 0; }
         }
 
         private void InstantiateParametersIfNull()
