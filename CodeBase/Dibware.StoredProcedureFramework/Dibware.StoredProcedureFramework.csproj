@@ -100,7 +100,6 @@
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="StoredProcedureAttributes\NameAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ParameterDbTypeAttribute.cs" />
-    <Compile Include="StoredProcedureAttributes\ReturnTypeAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SchemaAttribute.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />
