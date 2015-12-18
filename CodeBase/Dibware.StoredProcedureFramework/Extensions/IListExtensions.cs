@@ -7,8 +7,11 @@ namespace Dibware.StoredProcedureFramework.Extensions
     {
         public static Type GetUnderlyingType(this IList instance)
         {
-            Type listInstanceType = instance.GetType();
-            Type listUnderlyingType = listInstanceType.GetListTypeUnderlyingType();
+            if (instance == null) throw new NullReferenceException();
+
+            var a = new IListTypeDefinitionFinder(instance);
+            var listUnderlyingType = a.GenericListType;
+
             return listUnderlyingType;
         }
     }

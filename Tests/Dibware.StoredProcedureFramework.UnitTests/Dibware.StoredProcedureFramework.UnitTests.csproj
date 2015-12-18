@@ -77,6 +77,7 @@
     <Compile Include="Examples\StoredProcedures\StoredProcedureWithParametersAndReturnType.cs" />
     <Compile Include="Fakes\Entities\Company.cs" />
     <Compile Include="Fakes\Entities\Tenant.cs" />
+    <Compile Include="UnitTests\Extensions\IListExtensionsTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
