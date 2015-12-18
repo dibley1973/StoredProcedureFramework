@@ -151,7 +151,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
         private static SqlMetaData CreateColumnMetaData(PropertyInfo propertyInfo)
         {
             SqlMetaData columnMetaData;
-            var name = propertyInfo.GetNamefromAttributeOrPropertyName();
             var columnSqlDbType = propertyInfo.GetColumnSqlDbTypefromAttributeOrClr();
             switch (columnSqlDbType)
             {
