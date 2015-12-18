@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public static class SqlDbTypeToClrTypeMapper
+    internal static class SqlDbTypeToClrTypeMapper
     {
         #region Constructors
 

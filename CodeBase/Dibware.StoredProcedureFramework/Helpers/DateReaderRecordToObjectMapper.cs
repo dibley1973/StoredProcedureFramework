@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <summary>
     /// Maps the fields of a data reader record into
     /// </summary>
-    public class DateReaderRecordToObjectMapper
+    internal class DateReaderRecordToObjectMapper
     {
         #region Fields
 

@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// TODO: Note this class is not currently in use but will be once 
     /// overloaded methods have been implemented throughout
     /// </remarks>
-    public static class DbCommandFactory
+    internal static class DbCommandFactory
     {
         //public static DbCommand CreateStoredProcedureCommand(
         //    DbConnection connection,

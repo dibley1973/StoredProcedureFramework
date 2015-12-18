@@ -8,7 +8,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <summary>
     /// Responsible for building Sql Parameters from a sql function
     /// </summary>
-    public class SqlFunctionSqlParameterBuilder<TResultSetType, TParameterType>
+    internal class SqlFunctionSqlParameterBuilder<TResultSetType, TParameterType>
         where TResultSetType : new()
         where TParameterType : class
     {

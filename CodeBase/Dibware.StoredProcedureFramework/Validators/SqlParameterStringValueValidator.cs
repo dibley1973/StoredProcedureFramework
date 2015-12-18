@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Validators
 {
-    public class SqlParameterStringValueValidator
+    internal class SqlParameterStringValueValidator
     {
 
         private readonly SqlParameter _sqlParameter;

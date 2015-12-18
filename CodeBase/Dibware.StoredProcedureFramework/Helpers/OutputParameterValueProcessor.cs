@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <summary>
     /// Responsible for processing outout parameter values
     /// </summary>
-    public class OutputParameterValueProcessor<TReturnType, TParameterType>
+    internal class OutputParameterValueProcessor<TReturnType, TParameterType>
         where TReturnType : class, new()
         where TParameterType : class
     {

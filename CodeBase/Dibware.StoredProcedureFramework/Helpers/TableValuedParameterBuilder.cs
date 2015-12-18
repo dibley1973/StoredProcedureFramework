@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// Responsible for building Table Value Paramerters as a an Enumerable
     /// collection of SqlDataRecords from a strongly typed list of items.
     /// </summary>
-    public class TableValuedParameterBuilder
+    internal class TableValuedParameterBuilder
     {
         #region Fields
 

@@ -3,7 +3,7 @@ using System;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
-    public static class ExceptionHelper
+    internal static class ExceptionHelper
     {
         #region StoredProcedureConstructionException
 

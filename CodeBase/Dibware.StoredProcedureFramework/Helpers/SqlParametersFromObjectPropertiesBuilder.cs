@@ -22,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <remarks>
     /// This class is NOT threadsafe
     /// </remarks>
-    public class SqlParametersFromObjectPropertiesBuilder<TSourceType>
+    internal class SqlParametersFromObjectPropertiesBuilder<TSourceType>
         where TSourceType : class
     {
         #region Fields
