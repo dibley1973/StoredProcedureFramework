@@ -9,7 +9,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
     [AttributeUsage(AttributeTargets.Property)]
     public class DirectionAttribute : Attribute
     {
-        public ParameterDirection Value { get; set; }
+        public ParameterDirection Value { get; private set; }
 
         public DirectionAttribute(ParameterDirection direction)
         {
