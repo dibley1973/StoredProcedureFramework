@@ -88,7 +88,7 @@
     <Compile Include="UnitTests\Helpers\SqlScalarFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlTableFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlTableFunctionExecuterTests.cs" />
-    <Compile Include="UnitTests\Helpers\TableValuedParameterHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\TableValuedParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\UserDefinedFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithParameterAttributes.cs" />

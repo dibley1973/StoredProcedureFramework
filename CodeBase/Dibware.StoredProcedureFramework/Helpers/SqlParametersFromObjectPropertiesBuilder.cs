@@ -198,7 +198,10 @@ namespace Dibware.StoredProcedureFramework.Helpers
             }
             else
             {
-                sqlParameter.Value = TableValuedParameterHelper.GetTableValuedParameterFromList((IList)value);
+                IList tableValueParameterList = (IList)value;
+                sqlParameter.Value = new TableValuedParameterBuilder(tableValueParameterList)
+                    .BuildParameters()
+                    .TableValueParameters;
             }
         }
 

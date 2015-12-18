@@ -10,10 +10,44 @@ using System.Linq;
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
     [TestClass]
-    public class TableValuedParameterHelperTests
+    public class TableValuedParameterBuilderTests
     {
+        #region Constructor Tests
+
         [TestMethod]
-        public void GetTableValuedParameterFromList_FromValidList_ReturnsInstatiatedCollection()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_ConstructedWithNullItemList_ThrowsException()
+        {
+            // ARRANGE
+            List<SimpleParameterTableType> itemList = null;
+
+            // ACT
+            new TableValuedParameterBuilder(itemList);
+
+            // ASSERT
+        }
+
+        [TestMethod]
+        public void Constructor_ConstructedWithNonNullItemList_DoesNotThrowsException()
+        {
+            // ARRANGE
+            var itemList = new List<SimpleParameterTableType>
+            {
+                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 }
+            };
+
+            // ACT
+            new TableValuedParameterBuilder(itemList);
+
+            // ASSERT
+        }
+
+        #endregion
+
+        #region TableValueParameters
+
+        [TestMethod]
+        public void TableValueParameters_WhenConstructedWithValidListAndBuilt_ReturnsInstatiatedCollection()
         {
             // ARRANGE
             var itemList = new List<SimpleParameterTableType>
@@ -24,14 +58,36 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList);
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
 
             // ASSERT
             Assert.IsNotNull(actualSqlDataRecords);
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_FromValidList_ReturnsCorrectRecordCount()
+        public void TableValueParameters_WhenConstructedWithValidListAndNotBuilt_ReturnsNull()
+        {
+            // ARRANGE
+            var itemList = new List<SimpleParameterTableType>
+            {
+                new SimpleParameterTableType { Name = "Company 1", IsActive = true, Id = 2 },
+                new SimpleParameterTableType { Name = "Company 2", IsActive = false, Id = 2 },
+                new SimpleParameterTableType { Name = "Company 3", IsActive = true, Id = 2 }
+            };
+
+            // ACT
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .TableValueParameters;
+
+            // ASSERT
+            Assert.IsNull(actualSqlDataRecords);
+        }
+
+
+        [TestMethod]
+        public void TableValueParameters_WhenConstructedWithValidList_ReturnsCorrectRecordCount()
         {
             // ARRANGE
             const int expectedCount = 3;
@@ -43,14 +99,16 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList);
+            var actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
 
             // ASSERT
             Assert.AreEqual(expectedCount, actualSqlDataRecords.Count());
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_FromValidList_ReturnsCorrectFieldCount()
+        public void TableValueParameters_WhenConstructedWithValidList_ReturnsCorrectFieldCount()
         {
             // ARRANGE
             const int expectedFieldCount = 3;
@@ -63,7 +121,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            var actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
 
             // ASSERT
             Assert.AreEqual(expectedFieldCount, actualSqlDataRecords.First().FieldCount);
@@ -71,21 +131,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void GetTableValuedParameterFromList_FromNullList_ThrowsArgumentNullException()
-        {
-            // ARRANGE
-
-            // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(null);
-
-            // ASSERT
-            Assert.IsNotNull(actualSqlDataRecords);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetTableValuedParameterFromList_FromListOfNulls_ThrowsNullReferenceException()
+        public void TableValueParameters_WhenConstructedWithListOfNulls_ThrowsNullReferenceException()
         {
             // ARRANGE
             var itemList = new List<SimpleParameterTableType>
@@ -96,27 +143,31 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList);
+            var actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
 
             // ASSERT
-            Assert.IsNotNull(actualSqlDataRecords);
+            // Should have thrown exception by here!
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_FromEmptyList_ReturnsNull()
+        public void TableValueParameters_WhenConstructedWithEmptyList_ReturnsNull()
         {
             // ARRANGE
             var itemList = new List<SimpleParameterTableType>();
 
             // ACT
-            var actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList);
+            var actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
 
             // ASSERT
             Assert.IsNull(actualSqlDataRecords);
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_UsingListWithNameAttributes_ReturnsFieldsWithOriginalNames()
+        public void TableValueParameters_WhenConstructedUsingListWithNameAttributes_ReturnsFieldsWithOriginalNames()
         {
             // ARRANGE
             const string expectedField1Name = "Id";
@@ -128,7 +179,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstRecordFirstFieldName = firstRecord.GetName(0);
             var firstRecordSecondFieldName = firstRecord.GetName(1);
@@ -141,7 +194,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_UsingListWithNameAttributes_ReturnsMetaDataFieldsWithAttributeNames()
+        public void TableValueParameters_WhenConstructedUsingListWithNameAttributes_ReturnsMetaDataFieldsWithAttributeNames()
         {
             // ARRANGE
             const string expectedField1Name = "RecordId";
@@ -153,7 +206,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstRecordFirstMetaData = firstRecord.GetSqlMetaData(0);
             var firstRecordSecondMetaData = firstRecord.GetSqlMetaData(1);
@@ -167,7 +220,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithDecimalsWithoutPrecisionAttribute_ReturnsPrecisionOfOriginalValue()
+        public void TableValueParameters_WhenConstructedUsingDecimalsWithoutPrecisionAttribute_ReturnsPrecisionOfOriginalValue()
         {
             // ARRANGE
             const int expectedFirstFieldPrecision = 3;
@@ -179,7 +232,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecord = firstRecord.GetSqlDecimal(0);
             var secondFieldOfFirstRecord = firstRecord.GetSqlDecimal(1);
@@ -192,7 +245,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithDecimalsWithPrecisionAttribute_ReturnsPrecisionOfAttributeForSqlMetatData()
+        public void TableValueParameters_WhenConstructedUsingDecimalsWithPrecisionAttribute_ReturnsPrecisionOfAttributeForSqlMetatData()
         {
             // ARRANGE
             const int expectedFirstFieldPrecision = 7;
@@ -204,7 +257,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(0);
             var secondFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(1);
@@ -217,7 +270,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithDecimalsWithoutScaleAttributes_ReturnsScaleOfOriginalValue()
+        public void TableValueParameters_WhenConstructedUsingWithDecimalsWithoutScaleAttributes_ReturnsScaleOfOriginalValue()
         {
             // ARRANGE
             const int expectedFirstFieldScale = 1;
@@ -229,7 +282,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecord = firstRecord.GetSqlDecimal(0);
             var secondFieldOfFirstRecord = firstRecord.GetSqlDecimal(1);
@@ -242,7 +295,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithDecimalsWithScaleAttribute_ReturnsScaleOfAttributeForSqlMetatData()
+        public void TableValueParameters_WhenConstructedUsingDecimalsWithScaleAttribute_ReturnsScaleOfAttributeForSqlMetatData()
         {
             // ARRANGE
             const int expectedFirstFieldScale = 4;
@@ -254,7 +307,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(0);
             var secondFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(1);
@@ -268,7 +323,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithStringsWithoutSizeAttribute_ReturnsSizeOfOriginalValue()
+        public void TableValueParameters_WhenConstructedUsingStringsWithoutSizeAttribute_ReturnsSizeOfOriginalValue()
         {
             // ARRANGE
             const int expectedFirstFieldSize = 3;
@@ -280,7 +335,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecord = firstRecord.GetSqlString(0);
             var secondFieldOfFirstRecord = firstRecord.GetSqlString(1);
@@ -293,7 +348,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromListWithStringsWithSizeAttribute_ReturnsSizeOfAttributeForSqlMetatDataMaxLength()
+        public void TableValueParameters_WhenConstructedUsingStringsWithSizeAttribute_ReturnsSizeOfAttributeForSqlMetatDataMaxLength()
         {
             // ARRANGE
             const int expectedFirstFieldMaxLength = 5;
@@ -305,7 +360,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(0);
             var secondFieldOfFirstRecordMetaData = firstRecord.GetSqlMetaData(1);
@@ -318,7 +373,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void GetTableValuedParameterFromList_UsingListWithoutDbTypeAttribute_ReturnsFieldsWithOriginalDataType()
+        public void TableValueParameters_WhenConstructedUsingListWithoutDbTypeAttribute_ReturnsFieldsWithOriginalDataType()
         {
             // ARRANGE
             const SqlDbType expectedField1SqlDbType = SqlDbType.Int;
@@ -330,7 +385,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList).BuildParameters().TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstRecordFirstMetaData = firstRecord.GetSqlMetaData(0);
             var firstRecordSecondMetaData = firstRecord.GetSqlMetaData(1);
@@ -344,7 +399,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCastException))]
-        public void GetTableValuedParameterFromList_UsingListWithDbTypeAttributeAndIncorrectType_ThrowsException()
+        public void TableValueParameters_WhenConstructedUsingListWithDbTypeAttributeAndIncorrectType_ThrowsException()
         {
             // ARRANGE
             SqlDbType expectedField1SqlDbType = SqlDbType.BigInt;
@@ -354,14 +409,20 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             // ACT
-            IEnumerable<SqlDataRecord> actualSqlDataRecords = TableValuedParameterHelper.GetTableValuedParameterFromList(itemList).ToList();
+            IEnumerable<SqlDataRecord> actualSqlDataRecords = new TableValuedParameterBuilder(itemList)
+                .BuildParameters()
+                .TableValueParameters;
             SqlDataRecord firstRecord = actualSqlDataRecords.First();
             var firstRecordFirstMetaData = firstRecord.GetSqlMetaData(0);
 
             // ASSERT
             Assert.AreEqual(expectedField1SqlDbType, firstRecordFirstMetaData.SqlDbType);
         }
-    
+
+        #endregion
+
+        #region Test Classes
+
         /// <summary>
         /// Represents a simple table type
         /// </summary>
@@ -446,5 +507,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             [Size(7)]
             public string Value3 { get; set; }
         }
+
+        #endregion
     }
 }

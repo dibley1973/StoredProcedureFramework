@@ -79,7 +79,7 @@
     <Compile Include="Base\NoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
     <Compile Include="Helpers\StoredProcedureExecuter.cs" />
-    <Compile Include="Helpers\TableValuedParameterHelper.cs" />
+    <Compile Include="Helpers\TableValuedParameterBuilder.cs" />
     <Compile Include="Helpers\UserDefinedFunctionDbCommandCreator.cs" />
     <Compile Include="NullSqlFunctionParameters.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
