@@ -61,7 +61,7 @@
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
-    <Compile Include="Extensions\IListTypeDefinitionFinder.cs" />
+    <Compile Include="Helpers\IListTypeDefinitionFinder.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />
     <Compile Include="Helpers\Base\SqlFunctionDbCommandCreatorBase.cs" />

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Dibware.StoredProcedureFramework.Extensions;
 
-namespace Dibware.StoredProcedureFramework.Extensions
+namespace Dibware.StoredProcedureFramework.Helpers
 {
     public class IListTypeDefinitionFinder
     {

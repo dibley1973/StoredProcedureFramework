@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Dibware.StoredProcedureFramework.Helpers;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {

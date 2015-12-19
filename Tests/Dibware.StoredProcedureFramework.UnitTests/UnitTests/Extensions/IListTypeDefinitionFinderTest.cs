@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
