@@ -70,6 +70,7 @@
     <Compile Include="Helpers\Contracts\IDbCommandCreator.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
+    <Compile Include="Helpers\PropertyNameHelper.cs" />
     <Compile Include="Helpers\SqlScalarFunctionDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlScalarFunctionExecuter.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
