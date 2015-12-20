@@ -41,7 +41,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const string expectedPropertyName = "Name1";
-            TestObject testObject = new TestObject();
             Type testType = typeof(TestObject);
 
             PropertyInfo property = testType.GetProperty("Name1");
@@ -58,7 +57,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             const string expectedPropertyName = "Address";
-            TestObject testObject = new TestObject();
             Type testType = typeof(TestObject);
 
             PropertyInfo property = testType.GetProperty("Name2");
@@ -70,12 +68,12 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.AreEqual(expectedPropertyName, name);
         }
 
-    }
+        public class TestObject
+        {
+            public string Name1 { get; set; }
+            [Name("Address")]
+            public string Name2 { get; set; }
+        }
 
-    public class TestObject
-    {
-        public string Name1 { get; set; }
-        [Name("Address")]
-        public string Name2 { get; set; }
     }
 }

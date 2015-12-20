@@ -92,6 +92,7 @@
     <Compile Include="UnitTests\Helpers\SqlTableFunctionExecuterTests.cs" />
     <Compile Include="UnitTests\Helpers\TableValuedParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\PropertyNameHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\ColumnSqlDbTypeHelperTests.cs" />
     <Compile Include="UnitTests\Helpers\UserDefinedFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\StoredProcedureAttributes\StoredProcedureAttributesTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Helpers;
+using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Helpers;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -34,16 +33,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 .Name;
         }
 
-        // TODO: Consider moving this into dedicated
-        public static SqlDbType GetColumnSqlDbTypefromAttributeOrClr(this PropertyInfo propertyInfo)
+        /// <summary>
+        /// SQL database type from attribute or CLR type.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns></returns>
+        public static SqlDbType GetColumnSqlDbTypefromAttributeOrClr(this PropertyInfo instance)
         {
-            // The default type is the property CLR type, but override if ParameterDbTypeAttribute if available     
-            ParameterDbTypeAttribute dbTypeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
-            SqlDbType columnType = (dbTypeAttribute != null)
-                ? dbTypeAttribute.Value
-                : ClrTypeToSqlDbTypeMapper.GetSqlDbTypeFromClrType(propertyInfo.PropertyType);
-
-            return columnType;
+            return new ColumnSqlDbTypeHelper(instance)
+                .Build()
+                .SqlDbType;
         }
     }
 }
