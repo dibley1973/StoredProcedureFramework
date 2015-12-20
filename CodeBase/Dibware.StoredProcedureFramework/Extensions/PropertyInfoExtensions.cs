@@ -22,16 +22,16 @@ namespace Dibware.StoredProcedureFramework.Extensions
             return (T)attributes;
         }
 
-        // TODO consider moving this into dedicated class
-        public static string GetNamefromAttributeOrPropertyName(this PropertyInfo propertyInfo)
+        /// <summary>
+        /// Gets the name of the namefrom attribute or property.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns></returns>
+        public static string GetNamefromAttributeOrPropertyName(this PropertyInfo instance)
         {
-            // Get the propery column name to property name mapping. The default 
-            // name is property name, override of parameter name by attribute if available
-            NameAttribute nameAttribute = propertyInfo.GetAttribute<NameAttribute>();
-            var name = (nameAttribute == null)
-                ? propertyInfo.Name
-                : nameAttribute.Value;
-            return name;
+            return new PropertyNameHelper(instance)
+                .Build()
+                .Name;
         }
 
         // TODO: Consider moving this into dedicated

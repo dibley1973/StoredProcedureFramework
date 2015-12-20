@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {
@@ -27,7 +28,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             TestObject testObject = new TestObject();
             Type testType = typeof (TestObject);
 
-            PropertyInfo property = testType.GetProperty("Name");
+            PropertyInfo property = testType.GetProperty("Name1");
 
             // ACT
             new PropertyNameHelper(property);
@@ -39,23 +40,42 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void Name_ForPropertyWithoutAttribute_ReturnsPropertyName()
         {
             // ARRANGE
+            const string expectedPropertyName = "Name1";
             TestObject testObject = new TestObject();
             Type testType = typeof(TestObject);
 
-            PropertyInfo property = testType.GetProperty("Name");
+            PropertyInfo property = testType.GetProperty("Name1");
 
             // ACT
             var name = new PropertyNameHelper(property).Build().Name;
 
             // ASSERT
-            Assert.AreEqual("Name", name);
+            Assert.AreEqual(expectedPropertyName, name);
+        }
+
+        [TestMethod]
+        public void Name_ForPropertyWithAttribute_ReturnsAttributeValue()
+        {
+            // ARRANGE
+            const string expectedPropertyName = "Address";
+            TestObject testObject = new TestObject();
+            Type testType = typeof(TestObject);
+
+            PropertyInfo property = testType.GetProperty("Name2");
+
+            // ACT
+            var name = new PropertyNameHelper(property).Build().Name;
+
+            // ASSERT
+            Assert.AreEqual(expectedPropertyName, name);
         }
 
     }
 
     public class TestObject
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name1 { get; set; }
+        [Name("Address")]
+        public string Name2 { get; set; }
     }
 }
