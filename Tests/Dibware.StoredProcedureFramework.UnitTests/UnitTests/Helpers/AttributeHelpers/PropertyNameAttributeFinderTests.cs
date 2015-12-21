@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
+﻿using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {
@@ -46,7 +46,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Name1");
-            
+
             // ACT
             bool actual = new PropertyNameAttributeFinder(property)
                 .CheckForAttribute()
@@ -78,7 +78,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
+        public void AAttributeFound_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -94,7 +94,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         }
 
         [TestMethod]
-        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
+        public void AttributeFound_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
