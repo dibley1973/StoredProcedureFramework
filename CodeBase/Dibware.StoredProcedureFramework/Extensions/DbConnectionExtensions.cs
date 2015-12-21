@@ -47,11 +47,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     .Results;
             }
 
-            // TODO: Investigate if needed!
-            //new OutputParameterValueProcessor<TResultSetType, TParameterType>(
-            //    procedureSqlParameters,
-            //    sqlFunction).Processs();
-
             return results;
         }
 
@@ -88,11 +83,6 @@ namespace Dibware.StoredProcedureFramework.Extensions
                     .Execute()
                     .Results;
             }
-
-            // TODO: Investigate if needed!
-            //new OutputParameterValueProcessor<TResultSetType, TParameterType>(
-            //    procedureSqlParameters,
-            //    sqlFunction).Processs();
 
             return results;
         }

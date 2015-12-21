@@ -9,6 +9,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
     [TestClass]
     public class PropertyNameHelperTests
     {
+        #region Constructor
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_WhenConstructedWithNullProperty_ThrowsException()
@@ -26,8 +28,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             // ARRANGE
             TestObject testObject = new TestObject();
-            Type testType = typeof (TestObject);
-
+            Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Name1");
 
             // ACT
@@ -35,6 +36,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
             // ASSERT
         }
+
+        #endregion
+
+        #region Name
 
         [TestMethod]
         public void Name_ForPropertyWithoutAttribute_ReturnsPropertyName()
@@ -67,6 +72,8 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ASSERT
             Assert.AreEqual(expectedPropertyName, name);
         }
+
+        #endregion
 
         public class TestObject
         {

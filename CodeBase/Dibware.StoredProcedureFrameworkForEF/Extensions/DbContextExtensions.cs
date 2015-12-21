@@ -1,6 +1,7 @@
 ﻿using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Data;
@@ -85,12 +86,17 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
         {
             string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var nameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(NameAttribute));
-            var nameAttribute = nameAttributes.FirstOrDefault() as NameAttribute;
-            if (nameAttribute != null) name = nameAttribute.Value;
+
+            var propertyAttributeFinder = new PropertyNameAttributeFinder(storedProcedurePropertyInfo);
+            propertyAttributeFinder.CheckForAttribute();
+            if (propertyAttributeFinder.HasAttribute)
+            {
+                name = propertyAttributeFinder.Attribute.Value;
+            }
             return name;
         }
 
+        // TODO: Consider using a class to get name attribute value
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
         {
             string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
@@ -101,6 +107,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             return name;
         }
 
+        // TODO: Consider using a class to get name attribute value
         private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
         {
             string schemaName = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception

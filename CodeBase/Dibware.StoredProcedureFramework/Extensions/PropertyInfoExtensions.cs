@@ -17,8 +17,8 @@ namespace Dibware.StoredProcedureFramework.Extensions
         public static T GetAttribute<T>(this PropertyInfo propertyInfo)
             where T : Attribute
         {
-            var attributes = propertyInfo.GetCustomAttributes(typeof(T), false).FirstOrDefault();
-            return (T)attributes;
+            var attribute = propertyInfo.GetCustomAttributes(typeof(T), false).FirstOrDefault();
+            return (T)attribute;
         }
 
         /// <summary>
