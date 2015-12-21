@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
 {
     [TestClass]
     public class IListTypeDefinitionFinderTest
     {
+        #region Constructor
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_WhenInstanceIsNull_ThrowsException()
@@ -23,25 +24,60 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
             // ASSERT
         }
 
+        #endregion
+
+        #region GetUnderlyingType
+
         [TestMethod]
         public void GetUnderlyingType_WhenInstanceIsValidList_ReturnsCorrectType()
         {
             // ARRANGE
-            var list = (IList)new List<ListItem>
+            var list = (IList)new TestItemList
             {
-                new ListItem {}
+                new TestItem ()
             };
 
             // ACT
             var actual = new IListTypeDefinitionFinder(list)
-                .GenericListType;
+                .GenericListTypeFound;
 
             // ASSERT
-            Assert.AreEqual(typeof(ListItem), actual);
+            Assert.AreEqual(typeof(TestItem), actual);
         }
 
-        private class ListItem
+        #endregion
+
+        #region HasFoundGenericListTypeFound
+
+        [TestMethod]
+        public void HasFoundUnderlyingType_WhenCalledAfterConstructionWithValidListType_ReturnsTrue()
+        {
+            // ARRANGE
+            var list = (IList)new TestItemList
+            {
+                new TestItem ()
+            };
+
+            // ACT
+            bool actual = new IListTypeDefinitionFinder(list)
+                .HasFoundGenericListTypeFound;
+
+            // ASSERT
+            Assert.IsTrue(actual);
+        }
+
+        #endregion
+
+        #region Mock Objects
+
+        private class TestItem
         {
         }
+
+        private class TestItemList : List<TestItem>
+        {
+        }
+
+        #endregion
     }
 }

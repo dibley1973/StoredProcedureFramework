@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {

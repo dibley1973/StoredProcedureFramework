@@ -71,7 +71,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public class TestObject
         {
             public string ParameterDbTypeAttribute1 { get; set; }
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             public string ParameterDbTypeAttribute2 { get; set; }
         }
 

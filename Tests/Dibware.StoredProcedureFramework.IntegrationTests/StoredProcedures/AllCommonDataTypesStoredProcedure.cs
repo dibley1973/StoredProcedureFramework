@@ -18,102 +18,102 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 
         internal class Parameter
         {
-            [ParameterDbType(SqlDbType.BigInt)]
+            [DbType(SqlDbType.BigInt)]
             public Int64 BigInt { get; set; }
 
             [Size(8)]
-            [ParameterDbType(SqlDbType.Binary)]
+            [DbType(SqlDbType.Binary)]
             public Byte[] Binary { get; set; }
 
-            [ParameterDbType(SqlDbType.Bit)]
+            [DbType(SqlDbType.Bit)]
             public Boolean Bit { get; set; }
 
             [Size(3)]
             public Char[] Char { get; set; }
 
-            [ParameterDbType(SqlDbType.Date)]
+            [DbType(SqlDbType.Date)]
             public DateTime Date { get; set; }
 
-            [ParameterDbType(SqlDbType.DateTime)]
+            [DbType(SqlDbType.DateTime)]
             public DateTime DateTime { get; set; }
 
-            [ParameterDbType(SqlDbType.DateTime2)]
+            [DbType(SqlDbType.DateTime2)]
             public DateTime DateTime2 { get; set; }
 
             [Precision(18)]
             [Scale(2)]
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             public Decimal Decimal { get; set; }
 
-            [ParameterDbType(SqlDbType.Float)]
+            [DbType(SqlDbType.Float)]
             public Double Float { get; set; }
 
-            [ParameterDbType(SqlDbType.Image)]
+            [DbType(SqlDbType.Image)]
             public Byte[] Image { get; set; }
 
-            [ParameterDbType(SqlDbType.Int)]
+            [DbType(SqlDbType.Int)]
             public Int32 Int { get; set; }
 
             [Precision(19)]
             [Scale(4)]
-            [ParameterDbType(SqlDbType.Money)]
+            [DbType(SqlDbType.Money)]
             public Decimal Money { get; set; }
 
             [Size(5)]
-            [ParameterDbType(SqlDbType.NChar)]
+            [DbType(SqlDbType.NChar)]
             public String NChar { get; set; }
 
             [Size(5)]
-            [ParameterDbType(SqlDbType.NText)]
+            [DbType(SqlDbType.NText)]
             public String NText { get; set; }
 
             [Precision(18)]
             [Scale(2)]
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             public Decimal Numeric { get; set; }
 
             [Size(8)]
-            [ParameterDbType(SqlDbType.NVarChar)]
+            [DbType(SqlDbType.NVarChar)]
             public String NVarchar { get; set; }
 
-            [ParameterDbType(SqlDbType.Real)]
+            [DbType(SqlDbType.Real)]
             public Single Real { get; set; }
 
-            [ParameterDbType(SqlDbType.SmallDateTime)]
+            [DbType(SqlDbType.SmallDateTime)]
             public DateTime SmallDateTime { get; set; }
 
-            [ParameterDbType(SqlDbType.SmallInt)]
+            [DbType(SqlDbType.SmallInt)]
             public Int16 Smallint { get; set; }
 
             [Precision(10)]
             [Scale(4)]
-            [ParameterDbType(SqlDbType.SmallMoney)]
+            [DbType(SqlDbType.SmallMoney)]
             public Decimal Smallmoney { get; set; }
 
             [Size(19)]
-            [ParameterDbType(SqlDbType.Text)]
+            [DbType(SqlDbType.Text)]
             public String Text { get; set; }
 
-            [ParameterDbType(SqlDbType.Time)]
+            [DbType(SqlDbType.Time)]
             public TimeSpan Time { get; set; }
 
-            [ParameterDbType(SqlDbType.Timestamp)]
+            [DbType(SqlDbType.Timestamp)]
             public Byte[] Timestamp { get; set; }
 
-            [ParameterDbType(SqlDbType.TinyInt)]
+            [DbType(SqlDbType.TinyInt)]
             public Byte TinyInt { get; set; }
 
-            [ParameterDbType(SqlDbType.UniqueIdentifier)]
+            [DbType(SqlDbType.UniqueIdentifier)]
             public Guid UniqueIdentifier { get; set; }
 
             [Size(3)]
-            [ParameterDbType(SqlDbType.VarBinary)]
+            [DbType(SqlDbType.VarBinary)]
             public Byte[] VarBinary { get; set; }
 
             [Size(7)]
             public String VarChar { get; set; }
 
-            [ParameterDbType(SqlDbType.Xml)]
+            [DbType(SqlDbType.Xml)]
             public String Xml { get; set; }
         }
 

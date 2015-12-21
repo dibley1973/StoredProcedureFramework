@@ -83,6 +83,8 @@
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="UnitTests\Extensions\IListExtensionsTests.cs" />
     <Compile Include="UnitTests\Extensions\IListTypeDefinitionFinderTest.cs" />
+    <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertySchemaAttributeFinderTests.cs" />
+    <Compile Include="UnitTests\Helpers\AttributeHelpers\TypeNameAttributeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
@@ -95,10 +97,11 @@
     <Compile Include="UnitTests\Helpers\SqlTableFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlTableFunctionExecuterTests.cs" />
     <Compile Include="UnitTests\Helpers\TableValuedParameterBuilderTests.cs" />
-    <Compile Include="UnitTests\Helpers\PropertyNameHelperTests.cs" />
+    <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertyNameHelperTests.cs" />
     <Compile Include="UnitTests\Helpers\ColumnSqlDbTypeHelperTests.cs" />
     <Compile Include="UnitTests\Helpers\DateReaderRecordToObjectMapperTests.cs" />
-    <Compile Include="UnitTests\Helpers\PropertyNameAttributeFinderTests.cs" />
+    <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertyNameAttributeFinderTests.cs" />
+    <Compile Include="UnitTests\Helpers\ListTypeUnderlyingTypeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\UserDefinedFunctionDbCommandCreatorTests.cs" />
     <Compile Include="UnitTests\StoredProcedureAttributes\StoredProcedureAttributesTests.cs" />
     <Compile Include="UnitTests\StoredProcedures\AllCommonDataTypesStoredProcedureWithoutParameterAttributes.cs" />

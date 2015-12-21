@@ -22,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
 
     internal class NormalStoredProcedureParameters
     {
-        [ParameterDbType(SqlDbType.Int)]
+        [DbType(SqlDbType.Int)]
         public int Id { get; set; }
     }
 

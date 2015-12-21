@@ -11,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.Extensions
             if (instance == null) throw new NullReferenceException();
 
             var a = new IListTypeDefinitionFinder(instance);
-            var listUnderlyingType = a.GenericListType;
+            var listUnderlyingType = a.GenericListTypeFound;
 
             return listUnderlyingType;
         }

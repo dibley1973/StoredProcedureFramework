@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Dibware.StoredProcedureFramework.Extensions;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -9,27 +8,61 @@ namespace Dibware.StoredProcedureFramework.Helpers
         #region Fields
 
         private readonly Type _listType;
-        private readonly Type _listGenericType;
+        private Type _listGenericTypeFound;
 
         #endregion
+
+        #region Public Members
 
         public IListTypeDefinitionFinder(IList list)
         {
             if (list == null) throw new ArgumentNullException("list");
 
             _listType = list.GetType();
-            _listGenericType = _listType.GetListTypeUnderlyingType();
+            SetListTypeUnderlyingType();
         }
 
-        public Type ListType
+        //public Type ListType
+        //{
+        //    get { return _listType; }
+        //}
+
+        /// <summary>
+        /// Gets the generic list type found.
+        /// </summary>
+        /// <value>
+        /// The generic list type found.
+        /// </value>
+        public Type GenericListTypeFound
         {
-            get { return _listType; }
+            get { return _listGenericTypeFound; }
         }
 
-        public Type GenericListType
+        /// <summary>
+        /// Gets a value indicating whether this instance has found an underlying a generic list type.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance has found a generic list type; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasFoundGenericListTypeFound
         {
-            get { return _listGenericType; }
+            get { return _listGenericTypeFound != null; }
         }
 
+        #endregion
+
+        #region Private Methods
+
+        private void SetListTypeUnderlyingType()
+        {
+            var listTypeUnderlyingTypeFinder = new ListTypeUnderlyingTypeFinder(_listType);
+            listTypeUnderlyingTypeFinder.CheckForUnderlyingType();
+            if (listTypeUnderlyingTypeFinder.HasFoundUnderlyingType)
+            {
+                _listGenericTypeFound = listTypeUnderlyingTypeFinder.UnderlyingTypeFound;
+            }
+        }
+
+        #endregion
     }
 }

@@ -458,7 +458,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         /// <summary>
-        /// Represents a simple table type with name Attribute
+        /// Represents a simple table type with name AttributeFound
         /// </summary>
         private class SimpleParameterWithNameAttributeTableType
         {
@@ -471,17 +471,17 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         }
 
         /// <summary>
-        /// Represents a simple table type with ParameterDbType Attribute 
+        /// Represents a simple table type with ParameterDbType AttributeFound 
         /// </summary>
         private class SimpleParameterWithDbTypeAttributeTableType
         {
-            [ParameterDbType(SqlDbType.BigInt)]
+            [DbType(SqlDbType.BigInt)]
             public int Id { get; set; }
 
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             public int Count { get; set; }
 
-            [ParameterDbType(SqlDbType.NChar)]
+            [DbType(SqlDbType.NChar)]
             public string Name { get; set; }
         }
 

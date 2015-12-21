@@ -1,7 +1,7 @@
 ﻿using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Data;
@@ -82,16 +82,15 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             var propertyInfoName = propertyInfo.Name;
             return contextType.GetPropertyName(propertyInfoName);
         }
-
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
         {
             string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
 
-            var propertyAttributeFinder = new PropertyNameAttributeFinder(storedProcedurePropertyInfo);
-            propertyAttributeFinder.CheckForAttribute();
-            if (propertyAttributeFinder.HasAttribute)
+            var propertyNameAttributeFinder = new PropertyNameAttributeFinder(storedProcedurePropertyInfo);
+            propertyNameAttributeFinder.CheckForAttribute();
+            if (propertyNameAttributeFinder.HasFoundAttribute)
             {
-                name = propertyAttributeFinder.Attribute.Value;
+                name = propertyNameAttributeFinder.AttributeFound.Value;
             }
             return name;
         }
@@ -100,31 +99,78 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         private static string GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
         {
             string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var propertyType = storedProcedurePropertyInfo.PropertyType;
-            var attributes = propertyType.GetCustomAttributes<NameAttribute>();
-            var attribute = attributes.FirstOrDefault();
-            if (attribute != null) name = attribute.Value;
+            
+            var typeNameAttributeFinder = new TypeNameAttributeFinder(storedProcedurePropertyInfo.PropertyType);
+            typeNameAttributeFinder.CheckForAttribute();
+            if (typeNameAttributeFinder.HasFoundAttribute)
+            {
+                name = typeNameAttributeFinder.AttributeFound.Value;
+            }
+            //IEnumerable<NameAttribute> attributes = propertyType.GetCustomAttributes<NameAttribute>();
+            //var attribute = attributes.FirstOrDefault();
+            //if (attribute != null) name = attribute.Value;
+           
             return name;
         }
 
-        // TODO: Consider using a class to get name attribute value
-        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
+
+
+
+
+        private static bool TryGetStoredProcedureNameFromAttributeOnStoredProcedureProperty(
+            PropertyInfo storedProcedurePropertyInfo,
+            ref string name)
         {
-            string schemaName = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var schemaNameAttributes = storedProcedurePropertyInfo.GetCustomAttributes(typeof(SchemaAttribute));
-            var schemaNameAttribute = schemaNameAttributes.FirstOrDefault() as SchemaAttribute;
-            if (schemaNameAttribute != null) schemaName = schemaNameAttribute.Value;
-            return schemaName;
+            var propertyNameAttributeFinder = new PropertyNameAttributeFinder(storedProcedurePropertyInfo);
+            propertyNameAttributeFinder.CheckForAttribute();
+            if (propertyNameAttributeFinder.HasFoundAttribute)
+            {
+                name = propertyNameAttributeFinder.AttributeFound.Value;
+                return true;
+            }
+
+            return false;
         }
 
+        private static bool TryGetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(
+            PropertyInfo storedProcedurePropertyInfo,
+            ref string name)
+        {
+            var typeNameAttributeFinder = new TypeNameAttributeFinder(storedProcedurePropertyInfo.PropertyType);
+            typeNameAttributeFinder.CheckForAttribute();
+            if (typeNameAttributeFinder.HasFoundAttribute)
+            {
+                name = typeNameAttributeFinder.AttributeFound.Value;
+                return true;
+            }
+
+            return false;
+        }
+
+
+        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
+        {
+            string schema = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
+
+            var propertySchemaAttributeFinder = new PropertySchemaAttributeFinder(storedProcedurePropertyInfo);
+            propertySchemaAttributeFinder.CheckForAttribute();
+            if (propertySchemaAttributeFinder.HasFoundAttribute)
+            {
+                schema = propertySchemaAttributeFinder.AttributeFound.Value;
+            }
+
+            return schema;
+        }
+
+        // TODO: Consider using a class to get schema attribute value
         private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
         {
-            string schemaName = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
+            string schema = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
             var propertyType = storedProcedurePropertyInfo.PropertyType;
             var attributes = propertyType.GetCustomAttributes<SchemaAttribute>();
             var attribute = attributes.FirstOrDefault();
-            if (attribute != null) schemaName = attribute.Value;
-            return schemaName;
+            if (attribute != null) schema = attribute.Value;
+            return schema;
         }
 
         private static void InitializeStoredProcedureProperty(DbContext context, Type contextType, PropertyInfo propertyInfo)
@@ -147,9 +193,29 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
                 ?? GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo))
                 ?? GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, propertyInfo);
 
+            // TODO: Maybe consider TryGet... here as it may be easier to read. Below is still untidy but could be neatened!
+            //string name = null;
+            //if (TryGetStoredProcedureNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo, ref name))
+            //{
+            //    // do nothing name has been got
+            //}
+            //else if (TryGetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo,
+            //    ref name))
+            //{
+            //    // do nothing name has been got
+            //}
+            //else
+            //{
+            //    GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, propertyInfo);
+            //}
+
             if (name != null)
             {
                 ((StoredProcedureBase)procedure).SetProcedureName(name);
+            }
+            else
+            {
+                throw new NullReferenceException("procedure name was not set");
             }
         }
 

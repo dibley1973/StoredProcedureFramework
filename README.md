@@ -9,7 +9,7 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 This is an on-going project, 0.7 is WIP, but v0.6 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 0.7 WIP (support for Scalar functions and Table value functions)
+* 0.7 WIP (support for Scalar functions and Table value functions) (contains breaking change for "ParameterDbTypeAttribute" renamed to "DbTypeAttribute")
 * 0.6 (Release Candidate) Cleaned code, bug fix for Issue #5 and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   

@@ -15,7 +15,7 @@ namespace Dibware.StoredProcedureFramework.Examples.StoredProcedures
         }
         internal class CompaniesAddParameters
         {
-            [ParameterDbType(SqlDbType.Structured)]
+            [DbType(SqlDbType.Structured)]
             public List<CompanyTableType> Companies { get; set; }
         }
 

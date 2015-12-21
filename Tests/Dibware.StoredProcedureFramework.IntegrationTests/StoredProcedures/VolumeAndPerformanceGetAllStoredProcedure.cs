@@ -11,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
     {
         internal class Return
         {
-            [ParameterDbType(SqlDbType.UniqueIdentifier)]
+            [DbType(SqlDbType.UniqueIdentifier)]
             public Guid Id { get; set; }
 
             [Size(50)]
@@ -38,7 +38,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
             //[ParameterDbType(SqlDbType.VarChar)]
             public string County { get; set; }
 
-            [ParameterDbType(SqlDbType.SmallDateTime)]
+            [DbType(SqlDbType.SmallDateTime)]
             public DateTime DateOfBirth { get; set; }
         }
     }

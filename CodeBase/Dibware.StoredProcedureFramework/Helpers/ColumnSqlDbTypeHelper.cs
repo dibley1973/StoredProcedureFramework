@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private readonly PropertyInfo _property;
         private SqlDbType _sqlDbType;
-        private ParameterDbTypeAttribute _sqlDbTypeAttribute;
+        private DbTypeAttribute _sqlDbTypeAttribute;
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void SetParameterDbTypeAttributeIfExists()
         {
-            _sqlDbTypeAttribute = _property.GetAttribute<ParameterDbTypeAttribute>();
+            _sqlDbTypeAttribute = _property.GetAttribute<DbTypeAttribute>();
         }
 
         #endregion

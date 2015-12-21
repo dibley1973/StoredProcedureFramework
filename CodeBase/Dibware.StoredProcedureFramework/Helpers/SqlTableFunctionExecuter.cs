@@ -13,13 +13,9 @@ namespace Dibware.StoredProcedureFramework.Helpers
     /// <summary>
     /// Responsible for executing Sql Functions
     /// </summary>
-    /// <remarks>
-    /// TODO: This will need to be adapted to use a base class along with 
-    /// <see cref="Dibware.StoredProcedureFramework.Helpers.StoredProcedureExecuter{TResultSetType}"/>
-    /// </remarks>
     internal class SqlTableFunctionExecuter<TResultSetType>
-        : SqlProgrammabilityObjectExecuterBase<TResultSetType>
-        where TResultSetType : class, new()
+         : SqlProgrammabilityObjectExecuterBase<TResultSetType>
+         where TResultSetType : class, new()
     {
         #region Constructors
 

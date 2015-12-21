@@ -30,15 +30,15 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
             //[ParameterDbType(SqlDbType.Bit)]
             public bool Active { get; set; }
 
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             [Precision(10)]
             [Scale(4)]
             public decimal Price { get; set; }
 
-            [ParameterDbType(SqlDbType.UniqueIdentifier)]
+            [DbType(SqlDbType.UniqueIdentifier)]
             public Guid UniqueIdentifier { get; set; }
 
-            [ParameterDbType(SqlDbType.TinyInt)]
+            [DbType(SqlDbType.TinyInt)]
             public byte Count { get; set; }
         }
 
@@ -66,19 +66,19 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 
         internal class ReturnType2
         {
-            [ParameterDbType(SqlDbType.Bit)]
+            [DbType(SqlDbType.Bit)]
             public bool Active { get; set; }
 
-            [ParameterDbType(SqlDbType.Decimal)]
+            [DbType(SqlDbType.Decimal)]
             public decimal Price { get; set; }
         }
 
         internal class ReturnType3
         {
-            [ParameterDbType(SqlDbType.UniqueIdentifier)]
+            [DbType(SqlDbType.UniqueIdentifier)]
             public Guid UniqueIdentifier { get; set; }
 
-            [ParameterDbType(SqlDbType.TinyInt)]
+            [DbType(SqlDbType.TinyInt)]
             public byte Count { get; set; }
         }
     }

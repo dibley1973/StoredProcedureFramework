@@ -71,8 +71,10 @@
     <Compile Include="Helpers\Contracts\IDbCommandCreator.cs" />
     <Compile Include="Helpers\DateReaderRecordToObjectMapper.cs" />
     <Compile Include="Helpers\DbCommandFactory.cs" />
-    <Compile Include="Helpers\PropertyNameAttributeFinder.cs" />
-    <Compile Include="Helpers\PropertyNameHelper.cs" />
+    <Compile Include="Helpers\ListTypeUnderlyingTypeFinder.cs" />
+    <Compile Include="Helpers\AttributeHelpers\PropertyNameAttributeFinder.cs" />
+    <Compile Include="Helpers\AttributeHelpers\PropertyNameHelper.cs" />
+    <Compile Include="Helpers\AttributeHelpers\PropertySchemaAttributeFinder.cs" />
     <Compile Include="Helpers\SqlScalarFunctionDbCommandCreator.cs" />
     <Compile Include="Helpers\SqlScalarFunctionExecuter.cs" />
     <Compile Include="Helpers\OutputParameterValueProcessor.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Helpers\SqlParametersFromObjectPropertiesBuilder.cs" />
     <Compile Include="Helpers\StoredProcedureExecuter.cs" />
     <Compile Include="Helpers\TableValuedParameterBuilder.cs" />
+    <Compile Include="Helpers\AttributeHelpers\TypeNameAttributeFinder.cs" />
     <Compile Include="NullSqlFunctionParameters.cs" />
     <Compile Include="NullStoredProcedureParameters.cs" />
     <Compile Include="Exceptions\StoredProcedureConstructionException.cs" />
@@ -103,7 +106,7 @@
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="StoredProcedureAttributes\NameAttribute.cs" />
-    <Compile Include="StoredProcedureAttributes\ParameterDbTypeAttribute.cs" />
+    <Compile Include="StoredProcedureAttributes\DbTypeAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SchemaAttribute.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\SqlConnectionExtensions.cs" />

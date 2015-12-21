@@ -12,9 +12,6 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
     public class StoredProcedureWithoutParametersButWithReturnType
         : SqlConnectionExampleTestBase
     {
-        // TODO: Investigate if stored procs can be called using the simplified API like DbContext has
-        // For example: var tenants = Connection.TenantGetAll.Execute();
-
         [TestMethod]
         public void TenantGetAll()
         {

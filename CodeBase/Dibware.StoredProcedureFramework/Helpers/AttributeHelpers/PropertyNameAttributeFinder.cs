@@ -1,16 +1,16 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System;
+﻿using System;
 using System.Reflection;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
-namespace Dibware.StoredProcedureFramework.Helpers
+namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {
     public class PropertyNameAttributeFinder
     {
         #region Fields
 
         private readonly PropertyInfo _property;
-        private NameAttribute _attribute;
+        private NameAttribute _attributeFound;
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         /// <summary>
         /// Checks for attribute.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The current instance for fluid API</returns>
         public PropertyNameAttributeFinder CheckForAttribute()
         {
             SetAttributeIfExists();
@@ -43,25 +43,32 @@ namespace Dibware.StoredProcedureFramework.Helpers
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance has attribute.
+        /// Gets a value indicating whether this instance has found an attribute.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance has attribute; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance has found an attribute; otherwise, <c>false</c>.
         /// </value>
-        public bool HasAttribute
+        public bool HasFoundAttribute
         {
-            get { return _attribute != null; }
+            get { return _attributeFound != null; }
         }
 
         /// <summary>
-        /// Gets the Attribute if it exists; or null.
+        /// Gets the AttributeFound that was found.
         /// </summary>
         /// <value>
-        /// The Attribute.
+        /// The AttributeFound.
         /// </value>
-        public NameAttribute Attribute
+        public NameAttribute AttributeFound
         {
-            get { return _attribute; }
+            get
+            {
+                if (!HasFoundAttribute)
+                {
+                    throw new InvalidOperationException("No attribute type was found so cannot be returned. Hint: Use HasFoundAttribute first.");
+                }
+                return _attributeFound;
+            }
         }
 
         #endregion
@@ -70,7 +77,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void SetAttributeIfExists()
         {
-            _attribute = _property.GetAttribute<NameAttribute>();
+            _attributeFound = _property.GetAttribute<NameAttribute>();
         }
         #endregion
     }

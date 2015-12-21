@@ -102,7 +102,7 @@ There are a number of attributes which the stored procedure framework provides w
 
 * DirectionAttribute
 * NameAttribute
-* ParameterDbTypeAttribute
+* DbTypeAttribute (Renamed from ParameterDbTypeAttribute in v 0.7)
 * PrecisionAttribute
 * ScaleAttribute
 * SchemaAttribute
@@ -114,8 +114,8 @@ This attribute can be applied to a property which defines a SQL stored procedure
 ##### NameAttribute
 This attribute can be applied to a class, struct, or property to override the name which the framework will use by convention for the object. This attribute can be used to override the name of a stored procedure, a parameter or a return type field. The attribute is constructed with the overriding name.
 
-##### ParameterDbTypeAttribute
-This attribute can be applied to a property to override the SqlDbType of a parameter or a retutn type field. The attribute is constructed with a `System.Data.SqlDbType`.
+##### DbTypeAttribute (renamed from ParameterDbTypeAttribute in v0.7)
+This attribute can be applied to a property to override the SqlDbType of a parameter or a return type field. The attribute is constructed with a `System.Data.SqlDbType`.
 
 ##### PrecisionAttribute
 This attribute can be applied to a property to override the default precision of `Decimal`, `Numeric`, `Money`, `SmallMoney` data types. The attribute is constructed with a `System.Byte`.

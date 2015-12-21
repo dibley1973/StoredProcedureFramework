@@ -5,10 +5,10 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Para
 {
     internal class WrongDataTypeStringParameter
     {
-        [ParameterDbType(SqlDbType.NVarChar)]
+        [DbType(SqlDbType.NVarChar)]
         public int Value1 { get; set; }
 
-        [ParameterDbType(SqlDbType.NVarChar)]
+        [DbType(SqlDbType.NVarChar)]
         public bool Value2 { get; set; }
     }
 }

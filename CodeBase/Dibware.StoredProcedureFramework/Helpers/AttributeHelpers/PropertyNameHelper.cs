@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Reflection;
 
-namespace Dibware.StoredProcedureFramework.Helpers
+namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {
     public class PropertyNameHelper
     {

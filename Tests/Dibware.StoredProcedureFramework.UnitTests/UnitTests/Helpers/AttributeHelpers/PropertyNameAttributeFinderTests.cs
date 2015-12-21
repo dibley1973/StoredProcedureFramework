@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Helpers;
+using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {
     [TestClass]
     public class PropertyNameAttributeFinderTests
@@ -38,7 +38,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
-        #region HastAttribute
+        #region HasFoundAttribute
 
         [TestMethod]
         public void HasAttribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
@@ -50,7 +50,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ACT
             bool actual = new PropertyNameAttributeFinder(property)
                 .CheckForAttribute()
-                .HasAttribute;
+                .HasFoundAttribute;
 
             // ASSERT
             Assert.IsFalse(actual);
@@ -66,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ACT
             bool actual = new PropertyNameAttributeFinder(property)
                 .CheckForAttribute()
-                .HasAttribute;
+                .HasFoundAttribute;
 
             // ASSERT
             Assert.IsTrue(actual);
@@ -74,10 +74,11 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
-        #region Attribute
+        #region AttributeFound
 
         [TestMethod]
-        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ReturnsNull()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -86,7 +87,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ACT
             NameAttribute actual = new PropertyNameAttributeFinder(property)
                 .CheckForAttribute()
-                .Attribute;
+                .AttributeFound;
 
             // ASSERT
             Assert.IsNull(actual);
@@ -102,7 +103,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ACT
             NameAttribute actual = new PropertyNameAttributeFinder(property)
                 .CheckForAttribute()
-                .Attribute;
+                .AttributeFound;
 
             // ASSERT
             Assert.IsNotNull(actual);

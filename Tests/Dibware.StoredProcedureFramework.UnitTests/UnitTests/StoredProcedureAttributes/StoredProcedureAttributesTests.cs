@@ -44,7 +44,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureAttrib
 
         #endregion
 
-        #region ParameterDbTypeAttribute
+        #region DbTypeAttribute
 
         [TestMethod]
         public void Value_WhenParameterDbTypeAttributeConstructedWithValidValue_ReturnsConstructedValue()
@@ -53,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureAttrib
             const SqlDbType expectedValue = SqlDbType.DateTimeOffset;
 
             // ACT
-            var directionAttribute = new ParameterDbTypeAttribute(expectedValue);
+            var directionAttribute = new DbTypeAttribute(expectedValue);
             var actualValue = directionAttribute.Value;
 
             // ASSERT

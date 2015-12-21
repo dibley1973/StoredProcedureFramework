@@ -159,7 +159,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private static void SetParameterSqlDbType(PropertyInfo propertyInfo, SqlParameter sqlParameter)
         {
-            var typeAttribute = propertyInfo.GetAttribute<ParameterDbTypeAttribute>();
+            var typeAttribute = propertyInfo.GetAttribute<DbTypeAttribute>();
             sqlParameter.SqlDbType = typeAttribute != null
                 ? typeAttribute.Value
                 : ClrTypeToSqlDbTypeMapper.GetSqlDbTypeFromClrType(propertyInfo.PropertyType);
@@ -177,10 +177,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             var directionAttribute = propertyInfo.GetAttribute<DirectionAttribute>();
             if (null != directionAttribute) sqlParameter.Direction = directionAttribute.Value;
-
-            // TODO: investigate if default direction needs to be set.
-            // default appears to be input any way
-            // sqlParameter.Direction = DefaultParameterDirection;
         }
 
         private void SetSqlParameterValue(object value, SqlParameter sqlParameter)
@@ -219,10 +215,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void TrySetSqlParameterSizeFromAttribute(PropertyInfo propertyInfo, SqlParameter sqlParameter)
         {
-            // TODO: DW-2015-11-18 - Investigate a better solution than the default 
-            // size for string parameters when no SizeAttribute has been set. 
-            // Previously the framework used to default to ZERO, but this is not 
-            // very useful to most callers.
             var sizeAttribute = propertyInfo.GetAttribute<SizeAttribute>();
             sqlParameter.Size = sizeAttribute != null
                 ? sizeAttribute.Value

@@ -19,7 +19,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 
         internal class Parameter
         {
-            [ParameterDbType(SqlDbType.Structured)]
+            [DbType(SqlDbType.Structured)]
             public List<SimpleParameterTableType> TvpParameters { get; set; }
         }
     }

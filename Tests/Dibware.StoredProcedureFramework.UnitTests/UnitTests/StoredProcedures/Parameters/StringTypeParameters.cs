@@ -6,11 +6,11 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Para
     internal class StringTypeParameters
     {
         [Size(30)]
-        [ParameterDbType(SqlDbType.NVarChar)]
+        [DbType(SqlDbType.NVarChar)]
         public string Value1 { get; set; }
 
         [Size(50)]
-        [ParameterDbType(SqlDbType.NVarChar)]
+        [DbType(SqlDbType.NVarChar)]
         public string Value2 { get; set; }
     }
 }
