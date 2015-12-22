@@ -2,13 +2,11 @@
 using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Extensions
@@ -105,7 +103,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             {
                 name = typeNameAttributeFinder.AttributeFound.Value;
             }
-           
+
             return name;
         }
 
@@ -129,7 +127,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             var propertyType = storedProcedurePropertyInfo.PropertyType;
             var schemaAttributeFinder = new TypeSchemaAttributeFinder(propertyType)
                 .DetectAttribute();
-            
+
             if (schemaAttributeFinder.HasFoundAttribute)
             {
                 schema = schemaAttributeFinder.AttributeFound.Value;
@@ -158,7 +156,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             storedProcedurePropertyInfo.SetValue(context, procedure);
         }
 
-        private static void SetStoredProcedureName(Type contextType, 
+        private static void SetStoredProcedureName(Type contextType,
             PropertyInfo storedProcedurePropertyInfo, object procedure)
         {
             var name = GetStoredProcedureName(contextType, storedProcedurePropertyInfo);

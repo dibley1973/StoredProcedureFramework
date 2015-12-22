@@ -55,6 +55,7 @@
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Generic\StoredProcedure.cs" />
+    <Compile Include="Helpers\DbContextStoredProcedurePropertyInitialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\StoredProcedureBaseForEF.cs" />
     <Compile Include="StoredProcedureDbContext.cs" />

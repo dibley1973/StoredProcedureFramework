@@ -1,8 +1,7 @@
-﻿using System;
-using System.Reflection;
-using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
+﻿using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {
