@@ -33,10 +33,10 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         #region Public Members
 
         /// <summary>
-        /// Checks for attribute.
+        /// Looks for the attribute.
         /// </summary>
         /// <returns>The current instance for fluid API</returns>
-        public PropertyNameAttributeFinder CheckForAttribute()
+        public PropertyNameAttributeFinder DetectAttribute()
         {
             SetAttributeIfExists();
             return this;

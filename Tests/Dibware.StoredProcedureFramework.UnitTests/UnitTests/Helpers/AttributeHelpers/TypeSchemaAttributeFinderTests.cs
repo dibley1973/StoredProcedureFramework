@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {
     [TestClass]
-    public class TypeNameAttributeFinderTests
+    public class TypeSchemaAttributeFinderTests
     {
         #region Constructor
 
@@ -18,7 +17,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             // ARRANGE
 
             // ACT
-            new TypeNameAttributeFinder(null);
+            new TypeSchemaAttributeFinder(null);
 
             // ASSERT
         }
@@ -30,7 +29,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject1);
 
             // ACT
-            new TypeNameAttributeFinder(testType);
+            new TypeSchemaAttributeFinder(testType);
 
             // ASSERT
         }
@@ -46,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject1);
 
             // ACT
-            bool actual = new TypeNameAttributeFinder(testType)
+            bool actual = new TypeSchemaAttributeFinder(testType)
                 .DetectAttribute()
                 .HasFoundAttribute;
 
@@ -61,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject2);
 
             // ACT
-            bool actual = new TypeNameAttributeFinder(testType)
+            bool actual = new TypeSchemaAttributeFinder(testType)
                 .DetectAttribute()
                 .HasFoundAttribute;
 
@@ -81,7 +80,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject1);
 
             // ACT
-            NameAttribute actual = new TypeNameAttributeFinder(testType)
+            SchemaAttribute actual = new TypeSchemaAttributeFinder(testType)
                 .DetectAttribute()
                 .AttributeFound;
 
@@ -96,12 +95,13 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject2);
 
             // ACT
-            NameAttribute actual = new TypeNameAttributeFinder(testType)
+            SchemaAttribute actual = new TypeSchemaAttributeFinder(testType)
                 .DetectAttribute()
                 .AttributeFound;
 
             // ASSERT
             Assert.IsNotNull(actual);
+            Assert.AreEqual("log", actual.Value);
         }
 
         #endregion
@@ -112,7 +112,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         {
         }
 
-        [Name("Address")]
+        [Schema("log")]
         private class TestObject2
         {
         }

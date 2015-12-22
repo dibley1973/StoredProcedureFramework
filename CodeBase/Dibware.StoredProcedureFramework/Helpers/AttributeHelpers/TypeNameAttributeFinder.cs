@@ -34,10 +34,10 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         #region Public Members
 
         /// <summary>
-        /// Checks for attribute.
+        /// Looks for the attribute.
         /// </summary>
         /// <returns>The current instance for fluid API</returns>
-        public TypeNameAttributeFinder CheckForAttribute()
+        public TypeNameAttributeFinder DetectAttribute()
         {
             SetAttributeIfExists();
             return this;
@@ -80,10 +80,6 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         {
             IEnumerable<NameAttribute> attributes = _type.GetCustomAttributes<NameAttribute>();
             _attributeFound = attributes.FirstOrDefault();
-            //NameAttribute attribute = attributes.FirstOrDefault();
-            //if (attribute != null) _attributeFound = attribute.Value;
-
-            //_attributeFound = _type.GetAttribute<NameAttribute>();
         }
         #endregion
     }

@@ -1,15 +1,16 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {
-    public class PropertySchemaAttributeFinder
+    public class TypeSchemaAttributeFinder
     {
         #region Fields
 
-        private readonly PropertyInfo _property;
+        private readonly Type _type;
         private SchemaAttribute _attributeFound;
 
         #endregion
@@ -17,15 +18,15 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         #region Construtors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertySchemaAttributeFinder"/> class.
+        /// Initializes a new instance of the <see cref="TypeSchemaAttributeFinder"/> class.
         /// </summary>
-        /// <param name="property">The property.</param>
-        /// <exception cref="System.ArgumentNullException">property</exception>
-        public PropertySchemaAttributeFinder(PropertyInfo property)
+        /// <param name="type">The type.</param>
+        /// <exception cref="System.ArgumentNullException">type</exception>
+        public TypeSchemaAttributeFinder(Type type)
         {
-            if (property == null) throw new ArgumentNullException("property");
+            if (type == null) throw new ArgumentNullException("type");
 
-            _property = property;
+            _type = type;
         }
 
         #endregion
@@ -36,7 +37,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         /// Looks for the attribute.
         /// </summary>
         /// <returns>The current instance for fluid API</returns>
-        public PropertySchemaAttributeFinder DetectAttribute()
+        public TypeSchemaAttributeFinder DetectAttribute()
         {
             SetAttributeIfExists();
             return this;
@@ -77,7 +78,8 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 
         private void SetAttributeIfExists()
         {
-            _attributeFound = _property.GetAttribute<SchemaAttribute>();
+            IEnumerable<SchemaAttribute> attributes = _type.GetCustomAttributes<SchemaAttribute>();
+            _attributeFound = attributes.FirstOrDefault();
         }
         #endregion
     }

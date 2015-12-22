@@ -41,7 +41,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         #region HasFoundAttribute
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
+        public void HasAttribute_WhenCalledAfterDetectAttributeAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -49,7 +49,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
             // ACT
             bool actual = new PropertyNameAttributeFinder(property)
-                .CheckForAttribute()
+                .DetectAttribute()
                 .HasFoundAttribute;
 
             // ASSERT
@@ -57,7 +57,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         }
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsTrue()
+        public void HasAttribute_WhenCalledAfterDetectAttributeAndPropertyDoesHaveAtrribute_ReturnsTrue()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -65,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
             // ACT
             bool actual = new PropertyNameAttributeFinder(property)
-                .CheckForAttribute()
+                .DetectAttribute()
                 .HasFoundAttribute;
 
             // ASSERT
@@ -78,7 +78,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void AAttributeFound_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
+        public void AAttributeFound_WhenCalledAfterDetectAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -86,7 +86,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
             // ACT
             NameAttribute actual = new PropertyNameAttributeFinder(property)
-                .CheckForAttribute()
+                .DetectAttribute()
                 .AttributeFound;
 
             // ASSERT
@@ -94,7 +94,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         }
 
         [TestMethod]
-        public void AttributeFound_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
+        public void AttributeFound_WhenCalledAfterDetectAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
@@ -102,7 +102,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
             // ACT
             NameAttribute actual = new PropertyNameAttributeFinder(property)
-                .CheckForAttribute()
+                .DetectAttribute()
                 .AttributeFound;
 
             // ASSERT
