@@ -98,6 +98,7 @@
     <Compile Include="NullStoredProcedureResult.cs" />
     <Compile Include="Resources\FormatStrings.cs" />
     <Compile Include="StoredProcedureAttributes\DirectionAttribute.cs" />
+    <Compile Include="StoredProcedureAttributes\ParameterDbTypeAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\PrecisionAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\ScaleAttribute.cs" />
     <Compile Include="StoredProcedureAttributes\SizeAttribute.cs" />
