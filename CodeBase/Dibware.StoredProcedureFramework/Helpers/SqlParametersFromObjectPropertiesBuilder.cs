@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Generics;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 
 namespace Dibware.StoredProcedureFramework.Helpers
@@ -168,11 +169,14 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private static void SetParameterName(PropertyInfo propertyInfo, SqlParameter sqlParameter)
         {
-            var nameAttributefinder = new PropertyNameAttributeFinder(propertyInfo)
-                .DetectAttribute();
- 
-            sqlParameter.ParameterName = nameAttributefinder.HasFoundAttribute 
-                ? nameAttributefinder.AttributeFound.Value 
+            var nameAttributefinder = new PropertyNameAttributeFinder(propertyInfo);
+
+            //sqlParameter.ParameterName = nameAttributefinder.HasFoundAttribute 
+            //    ? nameAttributefinder.Get.Value 
+            //    : propertyInfo.Name;
+
+            sqlParameter.ParameterName = nameAttributefinder.HasFoundAttribute
+                ? nameAttributefinder.GetResult().Single().Value
                 : propertyInfo.Name;
         }
 

@@ -83,6 +83,9 @@
     <Compile Include="Fakes\Entities\Tenant.cs" />
     <Compile Include="UnitTests\Extensions\IListExtensionsTests.cs" />
     <Compile Include="UnitTests\Extensions\IListTypeDefinitionFinderTest.cs" />
+    <Compile Include="UnitTests\Extensions\MaybeExtensionsTests.cs" />
+    <Compile Include="UnitTests\Generics\MaybeOfTTests.cs" />
+    <Compile Include="UnitTests\Generics\MaybeOfT2TestsTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertySchemaAttributeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\TypeNameAttributeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\TypeSchemaAttributeFinderTests.cs" />

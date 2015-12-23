@@ -1,12 +1,15 @@
 ﻿using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Generics;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Extensions
@@ -75,73 +78,64 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         #region Methods : Private or protected
 
-        private static string GetStoredProcedureNameFromStoredProcedurePropertyName(Type contextType, PropertyInfo propertyInfo)
+        private static string GetDefaultStoredProcedureName(Type contextType, PropertyInfo propertyInfo)
         {
             var propertyInfoName = propertyInfo.Name;
             return contextType.GetPropertyName(propertyInfoName);
         }
-        private static string GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
-        {
-            string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
 
-            var propertyNameAttributeFinder = new PropertyNameAttributeFinder(storedProcedurePropertyInfo)
-                .DetectAttribute();
-            if (propertyNameAttributeFinder.HasFoundAttribute)
-            {
-                name = propertyNameAttributeFinder.AttributeFound.Value;
-            }
-            return name;
+        private static Maybe<string> GetOverriddenStoredProcedureName(PropertyInfo storedProcedurePropertyInfo)
+        {
+            Maybe<NameAttribute> finderResult =
+                new PropertyNameAttributeFinder(storedProcedurePropertyInfo).GetResult();
+
+            return finderResult.HasItem
+                ? new Maybe<string>(finderResult.Single().Value)
+                : new Maybe<string>();
         }
 
-        private static string GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
+        private static Maybe<string> GetOverriddenStoredProcedureName(Type storedProcedurePropertyType)
         {
-            string name = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var typeNameAttributeFinder = new TypeNameAttributeFinder(storedProcedurePropertyInfo.PropertyType)
-                .DetectAttribute();
+            Maybe<NameAttribute> finderResult =
+                new TypeNameAttributeFinder(storedProcedurePropertyType).GetResult2();
 
-            if (typeNameAttributeFinder.HasFoundAttribute)
-            {
-                name = typeNameAttributeFinder.AttributeFound.Value;
-            }
-
-            return name;
+            return finderResult.HasItem
+                ? new Maybe<string>(finderResult.Single().Value)
+                : new Maybe<string>();
         }
 
-        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(PropertyInfo storedProcedurePropertyInfo)
+        private static Maybe<string> GetOverriddenStoredProcedureSchemaName(PropertyInfo storedProcedurePropertyInfo)
         {
-            string schema = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var schemaAttributeFinder = new PropertySchemaAttributeFinder(storedProcedurePropertyInfo)
-                .DetectAttribute();
+            var schemaAttributeFinder = new PropertySchemaAttributeFinder(storedProcedurePropertyInfo);
 
-            if (schemaAttributeFinder.HasFoundAttribute)
-            {
-                schema = schemaAttributeFinder.AttributeFound.Value;
-            }
-
-            return schema;
+            return schemaAttributeFinder.HasFoundAttribute
+                ? new Maybe<string>(schemaAttributeFinder.GetResult().Value)
+                : new Maybe<string>();
         }
 
-        private static string GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(PropertyInfo storedProcedurePropertyInfo)
+        private static Maybe<string> GetOverriddenStoredProcedureSchemaName(Type storedProcedurePropertyType)
         {
-            string schema = null; // TODO: Clean Code would advise we dont return a null, but instead throw an exception
-            var propertyType = storedProcedurePropertyInfo.PropertyType;
-            var schemaAttributeFinder = new TypeSchemaAttributeFinder(propertyType)
-                .DetectAttribute();
+            Maybe<SchemaAttribute> finderResult =
+                new TypeSchemaAttributeFinder(storedProcedurePropertyType).GetResult();
 
-            if (schemaAttributeFinder.HasFoundAttribute)
-            {
-                schema = schemaAttributeFinder.AttributeFound.Value;
-            }
+            return finderResult.HasItem
+                ? new Maybe<string>(finderResult.Single().Value)
+                : new Maybe<string>();
 
-            return schema;
         }
 
         private static string GetStoredProcedureName(Type contextType, PropertyInfo storedProcedurePropertyInfo)
         {
-            var name = (GetStoredProcedureNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo)
-                        ?? GetStoredProcedureNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo))
-                       ?? GetStoredProcedureNameFromStoredProcedurePropertyName(contextType, storedProcedurePropertyInfo);
-            return name;
+            string defaultProcedureName = GetDefaultStoredProcedureName(contextType,
+                storedProcedurePropertyInfo);
+
+            Maybe<string> overriddenProcedureNameResult =
+                GetOverriddenStoredProcedureName(storedProcedurePropertyInfo)
+                    .Or(GetOverriddenStoredProcedureName(storedProcedurePropertyInfo.PropertyType));
+
+            string procedureName = overriddenProcedureNameResult.SingleOrDefault(defaultProcedureName);
+
+            return procedureName;
         }
 
         private static void InitializeStoredProcedureProperty(DbContext context, Type contextType, PropertyInfo storedProcedurePropertyInfo)
@@ -173,12 +167,13 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         private static void SetStoredProcedureSchemaName(PropertyInfo storedProcedurePropertyInfo, object procedure)
         {
-            string schemaName = GetStoredProcedureSchemaNameFromAttributeOnStoredProcedureProperty(storedProcedurePropertyInfo) ??
-                                GetStoredProcedureSchemaNameFromAttributeOnStoredProcedurePropertyType(storedProcedurePropertyInfo);
+            Maybe<string> overriddenProcedureSchemaResult =
+                GetOverriddenStoredProcedureSchemaName(storedProcedurePropertyInfo)
+                .Or(GetOverriddenStoredProcedureSchemaName(storedProcedurePropertyInfo.PropertyType));
 
-            if (schemaName != null)
+            if (overriddenProcedureSchemaResult.HasItem)
             {
-                ((StoredProcedureBase)procedure).SetSchemaName(schemaName);
+                ((StoredProcedureBase)procedure).SetSchemaName(overriddenProcedureSchemaResult.Single());
             }
         }
 

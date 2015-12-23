@@ -60,7 +60,10 @@
     <Compile Include="Exceptions\SqlFunctionConstructionException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
+    <Compile Include="Extensions\MaybeExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Generics\MaybeOfT.cs" />
+    <Compile Include="Generics\MaybeOfT2.cs" />
     <Compile Include="Helpers\AttributeHelpers\TypeSchemaAttributeFinder.cs" />
     <Compile Include="Helpers\ColumnSqlDbTypeHelper.cs" />
     <Compile Include="Helpers\IListTypeDefinitionFinder.cs" />
@@ -135,6 +138,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

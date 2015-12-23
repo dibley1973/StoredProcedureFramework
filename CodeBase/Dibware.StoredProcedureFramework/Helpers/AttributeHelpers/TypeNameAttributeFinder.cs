@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Generics;
 
 namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {
@@ -11,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         #region Fields
 
         private readonly Type _type;
-        private NameAttribute _attributeFound;
+        private NameAttribute _attribute;
 
         #endregion
 
@@ -27,21 +28,12 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
             if (type == null) throw new ArgumentNullException("type");
 
             _type = type;
+            SetAttributeIfExists();
         }
 
         #endregion
 
         #region Public Members
-
-        /// <summary>
-        /// Looks for the attribute.
-        /// </summary>
-        /// <returns>The current instance for fluid API</returns>
-        public TypeNameAttributeFinder DetectAttribute()
-        {
-            SetAttributeIfExists();
-            return this;
-        }
 
         /// <summary>
         /// Gets a value indicating whether this instance has found an attribute.
@@ -51,25 +43,38 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         /// </value>
         public bool HasFoundAttribute
         {
-            get { return _attributeFound != null; }
+            get { return _attribute != null; }
         }
 
         /// <summary>
-        /// Gets the AttributeFound that was found.
+        /// Gets the result containing the Attribute if one was found.
         /// </summary>
         /// <value>
-        /// The AttributeFound.
+        /// The result.
         /// </value>
-        public NameAttribute AttributeFound
+        public NameAttribute GetResult()
         {
-            get
+            if (!HasFoundAttribute)
             {
-                if (!HasFoundAttribute)
-                {
-                    throw new InvalidOperationException("No attribute type was found so cannot be returned. Hint: Use HasFoundAttribute first.");
-                }
-                return _attributeFound;
+                throw new InvalidOperationException(
+                    "No attribute type was found so cannot be returned. Hint: Use HasFoundAttribute first.");
             }
+            return _attribute;
+        }
+
+        /// <summary>
+        /// Gets the result containing the attribute if one was found.
+        /// </summary>
+        /// <value>
+        /// The result.
+        /// </value>
+        public Maybe<NameAttribute> GetResult2()
+        {
+            if (!HasFoundAttribute)
+            {
+                return new Maybe<NameAttribute>();
+            }
+            return new Maybe<NameAttribute>(_attribute);
         }
 
         #endregion
@@ -79,7 +84,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         private void SetAttributeIfExists()
         {
             IEnumerable<NameAttribute> attributes = _type.GetCustomAttributes<NameAttribute>();
-            _attributeFound = attributes.FirstOrDefault();
+            _attribute = attributes.FirstOrDefault();
         }
         #endregion
     }

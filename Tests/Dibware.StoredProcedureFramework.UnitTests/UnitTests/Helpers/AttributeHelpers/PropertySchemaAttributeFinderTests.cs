@@ -42,32 +42,28 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #region HasFoundAttribute
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterDetectAttributeAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
+        public void HasAttribute_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure1");
 
             // ACT
-            bool actual = new PropertySchemaAttributeFinder(property)
-                .DetectAttribute()
-                .HasFoundAttribute;
+            bool actual = new PropertySchemaAttributeFinder(property).HasFoundAttribute;
 
             // ASSERT
             Assert.IsFalse(actual);
         }
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterDetectAttributeAndPropertyDoesHaveAtrribute_ReturnsTrue()
+        public void HasAttribute_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsTrue()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure2");
 
             // ACT
-            bool actual = new PropertySchemaAttributeFinder(property)
-                .DetectAttribute()
-                .HasFoundAttribute;
+            bool actual = new PropertySchemaAttributeFinder(property).HasFoundAttribute;
 
             // ASSERT
             Assert.IsTrue(actual);
@@ -79,32 +75,28 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void Attribute_WhenCalledAfterDetectAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
+        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ThrowsException()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure1");
 
             // ACT
-            SchemaAttribute actual = new PropertySchemaAttributeFinder(property)
-                .DetectAttribute()
-                .AttributeFound;
+            SchemaAttribute actual = new PropertySchemaAttributeFinder(property).GetResult();
 
             // ASSERT
             Assert.IsNull(actual);
         }
 
         [TestMethod]
-        public void Attribute_WhenCalledAfterDetectAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
+        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure2");
 
             // ACT
-            SchemaAttribute actual = new PropertySchemaAttributeFinder(property)
-                .DetectAttribute()
-                .AttributeFound;
+            SchemaAttribute actual = new PropertySchemaAttributeFinder(property).GetResult();
 
             // ASSERT
             Assert.IsNotNull(actual);

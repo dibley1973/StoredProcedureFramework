@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Dibware.StoredProcedureFramework.Generics;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,30 +41,26 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         #region HasFoundAttribute
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
+        public void HasAttribute_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ReturnsFalse()
         {
             // ARRANGE
             Type testType = typeof(TestObject1);
 
             // ACT
-            bool actual = new TypeSchemaAttributeFinder(testType)
-                .DetectAttribute()
-                .HasFoundAttribute;
+            bool actual = new TypeSchemaAttributeFinder(testType).HasFoundAttribute;
 
             // ASSERT
             Assert.IsFalse(actual);
         }
 
         [TestMethod]
-        public void HasAttribute_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsTrue()
+        public void HasAttribute_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsTrue()
         {
             // ARRANGE
             Type testType = typeof(TestObject2);
 
             // ACT
-            bool actual = new TypeSchemaAttributeFinder(testType)
-                .DetectAttribute()
-                .HasFoundAttribute;
+            bool actual = new TypeSchemaAttributeFinder(testType).HasFoundAttribute;
 
             // ASSERT
             Assert.IsTrue(actual);
@@ -73,35 +71,31 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
         #region AttributeFound
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesNotHaveAtrribute_ThrowsException()
+        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ReturnsEmptyMaybe()
         {
             // ARRANGE
             Type testType = typeof(TestObject1);
 
             // ACT
-            SchemaAttribute actual = new TypeSchemaAttributeFinder(testType)
-                .DetectAttribute()
-                .AttributeFound;
+            Maybe<SchemaAttribute> actual = new TypeSchemaAttributeFinder(testType).GetResult();
 
             // ASSERT
-            Assert.IsNull(actual);
+            Assert.IsNull(actual.FirstOrDefault());
         }
 
         [TestMethod]
-        public void Attribute_WhenCalledAfterCheckAttributeAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
+        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsMaybePopulatedWithInstanceOfAttribute()
         {
             // ARRANGE
             Type testType = typeof(TestObject2);
 
             // ACT
-            SchemaAttribute actual = new TypeSchemaAttributeFinder(testType)
-                .DetectAttribute()
-                .AttributeFound;
+            Maybe<SchemaAttribute> actual = new TypeSchemaAttributeFinder(testType).GetResult();
 
             // ASSERT
             Assert.IsNotNull(actual);
-            Assert.AreEqual("log", actual.Value);
+            Assert.IsInstanceOfType(actual.FirstOrDefault(), typeof(SchemaAttribute));
+            Assert.AreEqual("log", actual.Single().Value);
         }
 
         #endregion
