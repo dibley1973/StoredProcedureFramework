@@ -47,28 +47,12 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         }
 
         /// <summary>
-        /// Gets the result containing the Attribute if one was found.
-        /// </summary>
-        /// <value>
-        /// The result.
-        /// </value>
-        public NameAttribute GetResult()
-        {
-            if (!HasFoundAttribute)
-            {
-                throw new InvalidOperationException(
-                    "No attribute type was found so cannot be returned. Hint: Use HasFoundAttribute first.");
-            }
-            return _attribute;
-        }
-
-        /// <summary>
         /// Gets the result containing the attribute if one was found.
         /// </summary>
         /// <value>
         /// The result.
         /// </value>
-        public Maybe<NameAttribute> GetResult2()
+        public Maybe<NameAttribute> GetResult()
         {
             if (!HasFoundAttribute)
             {

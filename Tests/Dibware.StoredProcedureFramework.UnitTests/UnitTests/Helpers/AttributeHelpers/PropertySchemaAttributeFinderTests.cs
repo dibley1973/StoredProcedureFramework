@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Generics;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
@@ -71,35 +73,36 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
-        #region AttributeFound
+        #region GetResult
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ThrowsException()
+        public void GetResult_WhenCalledAfterInstantiationAndPropertyDoesNotHaveAtrribute_ReturnsEmptyMaybe()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure1");
 
             // ACT
-            SchemaAttribute actual = new PropertySchemaAttributeFinder(property).GetResult();
+            Maybe<SchemaAttribute> actual = new PropertySchemaAttributeFinder(property).GetResult();
 
             // ASSERT
-            Assert.IsNull(actual);
+            Assert.IsNull(actual.FirstOrDefault());
         }
 
         [TestMethod]
-        public void Attribute_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsInstanceOfAttribute()
+        public void GetResult_WhenCalledAfterInstantiationAndPropertyDoesHaveAtrribute_ReturnsMaybePopulatedWithInstanceOfAttribute()
         {
             // ARRANGE
             Type testType = typeof(TestObject);
             PropertyInfo property = testType.GetProperty("Procedure2");
 
             // ACT
-            SchemaAttribute actual = new PropertySchemaAttributeFinder(property).GetResult();
+            Maybe<SchemaAttribute> actual = new PropertySchemaAttributeFinder(property).GetResult();
 
             // ASSERT
             Assert.IsNotNull(actual);
+            Assert.IsInstanceOfType(actual.FirstOrDefault(), typeof(SchemaAttribute));
+            Assert.AreEqual("log", actual.Single().Value);
         }
 
         #endregion
@@ -110,7 +113,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         {
             
             public string Procedure1 { get; set; }
-            [Schema("app")]
+            [Schema("log")]
             public string Procedure2 { get; set; }
         }
 

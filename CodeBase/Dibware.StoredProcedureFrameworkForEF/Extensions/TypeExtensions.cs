@@ -11,6 +11,8 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
     {
         public static string GetPropertyName(this Type instance, string propertyInfoName)
         {
+            //TODO: this is ripe for returning a Maybe<string>
+
             var memberInfos = instance.GetMember(propertyInfoName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             var memberInfo = memberInfos.FirstOrDefault();
             return memberInfo == null ? null : memberInfo.Name;

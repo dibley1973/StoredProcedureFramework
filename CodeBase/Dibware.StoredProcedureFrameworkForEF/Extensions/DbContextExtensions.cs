@@ -97,7 +97,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
         private static Maybe<string> GetOverriddenStoredProcedureName(Type storedProcedurePropertyType)
         {
             Maybe<NameAttribute> finderResult =
-                new TypeNameAttributeFinder(storedProcedurePropertyType).GetResult2();
+                new TypeNameAttributeFinder(storedProcedurePropertyType).GetResult();
 
             return finderResult.HasItem
                 ? new Maybe<string>(finderResult.Single().Value)
@@ -106,10 +106,11 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         private static Maybe<string> GetOverriddenStoredProcedureSchemaName(PropertyInfo storedProcedurePropertyInfo)
         {
-            var schemaAttributeFinder = new PropertySchemaAttributeFinder(storedProcedurePropertyInfo);
+            Maybe<SchemaAttribute> finderResult =
+               new PropertySchemaAttributeFinder(storedProcedurePropertyInfo).GetResult();
 
-            return schemaAttributeFinder.HasFoundAttribute
-                ? new Maybe<string>(schemaAttributeFinder.GetResult().Value)
+            return finderResult.HasItem
+                ? new Maybe<string>(finderResult.Single().Value)
                 : new Maybe<string>();
         }
 
@@ -121,7 +122,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             return finderResult.HasItem
                 ? new Maybe<string>(finderResult.Single().Value)
                 : new Maybe<string>();
-
         }
 
         private static string GetStoredProcedureName(Type contextType, PropertyInfo storedProcedurePropertyInfo)

@@ -109,9 +109,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private void EnsureTargetContructrorExists()
         {
-            if (_constructorInfo == null)
-                throw new MissingMethodException(
-                    _targetType.Name, "Constructor");
+            if (_constructorInfo == null) throw new MissingMethodException(_targetType.Name, "Constructor");
         }
 
         private void HandleCastingExceptions(Exception ex)

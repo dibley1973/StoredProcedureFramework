@@ -2,6 +2,7 @@
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Generics;
 
 namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {
@@ -51,14 +52,13 @@ namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
         /// <value>
         /// The result.
         /// </value>
-        public SchemaAttribute GetResult()
+        public Maybe<SchemaAttribute> GetResult()
         {
             if (!HasFoundAttribute)
             {
-                throw new InvalidOperationException(
-                    "No attribute type was found so cannot be returned. Hint: Use HasFoundAttribute first.");
+                return new Maybe<SchemaAttribute>();
             }
-            return _attribute;
+            return new Maybe<SchemaAttribute>(_attribute);
         }
 
         #endregion

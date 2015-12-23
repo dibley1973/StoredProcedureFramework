@@ -77,7 +77,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject1);
 
             // ACT
-            Maybe<NameAttribute> actual = new TypeNameAttributeFinder(testType).GetResult2();
+            Maybe<NameAttribute> actual = new TypeNameAttributeFinder(testType).GetResult();
 
             // ASSERT
             Assert.IsNull(actual.FirstOrDefault());
@@ -90,7 +90,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
             Type testType = typeof(TestObject2);
 
             // ACT
-            Maybe<NameAttribute> actual = new TypeNameAttributeFinder(testType).GetResult2();
+            Maybe<NameAttribute> actual = new TypeNameAttributeFinder(testType).GetResult();
 
             // ASSERT
             Assert.IsNotNull(actual);
