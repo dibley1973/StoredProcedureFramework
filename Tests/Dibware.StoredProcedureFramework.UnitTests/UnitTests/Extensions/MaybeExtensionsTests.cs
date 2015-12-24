@@ -1,5 +1,4 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Generics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,7 +13,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
             // ARRANGE
             const string defaultValue = "Monkey";
             var maybe = new Maybe<string>();
-            
+
             // ACT
             var actual = maybe.SingleOrDefault(defaultValue);
 

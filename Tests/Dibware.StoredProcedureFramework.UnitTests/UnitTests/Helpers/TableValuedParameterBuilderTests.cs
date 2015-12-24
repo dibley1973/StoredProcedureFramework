@@ -402,7 +402,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         public void TableValueParameters_WhenConstructedUsingListWithDbTypeAttributeAndIncorrectType_ThrowsException()
         {
             // ARRANGE
-            SqlDbType expectedField1SqlDbType = SqlDbType.BigInt;
+            const SqlDbType expectedField1SqlDbType = SqlDbType.BigInt;
             var itemList = new List<SimpleParameterWithDbTypeAttributeTableType>
             {
                 new SimpleParameterWithDbTypeAttributeTableType { Id = 1}

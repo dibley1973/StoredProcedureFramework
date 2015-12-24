@@ -9,7 +9,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
     [AttributeUsage(AttributeTargets.Property)]
     public class DbTypeAttribute : Attribute
     {
-        public SqlDbType Value { get; set; }
+        public SqlDbType Value { get; private set; }
 
         public DbTypeAttribute(SqlDbType type)
         {

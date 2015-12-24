@@ -53,7 +53,6 @@
     <Compile Include="Base\NoParametersStoredProcedureBaseForEf.cs" />
     <Compile Include="Base\NoReturnTypeStoredProcedureBaseForEf.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Generic\StoredProcedure.cs" />
     <Compile Include="Helpers\DbContextStoredProcedurePropertyInitialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

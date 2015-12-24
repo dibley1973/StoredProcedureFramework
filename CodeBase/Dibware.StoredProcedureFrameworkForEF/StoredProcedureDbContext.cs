@@ -33,7 +33,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
         /// the database to which a connection will be made.  
         /// </summary>
         /// <param name="nameOrConnectionString"> Either the database name or a connection string. </param>
-        public StoredProcedureDbContext(string nameOrConnectionString)
+        protected StoredProcedureDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             this.InitializeStoredProcedureProperties();
@@ -63,7 +63,7 @@ namespace Dibware.StoredProcedureFrameworkForEF
         /// <param name="contextOwnsConnection">
         /// If set to <c>true</c> the connection is disposed when the context is disposed, otherwise the caller must dispose the connection.
         /// </param>
-        public StoredProcedureDbContext(DbConnection existingConnection, bool contextOwnsConnection)
+        protected StoredProcedureDbContext(DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
             this.InitializeStoredProcedureProperties();

@@ -281,7 +281,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
             if (sqlParameter.RequiresLengthValidation()) ValidateString(sqlParameter, value);
         }
 
-        public TSourceType Source { get { return _source; } }
+        private TSourceType Source { get { return _source; } }
 
 
         #endregion

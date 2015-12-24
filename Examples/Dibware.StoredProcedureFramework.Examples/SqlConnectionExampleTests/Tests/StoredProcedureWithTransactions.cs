@@ -130,12 +130,12 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             };
             var companyAddProcedure = new CompaniesAdd(parameters);
             var companyCountProcedure = new CompanyCountAll();
-            SqlTransaction transaction;
 
             // ACT
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
+                SqlTransaction transaction;
                 using (transaction = connection.BeginTransaction())
                 {
                     originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;
@@ -183,13 +183,13 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                 TenantId = 2
             };
             var companyDeleteProcedure = new CompanyDeleteForTenantId(companyDeleteParameters);
-            SqlTransaction transaction;
 
             // ACT
 
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
+                SqlTransaction transaction;
                 using (transaction = connection.BeginTransaction())
                 {
                     originalCount = connection.ExecuteStoredProcedure(companyCountProcedure, transaction: transaction).First().CountOfCompanies;

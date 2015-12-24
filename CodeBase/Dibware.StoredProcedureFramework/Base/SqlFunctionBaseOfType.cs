@@ -149,7 +149,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// state which can be called and executed
         /// </summary>
         /// <returns></returns>
-        public bool IsFullyConstructed()
+        private bool IsFullyConstructed()
         {
             return HasFunctionName() && HasReturnType();
         }
@@ -163,7 +163,7 @@ namespace Dibware.StoredProcedureFramework.Base
             return (ReturnType != null);
         }
 
-        protected void SetParameters(TParameters parameters)
+        private void SetParameters(TParameters parameters)
         {
             _parameters = parameters;
         }

@@ -31,7 +31,7 @@ namespace Dibware.StoredProcedureFramework.DataInfo
         /// <summary>
         /// Initializes a new instance of the <see cref="StringInfo"/> class.
         /// </summary>
-        public StringInfo()
+        private StringInfo()
         {
             IsNull = true;
         }
@@ -40,7 +40,7 @@ namespace Dibware.StoredProcedureFramework.DataInfo
         /// Initializes a new instance of the <see cref="StringInfo"/> struct.
         /// </summary>
         /// <param name="length">The length of the string.</param>
-        public StringInfo(int length)
+        private StringInfo(int length)
             : this()
         {
             IsNull = false;

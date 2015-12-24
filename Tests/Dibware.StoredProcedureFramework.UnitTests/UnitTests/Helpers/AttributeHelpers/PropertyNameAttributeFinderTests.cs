@@ -109,7 +109,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelp
 
         #region Mock object
 
-        public class TestObject
+        private class TestObject
         {
             public string Name1 { get; set; }
             [Name("Address")]

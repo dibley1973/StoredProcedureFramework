@@ -32,13 +32,12 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.VolumeAndPerformance
 
             var getAllStoredProcedure = new VolumeAndPerformanceGetAllStoredProcedure();
             Stopwatch stopwatch = new Stopwatch();
-            TimeSpan elapsed;
 
             // ACT
             stopwatch.Start();
             var results = Connection.ExecuteStoredProcedure(getAllStoredProcedure);
             stopwatch.Stop();
-            elapsed = stopwatch.Elapsed;
+            var elapsed = stopwatch.Elapsed;
 
             // ASSERT
             Assert.AreEqual(expectedNumberOfRecords, results.Count);

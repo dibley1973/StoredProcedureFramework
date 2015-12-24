@@ -18,8 +18,6 @@ namespace Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures
         }
     }
 
-
-
     internal class NormalStoredProcedureParameters
     {
         [DbType(SqlDbType.Int)]

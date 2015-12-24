@@ -78,12 +78,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
 
         #region Methods : Private or protected
 
-        private static string GetDefaultStoredProcedureName(Type contextType, PropertyInfo propertyInfo)
-        {
-            var propertyInfoName = propertyInfo.Name;
-            return contextType.GetPropertyName(propertyInfoName);
-        }
-
         private static Maybe<string> GetOverriddenStoredProcedureName(PropertyInfo storedProcedurePropertyInfo)
         {
             Maybe<NameAttribute> finderResult =
@@ -124,15 +118,13 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
                 : new Maybe<string>();
         }
 
-        private static string GetStoredProcedureName(Type contextType, PropertyInfo storedProcedurePropertyInfo)
+        private static string GetStoredProcedureName(PropertyInfo storedProcedurePropertyInfo)
         {
-            string defaultProcedureName = GetDefaultStoredProcedureName(contextType,
-                storedProcedurePropertyInfo);
-
             Maybe<string> overriddenProcedureNameResult =
                 GetOverriddenStoredProcedureName(storedProcedurePropertyInfo)
                     .Or(GetOverriddenStoredProcedureName(storedProcedurePropertyInfo.PropertyType));
 
+            string defaultProcedureName = storedProcedurePropertyInfo.Name;
             string procedureName = overriddenProcedureNameResult.SingleOrDefault(defaultProcedureName);
 
             return procedureName;
@@ -144,16 +136,15 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             if (constructorInfo == null) return;
 
             object procedure = constructorInfo.Invoke(new object[] { context });
-            SetStoredProcedureName(contextType, storedProcedurePropertyInfo, procedure);
+            SetStoredProcedureName(storedProcedurePropertyInfo, procedure);
             SetStoredProcedureSchemaName(storedProcedurePropertyInfo, procedure);
 
             storedProcedurePropertyInfo.SetValue(context, procedure);
         }
 
-        private static void SetStoredProcedureName(Type contextType,
-            PropertyInfo storedProcedurePropertyInfo, object procedure)
+        private static void SetStoredProcedureName(PropertyInfo storedProcedurePropertyInfo, object procedure)
         {
-            var name = GetStoredProcedureName(contextType, storedProcedurePropertyInfo);
+            var name = GetStoredProcedureName(storedProcedurePropertyInfo);
 
             if (name != null)
             {

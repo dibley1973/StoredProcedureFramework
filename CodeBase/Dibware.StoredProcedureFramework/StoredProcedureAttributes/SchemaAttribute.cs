@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
         AttributeTargets.Property)]
     public class SchemaAttribute : Attribute
     {
-        public String Value { get; set; }
+        public String Value { get; private set; }
 
         public SchemaAttribute(String value)
         {

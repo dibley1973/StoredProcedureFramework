@@ -60,7 +60,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
-        internal class TestObject
+        private class TestObject
         {
             public int id { get; set; }
             public string Name { get; set; }

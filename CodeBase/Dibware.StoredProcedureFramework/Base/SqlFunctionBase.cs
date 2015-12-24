@@ -50,11 +50,9 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <summary>
         /// Sets the sql function name.
         /// </summary>
-        /// <param name="sql functionName">Name of the sql function.</param>
-        /// <returns>
-        /// This instance
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException">sql functionName</exception>
+        /// <param name="sqlFunctionName">Name of the SQL function.</param>
+        /// <exception cref="System.ArgumentNullException">sqlFunctionName</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">sqlFunctionName</exception>
         public void SetFunctionName(string sqlFunctionName)
         {
             // Validate argument
@@ -136,7 +134,7 @@ namespace Dibware.StoredProcedureFramework.Base
 
         #region State Structure
 
-        protected struct SqlFunctionBaseState
+        private struct SqlFunctionBaseState
         {
             public string FunctionName;
             public string SchemaName;

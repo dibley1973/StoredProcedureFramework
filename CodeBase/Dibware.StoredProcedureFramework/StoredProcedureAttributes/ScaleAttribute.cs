@@ -12,7 +12,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
     [AttributeUsage(AttributeTargets.Property)]
     public class ScaleAttribute : Attribute
     {
-        public Byte Value { get; set; }
+        public Byte Value { get; private set; }
 
         public ScaleAttribute(Byte value)
         {

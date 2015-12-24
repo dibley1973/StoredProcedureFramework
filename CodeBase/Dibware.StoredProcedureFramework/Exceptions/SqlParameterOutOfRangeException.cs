@@ -32,7 +32,7 @@ namespace Dibware.StoredProcedureFramework.Exceptions
         /// <param name="expectedScale">The expected scale.</param>
         /// <param name="actualPrecision">The actual precision.</param>
         /// <param name="actualScale">The actual scale.</param>
-        public SqlParameterOutOfRangeException(
+        private SqlParameterOutOfRangeException(
             string parameterName,
             int expectedPrecision,
             int expectedScale,

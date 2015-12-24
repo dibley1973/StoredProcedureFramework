@@ -21,13 +21,12 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                 TenantId = 1
             };
             var procedure = new TenantCompanyAccountGetForTenantId(parameters);
-            TenantCompanyAccountGetForTenantId.TenantCompanyAccountGetForTenantIdResultSet resultSet;
             const int expectedTenantCount = 1;
             const int expectedCompanyCount = 2;
             const int expectedAccountCount = 3000000;
 
             // ACT
-            resultSet = Connection.ExecuteStoredProcedure(procedure);
+            var resultSet = Connection.ExecuteStoredProcedure(procedure);
             List<TenantDto> tenants = resultSet.Tenants;
             List<CompanyDto> companies = resultSet.Companies;
             List<AccountDto> accounts = resultSet.Accounts;

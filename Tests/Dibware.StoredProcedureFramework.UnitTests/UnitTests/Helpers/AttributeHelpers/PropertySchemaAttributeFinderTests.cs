@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Reflection;
 using Dibware.StoredProcedureFramework.Generics;
-using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {
     [TestClass]
     public class PropertySchemaAttributeFinderTests
@@ -109,7 +108,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #region Mock object
 
-        public class TestObject
+        private class TestObject
         {
             
             public string Procedure1 { get; set; }

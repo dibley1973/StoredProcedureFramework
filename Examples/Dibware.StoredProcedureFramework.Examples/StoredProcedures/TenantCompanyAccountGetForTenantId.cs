@@ -19,9 +19,9 @@ namespace Dibware.StoredProcedureFramework.Examples.StoredProcedures
 
         internal class TenantCompanyAccountGetForTenantIdResultSet
         {
-            public List<TenantDto> Tenants { get; set; }
-            public List<CompanyDto> Companies { get; set; }
-            public List<AccountDto> Accounts { get; set; }
+            public List<TenantDto> Tenants { get; private set; }
+            public List<CompanyDto> Companies { get; private set; }
+            public List<AccountDto> Accounts { get; private set; }
 
             public TenantCompanyAccountGetForTenantIdResultSet()
             {

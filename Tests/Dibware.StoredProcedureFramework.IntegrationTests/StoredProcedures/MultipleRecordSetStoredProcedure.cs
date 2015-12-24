@@ -44,9 +44,9 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 
         internal class ResultSet
         {
-            public List<ReturnType1> RecordSet1 { get; set; }
-            public List<ReturnType2> RecordSet2 { get; set; }
-            public List<ReturnType3> RecordSet3 { get; set; }
+            public List<ReturnType1> RecordSet1 { get; private set; }
+            public List<ReturnType2> RecordSet2 { get; private set; }
+            public List<ReturnType3> RecordSet3 { get; private set; }
 
             public ResultSet()
             {

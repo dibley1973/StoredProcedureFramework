@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.DataInfo
         public void IsNull_WhenStringHasValue_ReturnsFalse()
         {
             // ARRANGE
-            var value = "TestString";
+            const string value = "TestString";
             var stringInfo = StringInfo.FromString(value);
 
             // ACT

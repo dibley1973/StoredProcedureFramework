@@ -68,7 +68,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.AreEqual(expectedColumnParameterDbTypeAttribute, name);
         }
 
-        public class TestObject
+        private class TestObject
         {
             public string ParameterDbTypeAttribute1 { get; set; }
             [DbType(SqlDbType.Decimal)]

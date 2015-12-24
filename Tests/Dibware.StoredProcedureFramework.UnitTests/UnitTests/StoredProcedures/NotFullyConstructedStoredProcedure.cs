@@ -44,7 +44,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 
 
                         var state = (StoredProcedureBaseState)stateFieldInfo.GetValue(this);
-                        //ValueType vState = state;
 
                         object boxedState = state;
 
@@ -70,16 +69,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
                     }
                 }
 
-                //if (resetProcedureName == false)
-                //{
-                //    var methodInfo = baseType.GetMethod("SetProcedureName");
-                //    if (methodInfo != null)
-                //    {
-                //        methodInfo.Invoke(this, new object[] { ""});
-                //        resetProcedureName = true;
-                //    }
-                //}
-
                 if (!resetProcedureName) throw new InvalidOperationException("failed to reset procedure Name");
             }
         }
@@ -95,7 +84,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
             return baseType;
         }
 
-        public delegate void SetHandler<T>(ref T source, object value) where T : struct;
+        private delegate void SetHandler<T>(ref T source, object value) where T : struct;
 
         private static SetHandler<T> GetDelegate<T>(FieldInfo fieldInfo) where T : struct
         {

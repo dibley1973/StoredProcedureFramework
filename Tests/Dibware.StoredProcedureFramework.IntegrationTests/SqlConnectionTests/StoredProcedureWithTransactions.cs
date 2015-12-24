@@ -126,12 +126,12 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             };
             var transactionTestAddProcedure = new TransactionTestAddStoredProcedure(transactionAddParameters);
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
-            SqlTransaction transaction;
 
             // ACT
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
+                SqlTransaction transaction;
                 using (transaction = connection.BeginTransaction())
                 {
                     originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;
@@ -175,13 +175,13 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var transactionTestAddProcedure = new TransactionTestAddStoredProcedure(transactionAddParameters);
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
             var transactionDeleteProcedure = new TransactionTestDeleteAllStoredProcedure();
-            SqlTransaction transaction;
 
             // ACT
 
             using (var connection = new SqlConnection(connectionName))
             {
                 connection.Open();
+                SqlTransaction transaction;
                 using (transaction = connection.BeginTransaction())
                 {
                     originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure, transaction: transaction).First().Count;

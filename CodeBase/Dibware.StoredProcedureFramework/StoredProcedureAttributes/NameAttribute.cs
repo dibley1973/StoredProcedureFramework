@@ -11,7 +11,7 @@ namespace Dibware.StoredProcedureFramework.StoredProcedureAttributes
         AttributeTargets.Property)]
     public class NameAttribute : Attribute
     {
-        public String Value { get; set; }
+        public String Value { get; private set; }
 
         public NameAttribute(String value)
         {
