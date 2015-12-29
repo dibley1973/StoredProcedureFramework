@@ -1,8 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NewLook.BookMyDesk.Domain.DomainModel.Generics;
 using System;
 using System.Collections;
 using System.Linq;
+using Dibware.StoredProcedureFramework.Generics;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
 {
@@ -21,7 +21,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
             // ACT
 
             // ASSERT
-            
+
         }
 
         [TestMethod]
@@ -207,7 +207,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
             const string expectedValue = "ValidValue";
             var maybe = Maybe<string>.ToMaybe(expectedValue);
             IEnumerator iterator = ((IEnumerable)maybe).GetEnumerator();
-            
+
             // ACT
             iterator.MoveNext();
             var actual = iterator.Current;

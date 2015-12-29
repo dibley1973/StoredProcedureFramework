@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.Base
 {
@@ -77,6 +78,20 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
             // ASSERT
         }
 
+        [TestMethod]
+        public void Dispose_WhenCalledTwice_DoesNotThrowException()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            var connection = new TestConnection(connectionString);
+
+            // ACT
+            connection.Dispose();
+            connection.Dispose();
+
+            // ASSERT
+        }
+
         #endregion
 
         #region Open
@@ -87,12 +102,19 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
             // ARRANGE
             string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
+            ConnectionState actualConnectionState;
 
             // ACT
-            connection.Open();
-            var actualConnectionState = connection.State;
-            connection.Close();
-            connection.Dispose();
+            try
+            {
+                connection.Open();
+                actualConnectionState = connection.State;
+            }
+            finally
+            {
+                connection.Close();
+                connection.Dispose();
+            }
 
             // ASSERT
             Assert.AreEqual(ConnectionState.Open, actualConnectionState);
@@ -108,15 +130,126 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
             // ARRANGE
             string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
-            connection.Open();
-            
+            ConnectionState actualConnectionState;
+
             // ACT
-            connection.Close();
-            var actualConnectionState = connection.State;
-            connection.Dispose();
+            try
+            {
+                connection.Open();
+            }
+            finally
+            {
+                connection.Close();
+                actualConnectionState = connection.State;
+                connection.Dispose();
+            }
 
             // ASSERT
             Assert.AreEqual(ConnectionState.Closed, actualConnectionState);
+        }
+
+        #endregion
+
+        #region ConnectionString
+
+        [TestMethod]
+        public void ConnectionString_WhenCalled_ReturnsOriginalConnectionString()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            var connection = new TestConnection(connectionString);
+
+            // ACT
+            var actualConnectionString = connection.ConnectionString;
+
+            // ASSERT
+            Assert.AreEqual(connectionString, actualConnectionString);
+        }
+
+        #endregion
+
+        #region CreateCommand
+
+        [TestMethod]
+        public void CreateCommand_WhenCalled_ReturnsInstanceOfACommand()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            var connection = new TestConnection(connectionString);
+
+            // ACT
+            var actualCommand = connection.CreateCommand();
+
+            // ASSERT
+            Assert.IsNotNull(actualCommand);
+        }
+
+        #endregion
+
+        #region Database
+
+        [TestMethod]
+        public void Database_WhenCalled_ReturnsDatabaseOfOriginalConnectionString()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+            string expectedDatabase = builder.InitialCatalog;
+            var connection = new TestConnection(connectionString);
+
+            // ACT
+            var actualDatabase = connection.Database;
+
+            // ASSERT
+            Assert.AreEqual(expectedDatabase, actualDatabase);
+        }
+
+        #endregion
+
+        #region DataSource
+
+        [TestMethod]
+        public void DataSource_WhenCalled_ReturnsDataSourceOfOriginalConnectionString()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+            string expectedDataSource = builder.DataSource;
+            var connection = new TestConnection(connectionString);
+
+            // ACT
+            var actualDataSource = connection.DataSource;
+
+            // ASSERT
+            Assert.AreEqual(expectedDataSource, actualDataSource);
+        }
+
+        #endregion
+
+        #region ServerVersion
+
+        [TestMethod]
+        public void ServerVersion_WhenCalled_ReturnsAInstantiatedServerVersionString()
+        {
+            // ARRANGE
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            var connection = new TestConnection(connectionString);
+            string actualServerVersion;
+
+            // ACT
+            try
+            {
+                connection.Open();
+                actualServerVersion = connection.ServerVersion;
+            }
+            finally
+            {
+                connection.Close();
+                connection.Dispose();
+            }
+
+            // ASSERT
+            Assert.IsNotNull(actualServerVersion);
         }
 
         #endregion
