@@ -51,7 +51,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
         #region HasFoundUnderlyingType
 
         [TestMethod]
-        public void HasFoundUnderlyingType_WhenCalledAfterConstructionWithNonListType_ReturnsFalse()
+        public void HasFoundUnderlyingType_WhenCalledAfterConstructionWithNonGenericType_ReturnsFalse()
         {
             // ARRANGE
             Type testType = typeof(TestItem);
@@ -64,6 +64,22 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ASSERT
             Assert.IsFalse(actual);
         }
+
+        [TestMethod]
+        public void HasFoundUnderlyingType_WhenCalledAfterConstructionWithNonListGenericType_ReturnsFalse()
+        {
+            // ARRANGE
+            Type testType = typeof(IComparerTestItem);
+
+            // ACT
+            bool actual = new ListTypeUnderlyingTypeFinder(testType)
+                .CheckForUnderlyingType()
+                .HasFoundUnderlyingType;
+
+            // ASSERT
+            Assert.IsFalse(actual);
+        }
+
 
         [TestMethod]
         public void HasFoundUnderlyingType_WhenCalledAfterConstructionWithValidListType_ReturnsTrue()
@@ -122,6 +138,18 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         private class TestItem
         {
+        }
+
+        private class IComparerTestItem : IComparer<TestItem>
+        {
+            #region IComparer<TestItem> Members
+
+            public int Compare(TestItem x, TestItem y)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
         }
 
         private class TestItemList : List<TestItem>

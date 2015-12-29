@@ -91,6 +91,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SqlConnectionTests\Base\StoredProcedureSqlConnectionTests.cs" />
     <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
     <Compile Include="SqlConnectionTests\IncorrectReturnTypeWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
@@ -124,8 +125,8 @@
     <Compile Include="StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MostBasicStoredProcedureForEF.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet.cs" />
     <Compile Include="StoredProcedures\NormalStoredProcedureForEf.cs" />
-    <Compile Include="StoredProcedures\NotInstantiatedRecordSetStoredProcedure.cs" />
     <Compile Include="StoredProcedures\NullValueParameterAndNonNullableResultStoredProcedure.cs" />
     <Compile Include="StoredProcedures\NullValueParameterAndNullableResultStoredProcedure.cs" />
     <Compile Include="StoredProcedures\ParametersAndReturnTypeStoredProcedure.cs" />

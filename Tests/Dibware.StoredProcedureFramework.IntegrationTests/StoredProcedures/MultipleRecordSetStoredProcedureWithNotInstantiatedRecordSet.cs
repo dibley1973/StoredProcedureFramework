@@ -1,20 +1,21 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 {
     /// <summary>
     /// Represents a stored procedure with multiple recordsets
     /// </summary>
-    internal class MultipleRecordSetStoredProcedure
+    [Name("MultipleRecordSetStoredProcedure")]
+    internal class MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet
         : StoredProcedureBase<
-            MultipleRecordSetStoredProcedure.ResultSet, 
-            MultipleRecordSetStoredProcedure.Parameter>
+            MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet.ResultSet,
+            MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet.Parameter>
     {
-        public MultipleRecordSetStoredProcedure(Parameter parameters)
+        public MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet(Parameter parameters)
             : base(parameters)
         {
         }
@@ -49,7 +50,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
             public ResultSet()
             {
                 RecordSet1 = new List<ReturnType1>();
-                RecordSet2 = new List<ReturnType2>();
+                //RecordSet2 = new List<ReturnType2>(); // deliberately NOT instantiated
                 RecordSet3 = new List<ReturnType3>();
             }
         }

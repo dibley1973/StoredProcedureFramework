@@ -1,35 +1,33 @@
-﻿using System.Collections.Generic;
-using Dibware.StoredProcedureFramework.Base;
-using Dibware.StoredProcedureFramework.Examples.Dtos;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFrameworkForEF.Generic;
-
+﻿
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Connection
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    internal class ApplicationConnection : StoredProcedureSqlConnection
-    {
-        public ApplicationConnection(string connectionString) 
-            : base(connectionString)
-        {
-        }
+    ///// <summary>
+    ///// TODO: Investigate usage for behaviour like DbContext simple API
+    ///// </summary>
+    //internal class ApplicationConnection : StoredProcedureSqlConnection
+    //{
+    //    public ApplicationConnection(string connectionString) 
+    //        : base(connectionString)
+    //    {
+    //    }
 
-        #region Stored Procedures
+    //    #region Stored Procedures
 
-        [Schema("app")]
-        public StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
-        [Schema("app")]
-        public StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
-        [Schema("app")]
-        public StoredProcedure TenantDeleteForId { get; set; }
-        [Schema("app")]
-        public StoredProcedure TenantMarkAllInactive { get; set; }
+    //    [Schema("app")]
+    //    public StoredProcedure<List<TenantDto>> TenantGetAll { get; set; }
 
-        #endregion
-    
-    }
+    //    [Schema("app")]
+    //    public StoredProcedure<List<TenantDto>> TenantGetForId { get; set; }
+
+    //    [Schema("app")]
+    //    public StoredProcedure TenantDeleteForId { get; set; }
+
+    //    [Schema("app")]
+    //    public StoredProcedure TenantMarkAllInactive { get; set; }
+
+    //    #endregion
+
+    //}
 
 
     ///// <summary>

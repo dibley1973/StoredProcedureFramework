@@ -14,7 +14,6 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 
         internal class Parameter
         {
-            //[ParameterDbType(SqlDbType.Int)]
             public int Id { get; set; }
         }
 

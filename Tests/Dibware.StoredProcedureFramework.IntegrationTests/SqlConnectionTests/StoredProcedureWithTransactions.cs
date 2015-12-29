@@ -20,7 +20,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -35,9 +35,9 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
 
             // ACT
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+            using (new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
@@ -45,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
                     intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
@@ -65,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -83,7 +83,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             // ACT
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     originalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
@@ -91,7 +91,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
                     transactionScope.Complete();
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
@@ -113,7 +113,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -128,7 +128,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             var transactionTestCountProcedure = new TransactionTestCountAllStoredProcedure();
 
             // ACT
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlTransaction transaction;
@@ -141,7 +141,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
                 }
             }
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 finalCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;
@@ -161,7 +161,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
             var itemsToAdd = new List<TransactionTestParameterTableType>
             {
                 new TransactionTestParameterTableType { Name = "Company 1", IsActive = true, Id = 1 },
@@ -178,7 +178,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 
             // ACT
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlTransaction transaction;
@@ -190,7 +190,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
                 }
             }
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 intermediateCount = connection.ExecuteStoredProcedure(transactionTestCountProcedure).First().Count;

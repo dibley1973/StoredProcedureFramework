@@ -20,7 +20,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionString = Properties.Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -35,9 +35,9 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             var companyCountProcedure = new CompanyCountAll();
 
             // ACT
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+            using (new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     originalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
@@ -45,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                     intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
@@ -65,7 +65,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionString = Properties.Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -87,7 +87,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             // ACT
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                using (var connection = new SqlConnection(connectionName))
+                using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     originalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
@@ -95,7 +95,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                     transactionScope.Complete();
                 }
             }
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
@@ -117,7 +117,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionString = Properties.Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -132,7 +132,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             var companyCountProcedure = new CompanyCountAll();
 
             // ACT
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlTransaction transaction;
@@ -145,7 +145,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                 }
             }
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 finalCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;
@@ -165,7 +165,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionString = Properties.Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -186,7 +186,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
 
             // ACT
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlTransaction transaction;
@@ -198,7 +198,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
                 }
             }
 
-            using (var connection = new SqlConnection(connectionName))
+            using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 intermediateCount = connection.ExecuteStoredProcedure(companyCountProcedure).First().CountOfCompanies;

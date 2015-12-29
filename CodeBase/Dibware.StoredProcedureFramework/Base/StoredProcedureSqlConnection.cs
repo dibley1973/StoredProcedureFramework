@@ -56,6 +56,8 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <param name="connectionString">The connection string.</param>
         protected StoredProcedureSqlConnection(string connectionString)
         {
+            if (String.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException("connectionString");
+
             _connection = new SqlConnection(connectionString);
         }
 

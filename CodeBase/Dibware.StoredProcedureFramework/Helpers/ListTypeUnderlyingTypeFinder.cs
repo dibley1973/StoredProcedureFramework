@@ -41,12 +41,22 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             foreach (Type interfaceType in _interfaceTypes)
             {
-                if (interfaceType.IsGenericType &&
-                    interfaceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                if (interfaceType.IsGenericType)
                 {
-                    _underlyingTypeFound = interfaceType.GetGenericArguments()[0];
-                    break;
+                    if (interfaceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                    {
+                        _underlyingTypeFound = interfaceType.GetGenericArguments()[0];
+                        break;
+                    }
                 }
+
+
+                //if (interfaceType.IsGenericType &&
+                //    interfaceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                //{
+                //    _underlyingTypeFound = interfaceType.GetGenericArguments()[0];
+                //    break;
+                //}
             }
 
             return this;

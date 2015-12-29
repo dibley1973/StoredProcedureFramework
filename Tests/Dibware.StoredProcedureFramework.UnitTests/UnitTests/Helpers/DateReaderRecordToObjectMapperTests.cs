@@ -40,11 +40,11 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 
         #endregion
 
-        #region Build
+        #region PopulateMappedTargetFromReaderRecord
 
         [TestMethod]
-        [Ignore] // Need to write some meaningful tests for this class!
-        public void Build_WhenWhat_DoesWhat()
+        //[Ignore] // Need to write some meaningful tests for this class!
+        public void PopulateMappedTargetFromReaderRecord_WhenWhat_DoesWhat()
         {
             // ARRANGE
             var dataReaderMock = new Mock<IDataReader>();
@@ -58,11 +58,38 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             // ASSERT
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(MissingMethodException))]
+        public void PopulateMappedTargetFromReaderRecord_WithObjectThatHasNodefaultConstructor_ThrowsException()
+        {
+            // ARRANGE
+            var dataReaderMock = new Mock<IDataReader>();
+            IDataReader expectedReader = dataReaderMock.Object;
+            Type expectedType = typeof(TestObjectWithoutConstructor);
+
+            // ACT
+            new DateReaderRecordToObjectMapper(expectedReader, expectedType)
+                .PopulateMappedTargetFromReaderRecord();
+
+            // ASSERT
+        }
+
         #endregion
 
         private class TestObject
         {
-            public int id { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        private class TestObjectWithoutConstructor
+        {
+            public TestObjectWithoutConstructor(int id)
+            {
+                Id = id;
+            }
+
+            public int Id { get; set; }
             public string Name { get; set; }
         }
     }

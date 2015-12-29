@@ -38,5 +38,19 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             Assert.AreEqual(exception.InnerException, expectedInnerException);
         }
 
+        [TestMethod]
+        public void CreateSqlFunctionConstructionException_ConstructedWithMessage_ReturnsCorrectMessage()
+        {
+            // ARRANGE
+            const string expectedMessage = "Test Message";
+
+            // ACT
+            var exception = ExceptionHelper.CreateSqlFunctionConstructionException(expectedMessage);
+            var actualMessage = exception.Message;
+
+            // ASSERT
+            Assert.AreEqual(expectedMessage, actualMessage);
+        }
+
     }
 }

@@ -155,33 +155,26 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// </value>
         public TResultSetType Results { get; protected set; }
 
-        protected SqlProgrammabilityObjectExecuterBase<TResultSetType> WithCommandBehavior(CommandBehavior commandBehavior)
+        protected void WithCommandBehavior(CommandBehavior commandBehavior)
         {
             _commandBehavior = commandBehavior;
-            return this;
         }
 
-        protected SqlProgrammabilityObjectExecuterBase<TResultSetType> WithParameters(IEnumerable<SqlParameter> procedureParameters)
+        protected void WithParameters(IEnumerable<SqlParameter> procedureParameters)
         {
             if (procedureParameters == null) throw new ArgumentNullException("procedureParameters");
 
             _procedureParameters = procedureParameters;
-
-            return this;
         }
 
-        protected SqlProgrammabilityObjectExecuterBase<TResultSetType> WithCommandTimeoutOverride(int commandTimeoutOverride)
+        protected void WithCommandTimeoutOverride(int commandTimeoutOverride)
         {
             _commandTimeoutOverride = commandTimeoutOverride;
-
-            return this;
         }
 
-        protected SqlProgrammabilityObjectExecuterBase<TResultSetType> WithTransaction(SqlTransaction transaction)
+        protected void  WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
-
-            return this;
         }
 
         #endregion

@@ -88,6 +88,7 @@
     <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertySchemaAttributeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\TypeNameAttributeFinderTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\TypeSchemaAttributeFinderTests.cs" />
+    <Compile Include="UnitTests\Helpers\Base\SqlProgrammabilityObjectExecuterBaseTests.cs" />
     <Compile Include="UnitTests\Helpers\StoredProcedureSqlParameterBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\SqlParametersFromObjectPropertiesBuilderTests.cs" />
     <Compile Include="UnitTests\Helpers\ClrTypeToSqlTypeMapperTests.cs" />
