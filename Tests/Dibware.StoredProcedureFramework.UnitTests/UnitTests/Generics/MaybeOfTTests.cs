@@ -1,5 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Generics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NewLook.BookMyDesk.Domain.DomainModel.Generics;
+using System;
+using System.Collections;
 using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
@@ -8,6 +10,19 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
     public class MaybeOfTTests
     {
         #region Constructor
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void WhenConstructedWithNullElements_ThrowsException()
+        {
+            // ARRANGE
+            new Maybe<string>(null);
+
+            // ACT
+
+            // ASSERT
+            
+        }
 
         [TestMethod]
         public void WhenConstructedWithNoElements_ReturnsZeroCount()
@@ -179,6 +194,26 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Generics
 
             // ASSERT
             Assert.AreEqual(expctedCount, actualCount);
+        }
+
+        #endregion
+
+        #region IEnumerable.GetEnumerator
+
+        [TestMethod]
+        public void GetEnumerator_AfterContructionWithValidValue_CorrectlyIteratesThroughAllElements()
+        {
+            // ARRANGE
+            const string expectedValue = "ValidValue";
+            var maybe = Maybe<string>.ToMaybe(expectedValue);
+            IEnumerator iterator = ((IEnumerable)maybe).GetEnumerator();
+            
+            // ACT
+            iterator.MoveNext();
+            var actual = iterator.Current;
+
+            // ASSERT
+            Assert.AreEqual(expectedValue, actual);
         }
 
         #endregion
