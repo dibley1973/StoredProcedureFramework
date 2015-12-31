@@ -1,7 +1,6 @@
-﻿using Dibware.StoredProcedureFrameworkForEF.Base;
+﻿using Dibware.StoredProcedureFramework;
+using Dibware.StoredProcedureFrameworkForEF.Base;
 using System.Data.Entity;
-using System.Linq.Expressions;
-using Dibware.StoredProcedureFramework;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Generic
 {

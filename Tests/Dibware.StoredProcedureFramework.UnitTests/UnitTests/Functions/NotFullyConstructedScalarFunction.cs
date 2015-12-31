@@ -1,18 +1,20 @@
-﻿using Dibware.StoredProcedureFramework.Base;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using Dibware.StoredProcedureFramework.Base;
 
-namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
+namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Functions
 {
     /// <summary>
     /// Used for testing purposes only.
     /// Resets the procedure name to empty string
     /// </summary>
-    public class NotFullyConstructedStoredProcedure
-        : NoParametersNoReturnTypeStoredProcedureBase
+    internal class NotFullyConstructedScalarFunction
+        : SqlFunctionBase<
+            int,
+            NotFullyConstructedScalarFunction.Parameter>
     {
-        public NotFullyConstructedStoredProcedure()
+        public NotFullyConstructedScalarFunction() : base(null)
         {
             EraseProcedureNameValue();
         }
@@ -21,7 +23,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
         {
             // This does not work!
             bool resetProcedureName = false;
-            var baseType = GetTypeOfStoredProcedureBase();
+            var baseType = GetTypeOfScalarFunctionBase();
             if (baseType != null)
             {
                 PropertyInfo pi = baseType.GetProperty("ProcedureName",
@@ -43,7 +45,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
                     {
 
 
-                        var state = (StoredProcedureBaseState)stateFieldInfo.GetValue(this);
+                        var state = (SqlFunctionBaseState)stateFieldInfo.GetValue(this);
 
                         object boxedState = state;
 
@@ -56,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
                         {
                             fieldInfo.SetValue(boxedState, "");
 
-                            state = (StoredProcedureBaseState)boxedState;
+                            state = (SqlFunctionBaseState)boxedState;
                             resetProcedureName = true;
                         }
                     }
@@ -66,14 +68,14 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
             }
         }
 
-        private Type GetTypeOfStoredProcedureBase()
+        private Type GetTypeOfScalarFunctionBase()
         {
             Type baseType = GetType();
             do
             {
                 baseType = baseType.BaseType;
             }
-            while (baseType != null && baseType != typeof(StoredProcedureBase));
+            while (baseType != null && baseType != typeof(SqlFunctionBase));
             return baseType;
         }
 
@@ -99,5 +101,9 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
             return (SetHandler<T>)dm.CreateDelegate(typeof(SetHandler<>).MakeGenericType(type));
         }
 
+        internal class Parameter
+        {
+            public int Value1 { get; set; }
+        }
     }
 }

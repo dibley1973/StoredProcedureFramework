@@ -134,7 +134,7 @@ namespace Dibware.StoredProcedureFramework.Base
 
         #region State Structure
 
-        private struct SqlFunctionBaseState
+        protected struct SqlFunctionBaseState
         {
             public string FunctionName;
             public string SchemaName;

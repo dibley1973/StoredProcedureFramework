@@ -13,7 +13,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoParametersNoReturnTypeStoredProcedureBaseForEff" />
+        /// Initializes a new instance of the <see cref="NoParametersNoReturnTypeStoredProcedureBaseForEf" />
         /// class with parameters. This is the minimum requirement for constructing
         /// a stored procedure.
         /// </summary>

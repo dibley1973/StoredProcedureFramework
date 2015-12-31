@@ -89,7 +89,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
                 Id = id;
             }
 
-            public int Id { get; set; }
+            private int Id { get; set; }
             public string Name { get; set; }
         }
     }

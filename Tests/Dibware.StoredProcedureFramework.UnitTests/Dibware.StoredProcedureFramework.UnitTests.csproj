@@ -83,6 +83,9 @@
     <Compile Include="UnitTests\Extensions\IListExtensionsTests.cs" />
     <Compile Include="UnitTests\Extensions\IListTypeDefinitionFinderTest.cs" />
     <Compile Include="UnitTests\Extensions\MaybeExtensionsTests.cs" />
+    <Compile Include="UnitTests\Functions\NotFullyConstructedScalarFunction.cs" />
+    <Compile Include="UnitTests\Functions\ScalarValueFunctionWithParameterAndNullReturn.cs" />
+    <Compile Include="UnitTests\Functions\ScalarValueFunctionWithParameterAndReturn.cs" />
     <Compile Include="UnitTests\Generics\MaybeOfTTests.cs" />
     <Compile Include="UnitTests\Generics\MaybeOfT2TestsTests.cs" />
     <Compile Include="UnitTests\Helpers\AttributeHelpers\PropertySchemaAttributeFinderTests.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="UnitTests\StoredProcedures\StoredProcedureWithParameters.cs" />
     <Compile Include="UnitTests\StoredProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\SqlFunctionTests.cs" />
     <Compile Include="UnitTests\UserDefinedTypes\SimpleParameterTableType.cs" />
     <Compile Include="UnitTests\Validators\SqlParameterDecimalValueValidatorTests.cs" />
     <Compile Include="UnitTests\Validators\SqlParameterStringValueValidatorTests.cs" />

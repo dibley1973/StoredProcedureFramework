@@ -422,7 +422,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 
         #endregion
 
-        #region ParametersType
+        #region ReturnType
 
         [TestMethod]
         public void ReturnType_WhenProcedureConstructed_ReturnsCorrectType()

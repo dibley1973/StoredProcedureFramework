@@ -58,7 +58,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         /// <value>
         ///   <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
-        public bool Disposed { get; private set; }
+        private bool Disposed { get; set; }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="SqlProgrammabilityObjectExecuterBase{TResultSetType}"/> class.

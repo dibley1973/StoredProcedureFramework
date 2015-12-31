@@ -36,7 +36,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <value>
         /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDisposed { get; private set; }
+        private bool IsDisposed { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposing.
@@ -44,7 +44,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// <value>
         /// <c>true</c> if this instance is disposing; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDisposing { get; private set; }
+        private bool IsDisposing { get; set; }
 
         #endregion
 

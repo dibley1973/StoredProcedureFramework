@@ -49,7 +49,7 @@
     /// <typeparam name="TParameters">The type of the parameter.</typeparam>
     /// <remarks>
     /// TODO: refactor as shares similarities with 
-    /// <see cref="Dibware.StoredProcedureFramework.Contracts.IStoredProcedure{in TReturn, out TParameters}"/>
+    /// <see cref="IStoredProcedure{TReturn,TParameters}"/>
     /// </remarks>
     public interface ISqlFunction<in TReturn, out TParameters>
         : ISqlFunction
