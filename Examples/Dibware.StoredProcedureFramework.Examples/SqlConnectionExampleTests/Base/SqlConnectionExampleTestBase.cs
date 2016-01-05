@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Transactions;
+using Dibware.StoredProcedureFramework.Examples.Properties;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base
 {
@@ -53,7 +54,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Ba
         private void PrepareDatabase()
         {
             _transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             _connection = new SqlConnection(connectionName);
             _connection.Open();
         }

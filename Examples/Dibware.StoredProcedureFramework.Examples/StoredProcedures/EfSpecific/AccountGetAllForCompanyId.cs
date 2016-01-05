@@ -1,9 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
-using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFrameworkForEF.Base;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
+using Dibware.StoredProcedureFramework.Examples.Dtos;
+using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
+using Dibware.StoredProcedureFrameworkForEF.Base;
 
 namespace Dibware.StoredProcedureFramework.Examples.StoredProcedures.EfSpecific
 {

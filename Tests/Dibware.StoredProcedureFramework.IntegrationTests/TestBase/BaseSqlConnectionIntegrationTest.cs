@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
 {

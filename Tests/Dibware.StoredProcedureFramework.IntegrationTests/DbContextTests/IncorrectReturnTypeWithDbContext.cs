@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+﻿using System;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {

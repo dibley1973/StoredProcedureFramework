@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Data;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedureAttributes
 {

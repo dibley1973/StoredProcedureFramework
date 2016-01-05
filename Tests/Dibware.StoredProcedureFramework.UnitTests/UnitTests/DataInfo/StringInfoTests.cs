@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StringInfo = Dibware.StoredProcedureFramework.DataInfo.StringInfo;
+﻿using Dibware.StoredProcedureFramework.DataInfo;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.DataInfo
 {

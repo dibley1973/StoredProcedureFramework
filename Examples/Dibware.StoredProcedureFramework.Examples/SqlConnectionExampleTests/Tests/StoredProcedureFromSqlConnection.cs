@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Dibware.StoredProcedureFramework.Examples.Dtos;
+using Dibware.StoredProcedureFramework.Examples.Properties;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.Extensions;
@@ -18,7 +18,7 @@ namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Te
         {
             // ARRANGE
             const int expectedCompanyCount = 2;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var parameters = new TenantIdParameters { TenantId = 1 };
             var procedure = new CompanyGetAllForTenantID(parameters);
             List<CompanyDto> companies;

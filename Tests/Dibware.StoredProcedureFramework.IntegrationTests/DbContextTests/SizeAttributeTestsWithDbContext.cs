@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
+﻿using System.Linq;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {

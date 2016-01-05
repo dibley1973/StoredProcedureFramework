@@ -1,11 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context;
 using Dibware.StoredProcedureFramework.Examples.Dtos;
+using Dibware.StoredProcedureFramework.Examples.Properties;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
 {
@@ -17,7 +18,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
         {
             // ARRANGE
             const int expectedCompanyCount = 2;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var parameters = new TenantIdParameters { TenantId = 1 };
             var procedure = new CompanyGetAllForTenantID(parameters);
             List<CompanyDto> companies;

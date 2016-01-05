@@ -1,10 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Tests.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using MostBasicStoredProcedure = Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.MostBasicStoredProcedure;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests
 {

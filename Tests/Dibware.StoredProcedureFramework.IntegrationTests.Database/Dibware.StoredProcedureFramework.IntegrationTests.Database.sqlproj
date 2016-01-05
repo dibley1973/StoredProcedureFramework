@@ -116,6 +116,7 @@
     <Build Include="dbo\Functions\ScalarValueFunctionWithNoParametersButReturn.sql" />
     <Build Include="dbo\Functions\TableValueFunctionWithParameterAndNullableReturn.sql" />
     <Build Include="dbo\Functions\TableValueFunctionWithoutParameterButWithReturn.sql" />
+    <Build Include="dbo\Stored Procedures\DtoColumnAliasTestProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

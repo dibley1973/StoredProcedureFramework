@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.AssertExtensions;
+﻿using System;
+using System.Linq;
+using Dibware.StoredProcedureFramework.IntegrationTests.AssertExtensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
 {

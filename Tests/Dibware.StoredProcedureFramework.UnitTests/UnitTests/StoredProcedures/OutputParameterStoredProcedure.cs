@@ -1,13 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Base;
+﻿using System.Data;
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
     internal class OutputParameterStoredProcedure
         : NoReturnTypeStoredProcedureBase<OutputParameterStoredProcedure.Parameter>
     {
-        public OutputParameterStoredProcedure(OutputParameterStoredProcedure.Parameter parameters)
+        public OutputParameterStoredProcedure(Parameter parameters)
             : base(parameters)
         {
         }

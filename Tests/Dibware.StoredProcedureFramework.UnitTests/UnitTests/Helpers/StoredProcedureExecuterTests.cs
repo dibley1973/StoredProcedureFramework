@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {

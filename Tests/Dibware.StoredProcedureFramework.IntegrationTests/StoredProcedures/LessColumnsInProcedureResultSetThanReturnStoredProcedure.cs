@@ -1,6 +1,6 @@
-﻿using Dibware.StoredProcedureFramework.Base;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 {

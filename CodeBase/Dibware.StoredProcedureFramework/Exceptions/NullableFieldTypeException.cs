@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Resources;
-using System;
+﻿using System;
+using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Exceptions
 {

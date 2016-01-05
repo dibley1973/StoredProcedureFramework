@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
+﻿using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
 {

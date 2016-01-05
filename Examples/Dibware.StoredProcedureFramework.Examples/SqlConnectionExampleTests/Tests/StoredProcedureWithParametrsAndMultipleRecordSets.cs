@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.Examples.SqlConnectionExampleTests.Tests
 {

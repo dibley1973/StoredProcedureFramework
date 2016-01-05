@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base;
+﻿using System.Linq;
+using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Base;
 using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
 {

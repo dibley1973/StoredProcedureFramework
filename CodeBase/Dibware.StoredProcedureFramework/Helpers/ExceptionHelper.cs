@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
-using System;
+﻿using System;
+using Dibware.StoredProcedureFramework.Exceptions;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {

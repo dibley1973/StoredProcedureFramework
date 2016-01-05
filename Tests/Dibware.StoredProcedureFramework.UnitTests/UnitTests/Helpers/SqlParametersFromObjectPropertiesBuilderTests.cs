@@ -1,13 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFramework.Tests.UnitTests.UserDefinedTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {

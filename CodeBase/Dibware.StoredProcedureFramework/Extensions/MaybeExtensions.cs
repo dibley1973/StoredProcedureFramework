@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.Generics;
-using System.Linq;
+﻿using System.Linq;
+using Dibware.StoredProcedureFramework.Generics;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {

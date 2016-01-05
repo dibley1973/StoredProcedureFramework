@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFrameworkForEF.Base;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using Dibware.StoredProcedureFrameworkForEF.Base;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 {

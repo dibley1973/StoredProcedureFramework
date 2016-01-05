@@ -1,10 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Helpers;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Helpers;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {

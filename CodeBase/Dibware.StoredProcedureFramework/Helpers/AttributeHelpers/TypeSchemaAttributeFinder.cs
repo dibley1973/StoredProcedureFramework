@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Dibware.StoredProcedureFramework.Generics;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Helpers.AttributeHelpers
 {

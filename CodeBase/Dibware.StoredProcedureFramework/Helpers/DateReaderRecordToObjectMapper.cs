@@ -1,9 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Extensions;
-using System;
+﻿using System;
 using System.Data;
+using System.Linq;
 using System.Reflection;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Generics;
+using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
 using Dibware.StoredProcedureFramework.Resources;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -148,15 +152,20 @@ namespace Dibware.StoredProcedureFramework.Helpers
             foreach (PropertyInfo property in _targetObjectProperties)
             {
                 SetCurrentProperty(property);
-                SetCurrentFieldNameFromCurrentProperty();
+                SetCurrentFieldNameFromCurrentPropertyAttributeOrPropertyName();
                 SetCurrentFieldValueFromReader();
                 SetTargetPropertyFromCurrentFieldValue();
             }
         }
 
-        private void SetCurrentFieldNameFromCurrentProperty()
+        private void SetCurrentFieldNameFromCurrentPropertyAttributeOrPropertyName()
         {
-            CurrentFieldName = CurrentProperty.Name;
+            Maybe<NameAttribute> nameAttribute = 
+                new PropertyNameAttributeFinder(CurrentProperty).GetResult();
+
+            CurrentFieldName = nameAttribute.HasItem 
+                ? nameAttribute.Single().Value 
+                : CurrentProperty.Name;
         }
 
         private void SetCurrentFieldValueFromReader()

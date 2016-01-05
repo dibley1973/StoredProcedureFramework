@@ -1,6 +1,6 @@
-﻿using Dibware.StoredProcedureFramework.Resources;
-using System;
+﻿using System;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Exceptions
 {

@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
 {

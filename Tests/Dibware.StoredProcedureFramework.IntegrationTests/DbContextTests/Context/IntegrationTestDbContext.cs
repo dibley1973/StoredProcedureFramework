@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFrameworkForEF;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Dibware.StoredProcedureFrameworkForEF;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context
 {

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Transactions;
 using Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context;
+using Dibware.StoredProcedureFramework.IntegrationTests.Properties;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
@@ -21,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests
         [TestInitialize]
         public void TestSetup()
         {
-            _connectionName = Properties.Settings.Default.IntegrationTestConnection;            
+            _connectionName = Settings.Default.IntegrationTestConnection;            
         }
 
         #endregion

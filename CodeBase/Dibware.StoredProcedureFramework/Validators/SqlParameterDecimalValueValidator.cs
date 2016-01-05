@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.DataInfo;
 using Dibware.StoredProcedureFramework.Exceptions;
-using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Validators
 {

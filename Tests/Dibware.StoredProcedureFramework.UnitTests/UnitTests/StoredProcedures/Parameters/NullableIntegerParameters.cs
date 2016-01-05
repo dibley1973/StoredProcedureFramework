@@ -1,5 +1,5 @@
-﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Data;
+﻿using System.Data;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures.Parameters
 {

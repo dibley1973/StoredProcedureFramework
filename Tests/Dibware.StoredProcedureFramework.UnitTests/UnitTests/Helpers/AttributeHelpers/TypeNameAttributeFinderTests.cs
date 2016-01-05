@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
 using Dibware.StoredProcedureFramework.Generics;
+using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.AttributeHelpers
 {

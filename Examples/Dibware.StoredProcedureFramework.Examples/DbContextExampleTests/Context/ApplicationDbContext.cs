@@ -1,12 +1,12 @@
-﻿using Dibware.StoredProcedureFramework.Examples.Dtos;
+﻿using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using Dibware.StoredProcedureFramework.Examples.Dtos;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.EfSpecific;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using Dibware.StoredProcedureFrameworkForEF;
 using Dibware.StoredProcedureFrameworkForEF.Generic;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context
 {

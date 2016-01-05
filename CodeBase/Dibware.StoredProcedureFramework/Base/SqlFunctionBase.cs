@@ -1,7 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
+﻿using System;
+using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System;
 
 namespace Dibware.StoredProcedureFramework.Base
 {

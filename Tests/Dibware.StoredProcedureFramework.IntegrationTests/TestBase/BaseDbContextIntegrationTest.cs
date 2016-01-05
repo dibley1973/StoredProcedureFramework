@@ -1,6 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context;
+﻿using System.Transactions;
+using Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context;
+using Dibware.StoredProcedureFramework.IntegrationTests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
 {
@@ -52,7 +53,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
         /// </summary>
         private void PrepareDatabase()
         {
-            string connectionName = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionName = Settings.Default.IntegrationTestConnection;
             _context = new IntegrationTestDbContext(connectionName);
             _context.Database.CreateIfNotExists();
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);

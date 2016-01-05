@@ -1,9 +1,10 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFrameworkForEF.Extensions;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFrameworkForEF.Extensions;
 
 namespace Dibware.StoredProcedureFrameworkForEF.Base
 {
@@ -15,7 +16,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Base
     /// <typeparam name="TReturn">The type of the return.</typeparam>
     /// <typeparam name="TParameters">The type of the parameters.</typeparam>
     public abstract class StoredProcedureBaseForEf<TReturn, TParameters>
-        : StoredProcedureFramework.Base.StoredProcedureBase<TReturn, TParameters>
+        : StoredProcedureBase<TReturn, TParameters>
         where TReturn : class, new()
         where TParameters : class, new()
     {

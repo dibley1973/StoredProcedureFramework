@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {

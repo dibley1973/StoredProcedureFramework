@@ -1,7 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Base;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {

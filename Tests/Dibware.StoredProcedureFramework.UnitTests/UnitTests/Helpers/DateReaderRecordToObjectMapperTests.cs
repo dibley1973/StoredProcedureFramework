@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Helpers;
+﻿using System;
+using System.Data;
+using Dibware.StoredProcedureFramework.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Data;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
 {

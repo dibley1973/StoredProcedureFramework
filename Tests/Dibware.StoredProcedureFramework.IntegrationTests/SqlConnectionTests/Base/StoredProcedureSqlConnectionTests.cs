@@ -1,8 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Base;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Base;
+using Dibware.StoredProcedureFramework.IntegrationTests.Properties;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.Base
 {
@@ -53,7 +54,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Constructor_WhenConstructedWithValidConnectionString_DoesNotThrow()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
 
             // ACT
             new TestConnection(connectionString);
@@ -69,7 +70,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Dispose_WhenCalled_DoesNotThrowException()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
             
             // ACT
@@ -82,7 +83,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Dispose_WhenCalledTwice_DoesNotThrowException()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
 
             // ACT
@@ -100,7 +101,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Open_AfterCalling_ConnectionStateIsOpen()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
             ConnectionState actualConnectionState;
 
@@ -128,7 +129,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Close_AfterCalling_ConnectionStateIsClosed()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
             ConnectionState actualConnectionState;
 
@@ -156,7 +157,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void ConnectionString_WhenCalled_ReturnsOriginalConnectionString()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
 
             // ACT
@@ -174,7 +175,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void CreateCommand_WhenCalled_ReturnsInstanceOfACommand()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
 
             // ACT
@@ -192,7 +193,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void Database_WhenCalled_ReturnsDatabaseOfOriginalConnectionString()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
             string expectedDatabase = builder.InitialCatalog;
             var connection = new TestConnection(connectionString);
@@ -212,7 +213,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void DataSource_WhenCalled_ReturnsDataSourceOfOriginalConnectionString()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
             string expectedDataSource = builder.DataSource;
             var connection = new TestConnection(connectionString);
@@ -232,7 +233,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
         public void ServerVersion_WhenCalled_ReturnsAInstantiatedServerVersionString()
         {
             // ARRANGE
-            string connectionString = Properties.Settings.Default.IntegrationTestConnection;
+            string connectionString = Settings.Default.IntegrationTestConnection;
             var connection = new TestConnection(connectionString);
             string actualServerVersion;
 
@@ -256,7 +257,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests.B
 
         #region Test Objects
 
-        internal class TestConnection : StoredProcedureSqlConnection
+        private class TestConnection : StoredProcedureSqlConnection
         {
             public TestConnection(string connectionString)
                 : base(connectionString)

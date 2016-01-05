@@ -1,6 +1,6 @@
-﻿using Dibware.StoredProcedureFramework.Base;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
 {
@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures
             List<TooLargeValueButNoSizeAttributeStoredProcedure.Return>,
             TooLargeValueButNoSizeAttributeStoredProcedure.Parameter>
     {
-        public TooLargeValueButNoSizeAttributeStoredProcedure(TooLargeValueButNoSizeAttributeStoredProcedure.Parameter parameters)
+        public TooLargeValueButNoSizeAttributeStoredProcedure(Parameter parameters)
             : base(parameters)
         { }
 

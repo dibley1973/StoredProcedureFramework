@@ -1,13 +1,13 @@
-﻿using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Transactions;
+using Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Context;
+using Dibware.StoredProcedureFramework.Examples.Properties;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures;
 using Dibware.StoredProcedureFramework.Examples.StoredProcedures.Parameters;
 using Dibware.StoredProcedureFrameworkForEF.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
 {
@@ -22,7 +22,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -66,7 +66,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -115,7 +115,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },
@@ -164,7 +164,7 @@ namespace Dibware.StoredProcedureFramework.Examples.DbContextExampleTests.Tests
             int originalCount;
             int intermediateCount;
             int finalCount;
-            string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
+            string connectionName = Settings.Default.ExampleDatabaseConnection;
             var companiesToAdd = new List<CompaniesAdd.CompanyTableType>
             {
                 new CompaniesAdd.CompanyTableType { CompanyName = "Company 1", IsActive = true, TenantId = 2 },

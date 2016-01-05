@@ -1,9 +1,9 @@
-﻿using Dibware.StoredProcedureFramework.Extensions;
+﻿using System.Collections.Generic;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Dibware.StoredProcedureFramework.IntegrationTests.UserDefinedTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {

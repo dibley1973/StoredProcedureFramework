@@ -1,8 +1,4 @@
-﻿using Dibware.StoredProcedureFramework.Exceptions;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
-using Dibware.StoredProcedureFramework.Validators;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -10,8 +6,11 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Generics;
+using Dibware.StoredProcedureFramework.Exceptions;
+using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.Helpers.AttributeHelpers;
+using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using Dibware.StoredProcedureFramework.Validators;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {

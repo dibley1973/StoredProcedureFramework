@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Helpers.Base;
+using Dibware.StoredProcedureFramework.Helpers.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -101,7 +102,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers.Base
             {
             }
 
-            protected override StoredProcedureFramework.Helpers.Contracts.IDbCommandCreator CreateCommandCreator()
+            protected override IDbCommandCreator CreateCommandCreator()
             {
                 throw new NotImplementedException();
             }

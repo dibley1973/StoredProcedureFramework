@@ -1,7 +1,7 @@
-﻿using Dibware.StoredProcedureFramework.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -16,7 +16,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureSqlParameterBuilder{TResultSetType, TParameterType}"/> 
-        /// class with an object that implements <see cref="IStoredProcedure{TResultSetType, TParameterType} "/>.
+        /// class with an object that implements <see cref="IStoredProcedure{TReturn,TParameters} "/>.
         /// </summary>
         /// <param name="storedProcedure">The stored procedure.</param>
         public StoredProcedureSqlParameterBuilder(IStoredProcedure<TResultSetType, TParameterType> storedProcedure)

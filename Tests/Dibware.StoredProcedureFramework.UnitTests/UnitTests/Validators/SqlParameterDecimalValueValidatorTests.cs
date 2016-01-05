@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Validators
 {

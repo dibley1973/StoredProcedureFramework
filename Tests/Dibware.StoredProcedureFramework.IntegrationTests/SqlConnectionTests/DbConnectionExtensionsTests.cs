@@ -4,7 +4,6 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests

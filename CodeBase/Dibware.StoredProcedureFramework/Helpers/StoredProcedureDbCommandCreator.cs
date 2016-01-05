@@ -1,8 +1,8 @@
-﻿using Dibware.StoredProcedureFramework.Helpers.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Dibware.StoredProcedureFramework.Helpers.Base;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {

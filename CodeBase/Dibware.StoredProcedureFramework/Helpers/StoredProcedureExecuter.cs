@@ -1,11 +1,11 @@
-﻿using Dibware.Helpers.Validation;
-using Dibware.StoredProcedureFramework.Helpers.Base;
-using Dibware.StoredProcedureFramework.Helpers.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Dibware.Helpers.Validation;
+using Dibware.StoredProcedureFramework.Helpers.Base;
+using Dibware.StoredProcedureFramework.Helpers.Contracts;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {

@@ -7,7 +7,6 @@ namespace Dibware.StoredProcedureFramework.Helpers
     {
         #region Fields
 
-        private readonly Type _listType;
         private readonly Type[] _interfaceTypes;
         private Type _underlyingTypeFound;
 
@@ -24,8 +23,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             if (listListType == null) throw new ArgumentNullException("listListType");
 
-            _listType = listListType;
-            _interfaceTypes = _listType.GetInterfaces();
+            _interfaceTypes = listListType.GetInterfaces();
         }
 
 
