@@ -322,12 +322,12 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             get { return (typeof(TResultSetType) == typeof(NullStoredProcedureResult)); }
         }
 
-        protected bool HasParameters
+        private bool HasParameters
         {
             get { return _procedureParameters != null; }
         }
 
-        protected bool HasTransaction
+        private bool HasTransaction
         {
             get { return _transaction != null; }
         }

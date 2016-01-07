@@ -17,6 +17,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Extensions
             IList list = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             list.GetUnderlyingType();
 
             // ASSERT

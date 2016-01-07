@@ -14,11 +14,6 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Conte
         /// <summary>
         /// Initializes a new instance of the <see cref="IntegrationTestDbContext"/> class.
         /// </summary>
-        protected IntegrationTestDbContext() : base("IntegrationTestContext") { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IntegrationTestDbContext"/> class.
-        /// </summary>
         /// <param name="nameOrConnectionString">The name or connection string.</param>
         public IntegrationTestDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)

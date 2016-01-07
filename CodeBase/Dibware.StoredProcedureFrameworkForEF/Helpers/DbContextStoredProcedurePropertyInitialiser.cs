@@ -8,7 +8,6 @@ namespace Dibware.StoredProcedureFrameworkForEF.Helpers
     {
         private readonly DbContext _context;
         private readonly Type _contextType;
-        private readonly PropertyInfo _property;
         private readonly string _propertyName;
         private readonly Type _propertyType;
         private ConstructorInfo _constructorInfo;
@@ -22,9 +21,8 @@ namespace Dibware.StoredProcedureFrameworkForEF.Helpers
 
             _context = context;
             _contextType = _context.GetType();
-            _property = storedProcedurePropertyInfo;
-            _propertyName = _property.Name;
-            _propertyType = _property.PropertyType;
+            _propertyName = storedProcedurePropertyInfo.Name;
+            _propertyType = storedProcedurePropertyInfo.PropertyType;
 
             BuildConstructorInfo();
             EnsureConstructor();

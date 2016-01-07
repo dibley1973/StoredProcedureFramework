@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Base;
+using System;
 using System.Reflection;
-using System.Reflection.Emit;
-using Dibware.StoredProcedureFramework.Base;
 
 namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 {
@@ -41,10 +40,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
                     var stateFieldInfo = baseType.GetField("_state", BindingFlags.NonPublic | BindingFlags.Instance);
                     if (stateFieldInfo != null)
                     {
-
-
                         var state = (StoredProcedureBaseState)stateFieldInfo.GetValue(this);
-
                         object boxedState = state;
 
                         var stateType = stateFieldInfo.FieldType;
@@ -56,7 +52,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
                         {
                             fieldInfo.SetValue(boxedState, "");
 
-                            state = (StoredProcedureBaseState)boxedState;
                             resetProcedureName = true;
                         }
                     }
@@ -76,28 +71,5 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
             while (baseType != null && baseType != typeof(StoredProcedureBase));
             return baseType;
         }
-
-        private delegate void SetHandler<T>(ref T source, object value) where T : struct;
-
-        private static SetHandler<T> GetDelegate<T>(FieldInfo fieldInfo) where T : struct
-        {
-            var type = typeof(T);
-            DynamicMethod dm = new DynamicMethod("setter", typeof(void), new Type[] { type.MakeByRefType(), typeof(object) }, type, true);
-            ILGenerator setGenerator = dm.GetILGenerator();
-
-            setGenerator.Emit(OpCodes.Ldarg_0);
-            setGenerator.DeclareLocal(type);
-            setGenerator.Emit(OpCodes.Ldarg_0);
-            setGenerator.Emit(OpCodes.Ldnull);
-            setGenerator.Emit(OpCodes.Stind_Ref);
-            setGenerator.Emit(OpCodes.Ldarg_1);
-            setGenerator.Emit(OpCodes.Unbox_Any, fieldInfo.FieldType);
-            setGenerator.Emit(OpCodes.Stfld, fieldInfo);
-            setGenerator.Emit(OpCodes.Ldloc, 0);
-            setGenerator.Emit(OpCodes.Box, type);
-            setGenerator.Emit(OpCodes.Ret);
-            return (SetHandler<T>)dm.CreateDelegate(typeof(SetHandler<>).MakeGenericType(type));
-        }
-
     }
 }

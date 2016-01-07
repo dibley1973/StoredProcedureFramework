@@ -23,6 +23,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             using (DbConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+                // ReSharper disable once ExpressionIsAlwaysNull
                 connection.ExecuteStoredProcedure(procedure1);
             }
 

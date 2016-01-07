@@ -34,6 +34,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             };
 
             CountCharsInOutputParameterStoredProcedure procedure = null;
+            // ReSharper disable once ExpressionIsAlwaysNull
             var processor = new OutputParameterValueProcessor<NullStoredProcedureResult, CountCharsInOutputParameterStoredProcedure.Parameter>(sqlParameters, procedure);
 
             // ACT

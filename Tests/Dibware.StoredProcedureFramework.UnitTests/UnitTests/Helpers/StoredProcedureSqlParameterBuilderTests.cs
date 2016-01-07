@@ -20,6 +20,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             MostBasicStoredProcedure procedure = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             new StoredProcedureSqlParameterBuilder<NullStoredProcedureResult, NullStoredProcedureParameters>(procedure);
         }
 
@@ -31,6 +32,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             MostBasicStoredProcedure procedure = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             var sqlParameterBuilder = new StoredProcedureSqlParameterBuilder<NullStoredProcedureResult, NullStoredProcedureParameters>(procedure);
             var parameters = sqlParameterBuilder.SqlParameters;
 
@@ -46,6 +48,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             MostBasicStoredProcedure procedure = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             var parameters = new StoredProcedureSqlParameterBuilder<NullStoredProcedureResult, NullStoredProcedureParameters>(procedure)
                 .BuildSqlParameters()
                 .SqlParameters;

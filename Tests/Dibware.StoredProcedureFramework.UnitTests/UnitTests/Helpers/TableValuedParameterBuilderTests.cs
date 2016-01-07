@@ -22,6 +22,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             List<SimpleParameterTableType> itemList = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             new TableValuedParameterBuilder(itemList);
 
             // ASSERT

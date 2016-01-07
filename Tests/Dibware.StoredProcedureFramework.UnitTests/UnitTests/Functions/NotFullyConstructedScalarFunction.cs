@@ -58,7 +58,6 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Functions
                         {
                             fieldInfo.SetValue(boxedState, "");
 
-                            state = (SqlFunctionBaseState)boxedState;
                             resetProcedureName = true;
                         }
                     }
@@ -84,7 +83,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Functions
         private static SetHandler<T> GetDelegate<T>(FieldInfo fieldInfo) where T : struct
         {
             var type = typeof(T);
-            DynamicMethod dm = new DynamicMethod("setter", typeof(void), new Type[] { type.MakeByRefType(), typeof(object) }, type, true);
+            DynamicMethod dm = new DynamicMethod("setter", typeof(void), new[] { type.MakeByRefType(), typeof(object) }, type, true);
             ILGenerator setGenerator = dm.GetILGenerator();
 
             setGenerator.Emit(OpCodes.Ldarg_0);

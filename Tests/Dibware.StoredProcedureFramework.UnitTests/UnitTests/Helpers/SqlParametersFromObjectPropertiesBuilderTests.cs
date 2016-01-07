@@ -30,6 +30,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.Helpers
             StoredProcedureWithParameters.BasicParameters parameters = null;
 
             // ACT
+            // ReSharper disable once ExpressionIsAlwaysNull
             var sqlParameterBuilder = new SqlParametersFromObjectPropertiesBuilder<StoredProcedureWithParameters.BasicParameters>(parameters);
             var actual = sqlParameterBuilder.SqlParameters;
 

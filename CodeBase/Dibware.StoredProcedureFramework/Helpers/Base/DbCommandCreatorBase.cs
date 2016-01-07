@@ -124,17 +124,17 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _command.CommandText = _commandText;
         }
 
-        protected virtual void SetCommandTypeForCommand()
+        protected void SetCommandTypeForCommand()
         {
             _command.CommandType = _commandType;
         }
 
-        protected virtual void SetCommandTimeoutIfExistsForCommand()
+        protected void SetCommandTimeoutIfExistsForCommand()
         {
             _command.CommandTimeout = _commandTimeout;
         }
 
-        protected virtual void SetTransactionIfExistsForCommand()
+        protected void SetTransactionIfExistsForCommand()
         {
             bool hasTransaction = _transaction != null;
             if (hasTransaction) _command.Transaction = _transaction;

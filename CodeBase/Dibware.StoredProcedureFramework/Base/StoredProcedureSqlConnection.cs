@@ -73,7 +73,7 @@ namespace Dibware.StoredProcedureFramework.Base
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected new virtual void Dispose(bool disposing)
+        private new void Dispose(bool disposing)
         {
             if (IsDisposed) return;
 

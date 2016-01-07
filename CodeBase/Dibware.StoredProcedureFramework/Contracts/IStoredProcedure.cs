@@ -5,21 +5,21 @@
     /// </summary>
     public interface IStoredProcedure
     {
-        /// <summary>
-        /// Gets the name of the procedure.
-        /// </summary>
-        /// <value>
-        /// The name of the procedure.
-        /// </value>
-        string ProcedureName { get; }
+        ///// <summary>
+        ///// Gets the name of the procedure.
+        ///// </summary>
+        ///// <value>
+        ///// The name of the procedure.
+        ///// </value>
+        //string ProcedureName { get; }
 
-        /// <summary>
-        /// Gets the name of the schema.
-        /// </summary>
-        /// <value>
-        /// The name of the schema.
-        /// </value>
-        string SchemaName { get; }
+        ///// <summary>
+        ///// Gets the name of the schema.
+        ///// </summary>
+        ///// <value>
+        ///// The name of the schema.
+        ///// </value>
+        //string SchemaName { get; }
 
         /// <summary>
         /// Gets the combined schema and procedure name.
@@ -27,21 +27,21 @@
         /// <returns></returns>
         string GetTwoPartName();
 
-        /// <summary>
-        /// Sets the procedure name.
-        /// </summary>
-        /// <param name="procedureName">Name of the procedure.</param>
-        /// <returns>
-        /// This instance
-        /// </returns>
-        void SetProcedureName(string procedureName);
+        ///// <summary>
+        ///// Sets the procedure name.
+        ///// </summary>
+        ///// <param name="procedureName">Name of the procedure.</param>
+        ///// <returns>
+        ///// This instance
+        ///// </returns>
+        //void SetProcedureName(string procedureName);
 
-        /// <summary>
-        /// Sets the schema name.
-        /// </summary>
-        /// <param name="schemaName">The name of the schema.</param>
-        /// <returns></returns>
-        void SetSchemaName(string schemaName);
+        ///// <summary>
+        ///// Sets the schema name.
+        ///// </summary>
+        ///// <param name="schemaName">The name of the schema.</param>
+        ///// <returns></returns>
+        //void SetSchemaName(string schemaName);
     }
 
     /// <summary>
