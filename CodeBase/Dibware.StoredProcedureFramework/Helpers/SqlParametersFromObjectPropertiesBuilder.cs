@@ -121,10 +121,7 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
         private object GetPropertyValueFromSource(PropertyInfo matchedProperty)
         {
-            return matchedProperty.GetValue(Source);
-
-
-            // TODO: checkit
+            return matchedProperty.GetValue(Source, null);
         }
 
         private void InstantiateSqlParameters()
@@ -287,25 +284,5 @@ namespace Dibware.StoredProcedureFramework.Helpers
 
 
         #endregion
-    }
-
-    public static  class PropertyInfoEX 
-    {
-        //internal PropertyInfo() { }
-        //public abstract System.Reflection.PropertyAttributes Attributes { get; }
-        //public abstract bool CanRead { get; }
-        //public abstract bool CanWrite { get; }
-        //public virtual System.Reflection.MethodInfo GetMethod { get { return default(System.Reflection.MethodInfo); } }
-        //public bool IsSpecialName { get { return default(bool); } }
-        //public abstract System.Type PropertyType { get; }
-        //public virtual System.Reflection.MethodInfo SetMethod { get { return default(System.Reflection.MethodInfo); } }
-        //public override bool Equals(object obj) { return default(bool); }
-        //public virtual object GetConstantValue() { return default(object); }
-        //public override int GetHashCode() { return default(int); }
-        //public abstract System.Reflection.ParameterInfo[] GetIndexParameters();
-        public static object GetValue(this PropertyInfo instance, object obj) { return default(object); }
-        public static object GetValue(this PropertyInfo instance, object obj, object[] index) { return default(object); }
-        //public void SetValue(object obj, object value) { }
-        //public virtual void SetValue(object obj, object value, object[] index) { }
     }
 }

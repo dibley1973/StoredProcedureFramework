@@ -335,7 +335,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         private IList GetRecordSetDtoList(string recordSetPropertyName)
         {
             PropertyInfo recordSetPropertyInfo = _resultSetType.GetProperty(recordSetPropertyName);
-            IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(Results);
+            IList recordSetDtoList = (IList)recordSetPropertyInfo.GetValue(Results, null);
             return recordSetDtoList;
         }
 

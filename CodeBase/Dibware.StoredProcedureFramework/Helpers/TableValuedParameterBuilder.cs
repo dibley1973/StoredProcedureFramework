@@ -214,7 +214,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             var valueOfMatchedProperty = _mappedProperties
                 .First(propertyInfo => propertyInfo.Name == _mapping[_columnList[index].Name])
-                .GetValue(item);
+                .GetValue(item, null);
+            
             return valueOfMatchedProperty;
         }
 

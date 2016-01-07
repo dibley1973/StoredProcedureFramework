@@ -31,7 +31,7 @@ namespace Dibware.StoredProcedureFramework.Tests.UnitTests.StoredProcedures
 
                 if (pi != null && pi.GetSetMethod() != null)
                 {
-                    pi.SetValue(this, "");
+                    pi.SetValue(this, "", null);
                     resetProcedureName = true;
                 }
 

@@ -139,7 +139,7 @@ namespace Dibware.StoredProcedureFrameworkForEF.Extensions
             SetStoredProcedureName(storedProcedurePropertyInfo, procedure);
             SetStoredProcedureSchemaName(storedProcedurePropertyInfo, procedure);
 
-            storedProcedurePropertyInfo.SetValue(context, procedure);
+            storedProcedurePropertyInfo.SetValue(context, procedure, null);
         }
 
         private static void SetStoredProcedureName(PropertyInfo storedProcedurePropertyInfo, object procedure)

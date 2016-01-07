@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dibware.StoredProcedureFramework</RootNamespace>
     <AssemblyName>Dibware.StoredProcedureFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -63,6 +63,7 @@
     <Compile Include="Exceptions\SqlFunctionConstructionException.cs" />
     <Compile Include="Exceptions\SqlParameterInvalidDataTypeException.cs" />
     <Compile Include="Exceptions\SqlParameterOutOfRangeException.cs" />
+    <Compile Include="Extensions\DotNet45Extensions.cs" />
     <Compile Include="Extensions\MaybeExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Generics\MaybeOfT.cs" />
