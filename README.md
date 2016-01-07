@@ -1,17 +1,18 @@
 # StoredProcedureFramework #
 **A .Net framework for SQL Server calling stored procedures.**
-The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF.
+The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF. Requires .net v4.0
 
 **Please Note:**
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-This is an on-going project, 0.8 is WIP in master branch, but v0.7 is the most recent Release Candidate as it is stable.
+This is an on-going project, v0.9 is WIP in master branch, but v0.8 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 0.8 (WIP)
+* 0.9 (WIP)
+* 0.8 (Release Candidate) dropped .Net framework dependency from v4.5 down to v4.0, ability to alias result column names, and some other minor re-factoring.
 * 0.7 (Release Candidate) Added initial support for Scalar functions and Table value functions. ("ParameterDbTypeAttribute" made obsolete and refactoreed to "DbTypeAttribute")
-* 0.6 (Release Candidate) Cleaned code, bug fix for Issue #5 and preparation for adding SQL UDF support
+* 0.6 (Release Candidate) Cleaned code, bug fix for Issue No. 5 and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
 * 0.4   
 * 0.3 This version supports stored procedures with Table Value Parameters. 
