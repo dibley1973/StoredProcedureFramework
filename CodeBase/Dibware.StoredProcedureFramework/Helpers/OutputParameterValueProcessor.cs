@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Contracts;
+using Dibware.StoredProcedureFramework.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Contracts;
-using Dibware.StoredProcedureFramework.Extensions;
 
 namespace Dibware.StoredProcedureFramework.Helpers
 {
@@ -88,7 +88,8 @@ namespace Dibware.StoredProcedureFramework.Helpers
         {
             _outputSqlParameters = _sqlParameters
                 .Where(sqlParameter => sqlParameter.Direction == ParameterDirection.InputOutput
-                    || sqlParameter.Direction == ParameterDirection.Output)
+                    || sqlParameter.Direction == ParameterDirection.Output
+                    || sqlParameter.Direction == ParameterDirection.ReturnValue)
                 .Select(sqlParameter => sqlParameter);
         }
 

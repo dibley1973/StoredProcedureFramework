@@ -28,5 +28,26 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             // ASSERT
             Assert.AreEqual(expectedvalue2, parameters.Value2);
         }
+
+        [TestMethod]
+        public void Issue8_CountCharsInReturnParameterStoredProcedure_WithReturnParamatersAndNoReturnType_ReturnsOutputParamtersCorrectly()
+        {
+            // ARRANGE
+            const string expectedValue1 = "MonkeyTube";
+            const int initialValue2 = 0;
+            int expectedvalue2 = expectedValue1.Length;
+            var parameters = new CountCharsInReturnParameterStoredProcedure.Parameter
+            {
+                Value1 = expectedValue1,
+                Value2 = initialValue2
+            };
+            var procedure = new CountCharsInReturnParameterStoredProcedure(parameters);
+
+            // ACT
+            Connection.ExecuteStoredProcedure(procedure);
+
+            // ASSERT
+            Assert.AreEqual(expectedvalue2, parameters.Value2);
+        }
     }
 }

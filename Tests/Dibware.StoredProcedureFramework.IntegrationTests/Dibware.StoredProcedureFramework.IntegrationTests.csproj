@@ -118,6 +118,7 @@
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\CountCharsInOutputParameterStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\CountCharsInReturnParameterStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DecimalPrecisionAndScaleStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DecimalWrongReturnTestStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DistinctRecordsStoredProcedure.cs" />

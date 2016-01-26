@@ -70,6 +70,7 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\User Defined Types" />
+    <Folder Include="SchemaComparisons" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dbo\Tables\Tenant.sql" />
@@ -80,6 +81,7 @@
     <Build Include="Security\TestUserLogin.sql" />
     <Build Include="Security\TestRole.sql" />
     <Build Include="Security\Permissions.sql" />
+    <None Include="SchemaComparisons\%28LocalDb)-V11.0.scmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\User Defined Types\SimpleTableValueParameterTableType.sql" />
@@ -118,6 +120,7 @@
     <Build Include="dbo\Functions\TableValueFunctionWithParameterAndNullableReturn.sql" />
     <Build Include="dbo\Functions\TableValueFunctionWithoutParameterButWithReturn.sql" />
     <Build Include="dbo\Stored Procedures\DtoColumnAliasTestProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\CountCharsInReturnParameterStoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
