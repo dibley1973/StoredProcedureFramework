@@ -74,7 +74,7 @@ For enhancements or feature requests, please detail what the feature is. Please 
 The solution is written in C# .Net v4.0. The decision to write in v4.0 and not a later version is to enable other projects with this framework version and above to be able to consume it.
 
 ### Folder Structure
-The folder structure is an ever evolving beast, as I strive to get a logical organisation for it
+The folder structure is as follows.
 
 * Solution
   + Binaries
