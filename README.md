@@ -6,11 +6,12 @@ The purpose of this framework is to allow stored procedures, their parameters an
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-This is an on-going project, v0.9 is WIP in master branch, but v0.8 is the most recent Release Candidate as it is stable.
+This is an on-going project, v0.10 is WIP in master branch, but v0.9 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 0.9 (WIP)
-* 0.8 (Release Candidate) dropped .Net framework dependency from v4.5 down to v4.0, ability to alias result column names, and some other minor re-factoring.
+* 0.10 (WIP)
+* 0.9 (Release Candidate)  Contains bug fix for Issue #8
+* 0.8 (Release Candidate) Dropped the .Net framework dependency from v4.5 down to v4.0, ability to alias result column names, and some other minor re-factoring.
 * 0.7 (Release Candidate) Added initial support for Scalar functions and Table value functions. ("ParameterDbTypeAttribute" made obsolete and refactoreed to "DbTypeAttribute")
 * 0.6 (Release Candidate) Cleaned code, bug fix for Issue No. 5 and preparation for adding SQL UDF support
 * 0.5 (Release Candidate) This version supports transactions.
