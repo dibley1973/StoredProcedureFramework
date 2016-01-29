@@ -82,6 +82,9 @@ The folder structure is an ever evolving beast, as I strive to get a logical org
     - 0.4
     - 0.5 RC
     - 0.6 RC
+    - 0.7 RC
+    - 0.8
+    - 0.9 RC
   + CodeBase
     - Dibware.StoredProcedureFramework.csproj
     - Dibware.StoredProcedureFrameworkForEF.csproj
