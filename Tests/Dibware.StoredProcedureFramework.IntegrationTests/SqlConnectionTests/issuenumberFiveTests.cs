@@ -14,7 +14,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
          : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
-        public void IssueNumberFiveWithCorrectDataType_ExecutesWithoutIssue()
+        public void IssueNumberFive_WithCorrectDataType_ExecutesWithoutIssue()
         {
             // ARRANGE
             var procedure = new IssueNumberFiveWithCorrectDataType();

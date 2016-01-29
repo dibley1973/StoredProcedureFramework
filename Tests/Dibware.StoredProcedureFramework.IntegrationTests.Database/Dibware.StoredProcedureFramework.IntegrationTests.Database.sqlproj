@@ -121,6 +121,7 @@
     <Build Include="dbo\Functions\TableValueFunctionWithoutParameterButWithReturn.sql" />
     <Build Include="dbo\Stored Procedures\DtoColumnAliasTestProcedure.sql" />
     <Build Include="dbo\Stored Procedures\CountCharsInReturnParameterStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\DoublesAndDecimalsTestStoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

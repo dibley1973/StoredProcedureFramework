@@ -114,6 +114,7 @@
     <Compile Include="SqlConnectionTests\IssueNumberFiveTests.cs" />
     <Compile Include="SqlConnectionTests\DistinctRecordsTest.cs" />
     <Compile Include="SqlConnectionTests\AliasDtoColumnNamesTests.cs" />
+    <Compile Include="SqlConnectionTests\IssueNumberEightTests.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="StoredProcedures\DecimalPrecisionAndScaleStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DecimalWrongReturnTestStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DistinctRecordsStoredProcedure.cs" />
+    <Compile Include="StoredProcedures\DoublesAndDecimalsTestStoredProcedure.cs" />
     <Compile Include="StoredProcedures\DtoColumnAliasTestProcedure.cs" />
     <Compile Include="StoredProcedures\IncorrectParameterTypeStoredProcedure.cs" />
     <Compile Include="StoredProcedures\IssueNumberFive.cs" />
