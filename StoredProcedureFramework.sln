@@ -83,6 +83,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.9", "0.9", "{96A78445-642
 		Binaries\0.9\Dibware.StoredProcedureFrameworkForEF.dll = Binaries\0.9\Dibware.StoredProcedureFrameworkForEF.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGetPackage", "NuGetPackage", "{A993EA78-9862-4A76-AC06-9ADDD48543F3}"
+	ProjectSection(SolutionItems) = preProject
+		NuGetPackage\Dibware.StoredProcedureFramework.1.0.1.nupkg = NuGetPackage\Dibware.StoredProcedureFramework.1.0.1.nupkg
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFramework.PackageLoadTest", "Tests\Dibware.StoredProcedureFramework.PackageLoadTest\Dibware.StoredProcedureFramework.PackageLoadTest.csproj", "{1D466DC6-092E-4EF6-97AA-128D9913CF5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0.1", "1.0.1", "{65F26F12-CBE0-4A96-A0AA-C4169DE4C5A9}"
+	ProjectSection(SolutionItems) = preProject
+		Binaries\1.0.1\Dibware.Helpers.dll = Binaries\1.0.1\Dibware.Helpers.dll
+		Binaries\1.0.1\Dibware.StoredProcedureFramework.dll = Binaries\1.0.1\Dibware.StoredProcedureFramework.dll
+		Binaries\1.0.1\Dibware.StoredProcedureFramework.dll.config = Binaries\1.0.1\Dibware.StoredProcedureFramework.dll.config
+		Binaries\1.0.1\Dibware.StoredProcedureFramework.pdb = Binaries\1.0.1\Dibware.StoredProcedureFramework.pdb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +136,10 @@ Global
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96A94F73-A554-4B4F-B304-E9464123813D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D466DC6-092E-4EF6-97AA-128D9913CF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D466DC6-092E-4EF6-97AA-128D9913CF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D466DC6-092E-4EF6-97AA-128D9913CF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D466DC6-092E-4EF6-97AA-128D9913CF5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,5 +159,7 @@ Global
 		{8E004344-B05A-4CF2-A8F5-74CC2E98EDB7} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 		{23B55E32-0F20-4BC5-987E-CBD8D09F86B6} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 		{96A78445-6422-404A-8050-DA152E1FDDC1} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
+		{1D466DC6-092E-4EF6-97AA-128D9913CF5B} = {EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}
+		{65F26F12-CBE0-4A96-A0AA-C4169DE4C5A9} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 	EndGlobalSection
 EndGlobal
