@@ -9,7 +9,7 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 This is an on-going project, v0.10 is WIP in master branch, but v0.9 is the most recent Release Candidate as it is stable.
 
 ## Versions
-* 1.0.1 (First Full Release / NuGet Rrelease)
+* 1.0.1 (First Full Release / NuGet Release)
 * 0.9 (Release Candidate)  Contains bug fix for Issue #8
 * 0.8 (Release Candidate) Dropped the .Net framework dependency from v4.5 down to v4.0, ability to alias result column names, and some other minor re-factoring.
 * 0.7 (Release Candidate) Added initial support for Scalar functions and Table value functions. ("ParameterDbTypeAttribute" made obsolete and refactoreed to "DbTypeAttribute")
@@ -24,7 +24,7 @@ This is an on-going project, v0.10 is WIP in master branch, but v0.9 is the most
 Documentation on how to use the *StoredProcedureframework* can be found here [https://github.com/dibley1973/StoredProcedureFramework/blob/master/UsingTheStoredProcedureFramework.md]
 
 ## Nuget Package
-The project is not currently available on NuGet but it is the intention to make this so once the version reaches 1.0 and is considered solid.
+The library is available on NuGet, here: [https://www.nuget.org/packages/Dibware.StoredProcedureFramework/]
 
 ## Project Brief ##
 The aim of this project is to provide the following:

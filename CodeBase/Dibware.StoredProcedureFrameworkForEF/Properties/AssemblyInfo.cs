@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Dibware.StoredProcedureFrameworkForEF")]
-[assembly: AssemblyDescription("EF extensions for a .Net framework for calling stored procedures")]
+[assembly: AssemblyDescription("EF extensions for Dibware.StoredProcedureFramework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dibware")]
 [assembly: AssemblyProduct("Dibware.StoredProcedureFrameworkForEF")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2016 Dibware")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.10.*")]
-[assembly: AssemblyFileVersion("0.10.0.0")]
+[assembly: AssemblyVersion("1.0.1.*")]
+[assembly: AssemblyFileVersion("1.0.1")]
