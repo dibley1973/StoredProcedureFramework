@@ -25,6 +25,7 @@ Documentation on how to use the *StoredProcedureframework* can be found here [ht
 
 ## Nuget Package
 The library is available on NuGet, here: [https://www.nuget.org/packages/Dibware.StoredProcedureFramework/]
+and also here, for the EF extensions package [https://www.nuget.org/packages/Dibware.StoredProcedureFrameworkForEF/]
 
 ## Project Brief ##
 The aim of this project is to provide the following:
