@@ -1,6 +1,9 @@
 # StoredProcedureFramework #
 **A .Net framework for SQL Server calling stored procedures.**
-The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF. Requires .net v4.0
+The purpose of this framework is to allow stored procedures, their parameters and their return types to be represented in strongly typed .Net classes. These can then be used in conjunction with a SqlConnection, DbConnection or DbContext to execute the stored procedure. This framework can be used with or without the presence of Entity Framework, but a separate dll (`Dibware.StoredProcedureFrameworkForEF` which is part of this project) is required when using with EF. 
+
+### Framework
+Requires .net v4.0
 
 **Please Note:**
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
