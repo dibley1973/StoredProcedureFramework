@@ -44,6 +44,7 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -94,6 +95,7 @@
     </Compile>
     <Compile Include="SqlConnectionTests\Base\StoredProcedureSqlConnectionTests.cs" />
     <Compile Include="SqlConnectionTests\ConnectionStateTests.cs" />
+    <Compile Include="SqlConnectionTests\I010IssueNumberTenTests.cs" />
     <Compile Include="SqlConnectionTests\IncorrectReturnTypeWithSqlConnection.cs" />
     <Compile Include="SqlConnectionTests\LessColumnsInResultSetThanReturnObjectTestsWithDbContext.cs" />
     <Compile Include="SqlConnectionTests\MultipleRecordSetTestsWithSqlConnection.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="SqlConnectionTests\DistinctRecordsTest.cs" />
     <Compile Include="SqlConnectionTests\AliasDtoColumnNamesTests.cs" />
     <Compile Include="SqlConnectionTests\IssueNumberEightTests.cs" />
+    <Compile Include="StoredProcedures\DynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
     <Compile Include="StoredProcedures\CorrectSizeAttributeStoredProcedure.cs" />

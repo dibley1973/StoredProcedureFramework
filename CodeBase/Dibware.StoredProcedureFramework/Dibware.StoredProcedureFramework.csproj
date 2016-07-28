@@ -42,6 +42,7 @@
       <HintPath>..\..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,6 +73,7 @@
     <Compile Include="Generics\MaybeOfT2.cs" />
     <Compile Include="Helpers\AttributeHelpers\TypeSchemaAttributeFinder.cs" />
     <Compile Include="Helpers\ColumnSqlDbTypeHelper.cs" />
+    <Compile Include="Helpers\DynamicObjectHelper.cs" />
     <Compile Include="Helpers\IListTypeDefinitionFinder.cs" />
     <Compile Include="Extensions\SqlParameterExtensions.cs" />
     <Compile Include="Helpers\Base\DbCommandCreatorBase.cs" />

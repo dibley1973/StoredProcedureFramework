@@ -7,7 +7,7 @@ using System;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class IssueNumberEightTests
+    public class I008IssueNumberEightTests
          : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]

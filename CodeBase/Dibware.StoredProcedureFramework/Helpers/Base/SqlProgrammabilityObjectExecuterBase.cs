@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Helpers.Contracts;
+using Dibware.StoredProcedureFramework.Resources;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.Extensions;
-using Dibware.StoredProcedureFramework.Helpers.Contracts;
-using Dibware.StoredProcedureFramework.Resources;
 
 namespace Dibware.StoredProcedureFramework.Helpers.Base
 {
@@ -172,7 +173,7 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             _commandTimeoutOverride = commandTimeoutOverride;
         }
 
-        protected void  WithTransaction(SqlTransaction transaction)
+        protected void WithTransaction(SqlTransaction transaction)
         {
             _transaction = transaction;
         }
@@ -191,6 +192,17 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             var fieldInfo = exceptionType.GetField("_message", BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (fieldInfo != null) fieldInfo.SetValue(ex, detailedMessage);
+        }
+
+        private static string[] CacheDynamicFieldNames(IDataReader reader, int fieldCount)
+        {
+            string[] dynamicFieldNames = new string[fieldCount];
+
+            for (int fieldIndex = 0; fieldIndex < fieldCount; fieldIndex += 1)
+            {
+                dynamicFieldNames[fieldIndex] = reader.GetName(fieldIndex);
+            }
+            return dynamicFieldNames;
         }
 
         private void CacheOriginalConnectionState()
@@ -296,7 +308,14 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
             using (IDataReader reader = Command.ExecuteReader(_commandBehavior))
             {
-                ReadRecordSetFromReader(reader, recordSetDtoList);
+                if (HasDynamicType)
+                {
+                    ReadDynamicRecordSetFromReader(reader, recordSetDtoList);
+                }
+                else
+                {
+                    ReadRecordSetFromReader(reader, recordSetDtoList);
+                }
                 reader.Close();
             }
 
@@ -310,6 +329,16 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             EnsureRecorsetListIsInstantiated(recordSetDtoList, recordSetPropertyName);
 
             return recordSetDtoList;
+        }
+
+        private bool HasDynamicType
+        {
+            get
+            {
+                var genericArgument = _resultSetType.GetGenericArguments()[0];
+                var isDynamic = genericArgument == typeof(ExpandoObject);
+                return isDynamic;
+            }
         }
 
         private bool HasSingleRecordSetOnly
@@ -342,6 +371,24 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
         private void OpenClosedConnection()
         {
             if (!_connectionAlreadyOpen) _connection.Open();
+        }
+
+        private void ReadDynamicRecordSetFromReader(IDataReader reader, IList records)
+        {
+            if (!HasDynamicType) throw new InvalidOperationException();
+
+            var dynamicFieldCount = reader.FieldCount;
+            var dynamicFieldNames = CacheDynamicFieldNames(reader, dynamicFieldCount);
+
+            while (reader.Read())
+            {
+                var row = new ExpandoObject() as IDictionary<string, Object>; ;
+                for (int fieldIndex = 0; fieldIndex < dynamicFieldCount; fieldIndex += 1)
+                {
+                    row.Add(dynamicFieldNames[fieldIndex], reader.GetValue(fieldIndex));
+                }
+                records.Add(row);
+            }
         }
 
         private void ReadRecordSetFromReader(IDataReader reader, IList records)

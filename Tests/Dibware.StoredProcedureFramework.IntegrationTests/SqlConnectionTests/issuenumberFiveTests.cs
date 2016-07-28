@@ -1,8 +1,8 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Extensions;
+﻿using Dibware.StoredProcedureFramework.Extensions;
 using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedures;
 using Dibware.StoredProcedureFramework.IntegrationTests.TestBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
@@ -10,7 +10,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
     /// These tests are for the issue identified in Issue No 5
     /// </summary>
     [TestClass]
-    public class IssueNumberFiveTests
+    public class I005IssueNumberFiveTests
          : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
@@ -23,7 +23,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             Connection.ExecuteStoredProcedure(procedure);
 
             // ASSERT
-            
+
         }
 
         [TestMethod]

@@ -44,6 +44,7 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -91,6 +92,7 @@
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTransactions.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureFromSqlConnection.cs" />
     <Compile Include="SqlConnectionExampleTests\Tests\StoredProcedureWithTimeout.cs" />
+    <Compile Include="SqlConnectionExampleTests\Tests\DynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AccountGetAllForCompanyId.cs" />
     <Compile Include="StoredProcedures\AccountLastUpdatedDateTimeReset.cs" />
     <Compile Include="StoredProcedures\CompaniesAdd.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="StoredProcedures\CompanyDeleteForTenantId.cs" />
     <Compile Include="StoredProcedures\CompanyGetAll.cs" />
     <Compile Include="StoredProcedures\CompanyGetAllForTenantID.cs" />
+    <Compile Include="StoredProcedures\DynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\EfSpecific\AccountGetAllForCompanyId.cs" />
     <Compile Include="StoredProcedures\Parameters\CompanyIdParameters.cs" />
     <Compile Include="StoredProcedures\Parameters\TenantIdParameters.cs" />

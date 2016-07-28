@@ -70,6 +70,7 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="app\User Defined Types\" />
+    <Folder Include="SchemaComparisons" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -78,6 +79,7 @@
     <None Include="_Seed Data\Tenant.data.sql" />
     <None Include="Dibware.StoredProcedureFramework.Examples.Database.publish.xml" />
     <None Include="_Deployment Profiles\Dibware.StoredProcedureFramework.Examples.Database.publish.xml" />
+    <None Include="SchemaComparisons\%28LoalDb)-V11.0_StoedProcedureFrameworkExamples.scmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\app.sql" />
@@ -99,6 +101,7 @@
     <Build Include="app\User Defined Types\CompanyTableType.sql" />
     <Build Include="app\Stored Procedures\TenantCompanyAccountGetForTenantId.sql" />
     <Build Include="app\Stored Procedures\CompanyCountAll.sql" />
+    <Build Include="app\Stored Procedures\GetDynamicColumnStoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="_Post Deployment Scripts\Script.PostDeployment.sql" />

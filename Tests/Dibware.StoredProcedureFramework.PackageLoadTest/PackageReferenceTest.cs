@@ -1,16 +1,18 @@
 ﻿using Dibware.StoredProcedureFramework.Base;
 using Dibware.StoredProcedureFramework.Extensions;
+using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.Linq;
 
 namespace Dibware.StoredProcedureFramework.PackageLoadTest
 {
     public class PackageReferenceTest
     {
-        public void Test1()
+        public void Test_1_0_1()
         {
             string connectionName = Properties.Settings.Default.ExampleDatabaseConnection;
             var parameters = new TenantIdParameters
@@ -27,6 +29,12 @@ namespace Dibware.StoredProcedureFramework.PackageLoadTest
                 var companies = connection.ExecuteStoredProcedure(procedure);
                 company1 = companies.FirstOrDefault();
             }
+        }
+
+        public void Test_1_0_2()
+        {
+            dynamic dynamicObject = new ExpandoObject();
+            DynamicObjectHelper.HasProperty(dynamicObject, "Firstname");
         }
     }
 
