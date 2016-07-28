@@ -27,6 +27,8 @@ The purpose of this document is to describe how to use the Stored Procedure Fram
   + [A "Normal" Stored procedure](#a-normal-stored-procedure)
   + [A Stored Procedure With Multiple RecordSets]  (#a-stored-procedure-with-multiple-recordsets)
   + [A Stored Procedure with Table Value Parameters] (#a-stored-procedure-with-table-value-parameters)
+  + [A Stored Procedure with Dynamic Fields] (#a-stored-procedure-with-dynamic-fields)
+  
 * [Calling the Stored Procedures from Code] (#calling-the-stored-procedures-from-code)
   + [Calling the Stored Procedures from Code using SqlConnection](#calling-the-stored-procedures-from-code-using-sqlconnection)
     - [Using Transactions with SqlConnection] (#using-transactions-with-sqlconnection)
@@ -667,6 +669,62 @@ The two internal classes represent the the parameters and the table type. We **d
     }
 
 First we create a new list of the table type object and populate this list with the values we want to pass to the stored procedure. We then create the parameters object setting the companies property to be our list. After that we construct the stored procedure using the parameters, and finally execute the procedure against the current SqlConnection (Or DbContext).
+
+### A Stored Procedure with Dynamic Fields
+There may be a case when the stored procedure you are calling is returning dynamic fields as it may perform a pivot or be executing dynamic SQL, and the framework can handle this. So Taking the following stored procedure and imagining this returns dynamic fields...
+
+    CREATE PROCEDURE [app].[GetDynamicColumnStoredProcedure]
+    AS
+    BEGIN
+        SELECT  'Dave'      [Firstname],
+                'Smith'     [Surname],
+                32          [Age],
+                GETDATE()   [DateOfBirth]
+        UNION
+
+        SELECT  'Peter'     [Firstname],
+                'Pan'       [Surname],
+                134         [Age],
+                GETDATE()   [DateOfBirth];
+    END
+
+We can represent the fact that unknown fields will be returned by using the .Net ExpandoObject as the type parameter for the return type list.
+    
+    [Schema("app")]
+    internal class GetDynamicColumnStoredProcedure
+        : NoParametersStoredProcedureBase<List<ExpandoObject>>
+    {
+    }
+ 
+Then when we call the procedure we can cast the individual row ExpandObjects to a dynamic and call dynamic fields as if they were properties.
+
+    [TestClass]
+    public class DynamicColumnStoredProcedure
+        : SqlConnectionExampleTestBase
+    {
+        [TestMethod]
+        public void GetDynamicColumnStoredProcedure()
+        {
+            // ARRANGE
+            var procedure = new GetDynamicColumnStoredProcedure();
+
+            // ACT
+            var results = Connection.ExecuteStoredProcedure(procedure);
+            var result = results.First();
+
+            // ASSERT
+            Assert.IsTrue(DynamicObjectHelper.HasProperty(result, "Firstname"));
+            Assert.IsTrue(DynamicObjectHelper.HasProperty(result, "Surname"));
+            Assert.IsTrue(DynamicObjectHelper.HasProperty(result, "Age"));
+            Assert.IsTrue(DynamicObjectHelper.HasProperty(result, "DateOfBirth"));
+            Assert.IsFalse(DynamicObjectHelper.HasProperty(result, "MiddleName"));
+
+            var dynamicResult = (dynamic) result;
+            Assert.AreEqual("Dave", dynamicResult.Firstname);
+            Assert.AreEqual("Smith", dynamicResult.Surname);
+            Assert.AreEqual(32, dynamicResult.Age);
+        }
+    }   
 
 ## Calling the Stored Procedures from Code
 
