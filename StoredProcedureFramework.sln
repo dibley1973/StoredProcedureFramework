@@ -104,6 +104,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.StoredProcedureFrameworkForEF.PackageLoadTest", "Tests\Dibware.StoredProcedureFrameworkForEF.PackageLoadTest\Dibware.StoredProcedureFrameworkForEF.PackageLoadTest.csproj", "{F30586E6-5A17-417F-A9FC-BF088B259288}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0.2", "1.0.2", "{8BD22944-D941-4858-AE45-C2E1399299CA}"
+	ProjectSection(SolutionItems) = preProject
+		Binaries\1.0.2\Dibware.Helpers.dll = Binaries\1.0.2\Dibware.Helpers.dll
+		Binaries\1.0.2\Dibware.StoredProcedureFramework.dll = Binaries\1.0.2\Dibware.StoredProcedureFramework.dll
+		Binaries\1.0.2\Dibware.StoredProcedureFramework.dll.config = Binaries\1.0.2\Dibware.StoredProcedureFramework.dll.config
+		Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll = Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll
+		Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll.config = Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
