@@ -8,7 +8,7 @@ using System.Linq;
 namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
 {
     [TestClass]
-    public class I010IssueNumberTenTestsDynamicColumnsRequest
+    public class I010_IssueNumberTen_TestsDynamicColumnsRequest
         : BaseSqlConnectionIntegrationTest
     {
         [TestMethod]
