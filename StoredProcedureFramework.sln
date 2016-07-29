@@ -112,6 +112,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0.2", "1.0.2", "{8BD22944
 		Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll.config = Binaries\1.0.2\Dibware.StoredProcedureFrameworkForEF.dll.config
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlogPosts", "BlogPosts", "{C6086CA0-5B4B-4C2D-B0F9-1297F17D0128}"
+	ProjectSection(SolutionItems) = preProject
+		BlogPosts\FrameworkNowSupportStoredProceduresWithDynamicFields.md = BlogPosts\FrameworkNowSupportStoredProceduresWithDynamicFields.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,5 +186,6 @@ Global
 		{65F26F12-CBE0-4A96-A0AA-C4169DE4C5A9} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
 		{F30586E6-5A17-417F-A9FC-BF088B259288} = {EE415A30-CC70-4FAB-A8A8-F1AB26671FCD}
 		{8BD22944-D941-4858-AE45-C2E1399299CA} = {3011B710-DA21-4288-8A22-B0AE7FE58B5B}
+		{C6086CA0-5B4B-4C2D-B0F9-1297F17D0128} = {97DF9418-8959-4E58-9F42-A0E775AA3AC4}
 	EndGlobalSection
 EndGlobal
