@@ -117,7 +117,7 @@
     <Compile Include="SqlConnectionTests\DistinctRecordsTest.cs" />
     <Compile Include="SqlConnectionTests\AliasDtoColumnNamesTests.cs" />
     <Compile Include="SqlConnectionTests\IssueNumberEightTests.cs" />
-    <Compile Include="SqlConnectionTests\I011_IssueNumberTen_TestsDynamicColumnsInMUltipleRecordSets.cs" />
+    <Compile Include="SqlConnectionTests\I011_IssueNumberEleven_TestsDynamicColumnsInMUltipleRecordSets.cs" />
     <Compile Include="StoredProcedures\DynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
@@ -134,6 +134,7 @@
     <Compile Include="StoredProcedures\LessColumnsInProcedureResultSetThanReturnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MostBasicStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MostBasicStoredProcedureForEF.cs" />
+    <Compile Include="StoredProcedures\MultipleRecordSetDynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedure.cs" />
     <Compile Include="StoredProcedures\MultipleRecordSetStoredProcedureWithNotInstantiatedRecordSet.cs" />
     <Compile Include="StoredProcedures\NormalStoredProcedureForEf.cs" />

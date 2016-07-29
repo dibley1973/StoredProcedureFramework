@@ -123,6 +123,7 @@
     <Build Include="dbo\Stored Procedures\CountCharsInReturnParameterStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\DoublesAndDecimalsTestStoredProcedure.sql" />
     <Build Include="dbo\Stored Procedures\DynamicColumnStoredProcedure.sql" />
+    <Build Include="dbo\Stored Procedures\MultipleRecordSetDynamicColumnStoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
