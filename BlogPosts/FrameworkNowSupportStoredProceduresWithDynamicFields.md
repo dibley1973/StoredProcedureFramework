@@ -4,7 +4,7 @@ Until recently when using the Stored Procedure Framework you needed to know the 
 
 Take for instance the basic stored procedure below:
 
-CREATE PROCEDURE [app].[PossibleDynamicStoredProcedure]
+CREATE PROCEDURE [app].[GetPossibleDynamicStoredProcedure]
 AS
 BEGIN
     SELECT  'Dave'      [Firstname],
@@ -22,8 +22,8 @@ END
 Previously we would have needed a class that defines each field to be returned, which would be too restrictive to call stored procedures with dynamic field names or *DataTypes*.
 
     [Schema("app")]
-    internal class PossibleDynamicStoredProcedure
-        : NoParametersStoredProcedureBase<List<PossibleDynamicStoredProcedure.Return>>
+    internal class GetPossibleDynamicStoredProcedure
+        : NoParametersStoredProcedureBase<List<GetPossibleDynamicStoredProcedure.Return>>
     {    
         internal class Return
         {
