@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
+using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
-using Dibware.StoredProcedureFramework.StoredProcedureAttributes;
 
 namespace Dibware.StoredProcedureFramework.Extensions
 {
@@ -47,6 +48,32 @@ namespace Dibware.StoredProcedureFramework.Extensions
                 }
             }
             return false;
+        }
+
+        public static bool IsGenericType(this Type instance)
+        {
+            return instance.GetGeneGetGenricArgumentCount() > 0;
+        }
+
+        public static int GetGeneGetGenricArgumentCount(this Type instance)
+        {
+            return instance.GetGenericArguments().Length;
+        }
+
+        public static bool IsDynamicType(this Type instance)
+        {
+            var isDynamic = instance == typeof(ExpandoObject);
+            return isDynamic;
+        }
+
+        public static bool IsGenericTypeWithFirstDynamicTypeArgument(this Type instance)
+        {
+            if (instance.GetGeneGetGenricArgumentCount() != 1) return false;
+
+            var genericArgument = instance.GetGenericArguments()[0];
+            var isDynamic = genericArgument.IsDynamicType();
+
+            return isDynamic;
         }
     }
 }
