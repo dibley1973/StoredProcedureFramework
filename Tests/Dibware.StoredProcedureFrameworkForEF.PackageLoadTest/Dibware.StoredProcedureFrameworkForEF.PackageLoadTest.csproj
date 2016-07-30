@@ -36,12 +36,12 @@
       <HintPath>..\..\packages\Dibware.Helpers.1.1.1\lib\Dibware.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Dibware.StoredProcedureFramework, Version=1.0.2.8903, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dibware.StoredProcedureFramework.1.0.2\lib\Dibware.StoredProcedureFramework.dll</HintPath>
+    <Reference Include="Dibware.StoredProcedureFramework, Version=1.0.3.22595, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dibware.StoredProcedureFramework.1.0.3\lib\Dibware.StoredProcedureFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Dibware.StoredProcedureFrameworkForEF, Version=1.0.2.9575, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dibware.StoredProcedureFrameworkForEF.1.0.2\lib\Dibware.StoredProcedureFrameworkForEF.dll</HintPath>
+    <Reference Include="Dibware.StoredProcedureFrameworkForEF, Version=1.0.3.23367, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dibware.StoredProcedureFrameworkForEF.1.0.3\lib\Dibware.StoredProcedureFrameworkForEF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
