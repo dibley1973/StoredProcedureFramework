@@ -79,6 +79,7 @@
     <Compile Include="UnitTests\Extensions\IListExtensionsTests.cs" />
     <Compile Include="UnitTests\Extensions\IListTypeDefinitionFinderTest.cs" />
     <Compile Include="UnitTests\Extensions\MaybeExtensionsTests.cs" />
+    <Compile Include="UnitTests\Extensions\TypeExtensionTests.cs" />
     <Compile Include="UnitTests\Functions\NotFullyConstructedScalarFunction.cs" />
     <Compile Include="UnitTests\Functions\ScalarValueFunctionWithParameterAndNullReturn.cs" />
     <Compile Include="UnitTests\Functions\ScalarValueFunctionWithParameterAndReturn.cs" />

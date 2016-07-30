@@ -16,8 +16,8 @@ BEGIN
 
     /* Second Record Set */
     SELECT 
-        CAST(1 AS BIT)        AS Active
-    ,   CAST(10.99 AS MONEY)  AS Price;
+        CAST(1 AS BIT)        AS [Active]
+    ,   CAST(10.99 AS MONEY)  AS [Price];
 
     /* Third Record Set */
     SELECT

@@ -292,7 +292,23 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
                 do
                 {
                     var recordSetDtoList = GetRecordSetDtoList(resultSetTypeProperties, recordSetIndex);
-                    ReadRecordSetFromReader(reader, recordSetDtoList);
+                    //bool isDynamic = HasDynamicType(recordSetDtoList.GetType());
+                    var recordSetType = recordSetDtoList.GetType();
+                    bool isDynamic = recordSetType.IsGenericTypeWithFirstDynamicTypeArgument();
+                    if (isDynamic)
+                    {
+                        //var recordSetDtoList = GetRecordSetDtoList(resultSetTypeProperties, recordSetIndex);
+                        //var recordSetDtoList = (IList)new TResultSetType();
+                        //IList recordSetDtoList;
+                        ReadDynamicRecordSetFromReader(reader, recordSetDtoList);
+                    }
+                    else
+                    {
+                        ReadRecordSetFromReader(reader, recordSetDtoList);
+                    }
+
+
+
 
                     recordSetIndex += 1;
                     readerContainsAnotherResult = reader.NextResult();
@@ -308,7 +324,8 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
             using (IDataReader reader = Command.ExecuteReader(_commandBehavior))
             {
-                if (HasDynamicType)
+                //if (HasDynamicType(_resultSetType))
+                if (_resultSetType.IsGenericTypeWithFirstDynamicTypeArgument())
                 {
                     ReadDynamicRecordSetFromReader(reader, recordSetDtoList);
                 }
@@ -331,15 +348,22 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
             return recordSetDtoList;
         }
 
-        private bool HasDynamicType
-        {
-            get
-            {
-                var genericArgument = _resultSetType.GetGenericArguments()[0];
-                var isDynamic = genericArgument == typeof(ExpandoObject);
-                return isDynamic;
-            }
-        }
+        //private bool HasDynamicType
+        //{
+        //    get
+        //    {
+        //        var genericArgument = _resultSetType.GetGenericArguments()[0];
+        //        var isDynamic = genericArgument == typeof(ExpandoObject);
+        //        return isDynamic;
+        //    }
+        //}
+
+        //private bool HasDynamicType(Type resultSetType)
+        //{
+        //    var genericArgument = resultSetType.GetGenericArguments()[0];
+        //    var isDynamic = genericArgument == typeof(ExpandoObject);
+        //    return isDynamic;
+        //}
 
         private bool HasSingleRecordSetOnly
         {
@@ -375,7 +399,9 @@ namespace Dibware.StoredProcedureFramework.Helpers.Base
 
         private void ReadDynamicRecordSetFromReader(IDataReader reader, IList records)
         {
-            if (!HasDynamicType) throw new InvalidOperationException();
+            Type recordsType = records.GetType();
+            //if (!HasDynamicType(recordsType)) throw new InvalidOperationException();
+            if (!recordsType.IsGenericTypeWithFirstDynamicTypeArgument()) throw new InvalidOperationException();
 
             var dynamicFieldCount = reader.FieldCount;
             var dynamicFieldNames = CacheDynamicFieldNames(reader, dynamicFieldCount);

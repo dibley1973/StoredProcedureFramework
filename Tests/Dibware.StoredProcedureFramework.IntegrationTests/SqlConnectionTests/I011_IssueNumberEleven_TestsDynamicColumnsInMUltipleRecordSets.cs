@@ -59,8 +59,8 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.SqlConnectionTests
             Assert.IsInstanceOfType(result2.Price, typeof(decimal));
 
             Assert.IsNotNull(result3);
-            Assert.IsInstanceOfType(result3.Active, typeof(Guid));
-            Assert.IsInstanceOfType(result3.Price, typeof(int));
+            Assert.IsInstanceOfType(result3.UniqueIdentifier, typeof(Guid));
+            Assert.IsInstanceOfType(result3.Count, typeof(int));
         }
     }
 }
