@@ -9,10 +9,11 @@ Requires .net v4.0
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-This is an on-going project, v0.10 is WIP in master branch, but v0.9 is the most recent Release Candidate as it is stable.
+This is an on-going project, v1.0.3 is the most up todate stable version.
 
 ## Versions
-* 1.0.2 Support for Dynamic fields added
+* 1.0.3 Support for Dynamic Fields within Multiple Recordsets added (Full Release / NuGet Release)
+* 1.0.2 Support for Dynamic Fields added (Full Release / NuGet Release)
 * 1.0.1 (First Full Release / NuGet Release)
 * 0.9 (Release Candidate)  Contains bug fix for Issue #8
 * 0.8 (Release Candidate) Dropped the .Net framework dependency from v4.5 down to v4.0, ability to alias result column names, and some other minor re-factoring.
