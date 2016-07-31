@@ -11,6 +11,13 @@ See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-sto
 
 This is an on-going project, **v1.0.3 is** the most up todate stable version.
 
+## Documentation
+Documentation on how to use the *StoredProcedureframework* can be found here [https://github.com/dibley1973/StoredProcedureFramework/blob/master/UsingTheStoredProcedureFramework.md]
+
+## Nuget Package
+The library is available on NuGet, here: [https://www.nuget.org/packages/Dibware.StoredProcedureFramework/]
+and also here, for the EF extensions package [https://www.nuget.org/packages/Dibware.StoredProcedureFrameworkForEF/]
+
 ## Versions
 * 1.0.3 Support for Dynamic Fields within Multiple Recordsets added (Full Release / NuGet Release)
 * 1.0.2 Support for Dynamic Fields added (Full Release / NuGet Release)
@@ -24,13 +31,6 @@ This is an on-going project, **v1.0.3 is** the most up todate stable version.
 * 0.3 This version supports stored procedures with Table Value Parameters. 
 * 0.2 This version will support multiple RecordSets and will have a different API to version 1.0.
 * 0.1 This was the initial version which did not support multiple RecordSets. To enable multiple RecordSets to be supported alongside single RecordSets a break to the API is required. Development has stopped on this version but the code will remain available for use.
-
-## Documentation
-Documentation on how to use the *StoredProcedureframework* can be found here [https://github.com/dibley1973/StoredProcedureFramework/blob/master/UsingTheStoredProcedureFramework.md]
-
-## Nuget Package
-The library is available on NuGet, here: [https://www.nuget.org/packages/Dibware.StoredProcedureFramework/]
-and also here, for the EF extensions package [https://www.nuget.org/packages/Dibware.StoredProcedureFrameworkForEF/]
 
 ## Project Brief ##
 The aim of this project is to provide the following:
