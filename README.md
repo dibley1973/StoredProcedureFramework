@@ -9,7 +9,7 @@ Requires .net v4.0
 * This project has been inspired by and some of the code will be strongly based upon the great work carried out by "bluemoonsailor" at "Mindless Passenger". 
 See link: [https://mindlesspassenger.wordpress.com/2011/02/02/code-first-and-stored-procedures/]
 
-This is an on-going project, v1.0.3 is the most up todate stable version.
+This is an on-going project, **v1.0.3 is** the most up todate stable version.
 
 ## Versions
 * 1.0.3 Support for Dynamic Fields within Multiple Recordsets added (Full Release / NuGet Release)
