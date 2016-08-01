@@ -116,6 +116,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0.2", "1.0.2", "{8BD22944
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlogPosts", "BlogPosts", "{C6086CA0-5B4B-4C2D-B0F9-1297F17D0128}"
 	ProjectSection(SolutionItems) = preProject
+		BlogPosts\FrameworkNowSupportsMultipleRecordsetsWithDynamicFields.md = BlogPosts\FrameworkNowSupportsMultipleRecordsetsWithDynamicFields.md
 		BlogPosts\FrameworkNowSupportStoredProceduresWithDynamicFields.md = BlogPosts\FrameworkNowSupportStoredProceduresWithDynamicFields.md
 	EndProjectSection
 EndProject
