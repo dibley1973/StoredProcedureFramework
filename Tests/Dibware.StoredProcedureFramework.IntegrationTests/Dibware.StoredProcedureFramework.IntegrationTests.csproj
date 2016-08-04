@@ -118,6 +118,7 @@
     <Compile Include="SqlConnectionTests\AliasDtoColumnNamesTests.cs" />
     <Compile Include="SqlConnectionTests\IssueNumberEightTests.cs" />
     <Compile Include="SqlConnectionTests\I011_IssueNumberEleven_TestsDynamicColumnsInMUltipleRecordSets.cs" />
+    <Compile Include="StoredProcedureContextTests\ExecuteTestWithDbContext.cs" />
     <Compile Include="StoredProcedures\DynamicColumnStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AllCommonDataTypesStoredProcedure.cs" />
     <Compile Include="StoredProcedures\AnonParamNormalStoredProcedureForEf.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="StoredProcedures\VolumeAndPerformanceTruncateStoredProcedure.cs" />
     <Compile Include="TestBase\BaseDbContextIntegrationTest.cs" />
     <Compile Include="TestBase\BaseSqlConnectionIntegrationTest.cs" />
+    <Compile Include="TestBase\BaseStoredProcedureContextTests.cs" />
+    <Compile Include="StoredProcedureContextTests\Context\IntegrationTestStoredProcedureContext.cs" />
     <Compile Include="UserDefinedTypes\SimpleParameterTableType.cs" />
     <Compile Include="UserDefinedTypes\TransactionTestParameterTableType.cs" />
     <Compile Include="VolumeAndPerformanceTests\PerformanceTest.cs" />

@@ -1,16 +1,16 @@
-﻿using Dibware.StoredProcedureFramework.IntegrationTests.DbContextTests.Context;
-using Dibware.StoredProcedureFramework.IntegrationTests.Properties;
+﻿using Dibware.StoredProcedureFramework.IntegrationTests.Properties;
+using Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedureContextTests.Context;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Transactions;
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
 {
     [TestClass]
-    public abstract class BaseDbContextIntegrationTest
+    public abstract class BaseStoredProcedureContextTests
     {
         #region Fields
 
-        private IntegrationTestDbContext _context;
+        private IntegrationTestStoredProcedureContext _context;
         private TransactionScope _transaction;
 
         #endregion
@@ -23,12 +23,13 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
         /// <value>
         /// The context.
         /// </value>
-        internal IntegrationTestDbContext Context
+        internal IntegrationTestStoredProcedureContext Context
         {
             get { return _context; }
         }
 
         #endregion
+
 
         #region Test Pre and Clear down
 
@@ -54,8 +55,7 @@ namespace Dibware.StoredProcedureFramework.IntegrationTests.TestBase
         private void PrepareDatabase()
         {
             string connectionName = Settings.Default.IntegrationTestConnection;
-            _context = new IntegrationTestDbContext(connectionName);
-            _context.Database.CreateIfNotExists();
+            _context = new IntegrationTestStoredProcedureContext(connectionName);
             _transaction = new TransactionScope(TransactionScopeOption.RequiresNew);
         }
 

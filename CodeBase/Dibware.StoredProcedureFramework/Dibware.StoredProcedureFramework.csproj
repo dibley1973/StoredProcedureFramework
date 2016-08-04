@@ -71,6 +71,7 @@
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Generics\MaybeOfT.cs" />
     <Compile Include="Generics\MaybeOfT2.cs" />
+    <Compile Include="StoredProcedure.cs" />
     <Compile Include="Helpers\AttributeHelpers\TypeSchemaAttributeFinder.cs" />
     <Compile Include="Helpers\ColumnSqlDbTypeHelper.cs" />
     <Compile Include="Helpers\DynamicObjectHelper.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Base\NoParametersNoReturnTypeStoredProcedureBase.cs" />
     <Compile Include="Base\NoParametersStoredProcedureBase.cs" />
     <Compile Include="Helpers\StoredProcedureSqlParameterBuilder.cs" />
+    <Compile Include="StoredProcedureContext.cs" />
     <Compile Include="Validators\SqlParameterDecimalValueValidator.cs" />
     <Compile Include="Validators\SqlParameterStringValueValidator.cs" />
     <Compile Include="StoredProcedureAttributes\NameAttribute.cs" />
