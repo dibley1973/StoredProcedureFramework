@@ -71,7 +71,7 @@
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Generics\MaybeOfT.cs" />
     <Compile Include="Generics\MaybeOfT2.cs" />
-    <Compile Include="StoredProcedure.cs" />
+    <Compile Include="Generics\StoredProcedure.cs" />
     <Compile Include="Helpers\AttributeHelpers\TypeSchemaAttributeFinder.cs" />
     <Compile Include="Helpers\ColumnSqlDbTypeHelper.cs" />
     <Compile Include="Helpers\DynamicObjectHelper.cs" />

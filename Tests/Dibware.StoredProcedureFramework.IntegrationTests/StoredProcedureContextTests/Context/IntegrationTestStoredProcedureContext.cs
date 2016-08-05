@@ -2,27 +2,20 @@
 
 namespace Dibware.StoredProcedureFramework.IntegrationTests.StoredProcedureContextTests.Context
 {
-    internal class IntegrationTestStoredProcedureContext
-        : StoredProcedureContext
-    {
-        public IntegrationTestStoredProcedureContext(string nameOrConnectionString)
-            : base(nameOrConnectionString)
-        {
+    //internal class IntegrationTestStoredProcedureContext
+    //    : StoredProcedureContext
+    //{
+    //    public IntegrationTestStoredProcedureContext(string nameOrConnectionString)
+    //        : base(nameOrConnectionString)
+    //    {
 
-        }
+    //    }
 
-        #region Stored Procedures
+    //    #region Stored Procedures
 
-        public MostBasicStoredProcedureForContext MostBasicStoredProcedure { get; private set; }
+    //    public MostBasicStoredProcedureForContext MostBasicStoredProcedure { get; private set; }
+    //    public NormalStoredProcedureForContext NormalStoredProcedure { get; set; }
 
-        #endregion
-    }
-
-    internal class MostBasicStoredProcedureForContext : StoredProcedure
-    {
-        public MostBasicStoredProcedureForContext(StoredProcedureContext context) 
-            : base(context)
-        {
-        }
-    }
+    //    #endregion
+    //}
 }

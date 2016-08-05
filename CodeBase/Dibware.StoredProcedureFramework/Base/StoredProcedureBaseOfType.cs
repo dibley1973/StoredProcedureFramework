@@ -1,8 +1,8 @@
-﻿using System;
-using Dibware.StoredProcedureFramework.Contracts;
+﻿using Dibware.StoredProcedureFramework.Contracts;
 using Dibware.StoredProcedureFramework.Exceptions;
 using Dibware.StoredProcedureFramework.Helpers;
 using Dibware.StoredProcedureFramework.Resources;
+using System;
 
 namespace Dibware.StoredProcedureFramework.Base
 {
